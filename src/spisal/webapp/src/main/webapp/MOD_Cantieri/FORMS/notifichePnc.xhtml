@@ -1,0 +1,73 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1652537724441}</h1>
+	<div id="notifichePnc" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1651036040938" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1653771504071" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1650411245307;BtnBack')}" status="ajaxStatus" id="Link_1650411245307" title="${msg.alt_Link_1650411245307}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1651988122378" layout="block" styleClass="dt layoutTable layoutVertical" >
+					<table id="d1651988122378" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1651988122378} [PNCCantiereList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th class="sortableColumn">${msg.DataGridColumn_1650861521579} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1653113593243" value="${msg.DataGridColumn_1653113593243} &#8593;&#8595;" action="#{PNCCantiereList.orderBy('dataComunicazione')}" reRender="DataGrid_1651988122378" ajaxSingle="true" disabled="#{empty PNCCantiereList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1653397985104} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1651061429713" value="${msg.DataGridColumn_1651061429713} &#8593;&#8595;" action="#{PNCCantiereList.orderBy('createdBy')}" reRender="DataGrid_1651988122378" ajaxSingle="true" disabled="#{empty PNCCantiereList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1651915882963" value="${msg.DataGridColumn_1651915882963} &#8593;&#8595;" action="#{PNCCantiereList.orderBy('pecSender')}" reRender="DataGrid_1651988122378" ajaxSingle="true" disabled="#{empty PNCCantiereList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty PNCCantiereList or PNCCantiereList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1651988122378" value="#{PNCCantiereList.entities}" var="PNCCantiere" rowKeyVar="rowIndex" >
+								<tr >
+									<td >
+										<a4j:outputPanel layout="block" id="JollyWidget_1651181192763" rendered="false" >
+											<a target="_blank"  download="#{function.concat('Cantiere',PNCCantiere.internalId,'.pdf')}"  href="#{function.concat('resource/rest/pnc/download/',PNCCantiere.internalId)}">
+												<i class="fa fa-download fa-2x"></i>
+											</a>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1663235219495" >
+													                <s:link action="#{downloadAttachment.download}" target="_blank">
+																		<i class="fa fa-download fa-2x"></i>
+													                    <f:param name="path" value="#{function.concat('PNCCantiere.',PNCCantiere.internalId,'.pdf')}" />
+													                </s:link>
+										</a4j:outputPanel>
+
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{PNCCantiere.dataComunicazione}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{CantiereAction.fixAddressPNC(PNCCantiere.addr)}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{PNCCantiere.createdBy}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{PNCCantiere.pecSender}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

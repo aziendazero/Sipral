@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fattoriRischio">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="super-state1/delete" name="delFatt"></transition>
+		<transition to="new FattoreRischio" name="newFatt"></transition>
+		<transition to="edit fattore" name="editFatt"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{MalattiaProfessionaleAction.unLink('fattoreRischio',FattoreRischio)}"></action>
+				<action name="2" expression="#{FattoreRischioAction.delete()}"></action>
+			</event>
+			<transition to="../eject and reRead"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject and reRead">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.eject()}"></action>
+			<action name="2" expression="#{FattoreRischioAction.equal.put('malattiaProfessionale.internalId', MalattiaProfessionale.internalId)}"></action>
+			<action name="3" expression="#{FattoreRischioAction.equal.put('isActive',true)}"></action>
+			<action name="4" expression="#{FattoreRischioAction.orderBy.put('yearStart','descending')}"></action>
+			<action name="5" expression="#{FattoreRischioAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="new FattoreRischio">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.inject(FattoreRischioAction.newEntity())}"></action>
+			<action name="2" expression="#{FattoreRischioAction.hasLA(FattoreRischioList.list) ? FattoreRischioAction.setCodeValue('type','PHIDIC','TipiFattoriRischio','EX') : ''}"></action>
+		</event>
+		<transition to="edit new fattore"></transition>
+	</node>
+
+	<task-node name="edit new fattore">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/fattoreRischioEdit')}"></action>
+		</event>
+		<transition to="next from new?"></transition>
+	</task-node>
+
+	<decision name="next from new?" expression="#{(button.getMnemonic())}">
+		<transition to="evict Fattore" name="BtnCancel"></transition>
+		<transition to="link Fattore" name="BtnSave"></transition>
+	</decision>
+
+	<node name="evict Fattore">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{MalattiaProfessionaleAction.link('fattoreRischio',FattoreRischio)}"></action>
+				<action name="2" expression="#{FattoreRischioAction.create()}"></action>
+			</event>
+			<transition to="../eject and reRead"></transition>
+		</node>
+	</super-state>
+
+	<node name="link Fattore">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('fattoreRischio',FattoreRischio)}"></action>
+		</event>
+		<transition to="super-state2/create"></transition>
+	</node>
+
+	<task-node name="edit fattore">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/fattoreRischioEdit')}"></action>
+		</event>
+		<transition to="next from edit?"></transition>
+	</task-node>
+
+	<decision name="next from edit?" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="BtnCancel"></transition>
+		<transition to="super-state2/create" name="BtnSave"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.refresh()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

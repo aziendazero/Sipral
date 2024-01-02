@@ -1,0 +1,111 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1454400641438}</h1>
+	<div id="search_person" style="position:relative;height:59px;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1466683274854" style="position: absolute;left: 10px;top: 10px;" styleClass="layoutContainer layoutRootVertical" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1466683285955" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnSPBack;BtnSPBack')}" status="ajaxStatus" id="BtnSPBack" title="${msg.alt_BtnSPBack}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x linkUnlink link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnSPNew;BtnSPNew')}" status="ajaxStatus" id="BtnSPNew" title="${msg.alt_BtnSPNew}" reRender="phiDesktop" styleClass="fa fa-user-plus fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnSPUpdate" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnSPUpdate;BtnSPUpdate')}" status="ajaxStatus" id="BtnSPUpdate_id" title="${msg.alt_BtnSPUpdate}" rendered="#{not empty SediPersone}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnSPSelect" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnSPSelect;BtnSPSelect')}" status="ajaxStatus" id="BtnSPSelect_id" title="${msg.alt_BtnSPSelect}" rendered="#{not empty SediPersone}" reRender="phiDesktop" styleClass="fa fa-check fa-3x save link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466683286648" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466683286648}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1466683334514" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1466683349184" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1453887891228}</span>
+								<h:inputText id="TextBox_1453887891228" value="#{SediPersoneAction.like['name.fam']}" style="height: 20px;" styleClass="inputText" label="${msg.label_TextBox_1453887891228}" />
+								<a4j:outputPanel id="TextBox_1453887891228_msg" styleClass="errorContainer" ><h:message for="TextBox_1453887891228" styleClass="errorMessages TextBox_1453887891228_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1452768386665}</span>
+								<h:inputText id="TextBox_1452768386665" value="#{SediPersoneAction.like['name.giv']}" style="height: 20px;" styleClass="inputText" label="${msg.label_TextBox_1452768386665}" />
+								<a4j:outputPanel id="TextBox_1452768386665_msg" styleClass="errorContainer" ><h:message for="TextBox_1452768386665" styleClass="errorMessages TextBox_1452768386665_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1451060057295}</span>
+							<h:inputText id="TextBox_1451060057295" value="#{SediPersoneAction.like['fiscalCode']}" style="height: 21px;" styleClass="inputText" label="${msg.label_TextBox_1451060057295}" />
+							<a4j:outputPanel id="TextBox_1451060057295_msg" styleClass="errorContainer" ><h:message for="TextBox_1451060057295" styleClass="errorMessages TextBox_1451060057295_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnSPSearch;BtnSPSearch')}" status="ajaxStatus" id="BtnSPSearch" title="${msg.alt_BtnSPSearch}" reRender="DataGrid_1452021029060" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1452021029060" layout="block" styleClass="dt layoutTable layoutVertical" >#{SediPersoneAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1452021029060" value="&#8592;" action="#{SediPersoneList.prev}" reRender="DataGrid_1452021029060" rendered="#{SediPersoneList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1452021029060" value="#{SediPersoneList.pageIndexes}" var="pi1452021029060">
+										<li class="#{(SediPersoneList.currentPage eq pi1452021029060 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1452021029060" value="#{pi1452021029060}" action="#{SediPersoneList.goToPage(pi1452021029060)}" reRender="DataGrid_1452021029060" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1452021029060" value="&#8594;" action="#{SediPersoneList.next}" reRender="DataGrid_1452021029060" rendered="#{SediPersoneList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1452021029060" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1452021029060} [SediPersoneList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1454850423147" value="${msg.DataGridColumn_1454850423147} &#8593;&#8595;" action="#{SediPersoneList.orderBy('name.fam')}" reRender="DataGrid_1452021029060" ajaxSingle="true" disabled="#{empty SediPersoneList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1454742068988" value="${msg.DataGridColumn_1454742068988} &#8593;&#8595;" action="#{SediPersoneList.orderBy('name.giv')}" reRender="DataGrid_1452021029060" ajaxSingle="true" disabled="#{empty SediPersoneList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1451708796048" value="${msg.DataGridColumn_1451708796048} &#8593;&#8595;" action="#{SediPersoneList.orderBy('fiscalCode')}" reRender="DataGrid_1452021029060" ajaxSingle="true" disabled="#{empty SediPersoneList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty SediPersoneList or SediPersoneList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="3">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1452021029060" value="#{SediPersoneList.entities}" var="SediPersone" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1452021029060(this.id);" class="#{SediPersoneAction.getEntity().equals(SediPersone) or SediPersone.internalId != 0 and SediPersoneAction.entity.internalId.equals(SediPersone.internalId) ? 'selRow' : ''}" >
+									<td style="width:35%;" >
+										<span class="base-label" >#{SediPersone.name.fam}</span>
+									</td>
+
+									<td style="width:35%;" >
+										<span class="base-label" >#{SediPersone.name.giv}</span>
+									</td>
+
+									<td style="width:29%;" >
+										<span class="c-text-bold base-label" >#{SediPersone.fiscalCode}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1452021029060" name="ie1452021029060" status="ajaxStatus" action="#{SediPersoneList.injectEject}" data="#{SediPersoneList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1452021029060'))" reRender="BtnSPSelect" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{SediPersoneList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

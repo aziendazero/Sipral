@@ -1,0 +1,122 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1551969959573" style="position: absolute;left: 95px;top: 30px;height: 276px;width: 721px;" styleClass="layoutContainer layoutRootHorizontal" >
+				<div class="layoutHorizontal" >
+				<a4j:outputPanel layout="block" id="JollyWidget_1552725416963" style="height:100%;width:100%;" >
+					<style>
+						.visible {
+							visibility: hidden;
+							display: none;
+						}
+					</style>
+					
+					<script type="text/javascript">
+					var target = jQuery('.impianti');
+					
+					target.nextAll().addClass('visible');
+					
+					target.each(function() {
+						jQuery(this).on('click', function(){
+					//console.log(this);
+					
+					 		jQuery(this).parent().children().not('.impianti').toggleClass('visible');
+						})
+					}); 
+					
+					</script>
+					
+					<a4j:outputPanel  id="impiantiDetails" layout="block" styleClass="layoutVertical">
+						<jstl:if test="#{empty ImpiantoList or ImpiantoList.isEmpty()}">
+						</jstl:if>
+					
+						<a4j:repeat  id="r1543821198132" value="#{ImpiantoList.entities}" var="Impianto" rowKeyVar="rowIndex" >
+					
+					// FINO A QUI CODICE SCRITTO MANUALMENTE
+					
+					// Codice scopiazzato dal pannello prodotto con il Designer con l'aggiunta manuale della classe impianti sulla legend
+									<a4j:outputPanel layout="block" id="LayoutRow_1551961957391" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+									<fieldset class="layoutGroupBox" ><legend id="impLegend" class="impianti groupBoxLegend" >${msg.LayoutRow_1551961957391}</legend>
+										<a4j:outputPanel layout="block" id="LayoutRow_1551962064953" styleClass="layoutContainer layoutContainerHorizontal" >
+											<div class="layoutVertical" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1551962106779}</span>
+												<h:inputText id="TextBox_1551962106779" value="#{Impianto.sigla}" styleClass="inputText" label="${msg.label_TextBox_1551962106779}" />
+												<a4j:outputPanel id="TextBox_1551962106779_msg" styleClass="errorContainer" ><h:message for="TextBox_1551962106779" styleClass="errorMessages TextBox_1551962106779_E" /></a4j:outputPanel>
+											</label>
+											</div>
+					
+											<div class="layoutVertical" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1551962110464}</span>
+												<h:inputText id="TextBox_1551962110464" value="#{Impianto.matricola}" styleClass="inputText" label="${msg.label_TextBox_1551962110464}" />
+												<a4j:outputPanel id="TextBox_1551962110464_msg" styleClass="errorContainer" ><h:message for="TextBox_1551962110464" styleClass="errorMessages TextBox_1551962110464_E" /></a4j:outputPanel>
+											</label>
+											</div>
+					
+											<div class="layoutVertical" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1551962112330}</span>
+												<h:inputText id="TextBox_1551962112330" value="#{Impianto.anno}" styleClass="inputText" label="${msg.label_TextBox_1551962112330}" />
+												<a4j:outputPanel id="TextBox_1551962112330_msg" styleClass="errorContainer" ><h:message for="TextBox_1551962112330" styleClass="errorMessages TextBox_1551962112330_E" /></a4j:outputPanel>
+											</label>
+											</div>
+					
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1551962078706" styleClass="layoutContainer layoutContainerHorizontal" >
+											<div class="layoutHorizontal" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1551962117406}</span>
+												<h:inputText id="TextBox_1551962117406" value="#{Impianto.sedi.denominazioneUnitaLocale}" styleClass="inputText" label="${msg.label_TextBox_1551962117406}" />
+												<a4j:outputPanel id="TextBox_1551962117406_msg" styleClass="errorContainer" ><h:message for="TextBox_1551962117406" styleClass="errorMessages TextBox_1551962117406_E" /></a4j:outputPanel>
+											</label>
+											</div>
+					
+										</a4j:outputPanel>
+									</fieldset>
+									</a4j:outputPanel>
+					
+					// DA QUI RIPRENDE IL CODICE SCRITTO MANUALMENTE
+						</a4j:repeat>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1596699435114" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1594872660316" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1598100226453" style="height:100%;width:100%;" >
+							<script>
+							jQuery('#loader').unload(updateList(#{VerificaImpAction.temporary['selectedVers']}));
+							//updateList(#{VerificaImpAction.temporary['selectedVers']});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1595780918677" style="height:100%;width:100%;" >
+							<script>
+							if(isAnyEntitySelected()){
+								jQuery('a[id="i:Link_1597167046418"]').show();
+							}else{
+								jQuery('a[id="i:Link_1597167046418"]').hide();
+							}
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1597167046418;BtnValidateMulti')}" status="ajaxStatus" id="Link_1597167046418" title="${msg.alt_Link_1597167046418}" reRender="popup,phiDesktop" styleClass="fa fa-check-square-o fa-3x save link" onmousedown="sendEntityList('VerificaImp',selectedEntities)"/>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CheckBox_1598404598709" >
+					<h:selectBooleanCheckbox id="CheckBox_1598404598709_id" value="#{VerificaImp.isNew}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}" disabled="#{Param['p.company.scheda_verifiche_01.valida'].readOnly}" onclick="manageEntityListStateCookie(event,this,#{VerificaImp.internalId});">
+						<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1596034266843,JollyWidget_1596034812360" event="onchange" ignoreDupResponses="true" />
+					</h:selectBooleanCheckbox>
+					<h:message for="CheckBox_1598404598709_id" styleClass="errorMessages CheckBox_1598404598709_E" />
+					</a4j:outputPanel>
+					<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}"  for="CheckBox_1598404598709" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,1574 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1561209037832}</h1>
+	<div id="progettoAssociato" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1559104143828" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1561659683363" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1561480848287;BtnBack')}" status="ajaxStatus" id="Link_1561480848287" title="${msg.alt_Link_1561480848287}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1560818498980;BtnSave')}" status="ajaxStatus" id="Link_1560818498980" title="${msg.alt_Link_1560818498980}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1558865256899" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<a4j:outputPanel id="TabbedPane_1562320414142" layout="block" styleClass="tabset tabbedPanel" >
+						<ul class="tabs">
+							<li><a href="#tab-1">${msg.LayoutFillPanelTab_1558872091943}</a></li>
+							<li class="#{ProgettoAssociato.statusCode.code=='completed' ? '' : 'hideTab hidden' }" ><a href="#tab-2">${msg.LayoutFillPanelTab_1561966810172}</a></li>
+						</ul>
+						<div class="tab-1 tab-content" id="LayoutFillPanelTab_1558872091943" label="${msg.LayoutFillPanelTab_1558872091943}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1559126676109" style="padding-bottom:15px;width:100%" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1560868584776" style="width:40%;background-color: beige;border:1px solid #0288D1;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1561535858201" style="padding-bottom:10px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+										<span value="${msg.Label_1561534959528}" class="labelContent c-text-14 c-text-bold c-text-red base-label" >${msg.Label_1561534959528}</span>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1561517760557" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1560244515386}</span>
+											<h:outputText value="#{ProgettoAssociato.progetto.nome}" id="Label_1560244515386" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1567587050287}</span>
+											<h:outputText value="#{ProgettoAssociato.creationDate}" id="Label_1567587050287" styleClass="labelContent  base-label" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1560242730393}</span>
+											<h:outputText escape="false" value="#{ProgettoAssociatoAction.getLineaDiLavoroStr(ProgettoAssociato, true)}" id="Label_1560242730393" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1560424530374" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1561536979440}</span>
+											<h:outputText value="#{ProgettoAssociato.priorita}" id="Label_1561536979440" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1561502259569" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1561502259569}</span>
+											<h:inputText id="TextBox_1561502259569_id" value="#{ProgettoAssociato.praticheAttese}" styleClass="inputText layoutRequired" required="true" disabled="#{ProgettoAssociato.statusCode.code eq 'completed'}" label="${msg.label_TextBox_1561502259569}" >
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+										</h:inputText>
+											<a4j:outputPanel id="TextBox_1561502259569_msg" styleClass="errorContainer" ><h:message for="TextBox_1561502259569_id" styleClass="errorMessages TextBox_1561502259569_E" /></a4j:outputPanel>
+										</label>
+										</a4j:outputPanel>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1560254040549}</span>
+											<h:outputText value="#{ProgettoAssociatoAction.translateStatusCode(ProgettoAssociato)}" id="Label_1560254040549" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1561533489411" style="width:50%;padding-left: 5px;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1561531708546" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" id="LayoutRow_1561449635591" style="background-color: beige;border:1px solid #0288D1;" styleClass="layoutContainer layoutContainerVertical" >
+											<a4j:outputPanel layout="block" id="LayoutRow_1561535860841" style="padding-bottom:10px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+												<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+												<span value="${msg.Label_1561533635241}" class="labelContent c-text-14 c-text-bold c-text-red base-label" >${msg.Label_1561533635241}</span>
+												</div>
+
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560868585527" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+												<div class="layoutHorizontal" >
+												<label >
+													<span class="label">${msg.label_MonthCalendar_1560245035878}</span>
+													<h:inputText id="MonthCalendar_1560245035878" value="#{ProgettoAssociato.periodoRiferimentoDa}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1560245035878}" onchange="dateCompare(this,'#'+getIdPrefix(this)+'MonthCalendar_1560245037030')"  autocomplete="off" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+													<f:validator validatorId="DateMinorEqualOfToday"/>
+													<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560864883459" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+													<h:message style="float:left;" for="MonthCalendar_1560245035878" styleClass="errorMessages MonthCalendar_1560245035878_E" />
+												</label>
+												</div>
+
+												<div class="layoutHorizontal" >
+												<label >
+													<span class="label">${msg.label_MonthCalendar_1560245037030}</span>
+													<h:inputText id="MonthCalendar_1560245037030" value="#{ProgettoAssociato.periodoRiferimentoA}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1560245037030}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1560245035878',this)"  autocomplete="off" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+													<f:validator validatorId="DateMinorEqualOfToday"/>
+													<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560864883459" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+													<h:message style="float:left;" for="MonthCalendar_1560245037030" styleClass="errorMessages MonthCalendar_1560245037030_E" />
+												</label>
+												</div>
+
+											</a4j:outputPanel>
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1560934936916" styleClass="layoutContainer layoutContainerVertical" >
+											<div class="layoutHorizontal" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1560934947300" style="height:100%;width:100%;" >
+												<script type="text/javascript"><![CDATA[ 
+												
+												function bello() {
+												  setTimeout(bello, 100);
+												}
+												
+												function ciccio() {
+													var myTimer1 = 0;
+													//debugger;
+													
+													bello();
+													
+													myTimer1 = setInterval(function() {
+														if (jQuery('#loader').css("display")=='table'){
+															if (jQuery('#cicciobello').size()==0){
+																jQuery('#loader').html("<div id='cicciobello' class='centered'></div>");
+															} else {
+																jQuery.ajax({
+																	type: "GET", 
+																	contentType : 'application/json',
+																	url: 'resource/rest/progettoassociato/counter' ,
+																	success: function(response, textStatus, jqXHR) {
+																		//console.log(response);
+																		jQuery('#cicciobello').html('<i class="fa-3x" style="color:blue;"><b>' + response + '</b></i>');
+																	},
+																	error: function(jqXHR, textStatus, errorThrown) {
+																		console.log('error getting counter');
+																	}
+																});
+															}
+															
+														} else if(jQuery('#loader').css("display")=='none') {
+															clearInterval(myTimer1);
+															jQuery('#cicciobello').remove();
+															jQuery('#loader').html('<div class="centered"><i class="fa fa-refresh fa-spin fa-4x zIndexFront"></i></div>');
+														}
+														
+														console.log(jQuery('#loader').css("display"));
+													}, 200);
+												
+												}
+												
+												]]></script>
+											</a4j:outputPanel>
+											</div>
+
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" style="background-color: beige;border:1px solid #0288D1;padding:0;" id="LayoutRow_1561457238939" styleClass="layoutContainer layoutContainerVertical" >
+										<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProgettoAssociato.numeroPratiche ne null and ProgettoAssociato.numeroPratiche>0}" >
+											<a4j:outputPanel layout="block" id="LayoutRow_1561535899952" style="padding-bottom:10px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+												<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+												<span value="${msg.Label_1561533739866}" class="labelContent c-text-14 c-text-bold c-text-red base-label" >${msg.Label_1561533739866}</span>
+												</div>
+
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1560929934001" styleClass="layoutContainer layoutContainerVertical" >
+											<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProgettoAssociato.statusCode.code eq 'active' or ProgettoAssociato.statusCode.code eq 'completed'}" >
+												<div class="layoutHorizontal" >
+												<label >
+													<span class="label">${msg.label_Label_1560254018740}</span>
+													<h:outputText value="#{ProgettoAssociato.numeroPratiche}" id="Label_1560254018740" styleClass="labelContent  base-label" />
+												</label>
+												</div>
+
+												<div class="layoutHorizontal" >
+												<label >
+													<span class="label">${msg.label_Label_1560328075014}</span>
+													<h:outputText value="#{ProgettoAssociatoAction.format(ProgettoAssociato.pesoComplessivo)}" id="Label_1560328075014" styleClass="labelContent  base-label" />
+												</label>
+												</div>
+
+												<div class="layoutHorizontal" >
+												<label >
+													<span class="label">${msg.label_Label_1560328081463}</span>
+													<h:outputText value="#{ProgettoAssociatoAction.format(ProgettoAssociato.pesoMedio)}" id="Label_1560328081463" styleClass="labelContent  base-label" />
+												</label>
+												</div>
+
+											</a4j:outputPanel>
+											</a4j:outputPanel>
+										</a4j:outputPanel>
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1561536826930" styleClass="layoutContainer layoutContainerVertical" >
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1560867799179" style="float:right;" >
+											<a4j:commandLink action="#{processManager.manageTask('Link_1560867799179;BtnComplete')}" status="ajaxStatus" id="Link_1560867799179_id" title="${msg.alt_Link_1560867799179}" rendered="#{ProgettoAssociato.statusCode.code eq 'active'}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+											</a4j:outputPanel>
+
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1560328149141" style="float:right;" >
+											<a4j:commandLink action="#{processManager.manageTask('Link_1560328149141;BtnLog')}" status="ajaxStatus" id="Link_1560328149141_id" title="${msg.alt_Link_1560328149141}" rendered="#{ProgettoAssociato.statusCode.code eq 'active' or ProgettoAssociato.statusCode.code eq 'completed'}" reRender="popup" styleClass="fa fa-info-circle fa-3x link" />
+											</a4j:outputPanel>
+
+											<div class="layoutHorizontal" style="float:right;" >
+											<a4j:commandLink action="#{processManager.manageTask('Link_1560245489474;BtnCalcola')}" status="ajaxStatus" id="Link_1560245489474" title="${msg.alt_Link_1560245489474}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" onclick="ciccio();"/>
+											</div>
+
+										</a4j:outputPanel>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1560244975919" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProgettoAssociato.statusCode.code ne 'new'}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1560245025687" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1560417176261" styleClass="layoutContainer layoutContainerVertical #{ProgettoAssociato.statusCode.code eq 'completed' ? 'disableContent' : ''}" >
+									<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProgettoAssociato.statusCode.code eq 'active' or ProgettoAssociato.statusCode.code eq 'completed'}" >
+									<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1560417176261}</legend>
+										<a4j:outputPanel layout="block" id="LayoutRow_1560841084683" style="width:100%;padding-bottom:25px;" styleClass="layoutContainer layoutContainerVertical" >
+											<a4j:outputPanel layout="block" id="LayoutRow_1561358205652" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+												<div class="layoutVertical" >
+												<a4j:commandLink action="#{processManager.manageTask('Link_1560840717238;BtnResetAll')}" status="ajaxStatus" id="Link_1560840717238" title="${msg.alt_Link_1560840717238}" style="color:red;" disabled="#{ProgettoAssociato.statusCode.code eq 'completed'}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-3x link" />
+												</div>
+
+												<div class="layoutVertical" >
+												<span value="${msg.Label_1560841292210}" class="labelContent c-text-bold base-label" >${msg.Label_1560841292210}</span>
+												</div>
+
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561358242686" style="width:20%;position:relative;" styleClass="layoutContainer layoutContainerHorizontal" >
+											<div class="bottomAlignedContent">
+												<div class="layoutVertical" >
+												<h:inputText id="TextBox_1561358306740" value="#{ProgettoAssociatoAction.temporary['indirettoRdpMedMod']}" styleClass="inputText" >
+													<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+												</h:inputText>
+												<a4j:outputPanel id="TextBox_1561358306740_msg" styleClass="errorContainer" ><h:message for="TextBox_1561358306740" styleClass="errorMessages TextBox_1561358306740_E" /></a4j:outputPanel>
+												</div>
+
+												<div class="sizePlaceholder"></div>
+											</div>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561358243960" style="width:20%;position:relative;" styleClass="layoutContainer layoutContainerHorizontal" >
+											<div class="bottomAlignedContent">
+												<div class="layoutVertical" >
+												<h:inputText id="TextBox_1561358307564" value="#{ProgettoAssociatoAction.temporary['indirettoRfpMedMod']}" styleClass="inputText" >
+													<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+												</h:inputText>
+												<a4j:outputPanel id="TextBox_1561358307564_msg" styleClass="errorContainer" ><h:message for="TextBox_1561358307564" styleClass="errorMessages TextBox_1561358307564_E" /></a4j:outputPanel>
+												</div>
+
+												<div class="sizePlaceholder"></div>
+											</div>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561358245275" style="width:20%;position:relative;" styleClass="layoutContainer layoutContainerHorizontal" >
+											<div class="bottomAlignedContent">
+												<div class="layoutVertical" >
+												<h:inputText id="TextBox_1561358308353" value="#{ProgettoAssociatoAction.temporary['direttoMedMod']}" styleClass="inputText" >
+													<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+												</h:inputText>
+												<a4j:outputPanel id="TextBox_1561358308353_msg" styleClass="errorContainer" ><h:message for="TextBox_1561358308353" styleClass="errorMessages TextBox_1561358308353_E" /></a4j:outputPanel>
+												</div>
+
+												<div class="sizePlaceholder"></div>
+											</div>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561358239811" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+												<div class="layoutVertical" >
+												<a4j:commandLink action="#{processManager.manageTask('Link_1563371361916;BtnSetMassivo')}" status="ajaxStatus" id="Link_1563371361916" title="${msg.alt_Link_1563371361916}" disabled="#{ProgettoAssociato.statusCode.code eq 'completed'}" reRender="LayoutRow_1560417176261" styleClass="fa fa-arrow-down fa-3x link" />
+												</div>
+
+												<div class="layoutVertical" >
+												<span value="${msg.Label_1561473500315}" class="labelContent c-text-bold base-label" >${msg.Label_1561473500315}</span>
+												</div>
+
+											</a4j:outputPanel>
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1560857779624" style="background-color: beige;border-right:1px solid #0288D1;border-left:1px solid #0288D1;" styleClass="layoutContainer layoutContainerVertical" >
+											<a4j:outputPanel layout="block" id="LayoutRow_1560417289428" style="width:100%;border:1px solid #0288D1;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417374916" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417420556}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417420556}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417375460" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417421412}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417421412}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417375996" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417422371}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417422371}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417376516" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417423387}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417423387}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417377068" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417424284}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417424284}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560417377715" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560417425268}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560417425268}</span>
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1559328577841" style="width:100%;padding-top:15px;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559754377051" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1561736384250}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1561736384250}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562554119360" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560419724058" value="#{ProgettoAssociato.costoNomina01.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560419724058_msg" styleClass="errorContainer" ><h:message for="TextBox_1560419724058" styleClass="errorMessages TextBox_1560419724058_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560844998567" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod01;BtnReset')}" status="ajaxStatus" id="RdpMedMod01_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina01.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina01.indirettoRdpMedMod!=ProgettoAssociato.costoNomina01.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562190296683" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560419726626" value="#{ProgettoAssociato.costoNomina01.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560419726626_msg" styleClass="errorContainer" ><h:message for="TextBox_1560419726626" styleClass="errorMessages TextBox_1560419726626_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845654753" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod01;BtnReset')}" status="ajaxStatus" id="RfpMedMod01_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina01.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina01.indirettoRfpMedMod!=ProgettoAssociato.costoNomina01.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561866202341" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560419729506" value="#{ProgettoAssociato.costoNomina01.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560419729506_msg" styleClass="errorContainer" ><h:message for="TextBox_1560419729506" styleClass="errorMessages TextBox_1560419729506_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845657010" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod01;BtnReset')}" status="ajaxStatus" id="DirMedMod01_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina01.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina01.direttoMedMod!=ProgettoAssociato.costoNomina01.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561630404604" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina01))}" id="Label_1560652551822" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558945511142" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina01, ProgettoAssociato.praticheAttese))}" id="Label_1561833434593" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561305598280" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1558988675756" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559449213341}" class="labelContent c-text-14 base-label" >${msg.Label_1559449213341}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558476526474" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1562430174847" value="#{ProgettoAssociato.costoNomina02.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1562430174847_msg" styleClass="errorContainer" ><h:message for="TextBox_1562430174847" styleClass="errorMessages TextBox_1562430174847_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845658578" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod02;BtnReset')}" status="ajaxStatus" id="RdpMedMod02_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina02.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina02.indirettoRdpMedMod!=ProgettoAssociato.costoNomina02.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562327884049" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558646727382" value="#{ProgettoAssociato.costoNomina02.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558646727382_msg" styleClass="errorContainer" ><h:message for="TextBox_1558646727382" styleClass="errorMessages TextBox_1558646727382_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845660473" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod02;BtnReset')}" status="ajaxStatus" id="RfpMedMod02_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina02.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina02.indirettoRfpMedMod!=ProgettoAssociato.costoNomina02.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558328308820" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559479166218" value="#{ProgettoAssociato.costoNomina02.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559479166218_msg" styleClass="errorContainer" ><h:message for="TextBox_1559479166218" styleClass="errorMessages TextBox_1559479166218_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845661745" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod02;BtnReset')}" status="ajaxStatus" id="DirMedMod02_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina02.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina02.direttoMedMod!=ProgettoAssociato.costoNomina02.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559719638488" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina02))}" id="Label_1559569241739" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558508099009" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina02, ProgettoAssociato.praticheAttese))}" id="Label_1560981157975" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560628319280" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559908564229" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559758357292}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1559758357292}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560242227252" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560074849777" value="#{ProgettoAssociato.costoNomina03.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560074849777_msg" styleClass="errorContainer" ><h:message for="TextBox_1560074849777" styleClass="errorMessages TextBox_1560074849777_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845663265" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod03;BtnReset')}" status="ajaxStatus" id="RdpMedMod03_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina03.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina03.indirettoRdpMedMod!=ProgettoAssociato.costoNomina03.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559398270533" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561794198403" value="#{ProgettoAssociato.costoNomina03.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561794198403_msg" styleClass="errorContainer" ><h:message for="TextBox_1561794198403" styleClass="errorMessages TextBox_1561794198403_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845665425" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod03;BtnReset')}" status="ajaxStatus" id="RfpMedMod03_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina03.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina03.indirettoRfpMedMod!=ProgettoAssociato.costoNomina03.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559639220781" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561496504080" value="#{ProgettoAssociato.costoNomina03.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561496504080_msg" styleClass="errorContainer" ><h:message for="TextBox_1561496504080" styleClass="errorMessages TextBox_1561496504080_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845668449" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod03;BtnReset')}" status="ajaxStatus" id="DirMedMod03_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina03.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina03.direttoMedMod!=ProgettoAssociato.costoNomina03.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559896654534" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina03))}" id="Label_1562489583890" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558437907828" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina03, ProgettoAssociato.praticheAttese))}" id="Label_1558355360752" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561623733069" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559045722095" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1561165209492}" class="labelContent c-text-14 base-label" >${msg.Label_1561165209492}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558511221848" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560165769981" value="#{ProgettoAssociato.costoNomina04.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560165769981_msg" styleClass="errorContainer" ><h:message for="TextBox_1560165769981" styleClass="errorMessages TextBox_1560165769981_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845664305" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod04;BtnReset')}" status="ajaxStatus" id="RdpMedMod04_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina04.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina04.indirettoRdpMedMod!=ProgettoAssociato.costoNomina04.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560456030117" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559575638108" value="#{ProgettoAssociato.costoNomina04.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559575638108_msg" styleClass="errorContainer" ><h:message for="TextBox_1559575638108" styleClass="errorMessages TextBox_1559575638108_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845667161" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod04;BtnReset')}" status="ajaxStatus" id="RfpMedMod04_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina04.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina04.indirettoRfpMedMod!=ProgettoAssociato.costoNomina04.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559252439941" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559980514110" value="#{ProgettoAssociato.costoNomina04.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559980514110_msg" styleClass="errorContainer" ><h:message for="TextBox_1559980514110" styleClass="errorMessages TextBox_1559980514110_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845669754" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod04;BtnReset')}" status="ajaxStatus" id="DirMedMod04_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina04.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina04.direttoMedMod!=ProgettoAssociato.costoNomina04.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561671054253" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina04))}" id="Label_1558414009178" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560659050417" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina04, ProgettoAssociato.praticheAttese))}" id="Label_1562126960433" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560926193100" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1562260809513" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559565893469}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1559565893469}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560767933838" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558539708757" value="#{ProgettoAssociato.costoNomina05.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558539708757_msg" styleClass="errorContainer" ><h:message for="TextBox_1558539708757" styleClass="errorMessages TextBox_1558539708757_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845674001" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod05;BtnReset')}" status="ajaxStatus" id="RdpMedMod05_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina05.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina05.indirettoRdpMedMod!=ProgettoAssociato.costoNomina05.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560279873885" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558595983720" value="#{ProgettoAssociato.costoNomina05.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558595983720_msg" styleClass="errorContainer" ><h:message for="TextBox_1558595983720" styleClass="errorMessages TextBox_1558595983720_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845676305" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod05;BtnReset')}" status="ajaxStatus" id="RfpMedMod05_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina05.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina05.indirettoRfpMedMod!=ProgettoAssociato.costoNomina05.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560334270030" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558316086972" value="#{ProgettoAssociato.costoNomina05.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558316086972_msg" styleClass="errorContainer" ><h:message for="TextBox_1558316086972" styleClass="errorMessages TextBox_1558316086972_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845678082" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod05;BtnReset')}" status="ajaxStatus" id="DirMedMod05_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina05.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina05.direttoMedMod!=ProgettoAssociato.costoNomina05.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562359414470" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina05))}" id="Label_1561646395443" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560304330937" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina05, ProgettoAssociato.praticheAttese))}" id="Label_1561808954515" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560383287058" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1560611726932" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1562016718808}" class="labelContent c-text-14 base-label" >${msg.Label_1562016718808}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561589337175" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559971487111" value="#{ProgettoAssociato.costoNomina06.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559971487111_msg" styleClass="errorContainer" ><h:message for="TextBox_1559971487111" styleClass="errorMessages TextBox_1559971487111_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845680482" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod06;BtnReset')}" status="ajaxStatus" id="RdpMedMod06_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina06.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina06.indirettoRdpMedMod!=ProgettoAssociato.costoNomina06.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558594764856" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561246611836" value="#{ProgettoAssociato.costoNomina06.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561246611836_msg" styleClass="errorContainer" ><h:message for="TextBox_1561246611836" styleClass="errorMessages TextBox_1561246611836_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845681849" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod06;BtnReset')}" status="ajaxStatus" id="RfpMedMod06_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina06.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina06.indirettoRfpMedMod!=ProgettoAssociato.costoNomina06.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561767433628" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558654574947" value="#{ProgettoAssociato.costoNomina06.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558654574947_msg" styleClass="errorContainer" ><h:message for="TextBox_1558654574947" styleClass="errorMessages TextBox_1558654574947_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845683001" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod06;BtnReset')}" status="ajaxStatus" id="DirMedMod06_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina06.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina06.direttoMedMod!=ProgettoAssociato.costoNomina06.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559955533458" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina06))}" id="Label_1559989824935" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559326524557" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina06, ProgettoAssociato.praticheAttese))}" id="Label_1560499884836" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561989969805" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1561673831752" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559187014036}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1559187014036}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561661806467" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561897948635" value="#{ProgettoAssociato.costoNomina07.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561897948635_msg" styleClass="errorContainer" ><h:message for="TextBox_1561897948635" styleClass="errorMessages TextBox_1561897948635_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845687233" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod07;BtnReset')}" status="ajaxStatus" id="RdpMedMod07_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina07.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina07.indirettoRdpMedMod!=ProgettoAssociato.costoNomina07.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560259529173" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560629887635" value="#{ProgettoAssociato.costoNomina07.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560629887635_msg" styleClass="errorContainer" ><h:message for="TextBox_1560629887635" styleClass="errorMessages TextBox_1560629887635_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845686009" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod07;BtnReset')}" status="ajaxStatus" id="RfpMedMod07_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina07.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina07.indirettoRfpMedMod!=ProgettoAssociato.costoNomina07.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561971127185" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559949112283" value="#{ProgettoAssociato.costoNomina07.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559949112283_msg" styleClass="errorContainer" ><h:message for="TextBox_1559949112283" styleClass="errorMessages TextBox_1559949112283_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845684689" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod07;BtnReset')}" status="ajaxStatus" id="DirMedMod07_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina07.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina07.direttoMedMod!=ProgettoAssociato.costoNomina07.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559225231037" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina07))}" id="Label_1560685748260" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559567761895" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina07, ProgettoAssociato.praticheAttese))}" id="Label_1559360778474" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1562491311919" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1558310384918" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1562014410577}" class="labelContent c-text-14 base-label" >${msg.Label_1562014410577}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559539448242" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558796831018" value="#{ProgettoAssociato.costoNomina08.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558796831018_msg" styleClass="errorContainer" ><h:message for="TextBox_1558796831018" styleClass="errorMessages TextBox_1558796831018_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845689457" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod08;BtnReset')}" status="ajaxStatus" id="RdpMedMod08_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina08.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina08.indirettoRdpMedMod!=ProgettoAssociato.costoNomina08.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560510900234" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561212316945" value="#{ProgettoAssociato.costoNomina08.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561212316945_msg" styleClass="errorContainer" ><h:message for="TextBox_1561212316945" styleClass="errorMessages TextBox_1561212316945_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845691473" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod08;BtnReset')}" status="ajaxStatus" id="RfpMedMod08_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina08.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina08.indirettoRfpMedMod!=ProgettoAssociato.costoNomina08.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559041397353" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559838522886" value="#{ProgettoAssociato.costoNomina08.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559838522886_msg" styleClass="errorContainer" ><h:message for="TextBox_1559838522886" styleClass="errorMessages TextBox_1559838522886_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845693289" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod08;BtnReset')}" status="ajaxStatus" id="DirMedMod08_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina08.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina08.direttoMedMod!=ProgettoAssociato.costoNomina08.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558336151629" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina08))}" id="Label_1561628925155" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560994745175" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina08, ProgettoAssociato.praticheAttese))}" id="Label_1561453930777" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560025370605" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1558991461431" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1562153311773}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1562153311773}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561926347959" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560541501539" value="#{ProgettoAssociato.costoNomina09.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560541501539_msg" styleClass="errorContainer" ><h:message for="TextBox_1560541501539" styleClass="errorMessages TextBox_1560541501539_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845695001" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod09;BtnReset')}" status="ajaxStatus" id="RdpMedMod09_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina09.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina09.indirettoRdpMedMod!=ProgettoAssociato.costoNomina09.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559184373326" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561820897871" value="#{ProgettoAssociato.costoNomina09.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561820897871_msg" styleClass="errorContainer" ><h:message for="TextBox_1561820897871" styleClass="errorMessages TextBox_1561820897871_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845696777" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod09;BtnReset')}" status="ajaxStatus" id="RfpMedMod09_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina09.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina09.indirettoRfpMedMod!=ProgettoAssociato.costoNomina09.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562195510706" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561057300289" value="#{ProgettoAssociato.costoNomina09.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561057300289_msg" styleClass="errorContainer" ><h:message for="TextBox_1561057300289" styleClass="errorMessages TextBox_1561057300289_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845698553" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod09;BtnReset')}" status="ajaxStatus" id="DirMedMod09_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina09.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina09.direttoMedMod!=ProgettoAssociato.costoNomina09.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561199340451" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina09))}" id="Label_1558524184358" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561716447457" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina09, ProgettoAssociato.praticheAttese))}" id="Label_1560043445264" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560955377229" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1558883699821" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560767167809}" class="labelContent c-text-14 base-label" >${msg.Label_1560767167809}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562064946936" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560575251597" value="#{ProgettoAssociato.costoNomina10.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560575251597_msg" styleClass="errorContainer" ><h:message for="TextBox_1560575251597" styleClass="errorMessages TextBox_1560575251597_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560846123286" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod10;BtnReset')}" status="ajaxStatus" id="RdpMedMod10_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina10.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina10.indirettoRdpMedMod!=ProgettoAssociato.costoNomina10.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561400565904" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560697262291" value="#{ProgettoAssociato.costoNomina10.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560697262291_msg" styleClass="errorContainer" ><h:message for="TextBox_1560697262291" styleClass="errorMessages TextBox_1560697262291_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560846127582" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod10;BtnReset')}" status="ajaxStatus" id="RfpMedMod10_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina10.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina10.indirettoRfpMedMod!=ProgettoAssociato.costoNomina10.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559805729177" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558400039693" value="#{ProgettoAssociato.costoNomina10.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558400039693_msg" styleClass="errorContainer" ><h:message for="TextBox_1558400039693" styleClass="errorMessages TextBox_1558400039693_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560846129278" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod10;BtnReset')}" status="ajaxStatus" id="DirMedMod10_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina10.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina10.direttoMedMod!=ProgettoAssociato.costoNomina10.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559633190804" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina10))}" id="Label_1558587326078" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561075857687" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina10, ProgettoAssociato.praticheAttese))}" id="Label_1560704640872" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1562194464070" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1560815517235" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560986045815}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1560986045815}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561634633454" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559541644981" value="#{ProgettoAssociato.costoNomina11.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559541644981_msg" styleClass="errorContainer" ><h:message for="TextBox_1559541644981" styleClass="errorMessages TextBox_1559541644981_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845701817" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod11;BtnReset')}" status="ajaxStatus" id="RdpMedMod11_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina11.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina11.indirettoRdpMedMod!=ProgettoAssociato.costoNomina11.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558557750097" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561032477232" value="#{ProgettoAssociato.costoNomina11.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561032477232_msg" styleClass="errorContainer" ><h:message for="TextBox_1561032477232" styleClass="errorMessages TextBox_1561032477232_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845704353" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod11;BtnReset')}" status="ajaxStatus" id="RfpMedMod11_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina11.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina11.indirettoRfpMedMod!=ProgettoAssociato.costoNomina11.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559244432808" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559585384164" value="#{ProgettoAssociato.costoNomina11.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559585384164_msg" styleClass="errorContainer" ><h:message for="TextBox_1559585384164" styleClass="errorMessages TextBox_1559585384164_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845705417" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod11;BtnReset')}" status="ajaxStatus" id="DirMedMod11_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina11.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina11.direttoMedMod!=ProgettoAssociato.costoNomina11.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562228411723" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina11))}" id="Label_1558353013756" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558929496473" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina11, ProgettoAssociato.praticheAttese))}" id="Label_1561031129788" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561531354760" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1561001558000" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559642152519}" class="labelContent c-text-14 base-label" >${msg.Label_1559642152519}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559229128767" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560419523978" value="#{ProgettoAssociato.costoNomina12.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560419523978_msg" styleClass="errorContainer" ><h:message for="TextBox_1560419523978" styleClass="errorMessages TextBox_1560419523978_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845702969" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod12;BtnReset')}" status="ajaxStatus" id="RdpMedMod12_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina12.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina12.indirettoRdpMedMod!=ProgettoAssociato.costoNomina12.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558537668556" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1562339972217" value="#{ProgettoAssociato.costoNomina12.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1562339972217_msg" styleClass="errorContainer" ><h:message for="TextBox_1562339972217" styleClass="errorMessages TextBox_1562339972217_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845708145" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod12;BtnReset')}" status="ajaxStatus" id="RfpMedMod12_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina12.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina12.indirettoRfpMedMod!=ProgettoAssociato.costoNomina12.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562186390786" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559426909265" value="#{ProgettoAssociato.costoNomina12.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559426909265_msg" styleClass="errorContainer" ><h:message for="TextBox_1559426909265" styleClass="errorMessages TextBox_1559426909265_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845706649" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod12;BtnReset')}" status="ajaxStatus" id="DirMedMod12_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina12.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina12.direttoMedMod!=ProgettoAssociato.costoNomina12.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561989795730" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina12))}" id="Label_1562137745984" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560883804124" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina12, ProgettoAssociato.praticheAttese))}" id="Label_1560689984001" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561590974556" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559897173819" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1561008603611}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1561008603611}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562542953153" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559915674730" value="#{ProgettoAssociato.costoNomina13.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559915674730_msg" styleClass="errorContainer" ><h:message for="TextBox_1559915674730" styleClass="errorMessages TextBox_1559915674730_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845710353" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod13;BtnReset')}" status="ajaxStatus" id="RdpMedMod13_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina13.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina13.indirettoRdpMedMod!=ProgettoAssociato.costoNomina13.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560754411800" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560608832120" value="#{ProgettoAssociato.costoNomina13.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560608832120_msg" styleClass="errorContainer" ><h:message for="TextBox_1560608832120" styleClass="errorMessages TextBox_1560608832120_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845712194" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod13;BtnReset')}" status="ajaxStatus" id="RfpMedMod13_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina13.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina13.indirettoRfpMedMod!=ProgettoAssociato.costoNomina13.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558906966503" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558451925114" value="#{ProgettoAssociato.costoNomina13.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558451925114_msg" styleClass="errorContainer" ><h:message for="TextBox_1558451925114" styleClass="errorMessages TextBox_1558451925114_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845713993" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod13;BtnReset')}" status="ajaxStatus" id="DirMedMod13_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina13.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina13.direttoMedMod!=ProgettoAssociato.costoNomina13.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561775934549" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina13))}" id="Label_1561470108426" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559220771410" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina13, ProgettoAssociato.praticheAttese))}" id="Label_1562196117084" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561848880464" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1560850683262" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1558762129685}" class="labelContent c-text-14 base-label" >${msg.Label_1558762129685}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561316963525" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1561379995005" value="#{ProgettoAssociato.costoNomina14.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1561379995005_msg" styleClass="errorContainer" ><h:message for="TextBox_1561379995005" styleClass="errorMessages TextBox_1561379995005_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845715729" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod14;BtnReset')}" status="ajaxStatus" id="RdpMedMod14_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina14.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina14.indirettoRdpMedMod!=ProgettoAssociato.costoNomina14.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558356636231" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560051074652" value="#{ProgettoAssociato.costoNomina14.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560051074652_msg" styleClass="errorContainer" ><h:message for="TextBox_1560051074652" styleClass="errorMessages TextBox_1560051074652_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845717289" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod14;BtnReset')}" status="ajaxStatus" id="RfpMedMod14_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina14.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina14.indirettoRfpMedMod!=ProgettoAssociato.costoNomina14.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560408762466" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558996699379" value="#{ProgettoAssociato.costoNomina14.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558996699379_msg" styleClass="errorContainer" ><h:message for="TextBox_1558996699379" styleClass="errorMessages TextBox_1558996699379_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845719161" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod14;BtnReset')}" status="ajaxStatus" id="DirMedMod14_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina14.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina14.direttoMedMod!=ProgettoAssociato.costoNomina14.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559942953363" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina14))}" id="Label_1559599380618" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559838138928" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina14, ProgettoAssociato.praticheAttese))}" id="Label_1558504859694" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561622815680" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559619913123" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1561968191242}" class="labelContent c-text-14 c-text-bold base-label" >${msg.Label_1561968191242}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562066815503" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1562127715598" value="#{ProgettoAssociato.costoNomina15.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1562127715598_msg" styleClass="errorContainer" ><h:message for="TextBox_1562127715598" styleClass="errorMessages TextBox_1562127715598_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845721065" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod15;BtnReset')}" status="ajaxStatus" id="RdpMedMod15_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina15.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina15.indirettoRdpMedMod!=ProgettoAssociato.costoNomina15.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561920423657" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560305980547" value="#{ProgettoAssociato.costoNomina15.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1560305980547_msg" styleClass="errorContainer" ><h:message for="TextBox_1560305980547" styleClass="errorMessages TextBox_1560305980547_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845722561" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod15;BtnReset')}" status="ajaxStatus" id="RfpMedMod15_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina15.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina15.indirettoRfpMedMod!=ProgettoAssociato.costoNomina15.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560821348902" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558436497557" value="#{ProgettoAssociato.costoNomina15.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558436497557_msg" styleClass="errorContainer" ><h:message for="TextBox_1558436497557" styleClass="errorMessages TextBox_1558436497557_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845724089" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod15;BtnReset')}" status="ajaxStatus" id="DirMedMod15_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina15.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina15.direttoMedMod!=ProgettoAssociato.costoNomina15.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1558937162440" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina15))}" id="Label_1558692245237" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1562521835315" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina15, ProgettoAssociato.praticheAttese))}" id="Label_1560541687416" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1561881280759" style="width:100%;padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1559715822810" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1559451069931}" class="labelContent c-text-14 base-label" >${msg.Label_1559451069931}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559377647963" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1558659583190" value="#{ProgettoAssociato.costoNomina16.indirettoRdpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1558659583190_msg" styleClass="errorContainer" ><h:message for="TextBox_1558659583190" styleClass="errorMessages TextBox_1558659583190_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845726945" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RdpMedMod16;BtnReset')}" status="ajaxStatus" id="RdpMedMod16_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina16.indirettoRdpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina16.indirettoRdpMedMod!=ProgettoAssociato.costoNomina16.indirettoRdpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561411158874" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559784406007" value="#{ProgettoAssociato.costoNomina16.indirettoRfpMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559784406007_msg" styleClass="errorContainer" ><h:message for="TextBox_1559784406007" styleClass="errorMessages TextBox_1559784406007_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845728953" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('RfpMedMod16;BtnReset')}" status="ajaxStatus" id="RfpMedMod16_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina16.indirettoRfpMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina16.indirettoRfpMedMod!=ProgettoAssociato.costoNomina16.indirettoRfpMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559481911058" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1559280941597" value="#{ProgettoAssociato.costoNomina16.direttoMedMod}" styleClass="inputText" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560417176261" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1559280941597_msg" styleClass="errorContainer" ><h:message for="TextBox_1559280941597" styleClass="errorMessages TextBox_1559280941597_E" /></a4j:outputPanel>
+													</div>
+
+													<div class="layoutHorizontal" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1560845730505" style="height:100%;width:100%;" >
+														<a4j:commandLink action="#{processManager.manageTask('DirMedMod16;BtnReset')}" status="ajaxStatus" id="DirMedMod16_id" title="#{ProgettoAssociatoAction.resetTo(ProgettoAssociato.costoNomina16.direttoMed)}" style="color:red;" rendered="#{ProgettoAssociato.costoNomina16.direttoMedMod!=ProgettoAssociato.costoNomina16.direttoMed}" reRender="phiDesktop" styleClass="fa fa-asterisk fa-1x link" />
+														
+													</a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1561449642020" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getTotalePesoMedio(ProgettoAssociato.costoNomina16))}" id="Label_1559436156737" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1559430664346" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(CostoNominaAction.getCaricoAtteso(ProgettoAssociato.costoNomina16, ProgettoAssociato.praticheAttese))}" id="Label_1558953107383" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+											<a4j:outputPanel layout="block" id="LayoutRow_1560852183849" style="width:100%;border:1px solid #0288D1;" styleClass="layoutContainer layoutContainerVertical" >
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852205761" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<span value="${msg.Label_1560852217153}" class="labelContent c-text-16 c-text-bold base-label" >${msg.Label_1560852217153}</span>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852206577" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560857558105" value="#{ProgettoAssociatoAction.format(ProgettoAssociato.costoNomina01.indirettoRdpMedMod+ProgettoAssociato.costoNomina02.indirettoRdpMedMod+ProgettoAssociato.costoNomina03.indirettoRdpMedMod+ProgettoAssociato.costoNomina04.indirettoRdpMedMod+ProgettoAssociato.costoNomina05.indirettoRdpMedMod+ProgettoAssociato.costoNomina06.indirettoRdpMedMod+ProgettoAssociato.costoNomina07.indirettoRdpMedMod+ProgettoAssociato.costoNomina08.indirettoRdpMedMod+ProgettoAssociato.costoNomina09.indirettoRdpMedMod+ProgettoAssociato.costoNomina10.indirettoRdpMedMod+ProgettoAssociato.costoNomina11.indirettoRdpMedMod+ProgettoAssociato.costoNomina12.indirettoRdpMedMod+ProgettoAssociato.costoNomina13.indirettoRdpMedMod+ProgettoAssociato.costoNomina14.indirettoRdpMedMod+ProgettoAssociato.costoNomina15.indirettoRdpMedMod+ProgettoAssociato.costoNomina16.indirettoRdpMedMod)}" styleClass="inputText" disabled="true" />
+													<a4j:outputPanel id="TextBox_1560857558105_msg" styleClass="errorContainer" ><h:message for="TextBox_1560857558105" styleClass="errorMessages TextBox_1560857558105_E" /></a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852207321" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560857559929" value="#{ProgettoAssociatoAction.format(ProgettoAssociato.costoNomina01.indirettoRfpMedMod+ProgettoAssociato.costoNomina02.indirettoRfpMedMod+ProgettoAssociato.costoNomina03.indirettoRfpMedMod+ProgettoAssociato.costoNomina04.indirettoRfpMedMod+ProgettoAssociato.costoNomina05.indirettoRfpMedMod+ProgettoAssociato.costoNomina06.indirettoRfpMedMod+ProgettoAssociato.costoNomina07.indirettoRfpMedMod+ProgettoAssociato.costoNomina08.indirettoRfpMedMod+ProgettoAssociato.costoNomina09.indirettoRfpMedMod+ProgettoAssociato.costoNomina10.indirettoRfpMedMod+ProgettoAssociato.costoNomina11.indirettoRfpMedMod+ProgettoAssociato.costoNomina12.indirettoRfpMedMod+ProgettoAssociato.costoNomina13.indirettoRfpMedMod+ProgettoAssociato.costoNomina14.indirettoRfpMedMod+ProgettoAssociato.costoNomina15.indirettoRfpMedMod+ProgettoAssociato.costoNomina16.indirettoRfpMedMod)}" styleClass="inputText" disabled="true" />
+													<a4j:outputPanel id="TextBox_1560857559929_msg" styleClass="errorContainer" ><h:message for="TextBox_1560857559929" styleClass="errorMessages TextBox_1560857559929_E" /></a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852207921" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:inputText id="TextBox_1560857562217" value="#{ProgettoAssociatoAction.format(ProgettoAssociato.costoNomina01.direttoMedMod+ProgettoAssociato.costoNomina02.direttoMedMod+ProgettoAssociato.costoNomina03.direttoMedMod+ProgettoAssociato.costoNomina04.direttoMedMod+ProgettoAssociato.costoNomina05.direttoMedMod+ProgettoAssociato.costoNomina06.direttoMedMod+ProgettoAssociato.costoNomina07.direttoMedMod+ProgettoAssociato.costoNomina08.direttoMedMod+ProgettoAssociato.costoNomina09.direttoMedMod+ProgettoAssociato.costoNomina10.direttoMedMod+ProgettoAssociato.costoNomina11.direttoMedMod+ProgettoAssociato.costoNomina12.direttoMedMod+ProgettoAssociato.costoNomina13.direttoMedMod+ProgettoAssociato.costoNomina14.direttoMedMod+ProgettoAssociato.costoNomina15.direttoMedMod+ProgettoAssociato.costoNomina16.direttoMedMod)}" styleClass="inputText" disabled="true" />
+													<a4j:outputPanel id="TextBox_1560857562217_msg" styleClass="errorContainer" ><h:message for="TextBox_1560857562217" styleClass="errorMessages TextBox_1560857562217_E" /></a4j:outputPanel>
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852208753" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(ProgettoAssociatoAction.getTotalePesoMedio(ProgettoAssociato))}" id="Label_1560852220370" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+												<a4j:outputPanel layout="block" id="LayoutRow_1560852209457" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+													<div class="layoutHorizontal" >
+													<h:outputText value="#{ProgettoAssociatoAction.format(ProgettoAssociatoAction.getCaricoAtteso(ProgettoAssociato))}" id="Label_1560852221121" style="display:block;" styleClass="labelContent c-text-14 c-text-bold base-label" />
+													</div>
+
+												</a4j:outputPanel>
+											</a4j:outputPanel>
+										</a4j:outputPanel>
+									</fieldset>
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+						<div class="tab-2 tab-content hidden" id="LayoutFillPanelTab_1561966810172" label="${msg.LayoutFillPanelTab_1561966810172}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{ProgettoAssociato.statusCode.code=='completed'}" >
+							<a4j:region>
+							<a4j:status id="LayoutFillPanelTab_1561966810172Status" onstop="stopAjaxReq()"/>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1560726977734" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1560158350004" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('MngOp;BtnGestioneOperatori')}" status="ajaxStatus" id="MngOp" title="${msg.alt_MngOp}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x linkUnlink link link" />
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1561038195527;BtnRefreshCarichi')}" status="ajaxStatus" id="Link_1561038195527" title="${msg.alt_Link_1561038195527}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1560647219917" style="padding-top: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel id="DataGrid_1561599981409" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+										<table id="d1561599981409" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1561599981409} [PartecipantiList]" >
+											<thead class="tableHeader">
+												<tr>
+													<th>${msg.DataGridColumn_1559855582804}</th>
+													<th class="sortableColumn">${msg.DataGridColumn_1560923315741} &#8593;&#8595;</th>
+													<th><a4j:commandLink id="DataGridColumn_1561394005109" value="${msg.DataGridColumn_1561394005109} &#8593;&#8595;" action="#{PartecipantiList.orderBy('rdp')}" reRender="DataGrid_1561599981409" ajaxSingle="true" disabled="#{empty PartecipantiList ? true : false}"/></th>
+													<th><a4j:commandLink id="DataGridColumn_1560691876316" value="${msg.DataGridColumn_1560691876316} &#8593;&#8595;" action="#{PartecipantiList.orderBy('rfp')}" reRender="DataGrid_1561599981409" ajaxSingle="true" disabled="#{empty PartecipantiList ? true : false}"/></th>
+													<th class="sortableColumn">${msg.DataGridColumn_1567676724991} &#8593;&#8595;</th>
+													<th><a4j:commandLink id="DataGridColumn_1561036990815" value="${msg.DataGridColumn_1561036990815} &#8593;&#8595;" action="#{PartecipantiList.orderBy('numeroPraticheMod')}" reRender="DataGrid_1561599981409" ajaxSingle="true" disabled="#{empty PartecipantiList ? true : false}"/></th>
+													<th class="sortableColumn">${msg.DataGridColumn_1561036982607} &#8593;&#8595;</th>
+													<th class="sortableColumn">${msg.DataGridColumn_1561374451583} &#8593;&#8595;</th>
+													<th>${msg.DataGridColumn_1560709681019}</th>
+												</tr>
+											</thead>
+											<tbody class="tableBody">
+												<jstl:if test="#{empty PartecipantiList or PartecipantiList.isEmpty()}">
+													<tr class="noresults">
+														<td colspan="9">${error.emtpy_search_for_table}</td>
+													</tr>
+												</jstl:if>
+												<a4j:repeat id="r1561599981409" value="#{PartecipantiList.entities}" var="Partecipanti" rowKeyVar="rowIndex" >
+													<tr >
+														<td >
+															<a4j:commandLink action="#{PartecipantiAction.inject(Partecipanti)}" status="ajaxStatus" id="Link_1560866603762_id" title="${msg.alt_Link_1560866603762}" style="color: red;" rendered="#{not Partecipanti.operatore.isActive}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+															<a4j:commandLink action="#{PartecipantiAction.inject(Partecipanti)}" status="ajaxStatus" id="Link_1560159210712_id" title="${msg.alt_Link_1560159210712}" style="color: green;" rendered="#{Partecipanti.operatore.isActive}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+														</td>
+
+														<td >
+															<h:outputText styleClass="base-label" value="#{function.concat('&lt;b&gt;', Partecipanti.operatore.name, '&lt;/b&gt;', '&lt;br&gt;(', Partecipanti.operatore.code, ')')}" escape="false" >
+															</h:outputText>
+														</td>
+
+														<td >
+											<h:selectBooleanCheckbox id="CheckBox_1558313481181" value="#{Partecipanti.rdp}" style="vertical-align:middle;" alt="CHECKBOX" />
+											<h:message for="CheckBox_1558313481181" styleClass="errorMessages CheckBox_1558313481181_E" />
+											<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1558313481181" style="display:none;" value="hiddenLabel"></h:outputLabel>
+														</td>
+
+														<td >
+											<h:selectBooleanCheckbox id="CheckBox_1558824942154" value="#{Partecipanti.rfp}" style="vertical-align:middle;" alt="CHECKBOX" />
+											<h:message for="CheckBox_1558824942154" styleClass="errorMessages CheckBox_1558824942154_E" />
+											<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1558824942154" style="display:none;" value="hiddenLabel"></h:outputLabel>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.format(Partecipanti.disponibilitaOperatore)}</span>
+														</td>
+
+														<td >
+															<h:inputText id="TextBox_1567672936746" value="#{Partecipanti.numeroPraticheMod}" style="width: 30%;" />
+															<a4j:outputPanel id="TextBox_1567672936746_msg" styleClass="errorContainer" ><h:message for="TextBox_1567672936746" styleClass="errorMessages TextBox_1567672936746_E" /></a4j:outputPanel>
+
+															<span class="base-label" >${msg.Label_1567675090811}</span>
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.format(Partecipanti.numeroPratiche)}</span>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.format(Partecipanti.caricoProgetto)}</span>
+														</td>
+
+														<td >
+															<a4j:commandLink action="#{PartecipantiAction.injectAndProceed(Partecipanti, 'Link_1561374457038;BtnLogPart')}" status="ajaxStatus" id="Link_1561374457038" title="${msg.alt_Link_1561374457038}" reRender="popup" styleClass="fa fa-info-circle fa-2x tableButton" />
+
+														</td>
+
+														<td >
+															<a4j:commandLink action="#{PartecipantiAction.injectAndProceed(Partecipanti, 'DelOp;BtnEliminaOperatore')}" status="ajaxStatus" id="DelOp" title="${msg.alt_DelOp}" reRender="phiDesktop,popup" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+														</td>
+
+													</tr>
+												</a4j:repeat>
+											</tbody>
+										</table>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:region>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

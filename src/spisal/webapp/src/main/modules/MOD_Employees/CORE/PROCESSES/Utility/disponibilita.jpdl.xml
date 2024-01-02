@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="types">
+
+
+	<start-state name="start-state1">
+		<transition to="read disp"></transition>
+	</start-state>
+
+
+	<node name="add new">
+		<event type="node-enter">
+			<action name="1" expression="#{DispAction.inject(DispAction.newEntity())}"></action>
+		</event>
+		<transition to="DisponibilitaPopUp"></transition>
+	</node>
+
+	<decision name="coming from?" expression="#{button.mnemonic}">
+		<transition to="remove" name="BtnDel"></transition>
+		<transition to="end-state1" name="BtnOK"></transition>
+		<transition to="add new" name="BtnAdd"></transition>
+	</decision>
+
+	<node name="remove">
+		<event type="node-enter">
+			<action name="1" expression="#{DispList.list.remove(Disp)}"></action>
+			<action name="2" expression="#{ToRemoveDispList.list.add(Disp)}"></action>
+			<action name="3" expression="#{DispAction.eject()}"></action>
+		</event>
+		<transition to="super-state1/flush"></transition>
+	</node>
+
+	<task-node name="DisponibilitaPopUp">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Employees/CORE/FORMS/disponibilitaPopUp')}"></action>
+		</event>
+		<transition to="Data Ok?"></transition>
+	</task-node>
+
+	<task-node name="Disponibilita UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Employees/CORE/FORMS/disponibilita')}"></action>
+		</event>
+		<transition to="coming from?"></transition>
+	</task-node>
+
+	<node name="AddToList">
+		<event type="node-enter">
+			<action name="1" expression="#{DispList.list.add(Disp)}"></action>
+		</event>
+		<transition to="super-state1/flush"></transition>
+	</node>
+
+	<node name="read disp">
+		<event type="node-enter">
+			<action name="1" expression="#{DispAction.eject()}"></action>
+			<action name="2" expression="#{DispAction.ejectList()}"></action>
+			<action name="3" expression="#{DispAction.equal.put('monteOre',MonteOre)}"></action>
+			<action name="4" expression="#{DispAction.orderBy.put('dal','ascending')}"></action>
+			<action name="5" expression="#{DispAction.read()}"></action>
+			<action name="6" expression="#{DispAction.injectEmptyList('ToRemoveDispList')}"></action>
+		</event>
+		<transition to="Disponibilita UI"></transition>
+	</node>
+
+	<decision name="Data Ok?" expression="#{MonteOreAction.isDispOk(MonteOre, Disp)}">
+		<transition to="AddToList" name="true"></transition>
+		<transition to="Disponibilita UI" name="false"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="flush">
+			<event type="node-enter">
+				<action name="1" expression="#{MonteOreAction.linkUnlinkDisponibilita(DispList.list, ToRemoveDispList.list)}"></action>
+				<action name="2" expression="#{OperatoreAction.create()}"></action>
+			</event>
+			<transition to="../Disponibilita UI"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

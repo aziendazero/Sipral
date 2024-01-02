@@ -1,0 +1,260 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1513596284318}</h1>
+	<div id="create_sede_addebito" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1510859279202" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1514437478626" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510817232609;BtnBack')}" status="ajaxStatus" id="Link_1510817232609" title="${msg.alt_Link_1510817232609}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1512590071063;BtnSave')}" status="ajaxStatus" id="Link_1512590071063" title="${msg.alt_Link_1512590071063}" reRender="phiDesktop,popup" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1512655566776" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1512655566776}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1511815556863" styleClass="layoutContainer layoutContainerVertical" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1513069407013" >
+						<label >
+							<span class="label">${msg.label_TextArea_1513069407013}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1513069407013_id" value="#{Sedi.denominazioneUnitaLocale}" label="${msg.label_TextArea_1513069407013}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1513069407013_id" styleClass="errorMessages TextArea_1513069407013_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510608224378" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1511477800279}</span>
+							<h:inputText id="TextBox_1511477800279" value="#{Sedi.addr.str}" styleClass="inputText" label="${msg.label_TextBox_1511477800279}" />
+							<a4j:outputPanel id="TextBox_1511477800279_msg" styleClass="errorContainer" ><h:message for="TextBox_1511477800279" styleClass="errorMessages TextBox_1511477800279_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1511866739639}</span>
+							<h:inputText id="TextBox_1511866739639" value="#{Sedi.addr.bnr}" styleClass="inputText" label="${msg.label_TextBox_1511866739639}" />
+							<a4j:outputPanel id="TextBox_1511866739639_msg" styleClass="errorContainer" ><h:message for="TextBox_1511866739639" styleClass="errorMessages TextBox_1511866739639_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1513428815911" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1513428815911}</span>
+							#{SediAction.autocomplete['addr'].setContentType('0')}
+							#{SediAction.autocomplete['addr'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1513428815911_MAIN" value="#{Sedi.addr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1513428815911}" />
+							<h:outputLabel for="TextSuggestionBox_1513428815911_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1513428815911_CPA" value="#{Sedi.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1513428815911_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1513428815911_ZIP" value="#{Sedi.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1513428815911_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1513428815911_CODE" value="#{Sedi.addr.code}" label="${msg.label_TextSuggestionBox_1513428815911}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="Label_1512441694543,Label_1512564117178" event="onchange" ignoreDupResponses="true" />
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1513428815911_CODE" styleClass="errorMessages TextSuggestionBox_1513428815911_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1513428815911" action="#{SediAction.autocomplete['addr'].autocomplete()}" data="#{SediAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediAction.autocomplete['addr'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1512130970803}</span>
+							<h:inputText id="TextBox_1512130970803" value="#{Sedi.addr.adl}" styleClass="inputText" label="${msg.label_TextBox_1512130970803}" />
+							<a4j:outputPanel id="TextBox_1512130970803_msg" styleClass="errorContainer" ><h:message for="TextBox_1512130970803" styleClass="errorMessages TextBox_1512130970803_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514374810044" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1512441694543" >
+						<label style="display:#{(SediAddebito.addr ne null) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_Label_1512441694543}</span>
+							<h:outputText rendered="#{SediAddebito.addr ne null}" value="#{SediInstallazioneAction.getUlss(Sedi.addr.code.code)}" id="Label_1512441694543_id" class="labelContent  base-label" />
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1512564117178" >
+						<label style="display:#{(SediAddebito.addr ne null) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_Label_1512564117178}</span>
+							<h:outputText rendered="#{SediAddebito.addr ne null}" value="#{SediInstallazioneAction.getRegione(Sedi.addr.code.code)}" id="Label_1512564117178_id" class="labelContent  base-label" />
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1511287574372}</span>
+							<h:selectOneMenu id="ComboBox_1511287574372" value="#{Sedi.stato}" styleClass="comboBox" label="${msg.label_ComboBox_1511287574372}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1512827569569" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1512491044433}</span>
+							<h:inputText id="TextBox_1512491044433" value="#{Sedi.codContabilita}" styleClass="inputText" label="${msg.label_TextBox_1512491044433}" >
+							<f:validateLength minimum="0" maximum="12" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1512491044433_msg" styleClass="errorContainer" ><h:message for="TextBox_1512491044433" styleClass="errorMessages TextBox_1512491044433_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1512723689294" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1512723689294}</span>
+							#{SediAction.autocomplete['classeEconomica'].setContentType('4')}
+							#{SediAction.autocomplete['classeEconomica'].setCodeSystem('PHIDIC')}
+							#{SediAction.autocomplete['classeEconomica'].setDomain('ClasseEconomica')}
+							#{SediAction.autocomplete['classeEconomica'].setFullLike(true)}
+							<input type="text" id="TextSuggestionBox_1512723689294_MAIN" class="autocomplete inputText" value="#{Sedi.classeEconomica.displayName}" style="width:375px;"  />
+							<h:outputLabel for="TextSuggestionBox_1512723689294_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1512723689294_CODE" value="#{Sedi.classeEconomica}" label="${msg.label_TextSuggestionBox_1512723689294}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1512723689294_CODE" styleClass="errorMessages TextSuggestionBox_1512723689294_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1512723689294" action="#{SediAction.autocomplete['classeEconomica'].autocomplete()}" data="#{SediAction.autocomplete['classeEconomica'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediAction.autocomplete['classeEconomica'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1512649528279}</span>
+							<h:selectOneMenu id="ComboBox_1512649528279" value="#{Sedi.tipoAttivita}" styleClass="comboBox" label="${msg.label_ComboBox_1512649528279}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1514351671904}</span>
+							<h:selectOneMenu id="ComboBox_1514351671904" value="#{Sedi.settore}" styleClass="comboBox" label="${msg.label_ComboBox_1514351671904}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Settore')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514554227323" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1567691172097}</span>
+							<h:inputText id="TextBox_1567691172097" value="#{Sedi.codiceUnivoco}" styleClass="inputText" label="${msg.label_TextBox_1567691172097}" >
+							<f:validateLength minimum="0" maximum="7" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1567691172097_msg" styleClass="errorContainer" ><h:message for="TextBox_1567691172097" styleClass="errorMessages TextBox_1567691172097_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1513844105350}</span>
+							<h:selectOneMenu id="ComboBox_1513844105350" value="#{Sedi.tipoUtente}" styleClass="comboBox" label="${msg.label_ComboBox_1513844105350}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoSede')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1511336593361}</span>
+							<h:selectOneMenu id="ComboBox_1511336593361" value="#{Sedi.esenzione}" styleClass="comboBox" label="${msg.label_ComboBox_1511336593361}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Esenzione')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1511389304839" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1511450624858}</span>
+							<h:inputText id="TextBox_1511450624858" value="#{Sedi.impSpesa}" styleClass="inputText" label="${msg.label_TextBox_1511450624858}" />
+							<a4j:outputPanel id="TextBox_1511450624858_msg" styleClass="errorContainer" ><h:message for="TextBox_1511450624858" styleClass="errorMessages TextBox_1511450624858_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1514123550983}</span>
+							<h:inputText id="TextBox_1514123550983" value="#{Sedi.cig}" style="width:325px;" styleClass="inputText" label="${msg.label_TextBox_1514123550983}" />
+							<a4j:outputPanel id="TextBox_1514123550983_msg" styleClass="errorContainer" ><h:message for="TextBox_1514123550983" styleClass="errorMessages TextBox_1514123550983_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514415467220" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1514415467220}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1513737311563" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1513233692466}</span>
+								<h:inputText id="TextBox_1513233692466" value="#{Sedi.telecom.mc}" style="width:325px;" styleClass="inputText" label="${msg.label_TextBox_1513233692466}" />
+								<a4j:outputPanel id="TextBox_1513233692466_msg" styleClass="errorContainer" ><h:message for="TextBox_1513233692466" styleClass="errorMessages TextBox_1513233692466_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1514106942098}</span>
+								<h:inputText id="TextBox_1514106942098" value="#{Sedi.telecom.mail}" style="width:325px;" styleClass="inputText" label="${msg.label_TextBox_1514106942098}" />
+								<a4j:outputPanel id="TextBox_1514106942098_msg" styleClass="errorContainer" ><h:message for="TextBox_1514106942098" styleClass="errorMessages TextBox_1514106942098_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1511966719389" styleClass="layoutContainer layoutContainerVertical" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1514215205564" >
+							<label >
+								<span class="label">${msg.label_TextArea_1514215205564}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1514215205564_id" value="#{Sedi.note}" label="${msg.label_TextArea_1514215205564}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1514215205564_id" styleClass="errorMessages TextArea_1514215205564_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

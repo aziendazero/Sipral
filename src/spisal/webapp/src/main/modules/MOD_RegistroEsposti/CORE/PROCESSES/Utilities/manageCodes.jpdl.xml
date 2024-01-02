@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manageCodes">
+
+
+	<start-state name="start-state1">
+		<transition to="operation"></transition>
+	</start-state>
+
+
+	<decision name="operation" expression="#{(button.getMnemonic())}">
+		<transition to="injectAteco" name="schedaAteco"></transition>
+		<transition to="injectInail" name="schedaInail"></transition>
+		<transition to="injectLavAteco" name="lavAteco"></transition>
+		<transition to="injectLavInail" name="lavInail"></transition>
+	</decision>
+
+	<process-state name="scheda ateco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set scheda ateco"></transition>
+	</process-state>
+
+	<process-state name="scheda inail">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterInail" binding="late"></sub-process>
+		<transition to="set scheda inail"></transition>
+	</process-state>
+
+	<process-state name="lav ateco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set val ateco"></transition>
+	</process-state>
+
+	<process-state name="lavInail">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterInail" binding="late"></sub-process>
+		<transition to="set val inail"></transition>
+	</process-state>
+
+	<node name="set scheda ateco">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? SchedaEsposti.setLavUnica(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set scheda inail">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueInail ? SchedaEsposti.setInail(CodeValueInail) : ''}"></action>
+			<action name="2" expression="#{CodeValueInailAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set val ateco">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? LavorazioniCorrelate.setLavUnica(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set val inail">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueInail ? LavorazioniCorrelate.setInail(CodeValueInail) : ''}"></action>
+			<action name="2" expression="#{CodeValueInailAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="injectAteco">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(SchedaEsposti.lavUnica)}"></action>
+		</event>
+		<transition to="scheda ateco"></transition>
+	</node>
+
+	<node name="injectInail">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueInailAction.inject(SchedaEsposti.inail)}"></action>
+		</event>
+		<transition to="scheda inail"></transition>
+	</node>
+
+	<node name="injectLavAteco">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(LavorazioniCorrelate.lavUnica)}"></action>
+		</event>
+		<transition to="lav ateco"></transition>
+	</node>
+
+	<node name="injectLavInail">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueInailAction.inject(LavorazioniCorrelate.inail)}"></action>
+		</event>
+		<transition to="lavInail"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

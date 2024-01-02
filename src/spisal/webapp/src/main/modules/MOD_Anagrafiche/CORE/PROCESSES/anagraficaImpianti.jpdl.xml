@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<description></description>
+
+
+	<start-state name="start-state1">
+		<description>
+			9
+		</description>
+		<transition to="empty list"></transition>
+	</start-state>
+
+
+	<task-node name="Impianti">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Anagrafiche/CORE/FORMS/impiantiSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="pre-search" name="BtnSearch"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="clear filters" name="BtnFilterCancel"></transition>
+		<transition to="backup" name="BtnImpAnag"></transition>
+		<transition to="inject specific" name="BtnGestImpAlfrescoDocEdit"></transition>
+		<transition to="read csv" name="ImpPrint"></transition>
+	</decision>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.filterExpired()}"></action>
+			<action name="2" expression="#{ImpiantoAction.readImpianti()}"></action>
+		</event>
+		<transition to="Impianti"></transition>
+	</node>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.ejectList()}"></action>
+			<action name="2" expression="#{ImpiantoAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="clear filters">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{ImpMontaAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{ImpPressAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{ImpRiscAction.cleanRestrictions()}"></action>
+			<action name="5" expression="#{ImpTerraAction.cleanRestrictions()}"></action>
+			<action name="6" expression="#{ImpSollAction.cleanRestrictions()}"></action>
+			<action name="7" expression="#{ImpiantoAction.temporary.clear()}"></action>
+			<action name="8" expression="#{ImpMontaAction.temporary.clear()}"></action>
+			<action name="9" expression="#{ImpPressAction.temporary.clear()}"></action>
+			<action name="10" expression="#{ImpRiscAction.temporary.clear()}"></action>
+			<action name="11" expression="#{ImpSollAction.temporary.clear()}"></action>
+			<action name="12" expression="#{ImpTerraAction.temporary.clear()}"></action>
+			<action name="13" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="14" expression="#{ImpiantoAction.ejectList()}"></action>
+		</event>
+		<transition to="add select"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<node name="Set Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.setTemporary()}"></action>
+		</event>
+		<transition to="Impianti"></transition>
+	</node>
+
+	<process-state name="Manage Impianto">
+		<sub-process name="MOD_Company/CORE/PROCESSES/manageImpianti" binding="late"></sub-process>
+		<transition to="restore"></transition>
+	</process-state>
+
+	<node name="pre-search">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantiDocumentAction.eject()}"></action>
+			<action name="2" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="3" expression="#{ImpiantoAction.ejectList()}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+	<process-state name="alfrescoDocuments">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="search"></transition>
+	</process-state>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}"></action>
+			<action name="2" expression="#{ImpiantoAction.temporary.put('impOrVer', 'imp')}"></action>
+		</event>
+		<transition to="alfrescoDocuments"></transition>
+	</node>
+
+	<node name="inject specific">
+		<event type="node-enter">
+			<action name="1" expression="#{Impianto.code.code eq '01'? ImpPressAction.inject(Impianto):''}"></action>
+			<action name="2" expression="#{Impianto.code.code eq '01'? AlfrescoDocumentAction.temporary.put('entity2Link', ImpPress):''}"></action>
+			<action name="3" expression="#{Impianto.code.code eq '01'? AlfrescoDocumentAction.injectList(ImpPress.documenti):''}"></action>
+			<action name="4" expression="#{Impianto.code.code eq '02'? ImpRiscAction.inject(Impianto):''}"></action>
+			<action name="5" expression="#{Impianto.code.code eq '02'? AlfrescoDocumentAction.temporary.put('entity2Link', ImpRisc):''}"></action>
+			<action name="6" expression="#{Impianto.code.code eq '02'? AlfrescoDocumentAction.injectList(ImpRisc.documenti):''}"></action>
+			<action name="7" expression="#{Impianto.code.code eq '03'? ImpMontaAction.inject(Impianto):''}"></action>
+			<action name="8" expression="#{Impianto.code.code eq '03'? AlfrescoDocumentAction.temporary.put('entity2Link', ImpMonta):''}"></action>
+			<action name="9" expression="#{Impianto.code.code eq '03'? AlfrescoDocumentAction.injectList(ImpMonta.documenti):''}"></action>
+			<action name="10" expression="#{Impianto.code.code eq '04'? ImpSollAction.inject(Impianto):''}"></action>
+			<action name="11" expression="#{Impianto.code.code eq '04'? AlfrescoDocumentAction.temporary.put('entity2Link', ImpSoll):''}"></action>
+			<action name="12" expression="#{Impianto.code.code eq '04'? AlfrescoDocumentAction.injectList(ImpSoll.documenti):''}"></action>
+			<action name="13" expression="#{Impianto.code.code eq '05'? ImpTerraAction.inject(Impianto):''}"></action>
+			<action name="14" expression="#{Impianto.code.code eq '05'? AlfrescoDocumentAction.temporary.put('entity2Link', ImpTerra):''}"></action>
+			<action name="15" expression="#{Impianto.code.code eq '05'? AlfrescoDocumentAction.injectList(ImpTerra.documenti):''}"></action>
+		</event>
+		<transition to="injectList of docs"></transition>
+	</node>
+
+	<node name="empty list">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="2" expression="#{ImpiantoAction.ejectList()}"></action>
+			<action name="3" expression="#{ImpiantoAction.setFullLike(true)}"></action>
+		</event>
+		<transition to="add select"></transition>
+	</node>
+
+	<node name="new file">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantiDocumentAction.inject(ImpiantiDocumentAction.newEntity())}"></action>
+			<action name="2" expression="#{ImpiantiDocument.setContentType('application/vnd.ms-excel')}"></action>
+			<action name="3" expression="#{ImpiantiDocument.setFilename('Lista_impianti.xls')}"></action>
+		</event>
+		<transition to="set content"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpiantiDocumentAction.create()}"></action>
+			</event>
+			<transition to="../Impianti"></transition>
+		</node>
+	</super-state>
+
+	<node name="backup">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.temporary.put('anag', true)}"></action>
+			<action name="2" expression="#{ImpiantoAction.backupRestrictions()}"></action>
+			<action name="3" expression="#{ImpMontaAction.backupRestrictions()}"></action>
+			<action name="4" expression="#{ImpPressAction.backupRestrictions()}"></action>
+			<action name="5" expression="#{ImpRiscAction.backupRestrictions()}"></action>
+			<action name="6" expression="#{ImpSollAction.backupRestrictions()}"></action>
+			<action name="7" expression="#{ImpTerraAction.backupRestrictions()}"></action>
+		</event>
+		<transition to="Manage Impianto"></transition>
+	</node>
+
+	<node name="restore">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.temporary.remove('anag')}"></action>
+			<action name="2" expression="#{ImpiantoAction.restoreRestrictions()}"></action>
+			<action name="3" expression="#{ImpMontaAction.restoreRestrictions()}"></action>
+			<action name="4" expression="#{ImpPressAction.restoreRestrictions()}"></action>
+			<action name="5" expression="#{ImpRiscAction.restoreRestrictions()}"></action>
+			<action name="6" expression="#{ImpSollAction.restoreRestrictions()}"></action>
+			<action name="7" expression="#{ImpTerraAction.restoreRestrictions()}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+	<node name="add select">
+		<event type="node-enter">
+<action name="1" expression="#{ImpiantoAction.select.add('sigla')}"></action>
+<action name="2" expression="#{ImpiantoAction.select.add('matricola')}"></action>
+<action name="3" expression="#{ImpiantoAction.select.add('anno')}"></action>
+<action name="4" expression="#{ImpiantoAction.select.add('code')}"></action>
+<action name="5" expression="#{ImpiantoAction.select.add('subTypeTerra')}"></action>
+<action name="6" expression="#{ImpiantoAction.select.add('subTypeSoll')}"></action>
+<action name="9" expression="#{ImpiantoAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="10" expression="#{ImpiantoAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="11" expression="#{ImpiantoAction.select.add('sedi.addr.str')}"></action>
+<action name="12" expression="#{ImpiantoAction.select.add('sedi.addr.bnr')}"></action>
+<action name="13" expression="#{ImpiantoAction.select.add('sedi.addr.cty')}"></action>
+<action name="14" expression="#{ImpiantoAction.select.add('sedi.addr.cpa')}"></action>
+<action name="15" expression="#{ImpiantoAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="16" expression="#{ImpiantoAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="17" expression="#{ImpiantoAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="18" expression="#{ImpiantoAction.select.add('sedeInstallazione.addr.cpa')}"></action>
+<action name="19" expression="#{ImpPressAction.select.add('sigla')}"></action>
+<action name="20" expression="#{ImpPressAction.select.add('matricola')}"></action>
+<action name="21" expression="#{ImpPressAction.select.add('anno')}"></action>
+<action name="22" expression="#{ImpPressAction.select.add('code')}"></action>
+<action name="23" expression="#{ImpPressAction.select.add('subTypeTerra')}"></action>
+<action name="24" expression="#{ImpPressAction.select.add('subTypeSoll')}"></action>
+<action name="27" expression="#{ImpPressAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="28" expression="#{ImpPressAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="29" expression="#{ImpPressAction.select.add('sedi.addr.str')}"></action>
+<action name="30" expression="#{ImpPressAction.select.add('sedi.addr.bnr')}"></action>
+<action name="31" expression="#{ImpPressAction.select.add('sedi.addr.cty')}"></action>
+<action name="32" expression="#{ImpPressAction.select.add('sedi.addr.cpa')}"></action>
+<action name="33" expression="#{ImpPressAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="34" expression="#{ImpPressAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="35" expression="#{ImpPressAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="36" expression="#{ImpPressAction.select.add('sedeInstallazione.addr.cpa')}"></action>
+<action name="37" expression="#{ImpRiscAction.select.add('sigla')}"></action>
+<action name="38" expression="#{ImpRiscAction.select.add('matricola')}"></action>
+<action name="39" expression="#{ImpRiscAction.select.add('anno')}"></action>
+<action name="40" expression="#{ImpRiscAction.select.add('code')}"></action>
+<action name="41" expression="#{ImpRiscAction.select.add('subTypeTerra')}"></action>
+<action name="42" expression="#{ImpRiscAction.select.add('subTypeSoll')}"></action>
+<action name="45" expression="#{ImpRiscAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="46" expression="#{ImpRiscAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="47" expression="#{ImpRiscAction.select.add('sedi.addr.str')}"></action>
+<action name="48" expression="#{ImpRiscAction.select.add('sedi.addr.bnr')}"></action>
+<action name="49" expression="#{ImpRiscAction.select.add('sedi.addr.cty')}"></action>
+<action name="50" expression="#{ImpRiscAction.select.add('sedi.addr.cpa')}"></action>
+<action name="51" expression="#{ImpRiscAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="52" expression="#{ImpRiscAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="53" expression="#{ImpRiscAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="54" expression="#{ImpRiscAction.select.add('sedeInstallazione.addr.cpa')}"></action>	
+<action name="55" expression="#{ImpMontaAction.select.add('sigla')}"></action>
+<action name="56" expression="#{ImpMontaAction.select.add('matricola')}"></action>
+<action name="57" expression="#{ImpMontaAction.select.add('anno')}"></action>
+<action name="58" expression="#{ImpMontaAction.select.add('code')}"></action>
+<action name="59" expression="#{ImpMontaAction.select.add('subTypeTerra')}"></action>
+<action name="60" expression="#{ImpMontaAction.select.add('subTypeSoll')}"></action>
+<action name="63" expression="#{ImpMontaAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="64" expression="#{ImpMontaAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="65" expression="#{ImpMontaAction.select.add('sedi.addr.str')}"></action>
+<action name="66" expression="#{ImpMontaAction.select.add('sedi.addr.bnr')}"></action>
+<action name="67" expression="#{ImpMontaAction.select.add('sedi.addr.cty')}"></action>
+<action name="68" expression="#{ImpMontaAction.select.add('sedi.addr.cpa')}"></action>
+<action name="69" expression="#{ImpMontaAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="70" expression="#{ImpMontaAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="71" expression="#{ImpMontaAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="72" expression="#{ImpMontaAction.select.add('sedeInstallazione.addr.cpa')}"></action>		
+<action name="73" expression="#{ImpSollAction.select.add('sigla')}"></action>
+<action name="74" expression="#{ImpSollAction.select.add('matricola')}"></action>
+<action name="75" expression="#{ImpSollAction.select.add('anno')}"></action>
+<action name="76" expression="#{ImpSollAction.select.add('code')}"></action>
+<action name="77" expression="#{ImpSollAction.select.add('subTypeTerra')}"></action>
+<action name="78" expression="#{ImpSollAction.select.add('subTypeSoll')}"></action>
+<action name="81" expression="#{ImpSollAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="82" expression="#{ImpSollAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="83" expression="#{ImpSollAction.select.add('sedi.addr.str')}"></action>
+<action name="84" expression="#{ImpSollAction.select.add('sedi.addr.bnr')}"></action>
+<action name="85" expression="#{ImpSollAction.select.add('sedi.addr.cty')}"></action>
+<action name="86" expression="#{ImpSollAction.select.add('sedi.addr.cpa')}"></action>
+<action name="87" expression="#{ImpSollAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="88" expression="#{ImpSollAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="89" expression="#{ImpSollAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="90" expression="#{ImpSollAction.select.add('sedeInstallazione.addr.cpa')}"></action>		
+<action name="91" expression="#{ImpTerraAction.select.add('sigla')}"></action>
+<action name="92" expression="#{ImpTerraAction.select.add('matricola')}"></action>
+<action name="93" expression="#{ImpTerraAction.select.add('anno')}"></action>
+<action name="94" expression="#{ImpTerraAction.select.add('code')}"></action>
+<action name="95" expression="#{ImpTerraAction.select.add('subTypeTerra')}"></action>
+<action name="96" expression="#{ImpTerraAction.select.add('subTypeSoll')}"></action>
+<action name="99" expression="#{ImpTerraAction.select.add('sedeInstallazione.denominazione')}"></action>
+<action name="100" expression="#{ImpTerraAction.select.add('sedi.denominazioneUnitaLocale')}"></action>
+<action name="101" expression="#{ImpTerraAction.select.add('sedi.addr.str')}"></action>
+<action name="102" expression="#{ImpTerraAction.select.add('sedi.addr.bnr')}"></action>
+<action name="103" expression="#{ImpTerraAction.select.add('sedi.addr.cty')}"></action>
+<action name="104" expression="#{ImpTerraAction.select.add('sedi.addr.cpa')}"></action>
+<action name="105" expression="#{ImpTerraAction.select.add('sedeInstallazione.addr.str')}"></action>
+<action name="106" expression="#{ImpTerraAction.select.add('sedeInstallazione.addr.bnr')}"></action>
+<action name="107" expression="#{ImpTerraAction.select.add('sedeInstallazione.addr.cty')}"></action>
+<action name="108" expression="#{ImpTerraAction.select.add('sedeInstallazione.addr.cpa')}"></action>
+		</event>
+		<transition to="Set Temporary"></transition>
+	</node>
+
+	<node name="read csv">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantiDocumentAction.eject()}"></action>
+			<action name="2" expression="#{ImpiantiDocumentAction.ejectList()}"></action>
+			<action name="3" expression="#{ImpiantiDocumentAction.equal.put('contentType','application/vnd.ms-excel')}"></action>
+			<action name="4" expression="#{ImpiantiDocumentAction.read()}"></action>
+			<action name="5" expression="#{ImpiantiDocumentAction.injectFirst()}"></action>
+		</event>
+		<transition to="not exist?"></transition>
+	</node>
+
+	<decision name="not exist?" expression="#{empty ImpiantiDocument}">
+		<transition to="new file" name="true"></transition>
+		<transition to="set content" name="false"></transition>
+	</decision>
+
+	<node name="set content">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantiDocument.setDataRif(function.currentDateTime())}"></action>
+			<action name="2" expression="#{ImpiantiDocumentAction.generateXlsFile(ImpiantiDocument, ImpiantoList)}"></action>
+		</event>
+		<transition to="super-state1/save"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;"></action>
+
+
+</process-definition>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSoggettoAttivita">
+
+
+	<start-state name="start-state1">
+		<transition to="BtnSgtDel?"></transition>
+	</start-state>
+
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="CvRichiedente?" name="BtnSearch"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+		<transition to="Search Ditta 2" name="BtnSearchSoggettoDitta"></transition>
+		<transition to="super-state3/Save" name="BtnSave"></transition>
+		<transition to="injectCantiere2" name="editCantiere"></transition>
+		<transition to="operations" name="operation"></transition>
+	</decision>
+
+	<decision name="CvRichiedente?" expression="#{Soggetto.code.code}">
+		<transition to="Search Ditta" name="Ditta"></transition>
+		<transition to="Search Cantiere" name="Cantiere"></transition>
+		<transition to="Search Utente" name="Utente"></transition>
+	</decision>
+
+	<process-state name="Search Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/GestioneCantieri" binding="late"></sub-process>
+		<transition to="Back2?"></transition>
+	</process-state>
+
+	<process-state name="Search Ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="Back1?"></transition>
+	</process-state>
+
+	<process-state name="Search Utente">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="Back4?"></transition>
+	</process-state>
+
+	<node name="Link Ditta">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.link('ditta',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{empty Sedi ? SediAction.injectSedePrincipale(PersoneGiuridiche.sedi) : ''}"></action>
+			<action name="3" expression="#{not empty Sedi ? SoggettoAction.link('sede',Sedi) : ''}"></action>
+		</event>
+		<transition to="Sede"></transition>
+	</node>
+
+	<decision name="Back1?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="Link Ditta" name="BtnSave"></transition>
+	</decision>
+
+	<decision name="Back2?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="Link Cantiere" name="BtnSave"></transition>
+	</decision>
+
+	<decision name="Back4?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="new acquisizione for sit" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link Cantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.link('cantiere',Cantiere)}"></action>
+		</event>
+		<transition to="setAddr3"></transition>
+	</node>
+
+	<node name="Link Utente">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.link('utente',Person)}"></action>
+		</event>
+		<transition to="setAddr1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Save Soggetto">
+			<event type="node-enter">
+				<action name="1" expression="#{SoggettoAction.link('attivita',Attivita)}"></action>
+				<action name="2" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../Soggetto UI"></transition>
+		</node>
+	</super-state>
+
+	<decision name="Sede" expression="#{empty Sedi}">
+		<transition to="unlinkSede" name="true"></transition>
+		<transition to="setAddr2" name="false"></transition>
+	</decision>
+
+	<node name="unlinkSede">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.unLink('sede',Soggetto.sede)}"></action>
+		</event>
+		<transition to="super-state1/Save Soggetto"></transition>
+	</node>
+
+	<task-node name="Soggetto UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/soggetto')}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</task-node>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Soggetto UI"></transition>
+	</node>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.refresh()}"></action>
+			<action name="2" expression="#{SoggettoAction.refresh()}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="6" expression="#{SediAction.ejectList()}"></action>
+			<action name="7" expression="#{SediAction.eject()}"></action>
+			<action name="8" expression="#{SoggettoAction.ejectList()}"></action>
+			<action name="9" expression="#{SoggettoAction.eject()}"></action>
+			<action name="10" expression="#{PersonAction.ejectList()}"></action>
+			<action name="11" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="super-state4/CheckValidita"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+			<action name="3" expression="#{CantiereAction.eject()}"></action>
+			<action name="4" expression="#{PersoneAction.eject()}"></action>
+		</event>
+		<transition to="Soggetto UI"></transition>
+	</node>
+
+	<decision name="BtnSgtDel?" expression="#{(button.getMnemonic().equals('BtnSgtDel'))}">
+		<transition to="set temporary" name="false"></transition>
+		<transition to="Del PopUp" name="true"></transition>
+	</decision>
+
+	<task-node name="Del PopUp">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_SGT_alert')}"></action>
+		</event>
+		<transition to="Button"></transition>
+	</task-node>
+
+	<decision name="Button" expression="#{(button.getMnemonic())}">
+		<transition to="super-state2/Disactive Soggetto" name="BtnSave"></transition>
+		<transition to="super-state4/CheckValidita" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="Refresh List">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.ejectList()}"></action>
+			<action name="2" expression="#{SoggettoAction.eject()}"></action>
+		</event>
+		<transition to="super-state4/CheckValidita"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Disactive Soggetto">
+			<event type="node-enter">
+				<action name="1" expression="#{Soggetto.setIsActive(false)}"></action>
+				<action name="2" expression="#{SoggettoAction.removeFromProvvedimenti(Soggetto)}"></action>
+				<action name="3" expression="#{Soggetto.setAttivita(null)}"></action>
+				<action name="4" expression="#{SoggettoAction.create()}"></action>
+			</event>
+			<transition to="../Refresh List"></transition>
+		</node>
+	</super-state>
+
+	<node name="setAddr1">
+		<event type="node-enter">
+			<action name="1" expression="#{Soggetto.setAddr(ProtocolloAction.copyAddr(Person.getAddr()))}"></action>
+		</event>
+		<transition to="super-state1/Save Soggetto"></transition>
+	</node>
+
+	<node name="setAddr2">
+		<event type="node-enter">
+			<action name="1" expression="#{Soggetto.setAddr(ProtocolloAction.copyAddr(Sedi.getAddr()))}"></action>
+		</event>
+		<transition to="super-state1/Save Soggetto"></transition>
+	</node>
+
+	<node name="setAddr3">
+		<event type="node-enter">
+			<action name="1" expression="#{Soggetto.setAddr(ProtocolloAction.copyAddr(Cantiere.getAddr()))}"></action>
+		</event>
+		<transition to="super-state1/Save Soggetto"></transition>
+	</node>
+
+	<process-state name="Search Ditta 2">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="Back5?"></transition>
+	</process-state>
+
+	<node name="Link Ditta Utente">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.link('dittaUtente',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{SoggettoAction.link('sedeUtente',Sedi)}"></action>
+		</event>
+		<transition to="sedeUtente"></transition>
+	</node>
+
+	<decision name="sedeUtente" expression="#{empty Sedi}">
+		<transition to="unlinkSedeUtente" name="true"></transition>
+		<transition to="super-state1/Save Soggetto" name="false"></transition>
+	</decision>
+
+	<node name="unlinkSedeUtente">
+		<event type="node-enter">
+			<action name="1" expression="#{SoggettoAction.unLink('sedeUtente',Soggetto.sedeUtente)}"></action>
+		</event>
+		<transition to="super-state1/Save Soggetto"></transition>
+	</node>
+
+	<decision name="Back5?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="Link Ditta Utente" name="BtnSave"></transition>
+	</decision>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="MDL?"></transition>
+	</process-state>
+
+	<super-state name="super-state3">
+		<node name="Save">
+			<event type="node-enter">
+				<action name="1" expression="#{AttivitaAction.create()}"></action>
+				<action name="2" expression="#{(Attivita.statusCode.code eq 'completed' and !AttivitaAction.checkAttivita(Procpratiche.serviceDeliveryLocation.area.code))?Attivita.setStatusCode(vocabularies.getCodeValue('PHIDIC', 'Status', 'active', 'C')):''}"></action>
+				<action name="3" expression="#{Attivita.code.code.equals('sit') ? AcquisizioneInformazioniAction.create() : ''}"></action>
+				<action name="4" expression="#{Attivita.code.code.equals('sit') ? SoggettoAction.link('acquisizioneInformazioni',AcquisizioneInformazioni) : ''}"></action>
+				<action name="5" expression="#{AttivitaAction.link('soggetto',Soggetto)}"></action>
+				<action name="6" expression="#{AttivitaAction.setLuogo(Soggetto)}"></action>
+				<action name="7" expression="#{SoggettoAction.create()}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="Edit Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/manageCantieri" binding="late"></sub-process>
+		<transition to="ejectCantiere"></transition>
+	</process-state>
+
+	<node name="injectCantiere2">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(Soggetto.cantiere)}"></action>
+		</event>
+		<transition to="Edit Cantiere"></transition>
+	</node>
+
+	<node name="ejectCantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.eject()}"></action>
+		</event>
+		<transition to="Soggetto UI"></transition>
+	</node>
+
+	<decision name="MDL?" expression="#{Attivita.code.code =='visitaMedica' or Attivita.code.code=='accertamento' or Attivita.code.code=='counselling'}">
+		<transition to="Soggetto UI" name="false"></transition>
+		<transition to="setRuolo" name="true"></transition>
+	</decision>
+
+	<node name="setRuolo">
+		<event type="node-enter">
+			<action name="1" expression="#{Soggetto.code.code=='Utente'?SoggettoAction.setCodeValue('ruolo','PHIDIC','Roles','paziente'):''}"></action>
+			<action name="2" expression="#{Soggetto.code.code=='Medico'?SoggettoAction.setCodeValue('ruolo','PHIDIC','Roles','medicoReferente'):''}"></action>
+			<action name="3" expression="#{Soggetto.code.code=='Medico'?Soggetto.setAddr(ProtocolloAction.copyAddr(Soggetto.medico.addr)):''}"></action>
+		</event>
+		<transition to="Soggetto UI"></transition>
+	</node>
+
+	<super-state name="super-state4">
+		<node name="CheckValidita">
+			<event type="node-enter">
+				<action name="1" expression="#{(Attivita.statusCode.code eq 'completed' and !AttivitaAction.checkAttivita(Procpratiche.serviceDeliveryLocation.area.code))?Attivita.setStatusCode(vocabularies.getCodeValue('PHIDIC', 'Status', 'active', 'C')):''}"></action>
+				<action name="2" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<node name="new acquisizione for sit">
+		<event type="node-enter">
+			<action name="1" expression="#{Attivita.code.code.equals('sit') ? AcquisizioneInformazioniAction.inject(AcquisizioneInformazioniAction.newEntity()) : ''}"></action>
+		</event>
+		<transition to="Link Utente"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,754 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1513518774944" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1511699549909" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1512412388498" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1512412388498}</legend>
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1512871596746}</span>
+							<h:inputText id="TextBox_1512871596746" value="#{ImpTerra.sigla}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1512871596746}" />
+							<a4j:outputPanel id="TextBox_1512871596746_msg" styleClass="errorContainer" ><h:message for="TextBox_1512871596746" styleClass="errorMessages TextBox_1512871596746_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1512266279254}</span>
+							<h:selectOneMenu id="ComboBox_1512266279254" value="#{ImpTerra.subTypeTerra}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1512266279254}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SubTypeTerra')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1510584152131}</span>
+							<h:inputText id="TextBox_1510584152131" value="#{ImpTerra.matricola}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1510584152131}" />
+							<a4j:outputPanel id="TextBox_1510584152131_msg" styleClass="errorContainer" ><h:message for="TextBox_1510584152131" styleClass="errorMessages TextBox_1510584152131_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1513351477265}</span>
+							<h:inputText id="TextBox_1513351477265" value="#{ImpTerra.anno}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1513351477265}" />
+							<a4j:outputPanel id="TextBox_1513351477265_msg" styleClass="errorContainer" ><h:message for="TextBox_1513351477265" styleClass="errorMessages TextBox_1513351477265_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<span value="${msg.Label_1510774908868}" style="display:none;" class="labelContent  base-label" >${msg.Label_1510774908868}</span>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514394072679" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1514394072679}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1510988823672" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1512953330017}</span>
+								<h:outputText value="#{VerificaImp.statusCode.currentTranslation}" id="Label_1512953330017" styleClass="labelContent c-text-bold base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1564401298121" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{rimPdm2CA.contains(VerificaImp)}" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="toVerified5" >
+								<a4j:commandLink action="#{processManager.manageTask('toVerified5;BtnStatesManagement')}" status="ajaxStatus" id="toVerified5_id" title="${msg.alt_toVerified5}" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}" disabled="#{Param['p.company.scheda_verifiche_01.valida'].readOnly}" reRender="LayoutRow_1569103310902,LayoutRow_1510988823672,LayoutRowPanelTab_1516614284760" styleClass="fa fa-check-square-o fa-2x save link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="toNew5" >
+								<a4j:commandLink action="#{processManager.manageTask('toNew5;BtnStatesManagement')}" status="ajaxStatus" id="toNew5_id" title="${msg.alt_toNew5}" immediate="true" rendered="#{VerificaImp.statusCode.code=='verified'}" disabled="#{Param['p.company.scheda_verifiche_01.svalida'].readOnly}" reRender="LayoutRow_1569103310902,LayoutRow_1510988823672,popup" styleClass="fa fa-reply fa-2x save link readOnly" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="toCompleted5" >
+								<a4j:commandLink action="#{processManager.manageTask('toCompleted5;BtnStatesManagement')}" status="ajaxStatus" id="toCompleted5_id" title="${msg.alt_toCompleted5}" rendered="#{VerificaImp.statusCode.code=='verified' and false}" disabled="#{Param['p.company.scheda_verifiche_01.fattura'].readOnly}" reRender="LayoutRow_1569103310902,LayoutRow_1510988823672" styleClass="fa fa-check-square fa-2x save link readOnly" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1536661375999" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1514325128515}</span>
+								<h:outputText value="#{VerificaImp.serviceDeliveryLocation.name.giv}" id="Label_1514325128515" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1512937404885" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1512937404885;BtnAddARPAV')}" status="ajaxStatus" id="Link_1512937404885_id" title="${msg.alt_Link_1512937404885}" immediate="true" rendered="#{not empty VerificaImp.serviceDeliveryLocation}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1540826751066" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1540826751066;BtnAddARPAV')}" status="ajaxStatus" id="Link_1540826751066_id" title="${msg.alt_Link_1540826751066}" style="border-left-color: orange;border-left-style: solid;border-left-width: 5px;border-radius: 4px;" immediate="true" rendered="#{empty VerificaImp.serviceDeliveryLocation}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1512990164711" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1544171110747" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1511541151033" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1511541151033}</span>
+									<h:inputText id="MonthCalendar_1511541151033_id" value="#{VerificaImp.data}" required="true" disabled="true" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1511541151033}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1511541151033_id" styleClass="errorMessages MonthCalendar_1511541151033_E" />
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1545044503439;editDate')}" status="ajaxStatus" id="Link_1545044503439" alt="#{LINK}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x link" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1544171108811" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1513000438846}</span>
+									<h:inputText id="TextBox_1513000438846" value="#{VerificaImp.luogo}" style="width:600px;" styleClass="inputText" label="${msg.label_TextBox_1513000438846}" />
+									<a4j:outputPanel id="TextBox_1513000438846_msg" styleClass="errorContainer" ><h:message for="TextBox_1513000438846" styleClass="errorMessages TextBox_1513000438846_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1535705055043" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1569103310902" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1569103310902}</legend>
+							<a4j:outputPanel layout="block" id="LayoutRow_1570630625011" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1570625605781" style="width:290px;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1571242907096" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1571242907096}</span>
+										<h:inputText id="TextBox_1571242907096_id" value="#{VerificaImpAction.temporary['impTemp']}" style="min-width:100px;width:100px;" styleClass="c-text-bold c-text-red inputText layoutRequired" required="true" disabled="#{empty VerificaImp.impManuale or VerificaImp.impManuale eq 'false'}" label="${msg.label_TextBox_1571242907096}" >
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1571242907096_msg" styleClass="errorContainer" ><h:message for="TextBox_1571242907096_id" styleClass="errorMessages TextBox_1571242907096_E" /></a4j:outputPanel>
+									</label>
+									</a4j:outputPanel>
+
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1570362267584" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1570362267584;lockImp')}" status="ajaxStatus" id="Link_1570362267584_id" alt="#{LINK}" immediate="true" rendered="#{not empty VerificaImp.impManuale and VerificaImp.impManuale eq 'true'}" reRender="LayoutRow_1569103310902" styleClass="fa fa-lock-o fa-2x linkUnlink link" />
+									</a4j:outputPanel>
+
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1571964435541" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1571964435541;unlockImp')}" status="ajaxStatus" id="Link_1571964435541_id" alt="#{LINK}" style="margin-left:-5px;" immediate="true" rendered="#{empty VerificaImp.impManuale or VerificaImp.impManuale eq 'false'}" reRender="LayoutRow_1569103310902" styleClass="fa fa-lock fa-2x linkUnlink link" />
+									</a4j:outputPanel>
+
+									<div class="layoutHorizontal" >
+									<a4j:outputPanel layout="block" id="JollyWidget_1570207141066" style="height:100%;width:100%;" >
+										<script type="text/javascript"><![CDATA[
+										jQuery('#i\\:VPscheda_verifiche_05\\:TextBox_1571242907096_id').keydown(function(e){
+											if((e.keyCode>=48 && e.keyCode<=110) || e.keyCode==188 || e.keyCode==190){
+												if(e.keyCode == 188 && jQuery(this).val().match(/^\d/)){
+													e.preventDefault();
+													if(!jQuery(this).val().match(/\d+\.\d{0,}/)){
+														jQuery(this).val(jQuery(this).val() + '.');
+													}
+												}else if((e.keyCode == 190 || e.keyCode == 110)&& jQuery(this).val().match(/^\d/)){
+													if(jQuery(this).val().match(/\d+\.\d{0,}/)){
+														e.preventDefault();
+													}
+												}else if((e.keyCode>=48 && e.keyCode<=57) || (e.keyCode>=96 && e.keyCode<=105)){
+												
+												}else{
+													e.preventDefault();
+												}
+											}
+										})
+										]]></script>
+									</a4j:outputPanel>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1595610694225" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1596061589040}</span>
+										<h:outputText value="#{VerificaImp.codiceConto}" id="Label_1596061589040" styleClass="labelContent c-text-bold c-text-red base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1597496329176}</span>
+										<h:outputText value="#{VerificaImp.causale.code}" id="Label_1597496329176" styleClass="labelContent c-text-bold c-text-red base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1568617807655" styleClass="layoutContainer layoutContainerVertical" >
+ 
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1568286925073" >
+								<label style="display:#{(not empty VerificaImp.impManuale and VerificaImp.impManuale eq 'true') ? 'block' : 'none' };" >
+									<span class="label">${msg.label_TextArea_1568286925073}</span>
+									<div>
+									<h:inputTextarea id="TextArea_1568286925073_id" value="#{VerificaImp.noteImporto}" styleClass="layoutRequired" required="true" rendered="#{not empty VerificaImp.impManuale and VerificaImp.impManuale eq 'true'}" label="${msg.label_TextArea_1568286925073}" >
+										<f:validateLength minimum="0" maximum="2500"/>
+									</h:inputTextarea>
+									</div>
+								</label>
+								<h:message style="float:left;" for="TextArea_1568286925073_id" styleClass="errorMessages TextArea_1568286925073_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1535162506798" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{VerificaImp.statusCode.code=='completed' and not empty VerificaImp.fattura}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1535162506798}</legend>
+							<a4j:outputPanel layout="block" id="LayoutRow_1534620916811" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1537765023167}</span>
+									<h:outputText value="#{function.formatDate(VerificaImp.fattura.creationDate, 'yyyy')}" id="Label_1537765023167" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1535187634252}</span>
+									<h:outputText value="#{VerificaImp.fattura.gruppo}" id="Label_1535187634252" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1537114707669" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1535564820535}</span>
+									<h:outputText value="#{VerificaImp.numeroDoc}" id="Label_1535564820535" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1535115012613}</span>
+									<h:outputText value="#{VerificaImp.fattura.tipologiaDocumento}" id="Label_1535115012613" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1535256382353}</span>
+									<h:outputText value="#{VerificaImp.fattura.creationDate}" id="Label_1535256382353" styleClass="labelContent  base-label" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:outputText>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1513885027805" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1513885027805}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1512965837031" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1598427790843" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1513448340597}</span>
+								<h:selectOneMenu id="ComboBox_1513448340597" value="#{VerificaImp.tipo}" styleClass="comboBox" label="${msg.label_ComboBox_1513448340597}" >
+									<f:selectItems value="#{ImpTerra.subTypeTerra.code=='01'?vocabularies.selectCodeValues('PHIDIC','TipoVerifica:01,02,04,05,06'):vocabularies.selectCodeValues('PHIDIC','TipoVerifica:01,04,05,06')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1512965837031" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1598427799091" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1567757668775" >
+								<label style="display:#{(VerificaImp.tipo.code=='05') ? 'block' : 'none' };" >
+									<span class="label">${msg.label_ComboBox_1567757668775}</span>
+									<h:selectOneMenu id="ComboBox_1567757668775_id" value="#{VerificaImp.sopralluogo}" rendered="#{VerificaImp.tipo.code=='05'}" styleClass="comboBox" label="${msg.label_ComboBox_1567757668775}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Sopralluogo')}" />
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1568810660910,LayoutRow_1512965837031" event="onchange" ignoreDupResponses="true" />
+									</h:selectOneMenu>
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1598427825387" >
+								<label style="display:#{(VerificaImp.tipo.code=='06') ? 'block' : 'none' };" >
+									<span class="label">${msg.label_ComboBox_1598427825387}</span>
+									<h:selectOneMenu id="ComboBox_1598427825387_id" value="#{VerificaImp.tipoStr}" rendered="#{VerificaImp.tipo.code=='06'}" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1598427825387}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:VerificaStraordinaria')}" />
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1512965837031" event="onchange" ignoreDupResponses="true" />
+									</h:selectOneMenu>
+								</label>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1568874026149" style="height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1513243713846" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1515422706169}</span>
+								<h:inputText id="TextBox_1515422706169" value="#{VerificaImp.hhServizio}" style="width: 40px;min-width: 40px;" styleClass="inputText#{(VerificaImpAction.oreMinutiServizioRequired(Impianto.code.code, VerificaImp)) ? ' layoutRequired' : ''}" label="${msg.label_TextBox_1515422706169}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1513243713846" event="onchange" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1515422706169_msg" styleClass="errorContainer" ><h:message for="TextBox_1515422706169" styleClass="errorMessages TextBox_1515422706169_E" /></a4j:outputPanel>
+							</label>
+							</div>
+							
+							<div class="layoutHorizontal" >
+							<h:outputLabel for="TextBox_1515422709035" value="${msg.Label_1568817479841}" class="labelContent c-text-16 c-text-bold base-label" />
+							</div>
+							
+							<div class="layoutHorizontal" >
+							<h:inputText id="TextBox_1515422709035" value="#{VerificaImp.mmServizio}" style="width: 40px;min-width: 40px;" styleClass="inputText" label="${msg.Label_1568817479841}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<f:validateLongRange minimum="0" maximum="59" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1513243713846" event="onchange" ignoreDupResponses="true" />
+							</h:inputText>
+							<a4j:outputPanel id="TextBox_1515422709035_msg" styleClass="errorContainer" ><h:message for="TextBox_1515422709035" styleClass="errorMessages TextBox_1515422709035_E" /></a4j:outputPanel>
+							</div>
+							
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1513467034215" style="padding-bottom:25px;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1512720519163}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1512720519163" value="#{VerificaImp.prima}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1512720519163}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1533770079791" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1512720519163" styleClass="errorMessages CheckBox_1512720519163_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1512720519163" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1513978798327" style="padding-bottom:25px;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1510658228205" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1512484970260}</span>
+								<h:outputText value="#{VerificaImp.operatore.name}" id="Label_1512484970260" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1513130167897" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1513130167897;BtnOpMng')}" status="ajaxStatus" id="Link_1513130167897_id" title="${msg.alt_Link_1513130167897}" rendered="#{not empty VerificaImp.operatore}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1539364034705" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1539364034705;BtnOpMng')}" status="ajaxStatus" id="Link_1539364034705_id" title="${msg.alt_Link_1539364034705}" style="border-left-color: orange;border-left-style: solid;border-left-width: 5px;border-radius: 4px;" rendered="#{empty VerificaImp.operatore}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CheckBox_1513585924824" >
+							<label style="display:#{(VerificaImp.operatore ne null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_CheckBox_1513585924824}</span>
+								<h:selectBooleanCheckbox id="CheckBox_1513585924824_id" value="#{VerificaImp.tecnicoOut}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" rendered="#{VerificaImp.operatore ne null}" label="${msg.label_CheckBox_1513585924824}" />
+								<h:message for="CheckBox_1513585924824_id" styleClass="errorMessages CheckBox_1513585924824_E" />
+							</label>
+							</a4j:outputPanel>
+							<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{VerificaImp.operatore ne null}"  for="CheckBox_1513585924824" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1514105127813" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:none;" >
+								<span class="label">${msg.label_ComboBox_1536329206897}</span>
+								<h:selectOneMenu id="ComboBox_1536329206897" value="#{Impianto.enteVerificatore}" rendered="false" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1536329206897}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EnteVerificatore')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1513036508157}</span>
+								<h:selectOneMenu id="ComboBox_1513036508157" value="#{VerificaImp.esito}" styleClass="comboBox" label="${msg.label_ComboBox_1513036508157}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Esito04')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1513854316324" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1517576335765}</span>
+							<h:inputText id="MonthCalendar_1517576335765" value="#{VerificaImp.nextVerifDate1}" class="datepicker layoutRequired monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1517576335765}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1517576335765" styleClass="errorMessages MonthCalendar_1517576335765_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1512152486742" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1515674436914" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_CheckBox_1515674443857}</span>
+								<h:selectBooleanCheckbox id="CheckBox_1515674443857" value="#{VerificaImp.prescrizioneBl}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1515674443857}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1514310561059" event="onclick" ignoreDupResponses="true" />
+								</h:selectBooleanCheckbox>
+								<h:message for="CheckBox_1515674443857" styleClass="errorMessages CheckBox_1515674443857_E" />
+							</label>
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515674443857" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1514310561059" >
+							<h:selectOneMenu id="ComboBox_1514310561059_id" value="#{VerificaImp.prescrizione}" rendered="#{VerificaImp.prescrizioneBl}" styleClass="comboBox" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Prescrizione02')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1515674437371" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1511092433805}</span>
+								<h:selectOneMenu id="ComboBox_1511092433805" value="#{VerificaImp.esente}" styleClass="comboBox" label="${msg.label_ComboBox_1511092433805}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsenteFattura')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1514384653816" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1514384653816}</span>
+								<h:selectOneMenu id="ComboBox_1514384653816" value="#{VerificaImp.regimeFiscale}" disabled="#{ImpCopy.sedi.esenzione.code eq '04'}" styleClass="comboBox" label="${msg.label_ComboBox_1514384653816}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{(empty VerificaImp.esente or VerificaImp.esente.code=='01') or ImpCopy.sedi.esenzione.code eq '04'?vocabularies.getIdValues('PHIDIC:Regime'):function.createOptions('-')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1512152486742" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1514697918947}</span>
+								<h:selectOneMenu id="ComboBox_1514697918947" value="#{VerificaImp.aliquota}" styleClass="comboBox" label="${msg.label_ComboBox_1514697918947}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{(VerificaImp.regimeFiscale eq null or VerificaImp.regimeFiscale.code=='01')?vocabularies.selectCodeValues('PHIDIC','Aliquota:01'):vocabularies.selectCodeValues('PHIDIC','Aliquota:02,03')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1512657214067" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1512657214067}</legend>
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1512657276026}</span>
+							<h:inputText id="TextBox_1512657276026" value="#{VerificaImp.modAb}" style="width:600px;" styleClass="inputText" label="${msg.label_TextBox_1512657276026}" >
+							<f:validateLength minimum="0" maximum="30" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1512657276026_msg" styleClass="errorContainer" ><h:message for="TextBox_1512657276026" styleClass="errorMessages TextBox_1512657276026_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1512657276978}</span>
+							<h:inputText id="TextBox_1512657276978" value="#{VerificaImp.modB}" styleClass="inputText" label="${msg.label_TextBox_1512657276978}" >
+							<f:validateLength minimum="0" maximum="4" />
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1512657276978_msg" styleClass="errorContainer" ><h:message for="TextBox_1512657276978" styleClass="errorMessages TextBox_1512657276978_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1533822375041}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1533822375041" value="#{VerificaImp.idrovore}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1533822375041}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1532226718994" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1533822375041" styleClass="errorMessages CheckBox_1533822375041_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1533822375041" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1512657280618}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1512657280618" value="#{VerificaImp.modC}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1512657280618}" />
+							<h:message for="CheckBox_1512657280618" styleClass="errorMessages CheckBox_1512657280618_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1512657280618" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510963243942" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1510963243942}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514110149154" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1512753185945}</span>
+							<h:selectOneMenu id="ComboBox_1512753185945" value="#{VerificaImp.statoImp}" styleClass="comboBox" label="${msg.label_ComboBox_1512753185945}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:StatoImpianto')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1512819348862}</span>
+							<h:inputText id="MonthCalendar_1512819348862" value="#{VerificaImp.dataVar}" class="datepicker todayIsHigherBound monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1512819348862}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							<f:validator validatorId="DateMinorEqualOfToday"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1512819348862" styleClass="errorMessages MonthCalendar_1512819348862_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1567676049474" style="margin-top: 50px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1565565071205" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty Impianto.sedeInstallazione and not empty Impianto.sedeInstallazione.sede and not empty Impianto.sedeInstallazione.sede.personaGiuridica and false}" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{OperationManager.manageEdit(Impianto.sedeInstallazione,'Sede',null, null)}" status="ajaxStatus" id="Link_1567162036182" title="${msg.alt_Link_1567162036182}" reRender="phiDesktop" styleClass="circle-pencil link link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<span value="${msg.Label_1566484464405}" class="labelContent  base-label" >${msg.Label_1566484464405}</span>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1511163874556" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1514315753550" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1514315753550}</legend>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1512941736686" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{VerificaImp.impTerraCpy ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1513022211548" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1510670063098}</span>
+										<h:outputText value="#{ImpCopy.sedeInstallazione.denominazione}" id="Label_1510670063098" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1512908421927;MngSICpy')}" status="ajaxStatus" id="Link_1512908421927" title="${msg.alt_Link_1512908421927}" rendered="false" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link readOnly" />
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1583083758458;MngSINew')}" status="ajaxStatus" id="Link_1583083758458" title="${msg.alt_Link_1583083758458}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1513148724362" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1511628226503}</span>
+										<h:outputText value="#{ImpTerra.sedi.personaGiuridica.codiceFiscale}" id="Label_1511628226503" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1510755959664}</span>
+										<h:outputText value="#{ImpTerra.sedi.personaGiuridica.patritaIva}" id="Label_1510755959664" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1513755055202" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1512526390971}</span>
+										<h:outputText value="#{ImpCopy.sedeInstallazione.addr}" id="Label_1512526390971" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1512336134212" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1512336134212}</legend>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1513344239735" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{VerificaImp.impTerraCpy ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1542779032859" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1542479270402}</span>
+										<h:outputText value="#{ImpCopy.sedi.denominazioneUnitaLocale}" id="Label_1542479270402" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1543081638836;MngSACpy')}" status="ajaxStatus" id="Link_1543081638836" title="${msg.alt_Link_1543081638836}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link readOnly" />
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1543729266069;MngSANew')}" status="ajaxStatus" id="Link_1543729266069" title="${msg.alt_Link_1543729266069}" reRender="popup" styleClass="fa fa-search fa-2x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1542368968202" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1542370353257}</span>
+										<h:outputText value="#{ImpCopy.sedi.addr}" id="Label_1542370353257" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1542460637274}</span>
+										<h:outputText value="#{ImpCopy.sedi.impSpesa}" id="Label_1542460637274" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1544649428783" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1545504705026}</span>
+										<h:outputText value="#{ImpCopy.sedi.telecom.mc}" id="Label_1545504705026" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1541572397543}</span>
+										<h:outputText value="#{ImpCopy.sedi.telecom.mail}" id="Label_1541572397543" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1567512601289" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1567512666647}</span>
+										<h:outputText value="#{ImpCopy.sedi.codContabilita}" id="Label_1567512666647" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1567512554937" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1567512609940}</span>
+										<h:outputText value="#{ImpCopy.sedi.codiceUnivoco}" id="Label_1567512609940" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1510950186009" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1510950186009}</legend>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1512784045994" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{VerificaImp.impTerraCpy ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1513714414199" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1512869431101}</span>
+										<h:outputText value="#{ImpCopy.indirizzoSped.denominazione}" id="Label_1512869431101" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1512588607593;MngISCpy')}" status="ajaxStatus" id="Link_1512588607593" title="${msg.alt_Link_1512588607593}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link readOnly" />
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1515671904475;MngISNew')}" status="ajaxStatus" id="Link_1515671904475" title="${msg.alt_Link_1515671904475}" reRender="popup" styleClass="fa fa-search fa-2x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1512515511566" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1512640368221}</span>
+										<h:outputText value="#{ImpCopy.indirizzoSped.addr}" id="Label_1512640368221" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1529414197847" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1528989675731" style="width:60%" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1528989675731}</legend>
+ 
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1530311626462_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1530311626462" >
+						<h:inputTextarea id="TextArea_1530311626462_id" value="#{VerificaImp.note}" >
+							<f:validateLength minimum="0" maximum="2500"/>
+						</h:inputTextarea>
+						<h:message style="float:left;" for="TextArea_1530311626462_id" styleClass="errorMessages TextArea_1530311626462_E" />
+						</a4j:outputPanel>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1529355745012" style="width:40%" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1529355745012}</legend>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1529023613462}</span>
+							<h:outputText value="#{VerificaImp.utenteUltimaModifica.name}" id="Label_1529023613462" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1530588612241}</span>
+							<h:outputText value="#{VerificaImp.dataUltimaModifica}" id="Label_1530588612241" styleClass="labelContent  base-label" >
+							<s:convertDateTime pattern="${format.dateTimeNormal}" />
+							</h:outputText>
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

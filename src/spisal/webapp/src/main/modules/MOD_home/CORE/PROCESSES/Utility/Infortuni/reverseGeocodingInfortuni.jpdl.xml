@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="reverseGeocodingInfortuni">
+
+
+<start-state name="start-state1">
+		<transition to="google maps lookup"></transition>
+	</start-state>
+
+
+	<task-node name="reverse geocoding popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/reverseGeocodingInfortuni')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{Infortuni.infortuniExt.setAddr(InfortuniAction.temporary['reversedAddress'])}"></action>
+				<action name="2" expression="#{(InfortuniAction.temporary['reversedLat']!=null) ? Infortuni.infortuniExt.setLatitudine(InfortuniAction.temporary['reversedLat']) : '' }"></action>
+				<action name="3" expression="#{(InfortuniAction.temporary['reversedLng']!=null) ? Infortuni.infortuniExt.setLongitudine(InfortuniAction.temporary['reversedLng']) : '' }"></action>
+				<action name="4" expression="#{InfortuniAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="super-state1/save" name="btnOk"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="google maps lookup">
+		<event type="node-enter">
+			<action name="1" expression="#{geolocation.reverseAddress(Infortuni.infortuniExt.latitudine, Infortuni.infortuniExt.longitudine, Infortuni.infortuniExt.addr.str, Infortuni.infortuniExt.addr.bnr, Infortuni.infortuniExt.addr.cty, Infortuni.infortuniExt.addr.zip, InfortuniAction.temporary)}"></action>
+		</event>
+		<transition to="reverse geocoding popup"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+
+</process-definition>
+
+

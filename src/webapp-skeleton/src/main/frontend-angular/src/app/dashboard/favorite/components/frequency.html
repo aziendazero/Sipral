@@ -1,0 +1,10 @@
+<form #form="ngForm" id="FrmFrequency">
+  <div id="LytFrqncyAndDsg" class="layout vertical">
+    <div id="LytFrequency" class="layout horizontal">
+      <phi-combobox [(ngModel)]="frqncy" name="frqncy" id="CmbxFrequency" [widgetLabel]="label | translate" [listElementsExpression]="frequencyDomain" (change)="fillTemplateDosages($event)"></phi-combobox>
+      <phi-button (binding)="toggleDosage()" id="BtnAdvancedFrequency" styleClass="fa fa-cogs fa-2x"></phi-button>
+    </div>
+    <phi-dosage *ngIf="showDosage" [(ngModel)]="dosages" name="dosages" [required]="true" validateDosage></phi-dosage>
+  </div>
+  <span class="errorMessages" *ngIf="!isValid()">{{'REQUIRED' | translate}}</span>
+</form>

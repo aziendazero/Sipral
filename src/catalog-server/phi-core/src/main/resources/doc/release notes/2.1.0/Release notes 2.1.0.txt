@@ -1,0 +1,134 @@
+====================================
+  Release note 2.1.0
+====================================
+
+The release 2.1.0 contains following updates:
+
+Main Catalog Server update:
+ - Service Delivery Location tree update, using nested set (improve tree read performance) (*)
+ - Updated Login, Employee management using jtree instead of RichFaces tree  (*)
+ - persistence.xml, css, js.js updated to manage fluid layout and other improvement (*) 
+ - added fluid layout support (*)
+ - Improved access control at login using transient hashmap
+ - isNull filter added
+ - updated TreeManagement, removed also reference to specific oid
+ - getCodeValueCsDomainCode works for standalone application
+ - breadcrumb fix
+ - fixed injection in banner bean
+ - removed cc_name, added createdBy in rimobject constructor
+ - added method to allow object injection from js
+ - fixed read on sdl, filtered by onwer
+ - added source of pknet, for digital signature
+ - added document to explain how to create new environment from scratch
+ - modified ant task: possibility to split or not jbpm db in a different db/dbms
+
+(*) please follow installation note, expecially for these feature, which need some manual changes to upgrade CS.
+
+Main Designer update:
+ - Widget for fluid layout
+ - Aligned home, css, and js to the newer version for new project template
+ - Various fixes to Phi Dictionary Manager regarding import, drag and drop and legend
+
+==========================================================================
+   List of Mantis identification number solved with the release:
+==========================================================================
+13032
+14025
+14026
+14182
+13999
+13164
+13852
+13760
+13598
+12212
+13282
+13399
+13458
+13969
+10183
+13034
+13177
+13970
+10194
+13033
+13949
+13788
+12470
+
+====================================
+  Installation note:
+====================================
+
+The update of catalog server change tree management for SDL at login page, and in other pages like employee managent where SDL are listed in tree view.
+To update the db structure restart jboss with catalog server version 2.1.0, than stop the server.
+Now you need to execute the SdlocToNestedSet.java main, to update the nested set columns in SDL table. 
+
+To support jstree update at login, and fluid layout update the following files, in your phi project:
+  - \workspace\<yourPhiPrj>\webapp\src\main\webresources\common\jsp\login.xhtml
+  - \workspace\<yourPhiPrj>\webapp\src\main\webresources\common\js\js.js
+  - \workspace\<yourPhiPrj>\webapp\src\main\webresources\common\js\jquery-ui-timepicker-addon.js 
+  - \workspace\<yourPhiPrj>\webapp\src\main\webresources\common\js\jquery.jstree.js
+  - \workspace\<yourPhiPrj>\webapp\src\main\webresources\SKIN\css\default.css
+  - \workspace\<yourPhiPrj>\backend\src\main\java\META-INF\persistence.xml
+
+Than deploy all your Phi Solution.
+To verify the rightness of your update on phi project, check that your updated files are placed in these folder at runtime environment:
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\<solution>.war\common\jsp\login.xhtml
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\<solution>.war\common\js\js.js 
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\<solution>.war\common\js\jquery-ui-timepicker-addon.js 
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\<solution>.war\common\js\jquery.jstree.js
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\<solution>.war\SKIN\css\default.css 
+  - \server\<yourServer>\deploy-apps\CATALOG_SERVER.ear\CATALOG_SERVER.jar\META-INF\persistence.xml
+
+The file to be updated can be retrieved inside the Designer_Extras plugin of Phi Designer:
+
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/webapp/src/main/webresources/common/jsp/login.xhtml
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/webapp/src/main/webresources/common/js/js.js
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/webapp/src/main/webresources/common/js/jquery-ui-timepicker-addon.js
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/webapp/src/main/webresources/common/js/jquery.jstree.js
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/webapp/src/main/webresources/SKIN/css/default.css
+https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/DESIGNER/trunk/PHI_DESIGNER_EXTRAs/.PHI-PRJ_TEMPLATE/backend/src/main/java/META-INF/persistence.xml
+
+Regarding existing module, if used by your application, update these two forms:
+  f_hbs_management
+  f_create_employee_MULTI
+these forms are already pathched on solutions like PHI_CI and PHI_AMB, you can retrieve them from project svn. 
+
+
+
+====================================
+  SVN TAG revisions relase 2.1.0: 
+====================================
+
+CATALOG_SERVER : 
+Catalog server : 1535
+(revision 1537: commit tag)
+
+DESIGNER:
+
+GUI_Designer : 1476 
+GUI_Designer_JETTemplate : 1481 
+GUI_Designer.diagram : 1476
+GUI_Navigator : 1190 
+ModelExplorer : 634 (identico a 2.0.1)
+PHI_CheatSheet_Command : 841 (identico a 2.0.0.GA)
+PHI_DESIGNER_EXTRAs : 1476 
+PHI.plugin.lib : 864 
+PHIDictionaryManager : 1474 
+PHIWizardPlugin : 634 (identico a 2.0.1)
+ProcessNavigator : 1195 
+ReportDesigner : 1025 
+ReportDesigner.diagram : 1025 
+ReportDesigner.edit : 841 (identico a 2.0.0.GA)
+ReportDesigner.editor : 841 (identico a 2.0.0.GA)
+sPHInx : 841  (identico a 2.0.0.GA)
+TE : 864 
+
+(revision 1497: commit Manifest 2.1.0 for all plugins)
+
+
+TAG relase 2.1.0 
+
+
+

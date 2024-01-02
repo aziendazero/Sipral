@@ -1,0 +1,583 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1456316972034" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1456328101359" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnNewInf;BtnInf')}" status="ajaxStatus" id="BtnNewInf" title="${msg.alt_BtnNewInf}" disabled="#{Param['p.home.vp_pratica_workaccident.nuovoInfortunato'].readOnly}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1456317013898" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel id="DataGrid_1456329206637" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+						<table id="d1456329206637" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1456329206637} [InfortuniList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1456317206017" value="${msg.DataGridColumn_1456317206017} &#8593;&#8595;" action="#{InfortuniList.orderBy('person.name.fam')}" reRender="DataGrid_1456329206637" ajaxSingle="true" disabled="#{empty InfortuniList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1456326384928" value="${msg.DataGridColumn_1456326384928} &#8593;&#8595;" action="#{InfortuniList.orderBy('notificationData')}" reRender="DataGrid_1456329206637" ajaxSingle="true" disabled="#{empty InfortuniList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1456317207906" value="${msg.DataGridColumn_1456317207906} &#8593;&#8595;" action="#{InfortuniList.orderBy('data')}" reRender="DataGrid_1456329206637" ajaxSingle="true" disabled="#{empty InfortuniList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1456327312723" value="${msg.DataGridColumn_1456327312723} &#8593;&#8595;" action="#{InfortuniList.orderBy(function.getLang('gravita.'))}" reRender="DataGrid_1456329206637" ajaxSingle="true" disabled="#{empty InfortuniList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1456327311036" value="${msg.DataGridColumn_1456327311036} &#8593;&#8595;" action="#{InfortuniList.orderBy('ggPrognosi2')}" reRender="DataGrid_1456329206637" ajaxSingle="true" disabled="#{empty InfortuniList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1456328299128} &#8593;&#8595;</th>
+									<th style="#{(Param['p.home.vp_pratica_workaccident.eliminaInfortunato'].visible ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1495782256050} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody selectable">
+								<jstl:if test="#{empty InfortuniList or InfortuniList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="7">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1456329206637" value="#{InfortuniList.entities}" var="Infortuni" rowKeyVar="rowIndex" >
+									<tr id="#{rowIndex}" onclick="ie1456329206637(this.id);" class="#{InfortuniAction.getEntity().equals(Infortuni) or Infortuni.internalId != 0 and InfortuniAction.entity.internalId.equals(Infortuni.internalId) ? 'selRow' : ''}" >
+										<td style="width:20%;" >
+											#{function.concat(Infortuni.person.name.fam, ' ', Infortuni.person.name.giv)}
+										</td>
+
+										<td style="width:15%;" >
+											<h:outputText styleClass="base-label" value="#{Infortuni.notificationData}" >
+												<s:convertDateTime pattern="${format.dateTimeNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:15%;" >
+											<h:outputText styleClass="base-label" value="#{Infortuni.data}" >
+												<s:convertDateTime pattern="${format.dateTimeNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:20%;" >
+											#{Infortuni.gravita.currentTranslation}
+										</td>
+
+										<td style="width:10%;" >
+											#{Infortuni.ggPrognosi2}
+										</td>
+
+										<td style="width:10%;" >
+											<a4j:commandLink action="#{InfortuniAction.injectAndProceed(Infortuni, 'BtnMngInf;BtnInf')}" status="ajaxStatus" id="BtnMngInf" title="${msg.alt_BtnMngInf}" disabled="#{Param['p.home.vp_pratica_workaccident.modificaInfortunato'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										</td>
+
+										<td style="#{(Param['p.home.vp_pratica_workaccident.eliminaInfortunato'].visible ? '' : 'display:none;')} width:10%;" >
+											<a4j:commandLink action="#{InfortuniAction.injectAndProceed(Infortuni, 'BtnDelInf;BtnInf')}" status="ajaxStatus" id="BtnDelInf_id" title="${msg.alt_BtnDelInf}" rendered="#{Param['p.home.vp_pratica_workaccident.eliminaInfortunato'].visible}" reRender="popup" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					<a4j:jsFunction id="ie1456329206637" name="ie1456329206637" status="ajaxStatus" action="#{InfortuniList.injectEject}" data="#{InfortuniList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1456329206637'))" reRender="LayoutRow_1456420572741" limitToList="true" ajaxSingle="true">
+						<a4j:actionparam name="rowIndex" assignTo="#{InfortuniList.selectedIndex}"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1456420572741" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty Infortuni}" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1457596083277" style="padding-top:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1457596083277}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1458070695115" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1456052959569" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1454447731490}</span>
+									<h:inputText id="MonthCalendar_1454447731490" value="#{Infortuni.notificationData}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1454447731490}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1454447731490" styleClass="errorMessages MonthCalendar_1454447731490_E" />
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1454925531503}</span>
+									<h:inputText id="MonthCalendar_1454925531503" value="#{Infortuni.data}" disabled="true" class="datetimepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1454925531503}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateTimeNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1454925531503" styleClass="errorMessages MonthCalendar_1454925531503_E" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1456362184293" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1456661496000}</span>
+									<h:selectOneMenu id="ComboBox_1456661496000" value="#{Infortuni.applicant}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1456661496000}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Applicant')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1455385993791" style="padding-top:10px;" styleClass="layoutContainer layoutContainerVertical" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1455509618786" >
+							<label >
+								<span class="label">${msg.label_TextArea_1455509618786}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1455509618786_id" value="#{Infortuni.infortuniExt.note}" style="height: 50px;" readonly="true" label="${msg.label_TextArea_1455509618786}" >
+									<f:validateLength minimum="0" maximum="4000"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1455509618786_id" styleClass="errorMessages TextArea_1455509618786_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding-top:10px;padding:0;" id="LayoutRow_1454575210045" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.person!=null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1455736859650" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1454740695921}</span>
+									<h:outputText value="#{function.concat(Infortuni.person.name.fam, ' ', Infortuni.person.name.giv)}" id="Label_1454740695921" styleClass="labelContent c-text-0080FF c-text-bold base-label" />
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnPersonDetails" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(Infortuni.person)}" status="ajaxStatus" id="BtnPersonDetails_id" title="${msg.alt_BtnPersonDetails}" rendered="#{Infortuni.person!=null}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1457903403091" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1457695739070" >
+								<label style="display:#{(Infortuni.person.birthTime!=null) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1457695739070}</span>
+									<h:outputText rendered="#{Infortuni.person.birthTime!=null}" value="#{Infortuni.person.birthTime}" id="Label_1457695739070_id" class="labelContent  base-label" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:outputText>
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1458418515950" >
+								<label style="display:#{(Infortuni.person.genderCode.code!=null) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1458418515950}</span>
+									<h:outputText rendered="#{Infortuni.person.genderCode.code!=null}" value="#{Infortuni.person.genderCode.code}" id="Label_1458418515950_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1463101616234" >
+								<label style="display:#{(Infortuni.person.fiscalCode!=null) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1463101616234}</span>
+									<h:outputText rendered="#{Infortuni.person.fiscalCode!=null}" value="#{Infortuni.person.fiscalCode}" id="Label_1463101616234_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutHorizontal" >
+								<h:selectBooleanCheckbox id="CheckBox_1455202446999" value="#{Infortuni.hospitalized}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="true" label="${msg.CheckBox_1455202446999}" />
+								<h:outputLabel value="${msg.CheckBox_1455202446999}" for="CheckBox_1455202446999" style="vertical-align:middle;margin-left:3px;" />
+								<h:message for="CheckBox_1455202446999" styleClass="errorMessages CheckBox_1455202446999_E" />
+								</div>
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1455202446999" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding-top:10px;padding:0;" id="LayoutRow_1465457117306" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.person!=null}" >
+							<a4j:outputPanel layout="block" style="width:80%;padding:0;" id="LayoutRow_1465024317004" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.person!=null}" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1463413997427" >
+								<label style="display:#{(Infortuni.person.addr.cty!=null and Infortuni.person.addr.cty!='') ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1463413997427}</span>
+									<h:outputText rendered="#{Infortuni.person.addr.cty!=null and Infortuni.person.addr.cty!=''}" value="#{Infortuni.person.addr.cty}" id="Label_1463413997427_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1464792290634" >
+								<h:outputText rendered="#{Infortuni.person.addr.str!=null and Infortuni.person.addr.str!=''}" value="#{function.concat(Infortuni.person.addr.str, ' N. ', Infortuni.person.addr.bnr)}" id="Label_1464792290634_id" style="display:block;" class="labelContent  base-label" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1463717268522" >
+								<label style="display:#{((Infortuni.person.alternativeAddr.telecom.hp!=null and Infortuni.person.alternativeAddr.telecom.hp!='') or (Infortuni.person.alternativeAddr.telecom.mc!=null and Infortuni.person.alternativeAddr.telecom.mc!='') or (Infortuni.person.telecom.hp!=null and Infortuni.person.telecom.hp!='') or (Infortuni.person.telecom.mc!=null and Infortuni.person.telecom.mc!='') or (Infortuni.person.telecom.ec!=null and Infortuni.person.telecom.ec!='') or (Infortuni.person.telecom.sip!=null and Infortuni.person.telecom.sip!='') ) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1463717268522}</span>
+									<h:outputText rendered="#{(Infortuni.person.alternativeAddr.telecom.hp!=null and Infortuni.person.alternativeAddr.telecom.hp!='') or (Infortuni.person.alternativeAddr.telecom.mc!=null and Infortuni.person.alternativeAddr.telecom.mc!='') or (Infortuni.person.telecom.hp!=null and Infortuni.person.telecom.hp!='') or (Infortuni.person.telecom.mc!=null and Infortuni.person.telecom.mc!='') or (Infortuni.person.telecom.ec!=null and Infortuni.person.telecom.ec!='') or (Infortuni.person.telecom.sip!=null and Infortuni.person.telecom.sip!='')}" value="#{function.concat(Infortuni.person.alternativeAddr.telecom.hp, ' ', Infortuni.person.alternativeAddr.telecom.mc, ' ',Infortuni.person.telecom.hp, ' ',Infortuni.person.telecom.mc,' ', Infortuni.person.telecom.ec,' ',Infortuni.person.telecom.sip)}" id="Label_1463717268522_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding-top:10px;padding:0;" id="LayoutRow_1455157779484" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.personeGiuridiche!=null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1466676671160" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1454868479017}</span>
+									<h:outputText value="#{Infortuni.personeGiuridiche.denominazione}" id="Label_1454868479017" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1457778891566" >
+								<label style="display:#{(Infortuni.sedi!=null) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1457778891566}</span>
+									<h:outputText rendered="#{Infortuni.sedi!=null}" value="#{Infortuni.sedi.addr}" id="Label_1457778891566_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnCompanyDetails" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(Infortuni.sedi)}" status="ajaxStatus" id="BtnCompanyDetails_id" title="${msg.alt_BtnCompanyDetails}" rendered="#{Infortuni.personeGiuridiche!=null}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1486766192057" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1486063048182" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1486043146153}</span>
+										<h:inputText id="TextBox_1486043146153" value="#{Infortuni.comparto.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1486043146153}" />
+										<a4j:outputPanel id="TextBox_1486043146153_msg" styleClass="errorContainer" ><h:message for="TextBox_1486043146153" styleClass="errorMessages TextBox_1486043146153_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<a4j:outputPanel layout="block" id="LayoutRow_1485152410122" style="width:49%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+										<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1486970259874_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1486970259874" >
+										<h:inputTextarea id="TextArea_1486970259874_id" value="#{Infortuni.comparto.currentTranslation}" style="height: 55px;" readonly="true" >
+											<f:validateLength minimum="0" maximum="255"/>
+										</h:inputTextarea>
+										<h:message style="float:left;" for="TextArea_1486970259874_id" styleClass="errorMessages TextArea_1486970259874_E" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1485435356628" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1486550564697}</span>
+										<h:outputText value="#{CompartoAtecoAction.getComparto(Infortuni.comparto)}" id="Label_1486550564697" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1487395642996}</span>
+										<h:outputText value="#{CompartoAtecoAction.getSpecificazione(Infortuni.comparto)}" id="Label_1487395642996" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding-top:10px;padding:0;" id="LayoutRow_1465828505576" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.person!=null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1467559549984}</span>
+								<h:selectOneMenu id="ComboBox_1467559549984" value="#{Infortuni.ruolo}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1467559549984}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Roles')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1650011883921" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1649955588215" >
+								<label style="display:#{(InfortuniExtAction.isUlssEnabledToInfProf(Procpratiche)) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1649955588215}</span>
+									<h:outputText rendered="#{InfortuniExtAction.isUlssEnabledToInfProf(Procpratiche)}" value="#{Infortuni.infortuniExt.infortunioProf}" id="Label_1649955588215_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1649955588875" >
+								<label style="display:#{(Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToInformo(Procpratiche)) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1649955588875}</span>
+									<h:outputText rendered="#{Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToInformo(Procpratiche)}" value="#{Infortuni.infortuniExt.modInformo}" id="Label_1649955588875_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" id="LayoutRow_1650456926318" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+									<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToInformo(Procpratiche)}"  for="TextArea_1650456283101_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1650456283101" >
+									<h:inputTextarea id="TextArea_1650456283101_id" value="#{Infortuni.infortuniExt.modInformoNote}" style="width:300px;" rendered="#{Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToInformo(Procpratiche)}" readonly="true" >
+										<f:validateLength minimum="0" maximum="255"/>
+									</h:inputTextarea>
+									<h:message style="float:left;" for="TextArea_1650456283101_id" styleClass="errorMessages TextArea_1650456283101_E" />
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CheckBox_1650293882731" >
+								<label style="display:#{(Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToNotifica(Procpratiche)) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_CheckBox_1650293882731}</span>
+									<h:selectBooleanCheckbox id="CheckBox_1650293882731_id" value="#{Infortuni.infortuniExt.notificaDecesso}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" rendered="#{Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToNotifica(Procpratiche)}" disabled="true" label="${msg.label_CheckBox_1650293882731}" />
+									<h:message for="CheckBox_1650293882731_id" styleClass="errorMessages CheckBox_1650293882731_E" />
+								</label>
+								</a4j:outputPanel>
+								<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{Infortuni.gravita.code=='01' or Infortuni.infortuniExt.gravitaFinale.code=='01' and InfortuniExtAction.isUlssEnabledToNotifica(Procpratiche)}"  for="CheckBox_1650293882731" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1490341923001" style="padding-top:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1490341923001}</legend>
+							<a4j:outputPanel layout="block" id="LayoutRow_1487930586993" style="padding-top:10px;" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1488809723983" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1488555314610}</span>
+										<h:outputText value="#{Infortuni.place}" id="Label_1488555314610" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1487911555710" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.place.code=='OwnCompany'}" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1489714992055}</span>
+										<h:outputText value="#{Infortuni.personeGiuridiche.denominazione}" id="Label_1489714992055" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1489069471743" >
+									<label style="display:#{(Infortuni.sedi!=null) ? 'block' : 'none' };" >
+										<span class="label">${msg.label_Label_1489069471743}</span>
+										<h:outputText rendered="#{Infortuni.sedi!=null}" value="#{Infortuni.sedi.addr}" id="Label_1489069471743_id" class="labelContent  base-label" />
+									</label>
+									</a4j:outputPanel>
+
+									<a4j:outputPanel layout="block" id="LayoutFill_1487613088996" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+										<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+										<label >
+											<span class="label">${msg.label_Label_1488850086645}</span>
+											<h:outputText value="#{function.concat(Infortuni.sedi.addr.str, ' N ', Infortuni.sedi.addr.bnr)}" id="Label_1488850086645" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+										<label >
+											<span class="label">${msg.label_Label_1489658431343}</span>
+											<h:outputText value="#{Infortuni.sedi.addr.cty}" id="Label_1489658431343" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" style="padding-top:10px;padding:0;" id="LayoutRow_1488271427678" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.place.code=='Company'}" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1486973765201" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1486855258303" >
+										<label style="display:#{(Infortuni.personeGiuridicheExt!=null) ? 'block' : 'none' };" >
+											<span class="label">${msg.label_Label_1486855258303}</span>
+											<h:outputText rendered="#{Infortuni.personeGiuridicheExt!=null}" value="#{Infortuni.personeGiuridicheExt.denominazione}" id="Label_1486855258303_id" class="labelContent  base-label" />
+										</label>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1490583609166" >
+										<label style="display:#{(Infortuni.sediExt!=null) ? 'block' : 'none' };" >
+											<span class="label">${msg.label_Label_1490583609166}</span>
+											<h:outputText rendered="#{Infortuni.sediExt!=null}" value="#{Infortuni.sediExt.addr}" id="Label_1490583609166_id" class="labelContent  base-label" />
+										</label>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" id="LayoutRow_1486877268088" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1487684895641" >
+											<label style="display:#{(Infortuni.sediExt!=null) ? 'block' : 'none' };" >
+												<span class="label">${msg.label_Label_1487684895641}</span>
+												<h:outputText rendered="#{Infortuni.sediExt!=null}" value="#{function.concat(Infortuni.sediExt.addr.str, ' N ', Infortuni.sediExt.addr.bnr)}" id="Label_1487684895641_id" class="labelContent  base-label" />
+											</label>
+											</a4j:outputPanel>
+
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1487445991130" >
+											<label style="display:#{(Infortuni.sediExt!=null) ? 'block' : 'none' };" >
+												<span class="label">${msg.label_Label_1487445991130}</span>
+												<h:outputText rendered="#{Infortuni.sediExt!=null}" value="#{Infortuni.sediExt.addr.cty}" id="Label_1487445991130_id" class="labelContent  base-label" />
+											</label>
+											</a4j:outputPanel>
+
+										</a4j:outputPanel>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1489429855453" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.place.code=='Yard'}" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1487928226476" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1488997453197}</span>
+											<h:outputText value="#{Infortuni.cantiere.naturaOpera}" id="Label_1488997453197" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1490067390821}</span>
+											<h:outputText value="#{Infortuni.cantiere.tipologiaNotifica}" id="Label_1490067390821" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1501598617569}</span>
+											<h:outputText value="#{Infortuni.cantiere.localita}" id="Label_1501598617569" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1488856496038" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1488455635730}</span>
+											<h:outputText value="#{function.concat(Infortuni.cantiere.addr.str, ' N ', Infortuni.cantiere.addr.bnr)}" id="Label_1488455635730" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1488880147163}</span>
+											<h:outputText value="#{Infortuni.cantiere.addr.cty}" id="Label_1488880147163" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1651805139845" >
+										<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and CantiereAction.hasChildren(Infortuni.cantiere)}" value="#{function.getTranslation('AlertCantiereChanged')}" id="Label_1651805139845_id" style="display:block;" class="labelContent c-text-14 c-text-bold c-text-red base-label" />
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1658221494499" >
+										<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and not CantiereAction.hasChildren(Cantiere)}" value="#{function.getTranslation('InfoCantiereUpdated')}" id="Label_1658221494499_id" style="color:green;display:block;" class="labelContent c-text-14 c-text-bold base-label" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1490114555080" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1489736297242" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Infortuni.place.code=='Other'}" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1489381970784" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1488555519209}</span>
+											<h:outputText value="#{Infortuni.infortuniExt.entita}" id="Label_1488555519209" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1488555614665" >
+										<label style="display:#{(Infortuni.infortuniExt.entita.code =='natante') ? 'block' : 'none' };" >
+											<span class="label">${msg.label_Label_1488555614665}</span>
+											<h:outputText rendered="#{Infortuni.infortuniExt.entita.code =='natante'}" value="#{Infortuni.infortuniExt.imo}" id="Label_1488555614665_id" class="labelContent  base-label" />
+										</label>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1488555656968" >
+										<label style="display:#{(Infortuni.infortuniExt.entita.code =='automobile') ? 'block' : 'none' };" >
+											<span class="label">${msg.label_Label_1488555656968}</span>
+											<h:outputText rendered="#{Infortuni.infortuniExt.entita.code =='automobile'}" value="#{Infortuni.infortuniExt.targa}" id="Label_1488555656968_id" class="labelContent  base-label" />
+										</label>
+										</a4j:outputPanel>
+
+ 
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1489893302457" >
+										<label style="display:#{(Infortuni.infortuniExt.entita.code =='altro') ? 'block' : 'none' };" >
+											<span class="label">${msg.label_TextArea_1489893302457}</span>
+											<div>
+											<h:inputTextarea id="TextArea_1489893302457_id" value="#{Infortuni.infortuniExt.specificazione}" rendered="#{Infortuni.infortuniExt.entita.code =='altro'}" readonly="true" label="${msg.label_TextArea_1489893302457}" >
+												<f:validateLength minimum="0" maximum="255"/>
+											</h:inputTextarea>
+											</div>
+										</label>
+										<h:message style="float:left;" for="TextArea_1489893302457_id" styleClass="errorMessages TextArea_1489893302457_E" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1489909101974" styleClass="layoutContainer layoutContainerVertical" >
+ 
+										<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1488874816427" >
+										<label >
+											<span class="label">${msg.label_TextArea_1488874816427}</span>
+											<div>
+											<h:inputTextarea id="TextArea_1488874816427_id" value="#{Infortuni.infortuniExt.rifDenominazione}" readonly="true" label="${msg.label_TextArea_1488874816427}" >
+												<f:validateLength minimum="0" maximum="255"/>
+											</h:inputTextarea>
+											</div>
+										</label>
+										<h:message style="float:left;" for="TextArea_1488874816427_id" styleClass="errorMessages TextArea_1488874816427_E" />
+										</a4j:outputPanel>
+
+ 
+										<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1490016144627" >
+										<label >
+											<span class="label">${msg.label_TextArea_1490016144627}</span>
+											<div>
+											<h:inputTextarea id="TextArea_1490016144627_id" value="#{Infortuni.infortuniExt.rifNote}" readonly="true" label="${msg.label_TextArea_1490016144627}" >
+												<f:validateLength minimum="0" maximum="255"/>
+											</h:inputTextarea>
+											</div>
+										</label>
+										<h:message style="float:left;" for="TextArea_1490016144627_id" styleClass="errorMessages TextArea_1490016144627_E" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1487317417522" style="padding-top:40px;" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1489595714927" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+									<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1489595714927}</legend>
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1487209644633}</span>
+											<h:inputText id="TextBox_1487209644633" value="#{Infortuni.infortuniExt.latitudine}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1487209644633}" />
+											<a4j:outputPanel id="TextBox_1487209644633_msg" styleClass="errorContainer" ><h:message for="TextBox_1487209644633" styleClass="errorMessages TextBox_1487209644633_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1487466728287}</span>
+											<h:inputText id="TextBox_1487466728287" value="#{Infortuni.infortuniExt.longitudine}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1487466728287}" />
+											<a4j:outputPanel id="TextBox_1487466728287_msg" styleClass="errorContainer" ><h:message for="TextBox_1487466728287" styleClass="errorMessages TextBox_1487466728287_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+									</fieldset>
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1486950791020" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+									<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1486950791020}</legend>
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1487379920430}</span>
+											<h:inputText id="TextBox_1487379920430" value="#{Infortuni.infortuniExt.addr.sta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1487379920430}" />
+											<a4j:outputPanel id="TextBox_1487379920430_msg" styleClass="errorContainer" ><h:message for="TextBox_1487379920430" styleClass="errorMessages TextBox_1487379920430_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1489012040854}</span>
+											<h:inputText id="TextBox_1489012040854" value="#{Infortuni.infortuniExt.addr.stb}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1489012040854}" />
+											<a4j:outputPanel id="TextBox_1489012040854_msg" styleClass="errorContainer" ><h:message for="TextBox_1489012040854" styleClass="errorMessages TextBox_1489012040854_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1487322320491}</span>
+											<h:inputText id="TextBox_1487322320491" value="#{Infortuni.infortuniExt.addr.cnt}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1487322320491}" />
+											<a4j:outputPanel id="TextBox_1487322320491_msg" styleClass="errorContainer" ><h:message for="TextBox_1487322320491" styleClass="errorMessages TextBox_1487322320491_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+									</fieldset>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

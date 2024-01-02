@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneAtti">
+
+
+	<start-state name="start-state1">
+		<transition to="button?"></transition>
+	</start-state>
+
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="init new entity" name="addAtto"></transition>
+		<transition to="edit atto UI" name="editAtto"></transition>
+		<transition to="del popup" name="deleteAtto"></transition>
+	</decision>
+
+	<node name="init new entity">
+		<event type="node-enter">
+			<action name="1" expression="#{AttoAction.inject(AttoAction.newEntity())}"></action>
+			<action name="2" expression="#{Atto.setProcpratiche(Procpratiche)}"></action>
+			<action name="3" expression="#{Atto.setEmployee(userBean.getCurrentEmployee())}"></action>
+		</event>
+		<transition to="edit atto UI"></transition>
+	</node>
+
+	<task-node name="edit atto UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/editAtto')}"></action>
+		</event>
+		<transition to="ui button?"></transition>
+	</task-node>
+
+	<decision name="ui button?" expression="#{button.mnemonic}">
+		<transition to="super-state1/save atto" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnBack"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save atto">
+			<event type="node-enter">
+				<action name="1" expression="#{AttoAction.create()}"></action>
+				<action name="2" expression="#{Atto.setEmployee(userBean.getCurrentEmployee())}"></action>
+			</event>
+			<transition to="../read atti"></transition>
+		</node>
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{AttoAction.delete()}"></action>
+			</event>
+			<transition to="../read atti"></transition>
+		</node>
+	</super-state>
+
+	<node name="read atti">
+		<event type="node-enter">
+			<action name="1" expression="#{AttoAction.equal.put('procpratiche', Procpratiche)}"></action>
+			<action name="2" expression="#{AttoAction.orderBy.put('creationDate','descending')}"></action>
+			<action name="3" expression="#{AttoAction.setReadPageSize(10)}"></action>
+			<action name="4" expression="#{AttoAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="del popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_Oggetto_alert')}"></action>
+		</event>
+		<transition to="popup button?"></transition>
+	</task-node>
+
+	<decision name="popup button?" expression="#{button.mnemonic}">
+		<transition to="super-state1/delete" name="BtnDel"></transition>
+		<transition to="end-state2" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

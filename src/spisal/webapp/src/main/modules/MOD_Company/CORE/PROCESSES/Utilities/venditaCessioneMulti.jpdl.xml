@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="venditaCessione">
+
+
+	<start-state name="start-state1">
+		<transition to="CreateList"></transition>
+	</start-state>
+
+
+	<task-node name="Vendita cessione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/vendita_cessione_multi')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="eject2" name="BtnBack"></transition>
+		<transition to="SaveMulti" name="BtnSave"></transition>
+		<transition to="set temporary PG" name="MngSI"></transition>
+		<transition to="Inject SA da SI" name="MngSA"></transition>
+		<transition to="injectIS" name="MngIS"></transition>
+	</decision>
+
+	<node name="Inject SA da SI">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.equal.put('personaGiuridica',CessioneImp.sediInstallazione.sede.personaGiuridica)}"></action>
+			<action name="2" expression="#{SediAction.equal.put('sedeAddebito',true)}"></action>
+			<action name="3" expression="#{SediAction.read()}"></action>
+		</event>
+		<transition to="SelectSAIndSped"></transition>
+	</node>
+
+	<node name="injectIS">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(CessioneImp.sedi.indirizzoSped)}"></action>
+		</event>
+		<transition to="SelectIndSped"></transition>
+	</node>
+
+	<node name="set temporary PG">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search', true)}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('impiantoList', ImpiantoList.list)}"></action>
+			<action name="3" expression="#{ImpiantoAction.ejectList()}"></action>
+		</event>
+		<transition to="Search PG"></transition>
+	</node>
+
+	<node name="remove temporary PG">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{ImpiantoAction.injectList(ProtocolloAction.temporary.get('impiantoList'))}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</node>
+
+	<process-state name="Search PG">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companiesArpav" binding="late"></sub-process>
+		<transition to="remove temporary PG"></transition>
+	</process-state>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="Eject" name="BtnBack"></transition>
+		<transition to="Inject SI list" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="3" expression="#{SediAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.ejectList()}"></action>
+			<action name="5" expression="#{SediInstallazioneAction.eject()}"></action>
+			<action name="6" expression="#{SediInstallazioneAction.ejectList()}"></action>
+			<action name="7" expression="#{IndirizzoSpedAction.eject()}"></action>
+			<action name="8" expression="#{IndirizzoSpedAction.ejectList()}"></action>
+		</event>
+		<transition to="Vendita cessione"></transition>
+	</node>
+
+	<node name="inject SI">
+		<event type="node-enter"></event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<task-node name="Select Sede SI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectSede_SedeInst_Simple')}"></action>
+		</event>
+		<transition to="decision4"></transition>
+	</task-node>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="inject SI" name="SedeSelected"></transition>
+		<transition to="Eject" name="BtnBack"></transition>
+		<transition to="Link SI" name="BtnSelect"></transition>
+	</decision>
+
+	<node name="Link SI">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.link('sediInstallazione',SediInstallazione)}"></action>
+			<action name="2" expression="#{CessioneImpAction.link('personaGiuridica',SediInstallazione.sede.personaGiuridica)}"></action>
+			<action name="3" expression="#{CessioneImp.setSedi(null)}"></action>
+			<action name="4" expression="#{CessioneImp.setIndirizzoSped(null)}"></action>
+		</event>
+		<transition to="auto fill other fields"></transition>
+	</node>
+
+	<node name="Inject SI list">
+		<event type="node-enter">
+			<action name="1" expression="#{SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(PersoneGiuridiche))}"></action>
+		</event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<task-node name="SelectSAIndSped">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectSedeAdd_IndSped')}"></action>
+		</event>
+		<transition to="decision5"></transition>
+	</task-node>
+
+	<decision name="decision5" expression="#{button.mnemonic}">
+		<transition to="InjectIS" name="SASelected"></transition>
+		<transition to="Link SA IS" name="BtnSelect"></transition>
+		<transition to="Eject" name="BtnBack"></transition>
+	</decision>
+
+	<node name="InjectIS">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(Sedi.indirizzoSped)}"></action>
+		</event>
+		<transition to="SelectSAIndSped"></transition>
+	</node>
+
+	<node name="Link SA IS">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.link('sedi',Sedi)}"></action>
+			<action name="2" expression="#{CessioneImpAction.link('indirizzoSped',IndirizzoSped)}"></action>
+		</event>
+		<transition to="Eject"></transition>
+	</node>
+
+	<task-node name="SelectIndSped">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectIndSped')}"></action>
+		</event>
+		<transition to="decision6"></transition>
+	</task-node>
+
+	<decision name="decision6" expression="#{button.mnemonic}">
+		<transition to="Eject" name="BtnBack"></transition>
+		<transition to="Link IS" name="BtnSelect"></transition>
+	</decision>
+
+	<node name="Link IS">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.link('indirizzoSped',IndirizzoSped)}"></action>
+		</event>
+		<transition to="Eject"></transition>
+	</node>
+
+	<node name="eject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="3" expression="#{SediAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.ejectList()}"></action>
+			<action name="5" expression="#{SediInstallazioneAction.eject()}"></action>
+			<action name="6" expression="#{SediInstallazioneAction.ejectList()}"></action>
+			<action name="7" expression="#{IndirizzoSpedAction.eject()}"></action>
+			<action name="8" expression="#{IndirizzoSpedAction.ejectList()}"></action>
+			<action name="9" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="10" expression="#{ImpiantoAction.ejectList()}"></action>
+			<action name="11" expression="#{CessioneImpAction.eject()}"></action>
+		</event>
+		<transition to="end-state"></transition>
+	</node>
+
+	<node name="CreateList">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.injectList(ImpiantoAction.getSelected(ImpiantoList.list))}"></action>
+		</event>
+		<transition to="Pre-action"></transition>
+	</node>
+
+	<node name="Pre-action">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.inject(CessioneImpAction.newEntity())}"></action>
+			<action name="2" expression="#{CessioneImp.setUtente(userBean.getCurrentEmployee())}"></action>
+			<action name="3" expression="#{CessioneImpAction.link('personaGiuridicaFrom',PersoneGiuridiche)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('personaGiuridica',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="Vendita cessione"></transition>
+	</node>
+
+	<node name="SaveMulti">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.cessioneMulti(ImpiantoList, CessioneImp)}"></action>
+		</event>
+		<transition to="end-state"></transition>
+	</node>
+
+	<node name="auto fill other fields">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.fillOtherFieldsFromSedeInst(CessioneImp)}"></action>
+		</event>
+		<transition to="Eject"></transition>
+	</node>
+
+
+	<end-state name="end-state"></end-state>
+
+
+</process-definition>

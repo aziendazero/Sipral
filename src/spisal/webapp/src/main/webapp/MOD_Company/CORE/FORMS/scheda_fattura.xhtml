@@ -1,0 +1,181 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1534808471886}</h1>
+	<div id="vp_impianto_01" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1533961994788" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1534681100656" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1536025135682" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1535827312852;BtnBack')}" status="ajaxStatus" id="Link_1535827312852" title="${msg.alt_Link_1535827312852}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1535472080705" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1536169917136;BtnCheck')}" status="ajaxStatus" id="Link_1536169917136" title="${msg.alt_Link_1536169917136}" reRender="popup" styleClass="fa fa-eye fa-3x link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1533241434186;BtnExtract')}" status="ajaxStatus" id="Link_1533241434186" title="${msg.alt_Link_1533241434186}" reRender="popup,phiDesktop" styleClass="estrai-dati link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1533492013966" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1533970832306}</span>
+						<h:outputText value="#{Fattura.serviceDeliveryLocation.name.giv}" id="Label_1533970832306" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1534468129803" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1534468129803;BtnAddARPAV')}" status="ajaxStatus" id="Link_1534468129803_id" title="${msg.alt_Link_1534468129803}" immediate="true" rendered="#{not empty Fattura.serviceDeliveryLocation}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1596545052947" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1596545052947;BtnAddARPAV')}" status="ajaxStatus" id="Link_1596545052947_id" title="${msg.alt_Link_1596545052947}" style="border-left-color: orange;border-left-style: solid;border-left-width: 5px;border-radius: 4px;" immediate="true" rendered="#{empty Fattura.serviceDeliveryLocation}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1534933159753" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1605858623503" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1536736527216" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1532932897885" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1532932897885}</span>
+								<h:inputText id="TextBox_1532932897885_id" value="#{Fattura.anno}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1532932897885}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<f:validateLength minimum="4" maximum="4" />
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1532932897885_msg" styleClass="errorContainer" ><h:message for="TextBox_1532932897885_id" styleClass="errorMessages TextBox_1532932897885_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1534984800393" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1534984800393}</span>
+								<h:selectOneMenu id="ComboBox_1534984800393_id" value="#{Fattura.tipologiaFattura}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1534984800393}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoFattura')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+								<h:message style="float:left;" for="ComboBox_1534984800393_id" styleClass="errorMessages ComboBox_1534984800393_E" />
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1536736527217" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1536365068852" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1536365068852}</span>
+								<h:inputText id="TextBox_1536365068852_id" value="#{Fattura.meseDal}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1536365068852}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validateLength minimum="1" maximum="2" />
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1536365068852_msg" styleClass="errorContainer" ><h:message for="TextBox_1536365068852_id" styleClass="errorMessages TextBox_1536365068852_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1533188772025}</span>
+								<h:selectOneMenu id="ComboBox_1533188772025" value="#{Fattura.tipologiaDocumento}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1533188772025}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoDocumento')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1536736527218" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1534885702742" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1534885702742}</span>
+								<h:inputText id="TextBox_1534885702742_id" value="#{Fattura.meseAl}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1534885702742}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validateLength minimum="1" maximum="2" />
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1534885702742_msg" styleClass="errorContainer" ><h:message for="TextBox_1534885702742_id" styleClass="errorMessages TextBox_1534885702742_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1605858653312" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1605725387255" style="width:20%" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1603427164124}</span>
+								<h:outputText value="#{Fattura.personaGiuridicaAdd.denominazione}" id="Label_1603427164124" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1603252693842;BtnPgAddMng')}" status="ajaxStatus" id="Link_1603252693842" title="${msg.alt_Link_1603252693842}" disabled="#{Fattura.personaGiuridica ne null}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1603507377425;BtnPgAddRm')}" status="ajaxStatus" id="Link_1603507377425" alt="#{LINK}" disabled="#{Fattura.personaGiuridica ne null}" reRender="phiDesktop" styleClass="fa fa-eraser fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1537845287028" style="width:20%" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1538252637516}</span>
+								<h:outputText value="#{Fattura.personaGiuridica.denominazione}" id="Label_1538252637516" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1536860232227;BtnPgMng')}" status="ajaxStatus" id="Link_1536860232227" title="${msg.alt_Link_1536860232227}" disabled="#{Fattura.personaGiuridicaAdd ne null}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1599225939485;BtnPgRm')}" status="ajaxStatus" id="Link_1599225939485" alt="#{LINK}" disabled="#{Fattura.personaGiuridicaAdd ne null}" reRender="phiDesktop" styleClass="fa fa-eraser fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1535323524552" style="width:20%" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1535582187692}</span>
+								<h:outputText value="#{Fattura.operatore.name}" id="Label_1535582187692" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1534822736810;BtnOpMng')}" status="ajaxStatus" id="Link_1534822736810" title="${msg.alt_Link_1534822736810}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1597853897998;BtnOpRm')}" status="ajaxStatus" id="Link_1597853897998" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-eraser fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1534942738817" >
+				<label >
+					<span class="label">${msg.label_TextArea_1534942738817}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1534942738817_id" value="#{Fattura.descr}" label="${msg.label_TextArea_1534942738817}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1534942738817_id" styleClass="errorMessages TextArea_1534942738817_E" />
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

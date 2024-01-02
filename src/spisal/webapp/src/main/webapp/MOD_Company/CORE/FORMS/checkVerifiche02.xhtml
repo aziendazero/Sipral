@@ -1,0 +1,42 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1534206502671}</h1>
+	<div id="cantiereDuplicato_popup" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1536450217410" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1533961760227" >
+				<span value="${msg.Label_1533961760227}" id="Label_1533961760227_id" style="display:#{(FatturaAction.temporary.get('check') eq 'false' and (VerificaImpList eq null or VerificaImpList.size() eq 0) and (AddebitoList eq null or AddebitoList.size() eq 0)) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1533961760227}</span>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1532733626905" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{FatturaAction.temporary.get('check') eq 'false' and (VerificaImpList.size() > 0 or AddebitoList.size() > 0)}" >
+					<div class="layoutVertical" >
+					<span value="${msg.Label_1535172922536}" class="labelContent  base-label" >${msg.Label_1535172922536}</span>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1535674257286" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1538745970274" style="margin-right: 12px;display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1533835479480;Si')}" status="ajaxStatus" id="Link_1533835479480" title="${msg.alt_Link_1533835479480}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1538746025381}" style="font-family:'FontAwesome';font-weight:normal;font-style:normal;font-size:2em;color: #01579B;" class="labelContent  base-label" >${msg.Label_1538746025381}</span>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1538745971106" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1535494045969;No')}" status="ajaxStatus" id="Link_1535494045969" title="${msg.alt_Link_1535494045969}" reRender="popup" styleClass="fa fa-trash fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1538746029883}" style="font-family:'FontAwesome';font-weight:normal;font-style:normal;font-size:2em;color: #01579B;" class="labelContent  base-label" >${msg.Label_1538746029883}</span>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

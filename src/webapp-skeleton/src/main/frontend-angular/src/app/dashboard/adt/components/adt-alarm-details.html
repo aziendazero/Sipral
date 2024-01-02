@@ -1,0 +1,42 @@
+<form #form="ngForm" id="Form_1547816821663">
+  <h1>{{'Form_1547816821663' | translate}}</h1>
+  <div id="LayoutRow_1549830312521" class="layout vertical">
+    <span *ngIf="!TherapyAlarmList || TherapyAlarmList.entities.length == 0" id="lbl_1549104031019" > Non ci sono i dettagli dei allarmi per il paziente</span>
+    <div *ngIf="TherapyAlarmList && TherapyAlarmList.entities.length > 0" id="DataGrid_1549104033026" [phi-datagrid]="TherapyAlarmList">
+      <thead class="tableHeader">
+        <tr>
+          <th (click)="TherapyAlarmList.orderBy('dataPianificata')">{{'DataGridColumn_1547816981217' | translate}} <i *ngIf="TherapyAlarmList?.sortColumn('dataPianificata')" [class]="TherapyAlarmList.sortArrow"></i></th>
+          <th>{{'DataGridColumn_1547816982801' | translate}}</th>
+          <th>{{'DataGridColumn_1546364883011' | translate}}</th>
+          <th>{{'DataGridColumn_1549935098895' | translate}}</th>
+          <th>{{'DataGridColumn_1547816985073' | translate}}</th>
+          <th>{{'DataGridColumn_1548476247496' | translate}}</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let TherapyAlarm of TherapyAlarmList?.entities; let i = index">
+          <td>
+            <span>{{TherapyAlarm.dataPianificata | dateFormat: 'short'}}</span>
+          </td>
+          <td>
+            <span  style="display:-webkit-inline-box;" [class]="'fa fa-circle ' + therapyAllarmiIcon(TherapyAlarm.allarme)" [title]="therapyTitleDesc(TherapyAlarm.allarme)"></span> 
+          </td>
+          <td>
+            <span>{{TherapyAlarm.descrizione}}</span>
+          </td>
+          <td>
+            <span>{{therapyAmbitoDesc(TherapyAlarm.ambito)}}</span>
+          </td>
+          <td>
+            <span>{{therapyModuloDesc(TherapyAlarm.modulo)}}</span>
+          </td>
+          <td>
+            <span>{{TherapyAlarm.note}}</span>
+          </td>
+         
+      </tr>
+      </tbody>
+    </div>
+  </div>
+</form>

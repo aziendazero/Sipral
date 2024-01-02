@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="visiteMediche">
+
+
+	<start-state name="start-state1">
+		<transition to="Exists?"></transition>
+	</start-state>
+
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<decision name="next from edit?" expression="#{(button.getMnemonic())}">
+		<transition to="Documenti" name="addDoc"></transition>
+		<transition to="delDocumento" name="delDoc"></transition>
+	</decision>
+
+	<node name="delDocumento">
+		<event type="node-enter">
+			<action name="1" expression="#{AcquisizioneInformazioni.getDocumentiVisionati().remove(CodeValuePhi)}"></action>
+		</event>
+		<transition to="super-state2/create"></transition>
+	</node>
+
+	<node name="Inject 1">
+		<event type="node-enter">
+			<action name="1" expression="#{AcquisizioneInformazioniAction.inject(Attivita.acquisizioneInformazioni)}"></action>
+		</event>
+		<transition to="next from edit?"></transition>
+	</node>
+
+	<process-state name="Documenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Attivita/documentiVisionati" binding="late"></sub-process>
+		<transition to="super-state2/create"></transition>
+	</process-state>
+
+	<decision name="Exists?" expression="#{Attivita.acquisizioneInformazioni!=null}">
+		<transition to="super-state1/CreateVisita" name="false"></transition>
+		<transition to="Inject 1" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="CreateVisita">
+			<event type="node-enter">
+				<action name="1" expression="#{AcquisizioneInformazioniAction.inject(AcquisizioneInformazioniAction.newEntity())}"></action>
+				<action name="2" expression="#{AttivitaAction.link('acquisizioneInformazioni',AcquisizioneInformazioni)}"></action>
+				<action name="3" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../next from edit?"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{AcquisizioneInformazioniAction.eject()}"></action>
+			<action name="2" expression="#{CodeValuePhiAction.eject()}"></action>
+			<action name="3" expression="#{CodeValuePhiAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="schedaGeneratori">
+
+
+	<start-state name="start-state1">
+		<transition to="Pre-actions"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="NewEntity" name="AddFattura"></transition>
+		<transition to="set temp2" name="EditFattura"></transition>
+	</decision>
+
+	<task-node name="Crea Fattura">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/scheda_fattura')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.eject()}"></action>
+			<action name="2" expression="#{FatturaAction.ejectList()}"></action>
+			<action name="3" expression="#{OperatoreAction.eject()}"></action>
+			<action name="4" expression="#{FileAccDitteAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="eject1" name="BtnBack"></transition>
+		<transition to="set search true" name="BtnOpMng"></transition>
+		<transition to="Search ARPAV" name="BtnAddARPAV"></transition>
+		<transition to="Check ARPAV" name="BtnCheck"></transition>
+		<transition to="Check ARPAV 2" name="BtnExtract"></transition>
+		<transition to="set temp search" name="BtnPgMng"></transition>
+		<transition to="rem pg" name="BtnPgRm"></transition>
+		<transition to="rem tecnico" name="BtnOpRm"></transition>
+		<transition to="set temp inst" name="BtnPgAddMng"></transition>
+		<transition to="rem pg add" name="BtnPgAddRm"></transition>
+	</decision>
+
+	<node name="Pre-actions">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','ARPAV')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<node name="Link">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.link('auth',userBean.getCurrentEmployee())}"></action>
+		</event>
+		<transition to="super-state2/create"></transition>
+	</node>
+
+	<process-state name="Gestione operatori">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/gestioneOperatoriARPAV" binding="late"></sub-process>
+		<transition to="remove search"></transition>
+	</process-state>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="Crea Fattura" name="BtnBack"></transition>
+		<transition to="Link Op" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link Op">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.link('operatore',Operatore)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<process-state name="Search ARPAV">
+		<sub-process name="MOD_HBS/CORE/PROCESSES/Search ULSS" binding="late"></sub-process>
+		<transition to="decision4"></transition>
+	</process-state>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="decision3" name="BtnBack"></transition>
+		<transition to="Link ARPAV" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link ARPAV">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<node name="NewEntity">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.eject()}"></action>
+			<action name="2" expression="#{FatturaAction.inject(FatturaAction.newEntity())}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationList.size()==1?FatturaAction.link('serviceDeliveryLocation',ServiceDeliveryLocationList.get(0)):''}"></action>
+			<action name="4" expression="#{FatturaAction.setCodeValue('tipologiaDocumento','PHIDIC','TipoDocumento','02')}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{FatturaAction.create()}"></action>
+			</event>
+			<transition to="../file conditional savings"></transition>
+		</node>
+	</super-state>
+
+	<node name="Check Dati">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.checkDati()}"></action>
+		</event>
+		<transition to="CheckPopUp"></transition>
+	</node>
+
+	<task-node name="CheckPopUp">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/checkVerifiche01')}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</task-node>
+
+	<decision name="Check ARPAV" expression="#{FatturaAction.checkArpav()}">
+		<transition to="Check Dati" name="true"></transition>
+		<transition to="Crea Fattura" name="false"></transition>
+	</decision>
+
+	<decision name="Check ARPAV 2" expression="#{FatturaAction.checkArpav()}">
+		<transition to="Crea Fattura" name="false"></transition>
+		<transition to="Check Dati 2" name="true"></transition>
+	</decision>
+
+	<node name="Check Dati 2">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.checkDati()}"></action>
+		</event>
+		<transition to="Estrai?"></transition>
+	</node>
+
+	<decision name="Estrai?" expression="#{FatturaAction.temporary.get('check')}">
+		<transition to="CheckPopUp2" name="false"></transition>
+		<transition to="Estrai dati" name="true"></transition>
+	</decision>
+
+	<task-node name="CheckPopUp2">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/checkVerifiche02')}"></action>
+		</event>
+		<transition to="Estrai comunque?"></transition>
+	</task-node>
+
+	<node name="Estrai dati">
+		<event type="node-enter">
+			<action name="1" expression="#{FileAccDitteAction.inject(FileAccDitteAction.newEntity())}"></action>
+			<action name="2" expression="#{FileAccDitte.setDataRif(function.currentDateTime())}"></action>
+			<action name="3" expression="#{FileAccDitte.setContentType('text/plain')}"></action>
+			<action name="4" expression="#{FileAccEntiAction.inject(FileAccEntiAction.newEntity())}"></action>
+			<action name="5" expression="#{FileAccEnti.setDataRif(function.currentDateTime())}"></action>
+			<action name="6" expression="#{FileAccEnti.setContentType('text/plain')}"></action>
+			<action name="7" expression="#{FileAccCondAction.inject(FileAccCondAction.newEntity())}"></action>
+			<action name="8" expression="#{FileAccCond.setDataRif(function.currentDateTime())}"></action>
+			<action name="9" expression="#{FileAccCond.setContentType('text/plain')}"></action>
+			<action name="10" expression="#{FatturaAction.temporary.remove('ditteSave')}"></action>
+			<action name="11" expression="#{FatturaAction.temporary.remove('condSave')}"></action>
+			<action name="12" expression="#{FatturaAction.temporary.remove('entiSave')}"></action>
+			<action name="13" expression="#{FatturaAction.estraiDati(VerificaImpList.list, AddebitoList.list)}"></action>
+		</event>
+		<transition to="Link"></transition>
+	</node>
+
+	<decision name="Estrai comunque?" expression="#{button.mnemonic}">
+		<transition to="Estrai dati" name="Si"></transition>
+		<transition to="Crea Fattura" name="No"></transition>
+		<transition to="Crea Fattura" name="BtnCancel"></transition>
+	</decision>
+
+	<task-node name="Mostra fattura">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/scheda_fattura_ro')}"></action>
+		</event>
+		<transition to="rem temp2"></transition>
+	</task-node>
+
+	<node name="Refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.refresh()}"></action>
+		</event>
+		<transition to="set temp2"></transition>
+	</node>
+
+	<node name="set temp search">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.clear()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="5" expression="#{ProtocolloAction.temporary.put('search', true)}"></action>
+		</event>
+		<transition to="Search Company"></transition>
+	</node>
+
+	<process-state name="Search Company">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companiesArpav" binding="late"></sub-process>
+		<transition to="rem temp search"></transition>
+	</process-state>
+
+	<node name="rem temp search">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="decision5"></transition>
+	</node>
+
+	<decision name="decision5" expression="#{button.mnemonic}">
+		<transition to="Crea Fattura" name="BtnBack"></transition>
+		<transition to="is temp add?" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link Pg">
+		<event type="node-enter">
+			<action name="1" expression="#{Fattura.setPersonaGiuridicaAdd(null)}"></action>
+			<action name="2" expression="#{FatturaAction.link('personaGiuridica',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<node name="read file accessori">
+		<event type="node-enter">
+			<action name="1" expression="#{FileAccDitteAction.equal.put('fattura',Fattura)}"></action>
+			<action name="2" expression="#{FileAccDitteAction.read()}"></action>
+			<action name="3" expression="#{FileAccDitteAction.injectFirst()}"></action>
+			<action name="4" expression="#{FileAccDitteAction.ejectList(FileAccDitteList)}"></action>
+			<action name="5" expression="#{FileAccCondAction.equal.put('fattura',Fattura)}"></action>
+			<action name="6" expression="#{FileAccCondAction.read()}"></action>
+			<action name="7" expression="#{FileAccCondAction.injectFirst()}"></action>
+			<action name="8" expression="#{FileAccCondAction.ejectList(FileAccCondList)}"></action>
+			<action name="9" expression="#{FileAccEntiAction.equal.put('fattura',Fattura)}"></action>
+			<action name="10" expression="#{FileAccEntiAction.read()}"></action>
+			<action name="11" expression="#{FileAccEntiAction.injectFirst()}"></action>
+			<action name="12" expression="#{FileAccEntiAction.ejectList(FileAccEntiList)}"></action>
+		</event>
+		<transition to="Mostra fattura"></transition>
+	</node>
+
+	<process-state name="file conditional savings">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/saveFileAcc" binding="late"></sub-process>
+		<transition to="Refresh"></transition>
+	</process-state>
+
+	<node name="set search true">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Gestione operatori"></transition>
+	</node>
+
+	<node name="remove search">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</node>
+
+	<node name="set temp2">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.temporary.put('csv', false)}"></action>
+		</event>
+		<transition to="read file accessori"></transition>
+	</node>
+
+	<node name="rem temp2">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.temporary.remove('csv')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="rem pg">
+		<event type="node-enter">
+			<action name="1" expression="#{Fattura.setPersonaGiuridica(null)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<node name="rem tecnico">
+		<event type="node-enter">
+			<action name="1" expression="#{Fattura.setOperatore(null)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<node name="rem pg add">
+		<event type="node-enter">
+			<action name="1" expression="#{Fattura.setPersonaGiuridicaAdd(null)}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+	<node name="set temp inst">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.temporary.put('searchAdd',true)}"></action>
+		</event>
+		<transition to="set temp search"></transition>
+	</node>
+
+	<decision name="is temp add?" expression="#{FatturaAction.temporary['searchAdd'] eq true}">
+		<transition to="Link Pg" name="false"></transition>
+		<transition to="Link Pg Add" name="true"></transition>
+	</decision>
+
+	<node name="Link Pg Add">
+		<event type="node-enter">
+			<action name="1" expression="#{Fattura.setPersonaGiuridica(null)}"></action>
+			<action name="2" expression="#{FatturaAction.link('personaGiuridicaAdd',PersoneGiuridiche)}"></action>
+			<action name="3" expression="#{FatturaAction.temporary.remove('searchAdd')}"></action>
+		</event>
+		<transition to="Crea Fattura"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

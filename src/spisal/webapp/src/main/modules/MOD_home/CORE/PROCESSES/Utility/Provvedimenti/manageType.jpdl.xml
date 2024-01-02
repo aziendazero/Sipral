@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manageType">
+
+
+	<start-state name="start-state1">
+		<transition to="set temporary"></transition>
+	</start-state>
+
+
+	<decision name="ComingFrom?" expression="#{(button.getMnemonic()=='BtnSave')}">
+		<transition to="isType2?" name="true"></transition>
+		<transition to="isType1?" name="false"></transition>
+	</decision>
+
+	<decision name="isType1?" expression="#{Provvedimenti.type!=null}">
+		<description>
+			Provvedimenti.type!=null
+		</description>
+		<transition to="end-state1" name="false"></transition>
+		<transition to="type1?" name="true"></transition>
+	</decision>
+
+	<decision name="type1?" expression="#{Provvedimenti.type.code}">
+		<description>
+			Provvedimenti.type.code
+		</description>
+		<transition to="injectIter758" name="758"></transition>
+		<transition to="end-state1" name="302bis"></transition>
+		<transition to="injectDisposizioni" name="Disp"></transition>
+		<transition to="injectEx301Bis" name="301bis"></transition>
+		<transition to="from del?" name="ex14"></transition>
+	</decision>
+
+	<node name="injectIter758">
+		<event type="node-enter">
+			<action name="1" expression="#{Iter758Action.injectFirst(Provvedimenti.iter758)}"></action>
+			<action name="2" expression="#{ArticoliAction.injectList(Provvedimenti.articoli)}"></action>
+			<action name="3" expression="#{ArticoliAction.injectFirst(Provvedimenti.articoli)}"></action>
+			<action name="4" expression="#{ArticoliAction.setTmp(ArticoliList.list)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="isType2?" expression="#{Provvedimenti.type!=null}">
+		<transition to="end-state1" name="false"></transition>
+		<transition to="type2?" name="true"></transition>
+	</decision>
+
+	<decision name="type2?" expression="#{Provvedimenti.type.code}">
+		<transition to="Concluso?" name="302bis"></transition>
+		<transition to="Ex301Bis" name="301bis"></transition>
+		<transition to="Disposizioni" name="Disp"></transition>
+		<transition to="Iter758" name="758"></transition>
+		<transition to="Sospensioni" name="ex14"></transition>
+	</decision>
+
+	<node name="injectDisposizioni">
+		<event type="node-enter">
+			<action name="1" expression="#{DisposizioniAction.injectFirst(Provvedimenti.disposizioni)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="Set completato">
+		<description>
+			Provvedimenti.esito ne null?:ProvvedimentiAction.setCodeValue('statusCode','PHIDIC','Status','completed')
+		</description>
+		<event type="node-enter">
+			<action name="1" expression="#{Provvedimenti.esito ne null ? Provvedimenti.setStatusCode(vocabularies.getCodeValue('PHIDIC', 'Status', 'completed', 'C')) : ''}"></action>
+		</event>
+		<transition to="super-state3/Create"></transition>
+	</node>
+
+	<super-state name="super-state3">
+		<node name="Create">
+			<event type="node-enter">
+				<action name="1" expression="#{ProvvedimentiAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="Iter758">
+		<event type="node-enter">
+			<action name="1" expression="#{ProvvedimentiAction.link('iter758',Iter758)}"></action>
+			<action name="2" expression="#{ProvvedimentiAction.setEsito(ArticoliList.list)}"></action>
+		</event>
+		<transition to="Concluso?"></transition>
+	</node>
+
+	<node name="Disposizioni">
+		<event type="node-enter">
+			<action name="1" expression="#{Provvedimenti.dataNotifica eq null and Disposizioni.dataEmissione ne null ? Provvedimenti.setDataNotifica(Disposizioni.dataEmissione) : ''}"></action>
+			<action name="2" expression="#{ProvvedimentiAction.link('disposizioni',Disposizioni)}"></action>
+		</event>
+		<transition to="Concluso?"></transition>
+	</node>
+
+	<node name="Ex301Bis">
+		<event type="node-enter">
+			<action name="1" expression="#{ProvvedimentiAction.link('ex301Bis',Ex301Bis)}"></action>
+			<action name="2" expression="#{ProvvedimentiAction.setEsito(ArticoliList.list)}"></action>
+		</event>
+		<transition to="Concluso?"></transition>
+	</node>
+
+	<node name="injectEx301Bis">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliAction.injectList(Provvedimenti.articoli)}"></action>
+			<action name="2" expression="#{ArticoliAction.injectFirst(Provvedimenti.articoli)}"></action>
+			<action name="3" expression="#{ArticoliAction.setTmp(ArticoliList.list)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('inSolido',  Provvedimenti.soggettoInSolido.code)}"></action>
+		</event>
+		<transition to="ComingFrom?"></transition>
+	</node>
+
+	<decision name="Provvedimento isValid?" expression="#{ProvvedimentiAction.checkProvvedimento()}">
+		<transition to="Set In corso" name="false"></transition>
+		<transition to="super-state3/Create" name="true"></transition>
+	</decision>
+
+	<node name="Set In corso">
+		<event type="node-enter">
+			<action name="1" expression="#{Provvedimenti.setStatusCode(vocabularies.getCodeValue('PHIDIC', 'Status', 'active', 'C'))}"></action>
+		</event>
+		<transition to="super-state3/Create"></transition>
+	</node>
+
+	<decision name="Concluso?" expression="#{Provvedimenti.statusCode.code eq 'completed'}">
+		<transition to="Provvedimento isValid?" name="true"></transition>
+		<transition to="super-state3/Create" name="false"></transition>
+	</decision>
+
+	<decision name="Provvedimento isValid2?" expression="#{ProvvedimentiAction.checkProvvedimento()}">
+		<transition to="super-state3/Create" name="false"></transition>
+		<transition to="Set completato" name="true"></transition>
+	</decision>
+
+	<node name="injectSosp">
+		<event type="node-enter">
+			<action name="1" expression="#{SospensioneEx14Action.injectFirst(Provvedimenti.sospensioneEx14)}"></action>
+			<action name="2" expression="#{ArticoliAction.injectList(Provvedimenti.articoli)}"></action>
+			<action name="3" expression="#{ArticoliAction.injectFirst(Provvedimenti.articoli)}"></action>
+			<action name="4" expression="#{ArticoliAction.setTmp(ArticoliList.list)}"></action>
+			<action name="5" expression="#{SospensioneEx14Action.temporary.put('aggImporto',SospensioneEx14.aggiornaImporto)}"></action>
+			<action name="6" expression="#{SospensioneEx14Action.fillTemporaryFromDecorrenza()}"></action>
+			<action name="7" expression="#{SospensioneEx14Action.temporary.put('esitoA',SospensioneEx14.esitoA)}"></action>
+			<action name="8" expression="#{SospensioneEx14Action.temporary.put('esitoB',SospensioneEx14.esitoB)}"></action>
+			<action name="9" expression="#{SospensioneEx14Action.temporary.put('esitoC',SospensioneEx14.esitoC)}"></action>
+			<action name="10" expression="#{SospensioneEx14Action.temporary.put('esitoD',SospensioneEx14.esitoD)}"></action>
+			<action name="11" expression="#{GruppiAction.setTempImportoVersato(Articoli.gruppo)}"></action>
+			<action name="12" expression="#{GruppiAction.setTempImportoVersatoNP(Articoli.gruppo)}"></action>
+			<action name="13" expression="#{ProvvedimentiSospAction.equal.put('soggetto.ditta.codiceFiscale',Provvedimenti.soggetto.ditta.codiceFiscale)}"></action>
+			<action name="14" expression="#{ProvvedimentiSospAction.equal.put('type.code','ex14')}"></action>
+			<action name="15" expression="#{ProvvedimentiSospAction.greaterEqual.put('data',function.addOffsetToDate(Provvedimenti.data,null, null, -5, null, null))}"></action>
+			<action name="16" expression="#{ProvvedimentiSospAction.notEqual.put('internalId',Provvedimenti.internalId)}"></action>
+			<action name="17" expression="#{ProvvedimentiSospAction.read()}"></action>
+			<action name="18" expression="#{not empty Provvedimenti.esito ? SospensioneEx14Action.temporary.put('esitoSospensione',Provvedimenti.esito) : ''}"></action>
+			<action name="19" expression="#{PersoneArticoliAction.injectLists(Provvedimenti.articoli)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="x lavoratore?" expression="#{Articoli.code.notaContravventore eq 'lav'}">
+		<transition to="end-state1" name="false"></transition>
+		<transition to="read lavoratori" name="true"></transition>
+	</decision>
+
+	<node name="read lavoratori">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PersoneArticoliAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{PersoneArticoliAction.equal.put('articoli',Articoli)}"></action>
+			<action name="4" expression="#{PersoneArticoliAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="Sospensioni">
+		<event type="node-enter">
+			<action name="1" expression="#{ProvvedimentiAction.link('sospensioneEx14',SospensioneEx14)}"></action>
+			<action name="2" expression="#{SospensioneEx14.setAggiornaImporto(SospensioneEx14Action.temporary['aggImporto'])}"></action>
+			<action name="3" expression="#{SospensioneEx14Action.setDecorrenzaABC()}"></action>
+			<action name="4" expression="#{not empty Articoli?GruppiAction.setImportoVersato(Articoli.gruppo,GruppiAction.temporary['importoVersato']):''}"></action>
+			<action name="5" expression="#{not empty Articoli?GruppiAction.setImportoVersatoNP(Articoli.gruppo,GruppiAction.temporary['importoVersatoNP']):''}"></action>
+			<action name="6" expression="#{SospensioneEx14.setEsitoA(SospensioneEx14Action.temporary['esitoA'])}"></action>
+			<action name="7" expression="#{SospensioneEx14.setEsitoB(SospensioneEx14Action.temporary['esitoB'])}"></action>
+			<action name="8" expression="#{SospensioneEx14.setEsitoC(SospensioneEx14Action.temporary['esitoC'])}"></action>
+			<action name="9" expression="#{SospensioneEx14.setEsitoD(SospensioneEx14Action.temporary['esitoD'])}"></action>
+			<action name="10" expression="#{Provvedimenti.setEsito(SospensioneEx14Action.temporary['esitoSospensione'])}"></action>
+			<action name="11" expression="#{PersoneArticoliAction.injectLists(Provvedimenti.articoli)}"></action>
+		</event>
+		<transition to="Concluso?"></transition>
+	</node>
+
+	<decision name="per lavoratore?" expression="#{Articoli.code.notaContravventore eq 'lav'}">
+		<transition to="Concluso?" name="false"></transition>
+		<transition to="load lavoratori" name="true"></transition>
+	</decision>
+
+	<node name="load lavoratori">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PersoneArticoliAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{PersoneArticoliAction.equal.put('articoli',Articoli)}"></action>
+			<action name="4" expression="#{PersoneArticoliAction.read()}"></action>
+		</event>
+		<transition to="Concluso?"></transition>
+	</node>
+
+	<decision name="from del?" expression="#{(button.getMnemonic()=='BtnDel')}">
+		<transition to="injectSosp" name="false"></transition>
+		<transition to="injectSosp" name="true"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

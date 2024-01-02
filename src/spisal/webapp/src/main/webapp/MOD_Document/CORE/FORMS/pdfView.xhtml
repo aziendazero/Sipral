@@ -1,0 +1,78 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1511432861094}</h1>
+	<div id="pdfView" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1511432978254" style="width:95%;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1511432988085" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511864116315;BACK')}" status="ajaxStatus" id="Link_1511864116315" title="${msg.alt_Link_1511864116315}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1511451947977}" class="labelContent  base-label" ></span>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1511451956316" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511451956316;APPLY&#95;SIGNATURE')}" status="ajaxStatus" id="Link_1511451956316_id" title="${msg.alt_Link_1511451956316}" style="color:#01579B;" rendered="#{AlfrescoDocumentAction.temporary['showSign'] and ((AlfrescoDocument.signaturesReqN ne null and AlfrescoDocument.signaturesReqN ne 0 and (AlfrescoDocument.signaturesPresent ne null and AlfrescoDocument.signaturesPresent lt AlfrescoDocument.signaturesReqN)) or (not empty AlfrescoDocument.nodeRefUrl and AlfrescoDocument.mimeType.equalsIgnoreCase('application/pdf'))) and AlfrescoDocument.isActive}" reRender="popup,phiDesktop" styleClass="fa fa-pencil-square fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1511451958714" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511451958714;REGISTER')}" status="ajaxStatus" id="Link_1511451958714_id" title="${msg.alt_Link_1511451958714}" style="background-image: url(SKIN/images/proto.svg); background-repeat: no-repeat;display: inline-table;background-size: 31px;height: 40px; min-width: 31px; color:#01579B;" rendered="#{(AlfrescoDocumentAction.temporary['showSign'] and (AlfrescoDocument.documentStatus.code eq 3 or AlfrescoDocument.documentStatus.code eq 4) and AlfrescoDocument.isActive)}" reRender="popup,phiDesktop" styleClass="link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="JollyWidget_1511519549785" >
+				<a4j:outputPanel layout="block" id="JollyWidget_1511519549785_id" style="height:100%;width:100%;" rendered="#{AlfrescoDocumentAction.temporary['showSign'] and AlfrescoDocument.signaturesReqN ne null and AlfrescoDocument.signaturesReqN ne 0}" >
+					(#{AlfrescoDocument.signaturesPresent} / #{AlfrescoDocument.signaturesReqN} firme)<br/>
+					#{AlfrescoDocumentAction.getDatiProtocollo(AlfrescoDocument)}
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1542126596952" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="height:100%;padding:0;" id="LayoutRow_1511433014598" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{AlfrescoDocumentAction.temporary['showGenerated'] and AlfrescoDocumentAction.temporary['realPdf']}" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1511433018637" style="position: absolute; width: 95%; height: 100%; border: 0px;" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1511433018637_id" style="height:100%;width:100%;" rendered="#{AlfrescoDocumentAction.temporary['showGenerated'] and AlfrescoDocumentAction.temporary['realPdf']}" >
+							<iframe id="xxx" src="" width="100%" height="100%">
+							Il tuo browser non supporta i documenti PDF. Per vederlo puoi scaricarlo: <a href="#{AlfrescoDocument.nodeRefUrl}#view=FitH?cid=#{conversation.id}">Download PDF</a>
+							</iframe>
+							<script>
+							jQuery('#xxx').attr('src',alfresco.getDocumentUrl('#{AlfrescoDocument.nodeRefUrl}'));
+							</script>
+							
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1542117036869" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not AlfrescoDocumentAction.temporary['showGenerated']}" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1511516440416" style="position: absolute; width: 95%; height: 100%; border: 0px;" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1511516440416_id" style="height:100%;width:100%;" rendered="#{not AlfrescoDocumentAction.temporary['showGenerated']}" >
+							<iframe id="xxx" src="" width="100%" height="100%">
+							Il tuo browser non supporta i documenti PDF. Per vederlo puoi scaricarlo: <a href="#{AlfrescoDocument.signedDocumentLatest.nodeRefUrl}#view=FitH?cid=#{conversation.id}">Download PDF</a>
+							</iframe>
+							<script>
+							jQuery('#xxx').attr('src',alfresco.getDocumentUrl('#{AlfrescoDocument.signedDocumentLatest.nodeRefUrl}'));
+							</script>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1542117037348" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{AlfrescoDocumentAction.temporary['showGenerated'] and not AlfrescoDocumentAction.temporary['realPdf']}" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1513696824203" style="position: absolute; width: 95%; height: 100%; border: 0px;" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1513696824203_id" style="height:100%;width:100%;" rendered="#{AlfrescoDocumentAction.temporary['showGenerated'] and not AlfrescoDocumentAction.temporary['realPdf']}" >
+							<iframe src="./resource/rest/reports/#{AlfrescoDocument.nodeRefUrl}#view=FitH?cid=#{conversation.id}" width="100%" height="100%">
+							Il tuo browser non supporta i documenti PDF. Per vederlo puoi scaricarlo: <a href="./resource/rest/reports/#{AlfrescoDocument.nodeRefUrl}#view=FitH?cid=#{conversation.id}">Download PDF</a>
+							</iframe>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

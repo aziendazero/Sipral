@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fascicolazioneGestioneTipi">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="new type?" name="newType"></transition>
+		<transition to="preselect UOC" name="editType"></transition>
+		<transition to="super-state2/delete" name="delType"></transition>
+	</decision>
+
+	<node name="new type?">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.inject(TipologiaDittaAction.newEntity())}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','uoc')}"></action>
+			<action name="4" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="preselect UOC"></transition>
+	</node>
+
+	<task-node name="edit type">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/tipologiaDittaEdit')}"></action>
+		</event>
+		<transition to="next"></transition>
+	</task-node>
+
+	<decision name="next" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="BtnBack"></transition>
+		<transition to="editUOC" name="BtnUOC"></transition>
+		<transition to="inject UOS" name="BtnUOS"></transition>
+		<transition to="super-state1/create" name="BtnSave"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{TipologiaDittaAction.create()}"></action>
+			</event>
+			<transition to="../edit type"></transition>
+		</node>
+	</super-state>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDitta.internalId gt 0 ? rimPdm2CA.refresh(TipologiaDitta) : rimPdm2CA.evict(TipologiaDitta)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{TipologiaDitta.setServiceDeliveryLocation(null)}"></action>
+				<action name="2" expression="#{TipologiaDitta.setUos(null)}"></action>
+				<action name="3" expression="#{TipologiaDittaAction.delete()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<node name="preselect UOC">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.inject(TipologiaDitta.serviceDeliveryLocation)}"></action>
+			<action name="2" expression="#{UOSAction.inject(TipologiaDitta.uos)}"></action>
+		</event>
+		<transition to="edit type"></transition>
+	</node>
+
+	<node name="editUOC">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','uoc')}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="associa UOC"></transition>
+	</node>
+
+	<task-node name="associa UOC">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/associa_uoc')}"></action>
+		</event>
+		<transition to="Save UOC?"></transition>
+	</task-node>
+
+	<decision name="Save UOC?" expression="#{(button.getMnemonic())}">
+		<transition to="link UOC" name="BtnSaveNew"></transition>
+		<transition to="preselect UOC" name="BtnBack"></transition>
+	</decision>
+
+	<node name="link UOC">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+			<action name="2" expression="#{UOSAction.inject(TipologiaDitta.uos)}"></action>
+			<action name="3" expression="#{TipologiaDittaAction.unLink('uos',TipologiaDitta.uos)}"></action>
+		</event>
+		<transition to="preselect UOC"></transition>
+	</node>
+
+	<node name="inject UOS">
+		<event type="node-enter">
+			<action name="1" expression="#{UOSAction.injectList(UOSAction.filterOnlyActive(TipologiaDitta.serviceDeliveryLocation.children))}"></action>
+		</event>
+		<transition to="associa UOS"></transition>
+	</node>
+
+	<task-node name="associa UOS">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/tipologiaDitta_associa_uos')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="save UOS" name="BtnSave"></transition>
+		<transition to="preselect UOC" name="BtnBack"></transition>
+	</decision>
+
+	<node name="save UOS">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.link('uos',UOS)}"></action>
+		</event>
+		<transition to="preselect UOC"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

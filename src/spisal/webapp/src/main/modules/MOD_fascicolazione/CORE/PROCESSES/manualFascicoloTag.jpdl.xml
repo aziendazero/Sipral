@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manualFascicoloTag">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare read"></transition>
+	</start-state>
+
+
+	<node name="prepare read">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('filterFascicoli',true)}"></action>
+			<action name="2" expression="#{TagFascicoloAction.temporary.put('showUOC', spisalUserAction.show('UOC'))}"></action>
+			<action name="3" expression="#{TagFascicoloAction.temporary.put('nonattivi',false)}"></action>
+		</event>
+		<transition to="tags list UI"></transition>
+	</node>
+
+	<node name="read">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.readFascicoli()}"></action>
+			<action name="2" expression="#{TagFascicoloAction.injectList(TagFascicoloAction.removeFromList(TagFascicoloList.list, PraticheTagFascicoloList.list))}"></action>
+		</event>
+		<transition to="tags list UI"></transition>
+	</node>
+
+	<task-node name="tags list UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_fascicolazione/CORE/FORMS/manualTag')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="clean restrictions" name="BtnBack"></transition>
+		<transition to="Clear filters" name="ClearFiltri"></transition>
+		<transition to="read" name="Search"></transition>
+		<transition to="add Tag" name="selectThis"></transition>
+	</decision>
+
+	<node name="Clear filters">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.temporary.clear()}"></action>
+		</event>
+		<transition to="prepare read"></transition>
+	</node>
+
+	<node name="add Tag">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.refresh()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.link('tagFascicolo',TagFascicolo)}"></action>
+		</event>
+		<transition to="clean restrictions"></transition>
+	</node>
+
+	<node name="clean restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{TagFascicoloAction.setReadPageSize(0)}"></action>
+			<action name="3" expression="#{TagFascicoloAction.select.add('fascicolo')}"></action>
+		</event>
+		<transition to="selectThis"></transition>
+	</node>
+
+
+	<end-state name="selectThis"></end-state>
+
+
+</process-definition>

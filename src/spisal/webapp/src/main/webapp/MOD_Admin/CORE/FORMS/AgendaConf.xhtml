@@ -1,0 +1,145 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1504514108873" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<a4j:commandLink action="#{processManager.manageTask('Link_1504524667529;ADD')}" status="ajaxStatus" id="Link_1504524667529" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+				</div>
+
+				<a4j:outputPanel id="DataGrid_1504514073793" layout="block" styleClass="dt layoutTable-caption layoutTable layoutVertical" >
+						<div class="captionPaging">
+							<div class="caption">
+								<label for="f1504514073793">${msg.DataGrid_1504514073793} - ${error.FILTER_TABLE}: </label>
+								<input id="f1504514073793" type="text" onkeyup="filterTbl(jQuery('#d1504514073793'), this.value )" label="${msg.DataGrid_1504514073793} - ${error.FILTER_TABLE}: "/>
+							</div>
+						</div>
+					<table id="d1504514073793" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1504514073793} [AgendaConfList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1504514079335" value="${msg.DataGridColumn_1504514079335} &#8593;&#8595;" action="#{AgendaConfList.orderBy('nome')}" reRender="DataGrid_1504514073793" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1504514080588" value="${msg.DataGridColumn_1504514080588} &#8593;&#8595;" action="#{AgendaConfList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1504514073793" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1504514081775" value="${msg.DataGridColumn_1504514081775} &#8593;&#8595;" action="#{AgendaConfList.orderBy('slotSize')}" reRender="DataGrid_1504514073793" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1504514083310" value="${msg.DataGridColumn_1504514083310} &#8593;&#8595;" action="#{AgendaConfList.orderBy('validyStart')}" reRender="DataGrid_1504514073793" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1504514076160" value="${msg.DataGridColumn_1504514076160} &#8593;&#8595;" action="#{AgendaConfList.orderBy('validityEnd')}" reRender="DataGrid_1504514073793" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty AgendaConfList or AgendaConfList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1504514073793" value="#{AgendaConfList.entities}" var="AgendaConf" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1504514073793(this.id);" class="#{AgendaConfAction.getEntity().equals(AgendaConf) or AgendaConf.internalId != 0 and AgendaConfAction.entity.internalId.equals(AgendaConf.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{AgendaConf.nome}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{AgendaConf.serviceDeliveryLocation.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{AgendaConf.slotSize}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{AgendaConf.validyStart}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{AgendaConf.validityEnd}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1504514073793" name="ie1504514073793" status="ajaxStatus" action="#{AgendaConfList.injectEject}" data="#{AgendaConfList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1504514073793'))" reRender="LayoutRow_1504514126225" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{AgendaConfList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1504514126225" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!empty AgendaConf}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1504514126225}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1504515438627" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1504514905122;SAVE')}" status="ajaxStatus" id="Link_1504514905122" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o  fa-2x link" />
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1504515433524" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1504515433524;DELETE')}" status="ajaxStatus" id="Link_1504515433524_id" alt="#{LINK}" rendered="#{empty AgendaConf.appointmentSp}" reRender="phiDesktop" styleClass="fa fa-trash  fa-2x link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1504515011534" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1504515059474}</span>
+							<h:inputText id="TextBox_1504515059474" value="#{AgendaConf.nome}" styleClass="inputText" label="${msg.label_TextBox_1504515059474}" />
+							<a4j:outputPanel id="TextBox_1504515059474_msg" styleClass="errorContainer" ><h:message for="TextBox_1504515059474" styleClass="errorMessages TextBox_1504515059474_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1504530220696}</span>
+							<h:selectOneMenu id="ComboBox_1504530220696" value="#{AgendaConf.serviceDeliveryLocation}" disabled="#{AgendaConf.appointmentSp.size() gt 0}" styleClass="comboBox" label="${msg.label_ComboBox_1504530220696}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AgendaConfAction.temporary['lineeSelectItems']}" />
+								<f:converter converterId="EntityConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1504515127492}</span>
+							<h:selectOneMenu id="ComboBox_1504515127492" value="#{AgendaConf.slotSize}" styleClass="comboBox" label="${msg.label_ComboBox_1504515127492}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AgendaConfAction.slots()}" />
+								<f:converter converterId="IntegerConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1504515170087}</span>
+							<h:inputText id="MonthCalendar_1504515170087" value="#{AgendaConf.validyStart}" disabled="#{AgendaConf.appointmentSp.size() gt 0}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1504515170087}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1504515170087" styleClass="errorMessages MonthCalendar_1504515170087_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1504515163835}</span>
+							<h:inputText id="MonthCalendar_1504515163835" value="#{AgendaConf.validityEnd}" disabled="#{AgendaConf.appointmentSp.size() gt 0}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1504515163835}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1504515170087',this)"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1504515163835" styleClass="errorMessages MonthCalendar_1504515163835_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1504540926418}</span>
+							<h:outputText value="#{AgendaConf.appointmentSp.size()}" id="Label_1504540926418" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

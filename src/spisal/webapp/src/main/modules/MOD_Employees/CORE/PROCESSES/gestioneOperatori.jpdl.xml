@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneOperatori">
+
+
+	<start-state name="start-state1">
+		<transition to="filter"></transition>
+	</start-state>
+
+
+	<node name="read operatori ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.orderBy.put('name.fam','ascending')}"></action>
+			<action name="2" expression="#{OperatoreAction.orderBy.put('name.giv','ascending')}"></action>
+			<action name="3" expression="#{OperatoreAction.setUlss()}"></action>
+			<action name="4" expression="#{OperatoreAction.setReadPageSize(10000)}"></action>
+			<action name="5" expression="#{OperatoreAction.filterActive()}"></action>
+			<action name="6" expression="#{OperatoreAction.read()}"></action>
+		</event>
+		<transition to="Operatori"></transition>
+	</node>
+
+	<task-node name="Operatori">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Employees/CORE/FORMS/operatori')}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</task-node>
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="New Entity 1" name="BtnOperatoreIn"></transition>
+		<transition to="Read MonteOre" name="BtnOperatoreMng"></transition>
+		<transition to="New Entity 2" name="BtnOperatoreOut"></transition>
+		<transition to="ejectOP" name="BtnBack"></transition>
+		<transition to="end-state2" name="BtnSave"></transition>
+		<transition to="read operatori ULSS" name="BtnOperatoreSearch"></transition>
+		<transition to="Clean Restriction" name="BtnCleanRestrictions"></transition>
+		<transition to="Del PopUp" name="BtnDel"></transition>
+		<transition to="end-state2" name="BtnSaveDir"></transition>
+		<transition to="end-state2" name="BtnSaveRDP"></transition>
+		<transition to="Monte Ore 2" name="BtnMonteOre"></transition>
+	</decision>
+
+	<node name="setTemporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Search Employee"></transition>
+	</node>
+
+	<process-state name="Search Employee">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="removeTemporary"></transition>
+	</process-state>
+
+	<decision name="Button2?" expression="#{(button.getMnemonic())}">
+		<transition to="Operatori" name="BtnBack"></transition>
+		<transition to="SearchExisting" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Create Operatore form Employee">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.setFromEmployee(Employee, 'SPISAL')}"></action>
+		</event>
+		<transition to="Read ULSS"></transition>
+	</node>
+
+	<task-node name="Create Operatore UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Employees/CORE/FORMS/operatore')}"></action>
+		</event>
+		<transition to="Button3?"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="Save Operatore">
+			<event type="node-enter">
+				<action name="1" expression="#{OperatoreAction.create()}"></action>
+			</event>
+			<transition to="../Create Operatore UI"></transition>
+		</node>
+	</super-state>
+
+	<node name="New Entity 1">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.inject(OperatoreAction.newEntity())}"></action>
+			<action name="2" expression="#{MonteOreAction.eject()}"></action>
+			<action name="3" expression="#{MonteOreAction.ejectList()}"></action>
+		</event>
+		<transition to="setTemporary"></transition>
+	</node>
+
+	<node name="New Entity 2">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.inject(OperatoreAction.newEntity())}"></action>
+			<action name="2" expression="#{MonteOreAction.eject()}"></action>
+			<action name="3" expression="#{MonteOreAction.ejectList()}"></action>
+		</event>
+		<transition to="Read ULSS"></transition>
+	</node>
+
+	<decision name="Button3?" expression="#{(button.getMnemonic())}">
+		<transition to="read operatori ULSS" name="BtnBack"></transition>
+		<transition to="Select ULSS" name="BtnAddULSS"></transition>
+		<transition to="Monte Ore 1" name="BtnMonteOre"></transition>
+		<transition to="LinkUnlink Monte Ore" name="BtnSave"></transition>
+	</decision>
+
+	<process-state name="Select ULSS">
+		<sub-process name="MOD_HBS/CORE/PROCESSES/Search ULSS" binding="late"></sub-process>
+		<transition to="Button4?"></transition>
+	</process-state>
+
+	<node name="Link ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+		</event>
+		<transition to="Create Operatore UI"></transition>
+	</node>
+
+	<decision name="Button4?" expression="#{(button.getMnemonic())}">
+		<transition to="Link ULSS" name="BtnSave"></transition>
+		<transition to="Create Operatore UI" name="BtnBack"></transition>
+	</decision>
+
+	<node name="Refresh List">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.ejectList()}"></action>
+			<action name="2" expression="#{OperatoreAction.refresh()}"></action>
+		</event>
+		<transition to="read operatori ULSS"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Del Operatore">
+			<event type="node-enter">
+				<action name="1" expression="#{Operatore.setIsActive(false)}"></action>
+				<action name="2" expression="#{OperatoreAction.create()}"></action>
+			</event>
+			<transition to="../Refresh List"></transition>
+		</node>
+	</super-state>
+
+	<node name="Clean Restriction">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{OperatoreAction.temporary.clear()}"></action>
+		</event>
+		<transition to="filter"></transition>
+	</node>
+
+	<task-node name="Del PopUp">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_OP_alert')}"></action>
+		</event>
+		<transition to="Button5?"></transition>
+	</task-node>
+
+	<decision name="Button5?" expression="#{(button.getMnemonic())}">
+		<transition to="Refresh List" name="BtnCancel"></transition>
+		<transition to="super-state2/Del Operatore" name="BtnSave"></transition>
+	</decision>
+
+	<node name="SearchExisting">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.equal.put('employee',Employee)}"></action>
+			<action name="2" expression="#{OperatoreAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{OperatoreAction.read()}"></action>
+		</event>
+		<transition to="Existing?"></transition>
+	</node>
+
+	<decision name="Existing?" expression="#{OperatoreList.size()&gt;0}">
+		<transition to="Inject First" name="true"></transition>
+		<transition to="new" name="false"></transition>
+	</decision>
+
+	<node name="Inject First">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.injectFirst(OperatoreList)}"></action>
+			<action name="2" expression="#{OperatoreAction.ejectList()}"></action>
+			<action name="3" expression="#{OperatoreAction.temporary.put('existing', true)}"></action>
+		</event>
+		<transition to="Read ULSS"></transition>
+	</node>
+
+	<node name="new">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.temporary.put('existing', false)}"></action>
+		</event>
+		<transition to="Create Operatore form Employee"></transition>
+	</node>
+
+	<node name="filter">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PianificazioneAction.temporary.get('interni')?OperatoreAction.equal.put('serviceDeliveryLocation',Pianificazione.serviceDeliveryLocation):(ServiceDeliveryLocationAction.temporary.get('searchRDP')?OperatoreAction.equal.put('serviceDeliveryLocation',ServiceDeliveryLocation.parent.parent):(ServiceDeliveryLocationAction.temporary.get('searchDir')?OperatoreAction.equal.put('serviceDeliveryLocation',ServiceDeliveryLocation.parent):OperatoreAction.equal.put('serviceDeliveryLocation', Procpratiche.uoc.parent)))}"></action>
+			<action name="3" expression="#{OperatoreAction.select.add('internalId')}"></action>
+			<action name="4" expression="#{OperatoreAction.select.add('isNew')}"></action>
+			<action name="5" expression="#{OperatoreAction.select.add('isActive')}"></action>
+			<action name="6" expression="#{OperatoreAction.select.add('name.fam')}"></action>
+			<action name="7" expression="#{OperatoreAction.select.add('name.giv')}"></action>
+			<action name="8" expression="#{OperatoreAction.select.add('code')}"></action>
+			<action name="9" expression="#{OperatoreAction.select.add('ente')}"></action>
+			<action name="10" expression="#{OperatoreAction.select.add('employee.internalId')}"></action>
+			<action name="11" expression="#{OperatoreAction.select.add('employee.upg')}"></action>
+			<action name="12" expression="#{OperatoreAction.select.add('serviceDeliveryLocation.internalId')}"></action>
+			<action name="13" expression="#{OperatoreAction.select.add('serviceDeliveryLocation.name.giv')}"></action>
+			<action name="14" expression="#{OperatoreAction.select.add('serviceDeliveryLocation.organization.id')}"></action>
+		</event>
+		<transition to="read operatori ULSS"></transition>
+	</node>
+
+	<node name="Read ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','ulss')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="Set ULSS?"></transition>
+	</node>
+
+	<decision name="Set ULSS?" expression="#{ServiceDeliveryLocationList.size()==1}">
+		<transition to="Create Operatore UI" name="false"></transition>
+		<transition to="Set ULSS" name="true"></transition>
+	</decision>
+
+	<node name="Set ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.link('serviceDeliveryLocation',ServiceDeliveryLocationList.get(0))}"></action>
+		</event>
+		<transition to="Create Operatore UI"></transition>
+	</node>
+
+	<node name="removeTemporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="Button2?"></transition>
+	</node>
+
+	<node name="ejectOP">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="Monte Ore 1">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/Utility/monteOre" binding="late"></sub-process>
+		<transition to="Create Operatore UI"></transition>
+	</process-state>
+
+	<node name="Read MonteOre">
+		<event type="node-enter">
+			<action name="1" expression="#{MonteOreAction.eject()}"></action>
+			<action name="2" expression="#{MonteOreAction.ejectList()}"></action>
+			<action name="3" expression="#{MonteOreAction.equal.put('operatore',Operatore)}"></action>
+			<action name="4" expression="#{MonteOreAction.orderBy.put('anno','descending')}"></action>
+			<action name="5" expression="#{MonteOreAction.read()}"></action>
+			<action name="6" expression="#{MonteOreAction.injectEmptyList('ToRemoveMonteOreList')}"></action>
+		</event>
+		<transition to="Create Operatore UI"></transition>
+	</node>
+
+	<node name="LinkUnlink Monte Ore">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.linkUnlinkMonteOre(MonteOreList.list, ToRemoveMonteOreList.list)}"></action>
+		</event>
+		<transition to="super-state1/Save Operatore"></transition>
+	</node>
+
+	<process-state name="Monte Ore 2">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/Utility/monteOre" binding="late"></sub-process>
+		<transition to="read operatori ULSS"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+	
+	<action name="security" expression="admin;direttore;"></action> 
+	
+
+
+</process-definition>

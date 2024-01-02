@@ -1,0 +1,273 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1503920181076}</h1>
+	<div id="anamnesisMdl" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1503920203861" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1504548432960" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1502664438095;BtnBack')}" status="ajaxStatus" id="Link_1502664438095" title="${msg.alt_Link_1502664438095}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1503088809902;BtnSave')}" status="ajaxStatus" id="Link_1503088809902" title="${msg.alt_Link_1503088809902}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1503920231509" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1503920283157}</span>
+						<h:inputText id="MonthCalendar_1503920283157" value="#{AnamnesisMdl.startValidity}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1503920283157}" onchange="dateCompare(this,'#'+getIdPrefix(this)+'MonthCalendar_1503920284125')"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1503920283157" styleClass="errorMessages MonthCalendar_1503920283157_E" />
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1503920284125}</span>
+						<h:inputText id="MonthCalendar_1503920284125" value="#{AnamnesisMdl.endValidity}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1503920284125}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1503920283157',this)"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1503920284125" styleClass="errorMessages MonthCalendar_1503920284125_E" />
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1502921244400" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1502868176180" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1504142184008}</span>
+							<h:outputText value="#{AnamnesisMdl.ditta.denominazione}" id="Label_1504142184008" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1504750555745" >
+						<label style="display:#{(AnamnesisMdl.sede!=null) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_Label_1504750555745}</span>
+							<h:outputText rendered="#{AnamnesisMdl.sede!=null}" value="#{AnamnesisMdl.sede.addr}" id="Label_1504750555745_id" class="labelContent  base-label" />
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1505935935857" >
+						<a4j:commandLink action="#{OperationManager.manageDetail(AnamnesisMdl.sede)}" status="ajaxStatus" id="Link_1505935935857_id" title="${msg.alt_Link_1505935935857}" rendered="#{AnamnesisMdl.sede!=null}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1502570971085" >
+						<a4j:commandLink action="#{OperationManager.manageEdit(AnamnesisMdl,'Sede',null,'Ditta')}" status="ajaxStatus" id="Link_1502570971085_id" title="${msg.alt_Link_1502570971085}" rendered="#{AnamnesisMdl.sede!=null}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{OperationManager.manageLink(AnamnesisMdl,'Sede', null, null, false, AnamnesisMdlAction, 'Ditta', null)}" status="ajaxStatus" id="Link_1505400184673" title="${msg.alt_Link_1505400184673}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlink link" />
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1504490052729" >
+						<a4j:commandLink action="#{OperationManager.manageUnlink(AnamnesisMdl,'Sede', null, null, false, AnamnesisMdlAction, 'Ditta', null)}" status="ajaxStatus" id="Link_1504490052729_id" title="${msg.alt_Link_1504490052729}" rendered="#{AnamnesisMdl.sede!=null}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1505285136570" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1502647533050" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1504888460184}</span>
+								<h:inputText id="TextBox_1504888460184" value="#{AnamnesisMdl.comparto.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1504888460184}" />
+								<a4j:outputPanel id="TextBox_1504888460184_msg" styleClass="errorContainer" ><h:message for="TextBox_1504888460184" styleClass="errorMessages TextBox_1504888460184_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1503116970839" style="width:49%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1502642919845_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1502642919845" >
+								<h:inputTextarea id="TextArea_1502642919845_id" value="#{AnamnesisMdl.comparto.currentTranslation}" style="height: 55px;" readonly="true" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1502642919845_id" styleClass="errorMessages TextArea_1502642919845_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1503830018093;editComparto')}" status="ajaxStatus" id="Link_1503830018093" alt="#{LINK}" immediate="true" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{AnamnesisMdl.setComparto(null)}" status="ajaxStatus" id="DelLink_1503830018093_1505906485292" title="${msg.alt_DelLink_1503830018093_1505906485292}" reRender="LayoutRow_1505285136570" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1502768342547" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1501869532416}</span>
+								<h:outputText value="#{CompartoAtecoAction.getComparto(AnamnesisMdl.comparto)}" id="Label_1501869532416" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1503544552871}</span>
+								<h:outputText value="#{CompartoAtecoAction.getSpecificazione(AnamnesisMdl.comparto)}" id="Label_1503544552871" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1503921257863" >
+				<label >
+					<span class="label">${msg.label_TextArea_1503921257863}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1503921257863_id" value="#{AnamnesisMdl.reparto}" label="${msg.label_TextArea_1503921257863}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1503921257863_id" styleClass="errorMessages TextArea_1503921257863_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1506682834072" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1506684804589" style="width:50%" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1503921259440" >
+						<label >
+							<span class="label">${msg.label_TextArea_1503921259440}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1503921259440_id" value="#{AnamnesisMdl.mansione}" label="${msg.label_TextArea_1503921259440}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1503921259440_id" styleClass="errorMessages TextArea_1503921259440_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506684809485" style="width:50%" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<h:selectOneMenu id="ComboBox_1506682847696" value="#{AnamnesisMdl.mansioneCode}" styleClass="comboBox" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WDMansioni')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1503921261887" >
+				<label >
+					<span class="label">${msg.label_TextArea_1503921261887}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1503921261887_id" value="#{AnamnesisMdl.note}" style="padding-bottom:10px;height: 100px;" label="${msg.label_TextArea_1503921261887}" >
+						<f:validateLength minimum="0" maximum="2500"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1503921261887_id" styleClass="errorMessages TextArea_1503921261887_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1504603137294" style="padding:2.5px 2.5px 10px 2.5px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1504274392981" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{function.hasCodeIn(MedicinaLavoro.type.code,'02')}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1504274392981}</legend>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1505484484108}</span>
+							<h:outputText value="#{AnamnesisMdl.expCVM}" id="Label_1505484484108" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1502915509187}</span>
+							<h:outputText value="#{AnamnesisMdl.expAmi}" id="Label_1502915509187" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1502561894513" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1502561894513}</legend>
+					<div class="layoutVertical" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1504408033333;NewFattoreLav')}" status="ajaxStatus" id="Link_1504408033333" title="${msg.alt_Link_1504408033333}" reRender="phiDesktop" styleClass="fa fa-plus fa-2x linkUnlink link" />
+					</div>
+
+					<a4j:outputPanel id="DataGrid_1505893651697" layout="block" styleClass="linkUnlink dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1505893651697" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1505893651697} [FattoreRischioList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1504934965390} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1505506387892" value="${msg.DataGridColumn_1505506387892} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('yearStart')}" reRender="DataGrid_1505893651697" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1502090730249" value="${msg.DataGridColumn_1502090730249} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('yearStop')}" reRender="DataGrid_1505893651697" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1516723781381} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1503996579040} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1503684031278" value="${msg.DataGridColumn_1503684031278} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('intensityQual')}" reRender="DataGrid_1505893651697" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1502348686593" value="${msg.DataGridColumn_1502348686593} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('intensityQuant')}" reRender="DataGrid_1505893651697" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1503354391279" value="${msg.DataGridColumn_1503354391279} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('unitaMisura')}" reRender="DataGrid_1505893651697" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th style="#{(Param['p.home.vp_pratica_workdisease.fattoreRischioDelete'].visible ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1504778906732} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty FattoreRischioList or FattoreRischioList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="9">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1505893651697" value="#{FattoreRischioList.entities}" var="FattoreRischio" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{FattoreRischioAction.injectAndProceed(FattoreRischio, 'Link_1503226191466;EditFattoreLav')}" status="ajaxStatus" id="Link_1503226191466" title="${msg.alt_Link_1503226191466}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink readOnly tableButton" />
+
+										</td>
+
+										<td style="width:8%;" >
+											#{FattoreRischio.yearStart}
+										</td>
+
+										<td style="width:8%;" >
+											#{FattoreRischio.yearStop}
+										</td>
+
+										<td style="width:8%;" >
+											#{FattoreRischioAction.getDurataInt(FattoreRischio)}
+										</td>
+
+										<td style="width:19%;" >
+											#{FattoreRischioAction.getRischio(FattoreRischio)}
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.intensityQual}
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.intensityQuant}
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.unitaMisura}
+										</td>
+
+										<td style="#{(Param['p.home.vp_pratica_workdisease.fattoreRischioDelete'].visible ? '' : 'display:none;')} width:5%;" >
+											<a4j:commandLink action="#{FattoreRischioAction.injectAndProceed(FattoreRischio, 'Link_1504663205211;DelFattoreLav')}" status="ajaxStatus" id="Link_1504663205211" title="${msg.alt_Link_1504663205211}" reRender="DataGrid_1505893651697,LayoutRow_1504603137294" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

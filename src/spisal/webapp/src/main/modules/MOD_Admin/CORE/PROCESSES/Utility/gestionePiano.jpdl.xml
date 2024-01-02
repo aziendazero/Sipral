@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneCostiDiretti">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="preactions" name="PianoNew"></transition>
+		<transition to="Pre-Actions" name="PianoMng"></transition>
+		<transition to="super-state2/Delete" name="PianoDel"></transition>
+	</decision>
+
+	<node name="preactions">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.inject(PianificazioneAction.newEntity())}"></action>
+			<action name="2" expression="#{ProgettoAssociatoAction.eject()}"></action>
+			<action name="3" expression="#{ProgettoAssociatoAction.ejectList()}"></action>
+		</event>
+		<transition to="Pianificazione"></transition>
+	</node>
+
+	<task-node name="Pianificazione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/pianificazione')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="Create">
+			<event type="node-enter">
+				<action name="1" expression="#{PianificazioneAction.create()}"></action>
+				<action name="2" expression="#{PianificazioneAction.manageChanges(Pianificazione)}"></action>
+			</event>
+			<transition to="../ReadInject"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="super-state1/Create" name="BtnSave"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="Read ULSS" name="BtnULSS"></transition>
+		<transition to="Associazione Progetti" name="BtnProgettoAssociato"></transition>
+		<transition to="PrioritaUpDown" name="BtnPriorita"></transition>
+		<transition to="Refresh progetti" name="BtnRefreshProgetti"></transition>
+		<transition to="Refresh monitor" name="BtnRefreshMonitor"></transition>
+		<transition to="Info Monitoraggio" name="BtnInfoMonitor"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.eject()}"></action>
+			<action name="2" expression="#{PianificazioneAction.ejectList()}"></action>
+			<action name="3" expression="#{ProgettoAction.eject()}"></action>
+			<action name="4" expression="#{ProgettoAction.ejectList()}"></action>
+			<action name="5" expression="#{MonitorAction.eject()}"></action>
+			<action name="6" expression="#{MonitorAction.ejectList()}"></action>
+			<action name="7" expression="#{MonitorAction.temporary.remove('selectedProgAssoc')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Delete">
+			<event type="node-enter">
+				<action name="1" expression="#{PianificazioneAction.delete()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="Select Ulss">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/associa_ulss')}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</task-node>
+
+	<node name="Read ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','ulss')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="Select Ulss"></transition>
+	</node>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="eject ULSS" name="BtnBack"></transition>
+		<transition to="link ULSS" name="BtnSave"></transition>
+	</decision>
+
+	<node name="link ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+		</event>
+		<transition to="eject ULSS"></transition>
+	</node>
+
+	<node name="eject ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.eject()}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.ejectList()}"></action>
+		</event>
+		<transition to="Pianificazione"></transition>
+	</node>
+
+	<node name="ReadInject">
+		<event type="node-enter">
+			<action name="1" expression="#{ProgettoAssociatoAction.equal.put('pianificazione',Pianificazione)}"></action>
+			<action name="2" expression="#{ProgettoAssociatoAction.orderBy.put('priorita','ascending')}"></action>
+			<action name="3" expression="#{ProgettoAssociatoAction.read()}"></action>
+			<action name="4" expression="#{PianificazioneAction.updateDisponibilitaNomina(Pianificazione)}"></action>
+		</event>
+		<transition to="Pianificazione"></transition>
+	</node>
+
+	<process-state name="Associazione Progetti">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/associazioneProgetti" binding="late"></sub-process>
+		<transition to="super-state1/Create"></transition>
+	</process-state>
+
+	<node name="PrioritaUpDown">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.prioritaUpDown(Pianificazione, ProgettoAssociato)}"></action>
+		</event>
+		<transition to="super-state1/Create"></transition>
+	</node>
+
+	<node name="Refresh progetti">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.refreshCarichi(Pianificazione.progettiAssociati)}"></action>
+		</event>
+		<transition to="super-state1/Create"></transition>
+	</node>
+
+	<node name="Refresh monitor">
+		<event type="node-enter">
+			<action name="1" expression="#{MonitorAction.check()}"></action>
+		</event>
+		<transition to="super-state1/Create"></transition>
+	</node>
+
+	<node name="Pre-Actions">
+		<event type="node-enter">
+			<action name="1" expression="#{MonitorAction.preActions(Pianificazione)}"></action>
+		</event>
+		<transition to="ReadInject"></transition>
+	</node>
+
+	<task-node name="Info Monitoraggio">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Admin/CORE/FORMS/infoMonitor')}"></action>
+		</event>
+		<transition to="Pianificazione"></transition>
+	</task-node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

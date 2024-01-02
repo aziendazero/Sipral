@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="companyManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<task-node name="Gestisci Sede">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/create_sede')}"></action>
+		</event>
+		<transition to="Bottone2?"></transition>
+	</task-node>
+
+	<super-state name="super-state2">
+		<node name="Create sede">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAction.create()}"></action>
+				<action name="2" expression="#{PersoneGiuridiche.addSedi(Sedi)}"></action>
+				<action name="3" expression="#{PersoneGiuridicheAction.create()}"></action>
+			</event>
+			<transition to="update sede"></transition>
+		</node>
+		<node name="update sede">
+			<event type="node-enter">
+				<action name="1" expression="#{PersoneGiuridicheAction.linkUnlinkTagDitta(TagDittaList.list, ToRemoveTagDittaList.list)}"></action>
+				<action name="2" expression="#{SediAction.linkUnlinkAttivita(AttivitaIstatList.list, ToRemoveAttivitaIstatList.list)}"></action>
+				<action name="3" expression="#{PersoneGiuridicheAction.linkUnlinkAttivita(AttivitaIstatAction.temporary['AttivitaIstatDittaList'].list, AttivitaIstatAction.temporary['ToRemoveAttivitaIstatDittaList'].list,false)}"></action>
+			</event>
+			<transition to="../inject Sedi"></transition>
+		</node>
+		<node name="pre create">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAction.create()}"></action>
+			</event>
+			<transition to="update sede"></transition>
+		</node>
+	</super-state>
+
+	<decision name="Bottone2?" expression="#{button.mnemonic}">
+		<transition to="Aggiungi ruolo" name="BtnRManagement"></transition>
+		<transition to="eject ruolo" name="BtnRNew"></transition>
+		<transition to="Gestione cariche" name="BtnPosNew"></transition>
+		<transition to="Gestione cariche" name="BtnPosMng"></transition>
+		<transition to="Gestione cariche" name="BtnPosDel"></transition>
+		<transition to="checkAlreadyPresent2" name="BtnSSave"></transition>
+		<transition to="attivitaSede" name="attivita"></transition>
+		<transition to="attivitaSede" name="delAttivita"></transition>
+		<transition to="attivitaSede" name="addAttivita"></transition>
+		<transition to="get device location" name="getDeviceLocation"></transition>
+		<transition to="pick location" name="pickLocationFromMap"></transition>
+		<transition to="reversege geocode" name="reverseGeocode"></transition>
+		<transition to="editSA" name="editSA"></transition>
+		<transition to="read sedi for popup" name="addSped"></transition>
+		<transition to="edit IndirizzoSped 2" name="editSped"></transition>
+		<transition to="Gestione SI per sedi" name="BtnSIPerSedi"></transition>
+		<transition to="end-state1" name="BtnSBack"></transition>
+	</decision>
+
+	<node name="inject Sedi">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.ejectList()}"></action>
+			<action name="2" expression="#{SediAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{SediAction.orderBy.put('sedePrincipale','descending')}"></action>
+			<action name="4" expression="#{SediAction.equal.put('personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="5" expression="#{SediAction.equal.put('isActive',true)}"></action>
+			<action name="6" expression="#{SediAction.notEqual.put('soloInstImp',true)}"></action>
+			<action name="7" expression="#{SediAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="eject Sede">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.eject()}"></action>
+			<action name="2" expression="#{AttivitaIstatAction.temporary.put('AttivitaIstatDittaList',AttivitaIstatList)}"></action>
+			<action name="3" expression="#{AttivitaIstatAction.temporary.put('ToRemoveAttivitaIstatDittaList',ToRemoveAttivitaIstatList)}"></action>
+			<action name="4" expression="#{AttivitaIstatAction.injectEmptyList('AttivitaIstatList')}"></action>
+			<action name="5" expression="#{AttivitaIstatAction.injectEmptyList('ToRemoveAttivitaIstatList')}"></action>
+			<action name="6" expression="#{SediAction.inject(SediAction.newEntity())}"></action>
+			<action name="7" expression="#{Sedi.setDeletable(true)}"></action>
+		</event>
+		<transition to="Gestisci Sede"></transition>
+	</node>
+
+	<task-node name="Aggiungi ruolo">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/create_role')}"></action>
+		</event>
+		<transition to="Bottone3?"></transition>
+	</task-node>
+
+	<decision name="Bottone3?" expression="#{button.value}">
+		<transition to="Gestisci Sede" name="BtnRBack"></transition>
+		<transition to="super-state3/Create ruolo" name="BtnRSave"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<node name="Create ruolo">
+			<event type="node-enter">
+				<action name="1" expression="#{Ruoli.setSedi(Sedi)}"></action>
+				<action name="2" expression="#{RuoliAction.create()}"></action>
+			</event>
+			<transition to="../ejectEvict"></transition>
+		</node>
+	</super-state>
+
+	<node name="Inject Ruoli">
+		<event type="node-enter">
+			<action name="1" expression="#{RuoliAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{RuoliAction.equal.put('sedi.internalId',Sedi.internalId)}"></action>
+			<action name="3" expression="#{RuoliAction.equal.put('isActive',true)}"></action>
+			<action name="4" expression="#{RuoliAction.read()}"></action>
+			<action name="5" expression="#{RuoliAction.injectEmptyList()}"></action>
+		</event>
+		<transition to="Gestisci Sede"></transition>
+	</node>
+
+	<node name="eject ruolo">
+		<event type="node-enter">
+			<action name="1" expression="#{RuoliAction.inject(RuoliAction.newEntity())}"></action>
+		</event>
+		<transition to="Aggiungi ruolo"></transition>
+	</node>
+
+	<node name="Inject">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaIstatAction.temporary.put('AttivitaIstatDittaList',AttivitaIstatList)}"></action>
+			<action name="2" expression="#{AttivitaIstatAction.temporary.put('ToRemoveAttivitaIstatDittaList',ToRemoveAttivitaIstatList)}"></action>
+			<action name="3" expression="#{AttivitaIstatAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{AttivitaIstatAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{AttivitaIstatAction.equal.put('sedi.internalId',Sedi.internalId)}"></action>
+			<action name="6" expression="#{AttivitaIstatAction.read()}"></action>
+			<action name="7" expression="#{AttivitaIstatAction.injectEmptyList('ToRemoveAttivitaIstatList')}"></action>
+			<action name="8" expression="#{CaricheAction.cleanRestrictions()}"></action>
+			<action name="9" expression="#{CaricheAction.equal.put('isActive',true)}"></action>
+			<action name="10" expression="#{CaricheAction.equal.put('sede.internalId',Sedi.internalId)}"></action>
+			<action name="11" expression="#{CaricheAction.read()}"></action>
+			<action name="12" expression="#{SediInstallazionePerSediAction.equal.put('sede',Sedi)}"></action>
+			<action name="13" expression="#{SediInstallazionePerSediAction.notEqual.put('copy',true)}"></action>
+			<action name="14" expression="#{SediInstallazionePerSediAction.read()}"></action>
+			<action name="15" expression="#{PersoneGiuridiche.app eq 'ARPAV' ? IndirizzoSpedAction.injectList(Sedi.indirizzoSped) : ''}"></action>
+			<action name="16" expression="#{PersoneGiuridiche.app eq 'ARPAV' ? SediAction.temporary.put('sedeAdd', Sedi.sedeAddebito) : ''}"></action>
+		</event>
+		<transition to="Inject Ruoli"></transition>
+	</node>
+
+	<process-state name="Gestione cariche">
+		<sub-process name="MOD_Company/CORE/PROCESSES/positionsManagement" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<decision name="checkAlreadyPresent2" expression="#{PersoneGiuridicheAction.checkAlreadyPresent(PersoneGiuridiche)}">
+		<transition to="alreadyPresentUI2" name="true"></transition>
+		<transition to="imported sede?" name="false"></transition>
+	</decision>
+
+	<task-node name="alreadyPresentUI2">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/company_already_present')}"></action>
+		</event>
+		<transition to="proceed2?"></transition>
+	</task-node>
+
+	<decision name="proceed2?" expression="#{(button.getMnemonic())}">
+		<transition to="Gestisci Sede" name="BACK"></transition>
+		<transition to="ARPAV?" name="OK"></transition>
+	</decision>
+
+	<process-state name="attivitaSede">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/attivitaIstatManage" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<node name="ejectEvict">
+		<event type="node-enter">
+			<action name="1" expression="#{RuoliAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="Inject Ruoli"></transition>
+	</node>
+
+	<process-state name="Gestione SI per sedi">
+		<sub-process name="MOD_Company/CORE/PROCESSES/manageSIPerSedi" binding="late"></sub-process>
+		<transition to="Inject"></transition>
+	</process-state>
+
+	<decision name="ARPAV?" expression="#{PersoneGiuridiche.app eq 'ARPAV'}">
+		<transition to="already saved?" name="false"></transition>
+		<transition to="already saved? 2" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state4">
+		<node name="crea sede">
+			<event type="node-enter">
+				<action name="1" expression="#{Sedi.setSedeAddebito(SediAction.temporary['sedeAdd'])}"></action>
+				<action name="2" expression="#{SediAction.create()}"></action>
+				<action name="3" expression="#{PersoneGiuridiche.addSedi(Sedi)}"></action>
+				<action name="4" expression="#{PersoneGiuridicheAction.create()}"></action>
+			</event>
+			<transition to="../PersonaGiur refresh"></transition>
+		</node>
+		<node name="crea sede 2">
+			<event type="node-enter">
+				<action name="1" expression="#{Sedi.setSedeAddebito(SediAction.temporary['sedeAdd'])}"></action>
+				<action name="2" expression="#{SediAction.create()}"></action>
+			</event>
+			<transition to="../PersonaGiur refresh"></transition>
+		</node>
+	</super-state>
+
+	<node name="PersonaGiur refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.refresh()}"></action>
+		</event>
+		<transition to="inject Sedi"></transition>
+	</node>
+
+	<decision name="is Arpav?" expression="#{PersoneGiuridiche.app eq 'ARPAV'}">
+		<transition to="eject Sede" name="false"></transition>
+		<transition to="injectNew Sa" name="true"></transition>
+	</decision>
+
+	<process-state name="get device location">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/getDeviceLocation" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<process-state name="pick location">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/pickLocationFromMap" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<process-state name="reversege geocode">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/reverseLookup" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<decision name="any ateco?" expression="#{SediAction.checkAteco(AttivitaIstatList) or PersoneGiuridiche.app eq 'ARPAV'}">
+		<transition to="ARPAV?" name="true"></transition>
+		<transition to="ateco popup" name="false"></transition>
+	</decision>
+
+	<task-node name="ateco popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupEmptyAteco')}"></action>
+		</event>
+		<transition to="buttton popup?"></transition>
+	</task-node>
+
+	<decision name="buttton popup?" expression="#{(button.getMnemonic())}">
+		<transition to="Gestisci Sede" name="btnOk"></transition>
+		<transition to="end-state1" name="BtnExit"></transition>
+		<transition to="Gestisci Sede" name="BtnCancel"></transition>
+	</decision>
+
+	<decision name="imported sede?" expression="#{Sedi.getCreatedBy().matches('^PersoneGiuridicheImporter.*$')}">
+		<transition to="any ateco?" name="false"></transition>
+		<transition to="ARPAV?" name="true"></transition>
+	</decision>
+
+	<decision name="already saved?" expression="#{Sedi.internalId gt 0 and rimPdm2CA.contains(Sedi)}">
+		<transition to="super-state2/Create sede" name="false"></transition>
+		<transition to="super-state2/pre create" name="true"></transition>
+	</decision>
+
+	<process-state name="editSA">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/editSA_new" binding="late"></sub-process>
+		<transition to="Gestisci Sede"></transition>
+	</process-state>
+
+	<node name="injectNew Sa">
+			<event type="node-enter">
+			<action name="1" expression="#{SediAction.inject(SediAction.newEntity())}"></action>
+			<action name="2" expression="#{Sedi.setDeletable(true)}"></action>
+			<action name="3" expression="#{Sedi.setPersonaGiuridica(PersoneGiuridiche)}"></action>
+			<action name="4" expression="#{SediAction.temporary.remove('sedeAdd')}"></action>
+		</event>
+		<transition to="inject empty lists"></transition>
+	</node>
+
+	<node name="read sedi for popup">
+		<event type="node-enter">
+			<action name="1" expression="#{SediToIndSpedAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{SediToIndSpedAction.equal.put('isActive', true)}"></action>
+			<action name="3" expression="#{SediToIndSpedAction.equal.put('personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="4" expression="#{SediToIndSpedAction.notEqual.put('soloInstImp',true)}"></action>
+			<action name="5" expression="#{SediToIndSpedAction.read()}"></action>
+			<action name="6" expression="#{SediToIndSpedAction.injectMatchingSede(Sedi)}"></action>
+		</event>
+		<transition to="scegli sede ditta"></transition>
+	</node>
+
+	<task-node name="scegli sede ditta">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupCopySedeToIndSped')}"></action>
+		</event>
+		<transition to="popup sede button"></transition>
+	</task-node>
+
+	<decision name="popup sede button" expression="#{button.mnemonic}">
+		<transition to="scegli sede ditta" name="SiPerSedi"></transition>
+		<transition to="to form sede 2" name="BtnCancel"></transition>
+		<transition to="set search true" name="agendaIndSped"></transition>
+		<transition to="Inject IndSped from Sede 2" name="COPY"></transition>
+	</decision>
+
+	<process-state name="agenda ind sped 2">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/indirizzoSpedGestione" binding="late"></sub-process>
+		<transition to="remove search"></transition>
+	</process-state>
+
+	<decision name="button from agenda 2" expression="#{button.mnemonic}">
+		<transition to="to form sede 2" name="BtnBack"></transition>
+		<transition to="PopConferma 2" name="SELECT"></transition>
+	</decision>
+
+	<node name="to form sede 2">
+		<event type="node-enter"></event>
+		<transition to="Gestisci Sede"></transition>
+	</node>
+
+	<task-node name="PopConferma 2">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupConfermaAssociazione')}"></action>
+		</event>
+		<transition to="popup conferma button 2"></transition>
+	</task-node>
+
+	<decision name="popup conferma button 2" expression="#{button.mnemonic}">
+		<transition to="to form sede 2" name="BtnCancel"></transition>
+		<transition to="super-state7/create indSped 2" name="OK"></transition>
+	</decision>
+
+	<super-state name="super-state7">
+		<node name="create indSped 2">
+			<event type="node-enter">
+				<action name="1" expression="#{IndirizzoSpedAction.create()}"></action>
+				<action name="2" expression="#{Sedi.setSedeAddebito(SediAction.temporary['sedeAdd'])}"></action>
+				<action name="3" expression="#{Sedi.addIndirizzoSped(IndirizzoSped)}"></action>
+				<action name="4" expression="#{SediAction.create()}"></action>
+			</event>
+			<transition to="../reinject ind list"></transition>
+		</node>
+	</super-state>
+
+	<node name="reinject ind list">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(Sedi.indirizzoSped)}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.refresh()}"></action>
+		</event>
+		<transition to="to form sede 2"></transition>
+	</node>
+
+	<node name="Inject IndSped from Sede 2">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectFromExistingSede(SediToIndSped)}"></action>
+		</event>
+		<transition to="edit IndirizzoSped 2"></transition>
+	</node>
+
+	<task-node name="edit IndirizzoSped 2">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/createIndirizzoSped')}"></action>
+		</event>
+		<transition to="indirizzo sped button 2"></transition>
+	</task-node>
+
+	<decision name="indirizzo sped button 2" expression="#{button.mnemonic}">
+		<transition to="to form sede 2" name="BACK"></transition>
+		<transition to="super-state7/create indSped 2" name="SAVE"></transition>
+	</decision>
+
+	<node name="inject empty lists">
+		<event type="node-enter">
+			<action name="1" expression="#{SediInstallazionePerSediAction.injectEmptyList()}"></action>
+			<action name="2" expression="#{IndirizzoSpedAction.injectEmptyList()}"></action>
+		</event>
+		<transition to="Gestisci Sede"></transition>
+	</node>
+
+	<node name="set search true">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="agenda ind sped 2"></transition>
+	</node>
+
+	<node name="remove search">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="button from agenda 2"></transition>
+	</node>
+
+	<decision name="already saved? 2" expression="#{Sedi.internalId gt 0 and rimPdm2CA.contains(Sedi)}">
+		<transition to="super-state4/crea sede" name="false"></transition>
+		<transition to="super-state4/crea sede 2" name="true"></transition>
+	</decision>
+
+	<decision name="coming from?" expression="#{button.mnemonic}">
+		<transition to="Inject" name="BtnSManagement"></transition>
+		<transition to="is Arpav?" name="BtnSNew"></transition>
+		<transition to="super-state5/Disactivate Sede" name="BtnSDel"></transition>
+	</decision>
+
+	<super-state name="super-state5">
+		<node name="Disactivate Sede">
+			<event type="node-enter">
+				<action name="1" expression="#{PersoneGiuridicheAction.deleteAttivita(Sedi)}"></action>
+				<action name="2" expression="#{Sedi.setIsActive(false)}"></action>
+				<action name="3" expression="#{PersoneGiuridicheAction.create()}"></action>
+				<action name="4" expression="#{SediAction.eject()}"></action>
+			</event>
+			<transition to="../re-read sede"></transition>
+		</node>
+	</super-state>
+	
+	<node name="re-read sede">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+	
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

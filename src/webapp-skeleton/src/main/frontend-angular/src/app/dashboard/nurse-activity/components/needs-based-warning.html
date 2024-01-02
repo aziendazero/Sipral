@@ -1,0 +1,135 @@
+<form #form="ngForm" id="FrmNdsBsdWrnng">
+  <h1>{{'FrmNdsBsdWrnng' | translate}}</h1>
+  <div id="LytNdsBsdWrnng" class="layout vertical">
+    <div class="lbl">
+    <span>{{'LblNdsBsdWarning' | translate}}</span>
+    </div>
+    <div class="lbl" *ngIf="asNeededDetailsData.thresholds.maximumquantity">
+    <label>{{'label_LblNdsBsdMax' | translate}}</label>
+    <span>{{asNeededDetailsData.thresholds.maximumquantity}}</span>
+    </div>
+    <div class="lbl">
+    <label>{{'label_LblNdsBsdTime' | translate}}</label>
+    <span>{{asNeededDetailsData.thresholds.gap}}</span>
+    </div>
+    <div id="lyt-systolic" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.systolicpressure">
+      <div class="lbl">
+      <label>{{'label_lbl-systolic-treshold' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.systolicpressure}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.systolicpressure">
+      <label>{{'label_lbl-systolic-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.systolicpressure.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.systolicpressure">
+      <label>{{'label_lbl-systolic-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.systolicpressure.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-diastolic" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.diastolicpressure">
+      <div class="lbl">
+      <label>{{'label_lyt-diastolic-treshold' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.diastolicpressure}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.diastolicpressure">
+      <label>{{'label_lyt-diastolic-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.diastolicpressure.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.diastolicpressure">
+      <label>{{'label_lyt-diastolic-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.diastolicpressure.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-temperature" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.temperature">
+      <div class="lbl">
+      <label>{{'label_lyt-temperature-treshold' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.temperature}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.temperature">
+      <label>{{'label_lyt-temperature-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.temperature.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.temperature">
+      <label>{{'label_lyt-temperature-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.temperature.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-glycemia" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.glycemia">
+      <div class="lbl">
+      <label>{{'label_lbl-glycemia-treshold' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.glycemia}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.glycemia">
+      <label>{{'label_lbl-glycemia-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.glycemia.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.glycemia">
+      <label>{{'label_lbl-glycemia-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.glycemia.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div class="lbl" *ngIf="asNeededDetailsData.thresholds.glysecondaryprotocol">
+    <label>{{'label_lbl-glycemia-protocol' | translate}}</label>
+    <span></span>
+    </div>
+    <div id="lyt-diuresis" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.diuresis">
+      <div class="lbl">
+      <label>{{'label_lbl-diuresis-treshold' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.diuresis}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.diuresis">
+      <label>{{'label_lbl-diuresis-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.diuresis.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.diuresis">
+      <label>{{'label_lbl-diuresis-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.diuresis.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-pain" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.pain">
+      <div class="lbl">
+      <label>{{'label_lbl-pain' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.pain}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.pain">
+      <label>{{'label_lbl-pain-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.pain.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.pain">
+      <label>{{'label_lbl-pain-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.pain.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-heartrate" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.heartrate">
+      <div class="lbl">
+      <label>{{'label_lbl-heartrate' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.heartrate}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.heartrate">
+      <label>{{'label_lbl-heartrate-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.heartrate.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.heartrate">
+      <label>{{'label_lbl-heartrate-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.heartrate.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="lyt-spo2" class="layout horizontal" *ngIf="asNeededDetailsData.thresholds.spo2">
+      <div class="lbl">
+      <label>{{'label_lbl-spo2' | translate}}</label>
+      <span>{{asNeededDetailsData.thresholds.spo2}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.spo2">
+      <label>{{'label_lbl-spo2-value' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.spo2.value}}</span>
+      </div>
+      <div class="lbl" *ngIf="asNeededDetailsData.vitalsigns.spo2">
+      <label>{{'label_lbl-spo2-date' | translate}}</label>
+      <span>{{asNeededDetailsData.vitalsigns.spo2.evaluationdate | dateFormat: 'short'}}</span>
+      </div>
+    </div>
+    <div id="LayoutRow_1505142508152" class="layout horizontal center">
+      <phi-button (binding)="openAdminPopUp()" id="BtnNdsBsAdminister">{{'BtnNdsBsAdminister' | translate}}</phi-button>
+    </div>
+  </div>
+</form>

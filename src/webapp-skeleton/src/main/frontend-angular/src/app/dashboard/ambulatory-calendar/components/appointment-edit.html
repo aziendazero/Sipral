@@ -1,0 +1,249 @@
+<form #form="ngForm" id="frm-app-edit">
+  <h1>{{getFormTitle()}}</h1>
+  <div id="lyt-app-edit" class="layout vertical">
+    <phi-color-picker
+      [(ngModel)]="Appointment.color"
+      name="Appointment.color"
+      id="txt-app-color"
+      [widgetLabel]="'label_txt-app-color' | translate"
+      [renderedEl]="!Appointment.procedure || Appointment.procedure.classCode.code == 'CUP'"
+      converter="Integer Converter"
+    ></phi-color-picker>
+    <div class="lbl">
+      <label>{{'label_lbl-app-ambulatory' | translate}}</label>
+      <span>{{Appointment.serviceDeliveryLocation?.parent?.name?.giv}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_lbl-app-agenda' | translate}}</label>
+      <span>{{Appointment.serviceDeliveryLocation?.name?.giv}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_lbl-app-defdate' | translate}}</label>
+      <span>{{Appointment.defaultDate | dateFormat: 'short'}}</span>
+    </div>
+    <div
+      id="lyt-app-edit-pat"
+      class="layout horizontal space-between"
+      *ngIf="Appointment.procedure && Appointment.procedure.classCode.code != 'GENERAL'"
+    >
+      <div class="lbl">
+        <label>{{'label_lbl-app-patientz' | translate}}</label>
+        <span
+          >{{Appointment.patient?.name.fam}}
+          {{Appointment.patient?.name.giv}}</span
+        >
+        <span class="errorMessages" *ngIf="invalidPatient()"
+          >{{'REQUIRED' | translate}}</span
+        >
+      </div>
+      <phi-buttonadd
+        (binding)="addPatient()"
+        id="btn-app-patient-add"
+        [renderedEl]="!Appointment.internalId && !patientFromConversation"
+      ></phi-buttonadd>
+    </div>
+    <phi-combobox
+      [(ngModel)]="internalactivity"
+      name="internalactivity"
+      id="cmb-app-internalactivity"
+      [widgetLabel]="'label_cmb-app-internalactivity' | translate"
+      [listElementsExpression]="internalactivities"
+      [required]="true"
+      *ngIf="internalActivityMandatory && Appointment.patient && !Appointment.internalId"
+      (change)="internalActivityChanged()"
+    ></phi-combobox>
+    <phi-combobox
+      [(ngModel)]="procedureDefinitionId"
+      name="procedureDefinitionId"
+      (change)="appProcedureChanged($event)"
+      id="cmb-app-procedure"
+      [widgetLabel]="'label_cmb-app-procedure' | translate"
+      [listElementsExpression]="indirectProcedures"
+      [required]="Appointment.procedure && Appointment.procedure.classCode.code != 'CUP'"
+      *ngIf="Appointment.procedure && Appointment.procedure.classCode.code != 'CUP'"
+    ></phi-combobox>
+    <phi-combobox
+      [(ngModel)]="Appointment.procedure.levelCode"
+      name="Appointment.procedure.levelCode"
+      id="cmb-app-duration"
+      [widgetLabel]="'label_cmb-app-duration' | translate"
+      [required]="true"
+      domain="PHIDIC:Length"
+      converter="Code Value Converter"
+      *ngIf="Appointment.procedure"
+    ></phi-combobox>
+    <phi-combobox
+      [(ngModel)]="Appointment.duration"
+      name="Appointment.duration"
+      id="cmb-app-duration-klinik"
+      [widgetLabel]="'label_cmb-app-duration' | translate"
+      [required]="true"
+      [listElementsExpression]="duration"
+      *ngIf="!Appointment.procedure && environment.ambulatoryCalendar.prefixedDuration"
+    ></phi-combobox>
+    <!-- domain="PHIDIC:Length" -->
+    <phi-textbox
+      [(ngModel)]="Appointment.duration"
+      name="Appointment.duration"
+      id="txt-app-duration-klinik"
+      [widgetLabel]="'label_cmb-app-duration' | translate"
+      [required]="true"
+      *ngIf="!Appointment.procedure && !environment.ambulatoryCalendar.prefixedDuration"
+    ></phi-textbox>
+    <div
+      id="lyt-app-props"
+      class="layout vertical"
+      *ngIf="Appointment.procedure && Appointment.procedure.classCode.code == 'CUP'"
+    >
+      <phi-textbox
+        [(ngModel)]="Appointment.procedureRequest[0].requestNumber"
+        name="Appointment.procedureRequest[0].requestNumber"
+        id="txt-app-number"
+        [widgetLabel]="'label_txt-app-number' | translate"
+      ></phi-textbox>
+      <phi-combobox
+        [(ngModel)]="Appointment.procedureRequest[0].priority"
+        name="Appointment.procedureRequest[0].priority"
+        id="cmb-app-priority"
+        [widgetLabel]="'label_cmb-app-priority' | translate"
+        domain="PHIDIC:PriorityDPB"
+        converter="Code Value Converter"
+      ></phi-combobox>
+      <phi-combobox
+        [(ngModel)]="Appointment.procedureRequest[0].exemption"
+        name="Appointment.procedureRequest[0].exemption"
+        id="cmb-app-exemption"
+        [widgetLabel]="'label_cmb-app-exemption' | translate"
+        domain="PHIDIC:TicketValue"
+        converter="Code Value Converter"
+        (change)="loadTicketDetails($event.value)"
+      ></phi-combobox>
+      <phi-combobox
+        [(ngModel)]="Appointment.procedureRequest[0].codeExemption"
+        name="Appointment.procedureRequest[0].codeExemption"
+        id="cmb-app-exemption-details"
+        [widgetLabel]="'label_cmb-app-exemption-details' | translate"
+        [disabled]="!ticketDetailsDomain"
+        converter="Code Value Converter"
+        [domain]="ticketDetailsDomain"
+      ></phi-combobox>
+      <div
+        id="dg-app-procedure"
+        [phi-datagrid]="Appointment.procedureRequest[0].procedure"
+      >
+        <thead class="tableHeader">
+          <tr>
+            <th><span class="fa fa-tasks" aria-hidden="true"></span></th>
+            <th>{{'dgc-app-procedure-code' | translate}}</th>
+            <th>{{'dgc-app-procedure' | translate}}</th>
+            <th>{{'dgc-app-procedure-qty' | translate}}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let Procedure of Appointment.procedureRequest[0].procedure; let i = index"
+          >
+            <td>
+              <span class="fa app {{Procedure.statusCode.code}}"></span>
+            </td>
+            <td>
+              <span>{{Procedure.codeIcd9.code}}</span>
+            </td>
+            <td>
+              <span>{{Procedure.codeIcd9.currentTranslation}}</span>
+            </td>
+            <td>
+              <phi-textbox
+                [(ngModel)]="Procedure.quantity"
+                [name]="'Procedure.quantity'+i"
+                id="TextBox_1513775324596"
+                converter="Integer Converter"
+              ></phi-textbox>
+            </td>
+            <td>
+              <phi-buttoncancel
+                (binding)="removeProcedure(Procedure)"
+                id="btn-rem-procedure"
+              ></phi-buttoncancel>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+      <div id="lyt-app-procedure-add" class="layout horizontal center">
+        <phi-buttonadd
+          (binding)="addProcedure()"
+          id="btn-add-procedure"
+        ></phi-buttonadd>
+        <span class="errorMessages" *ngIf="invalidProcedure()"
+          >{{'REQUIRED' | translate}}</span
+        >
+      </div>
+    </div>
+    <div
+      id="lyt-app-klinik"
+      class="layout vertical"
+      *ngIf="!Appointment.procedure"
+    >
+      <phi-checkbox
+        [(ngModel)]="repeat"
+        name="repeat"
+        id="chkbx-app-repeat"
+        [widgetLabel]="'label_chkbx-app-repeat' | translate"
+        domain="PHIDIC:Length"
+      ></phi-checkbox>
+      <phi-combobox
+        [(ngModel)]="frequency"
+        name="frequency"
+        id="cmb-app-frequency"
+        [widgetLabel]="'label_cmb-app-frequency' | translate"
+        [listElementsExpression]="frequencies"
+        [required]="true"
+        [disabled]="!repeat"
+      ></phi-combobox>
+      <!--  domain="PHIDIC:Frequency" -->
+      <phi-monthcalendar
+        [(ngModel)]="endDate"
+        name="endDate"
+        id="cal-app-end"
+        [widgetLabel]="'label_cal-app-end' | translate"
+        [required]="true"
+        [disabled]="!repeat"
+      ></phi-monthcalendar>
+    </div>
+    <phi-checkbox
+      id="txta-app-erogated"
+      [widgetLabel]="'label_txta-app-erogated' | translate"
+      *ngIf="Appointment.procedure && Appointment.procedure.classCode.code != 'CUP'"
+      (change)="setStatus($event)"
+    ></phi-checkbox>
+    <phi-textarea
+      [(ngModel)]="Appointment.text.string"
+      name="Appointment.text.string"
+      id="txta-app-note"
+      [widgetLabel]="'label_txta-app-note' | translate"
+    ></phi-textarea>
+    <div class="lbl" *ngIf="Appointment.creationDate">
+      <label>{{'label_lbl-app-creationdate' | translate}}</label>
+      <span>{{Appointment.creationDate | dateFormat: 'short'}}</span>
+    </div>
+    <div class="lbl" *ngIf="Appointment.author?.name">
+      <label>{{'label_lbl-app-author' | translate}}</label>
+      <span
+        >{{Appointment.author?.name?.fam}}
+        {{Appointment.author?.name?.giv}}</span
+      >
+    </div>
+    <div id="lyt-app-edit-btns" class="layout horizontal space-between">
+      <phi-buttoncancel
+        (binding)="close()"
+        id="btn-app-edit-cancel"
+      ></phi-buttoncancel>
+      <phi-buttonsave
+        (binding)="onSave()"
+        id="btn-app-edit-save"
+        [form]="form"
+      ></phi-buttonsave>
+    </div>
+  </div>
+</form>

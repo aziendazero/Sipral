@@ -1,0 +1,33 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.fHBS_1341563882399}</h1>
+	<div id="f_HBS_management" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutHbs" style="width:100%;height:100%;" styleClass="layoutContainer layoutContainerVertical layoutRootHorizontal  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1485267641215" style="width:40%;overflow:auto;" styleClass="layoutContainer layoutContainerHorizontal" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1447766718436" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+							Tree.initHBSTree(jQuery("#HBStreePanel"),'hbsManager');
+						</script>
+										
+						<div id="HBStreePanel" style="width:100%;height:100%;"/>
+										
+						<a4j:jsFunction name="injectAndrerenderDetail"  action="#{ServiceDeliveryLocationAction.injectbyId}" reRender="VirtualPage_1451384578026" immediate="true" limitToList="true" ajaxSingle="true"> 
+							<a4j:actionparam name="id" assignTo="#{ServiceDeliveryLocationAction.id}"/>
+						</a4j:jsFunction>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1485267652256" style="width:60%;overflow:auto;position:relative;" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" id="VirtualPage_1451384578026" style="z-index:500;" styleClass="virtualPageBox" >
+						<a4j:include id="VPvp_uoc" layout="block" viewId="/MOD_HBS/CORE/FORMS/vp_uoc.xhtml" rendered="#{ServiceDeliveryLocation != null and ServiceDeliveryLocation.code != null and ServiceDeliveryLocation.code.code == 'UOC'}"  styleClass="virtualPageBox"/>
+						<a4j:include id="VPvp_uos" layout="block" viewId="/MOD_HBS/CORE/FORMS/vp_uos.xhtml" rendered="#{ServiceDeliveryLocation != null and ServiceDeliveryLocation.code != null and ServiceDeliveryLocation.code.code == 'UOS'}"  styleClass="virtualPageBox"/>
+						<a4j:include id="VPvp_ulss" layout="block" viewId="/MOD_HBS/CORE/FORMS/vp_ulss.xhtml" rendered="#{ServiceDeliveryLocation != null and ServiceDeliveryLocation.code != null and ServiceDeliveryLocation.code.code == 'ULSS'}"  styleClass="virtualPageBox"/>
+						<a4j:include id="VPvp_arpav" layout="block" viewId="/MOD_HBS/CORE/FORMS/vp_arpav.xhtml" rendered="#{ServiceDeliveryLocation != null and ServiceDeliveryLocation.code != null and ServiceDeliveryLocation.code.code == 'ARPAV'}"  styleClass="virtualPageBox"/>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

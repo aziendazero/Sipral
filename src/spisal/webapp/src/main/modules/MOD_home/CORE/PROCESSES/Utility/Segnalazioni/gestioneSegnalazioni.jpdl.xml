@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="statiProtocollo">
+
+
+	<start-state name="start-state1">
+		<transition to="has special role?"></transition>
+	</start-state>
+
+
+	<task-node name="Gestione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/gestione_segnalazione')}"></action>
+		</event>
+		<transition to="StatesManagement?"></transition>
+	</task-node>
+
+	<decision name="Bottone?" expression="#{(button.getMnemonic())}">
+		<transition to="eject List" name="BtnBack"></transition>
+		<transition to="Search UOC" name="BtnUOC"></transition>
+		<transition to="Gestione Collegamenti" name="BtnSearchUbicazione"></transition>
+		<transition to="Gestione Collegamenti" name="BtnSearchRiferimento"></transition>
+		<transition to="Gestione Collegamenti" name="BtnSearchRichiedente"></transition>
+		<transition to="segnalazioniUOS" name="BtnUOS"></transition>
+		<transition to="Del Prognosi popup" name="BtnSavePopUp"></transition>
+		<transition to="operations" name="operation"></transition>
+		<transition to="icd9" name="icd9Popup"></transition>
+		<transition to="gestione aggiornamenti" name="ShowRichiedenteDiffPopup"></transition>
+		<transition to="gestione aggiornamenti" name="ShowRiferimentoDiffPopup"></transition>
+		<transition to="Gestione Tipo" name="BtnSelectType"></transition>
+		<transition to="Gestione Collegamenti" name="BtnNotificaCantiere"></transition>
+		<transition to="Gestione Collegamenti" name="BtnEditNotificaCantiere"></transition>
+		<transition to="injectList of docs" name="BtnGestSegnAlfrescoDocEdit"></transition>
+		<transition to="esposti" name="esposti"></transition>
+		<transition to="Manage Link Multi" name="BtnLinkMulti"></transition>
+		<transition to="Jump Pratica" name="BtnJumpPratica"></transition>
+		<transition to="set data scadenza" name="BtnDataScadenza"></transition>
+		<transition to="geolocation" name="getDeviceLocation"></transition>
+		<transition to="geolocation" name="pickLocationFromMap"></transition>
+		<transition to="geolocation" name="reverseGeocode"></transition>
+		<transition to="manage validation cantiere data" name="BtnSave"></transition>
+		<transition to="rollback validation cantiere" name="rollbackValidation"></transition>
+	</decision>
+
+	<node name="eject List">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.refresh()}"></action>
+			<action name="2" expression="#{PersonAction.eject()}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationAction.eject()}"></action>
+			<action name="4" expression="#{ServiceDeliveryLocationAction.ejectList()}"></action>
+			<action name="5" expression="#{SediAction.eject()}"></action>
+			<action name="6" expression="#{UOSAction.eject()}"></action>
+			<action name="7" expression="#{UOSAction.ejectList()}"></action>
+			<action name="8" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="9" expression="#{DettagliBonificheAction.eject()}"></action>
+			<action name="10" expression="#{empty Protocollo.statusCode ? ProtocolloAction.eject() : ''}"></action>
+			<action name="11" expression="#{ProcpraticheMultiAction.ejectList()}"></action>
+			<action name="12" expression="#{ProcpraticheMultiAction.eject()}"></action>
+			<action name="13" expression="#{EmployeeAction.eject()}"></action>
+			<action name="14" expression="#{CantiereAction.eject()}"></action>
+			<action name="15" expression="#{processManager.setReadOnly(false)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Save Protocollo">
+			<event type="node-enter">
+				<action name="1" expression="#{ProtocolloAction.create()}"></action>
+			</event>
+			<transition to="is master?"></transition>
+		</node>
+		<decision name="is master?" expression="#{Protocollo.isMaster}">
+			<transition to="../Manage Working Line" name="false"></transition>
+			<transition to="save pratica" name="true"></transition>
+		</decision>
+		<node name="save pratica">
+			<event type="node-enter">
+				<action name="1" expression="#{Protocollo.procpratiche.setProtocolloMasterNumber(Protocollo.nprotocollo)}"></action>
+				<action name="2" expression="#{ProcpraticheAction.checkProtocollo(Protocollo)}"></action>
+				<action name="3" expression="#{VigilanzaAction.checkProtocollo(Protocollo, DettagliBonifiche)}"></action>
+				<action name="4" expression="#{MedicinaLavoroAction.checkProtocollo(Protocollo)}"></action>
+				<action name="5" expression="#{ProcpraticheAction.create(Protocollo.procpratiche)}"></action>
+				<action name="6" expression="#{VigilanzaAction.create()}"></action>
+			</event>
+			<transition to="../Manage Working Line"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.inject(Protocollo.serviceDeliveryLocation)}"></action>
+			<action name="2" expression="#{UOSAction.inject(Protocollo.uos)}"></action>
+			<action name="3" expression="#{Protocollo.infortunio!=null?InfortuniAction.inject(Protocollo.infortunio):''}"></action>
+			<action name="4" expression="#{Protocollo.malattiaProfessionale!=null?MalattiaProfessionaleAction.inject(Protocollo.malattiaProfessionale):MalattiaProfessionaleAction.inject(MalattiaProfessionaleAction.newEntity())}"></action>
+			<action name="5" expression="#{Protocollo.medicinaLavoro!=null?MedicinaLavoroAction.inject(Protocollo.medicinaLavoro):MedicinaLavoroAction.inject(MedicinaLavoroAction.newEntity())}"></action>
+			<action name="6" expression="#{DettagliBonificheAction.equal.put('protocollo.internalId',Protocollo.internalId)}"></action>
+			<action name="7" expression="#{DettagliBonificheAction.read()}"></action>
+			<action name="8" expression="#{DettagliBonificheAction.injectFirst()}"></action>
+			<action name="9" expression="#{DettagliBonificheAction.ejectList()}"></action>
+			<action name="10" expression="#{ProcpraticheMultiAction.injectList(Protocollo.procpraticheMulti)}"></action>
+			<action name="11" expression="#{not empty Protocollo.riferimentoCantiere ? ProtocolloAction.temporary.put('datiValidati', not Protocollo.riferimentoCantiere.pncForced ) : ''}"></action>
+			<action name="12" expression="#{not empty Protocollo.riferimentoCantiere ? ProtocolloAction.temporary.put('pncState', Protocollo.riferimentoCantiere.pncState ) : ''}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<decision name="New?" expression="#{(button.value=='BtnNew')}">
+		<transition to="inject" name="false"></transition>
+		<transition to="New Segnalazione" name="true"></transition>
+	</decision>
+
+	<process-state name="Gestione Collegamenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/linkSegnalazione" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{InfortuniAction.eject()}"></action>
+			<action name="2" expression="#{PersonAction.eject()}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.eject()}"></action>
+		</event>
+		<transition to="New?"></transition>
+	</node>
+
+	<node name="Search UOC">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','uoc')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="Select UOC"></transition>
+	</node>
+
+	<task-node name="Select UOC">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/associa_uoc')}"></action>
+		</event>
+		<transition to="SaveUOC?"></transition>
+	</task-node>
+
+	<decision name="SaveUOC?" expression="#{(button.getMnemonic())}">
+		<transition to="setFilterBySdlTrue" name="BtnBack"></transition>
+		<transition to="Alert popup1" name="BtnSavePopUp"></transition>
+		<transition to="LinkUOC" name="BtnSaveNew"></transition>
+	</decision>
+
+	<node name="LinkUOC">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+			<action name="2" expression="#{UOSAction.inject(Protocollo.uos)}"></action>
+			<action name="3" expression="#{ProtocolloAction.unLink('uos',Protocollo.uos)}"></action>
+		</event>
+		<transition to="setFilterBySdlTrue"></transition>
+	</node>
+
+	<decision name="SaveUOS?" expression="#{(button.getMnemonic())}">
+		<transition to="inject" name="BtnBack"></transition>
+		<transition to="manage working line" name="BtnSave"></transition>
+	</decision>
+
+	<task-node name="Alert popup1">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/UOC_alert')}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</task-node>
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="LinkUOC" name="BtnSave"></transition>
+		<transition to="Search UOC" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="setFilterBySdlTrue">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.setFilterBySdl(true)}"></action>
+			<action name="2" expression="#{UOSAction.eject()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<task-node name="Del Prognosi popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/data_scadenza_popup')}"></action>
+		</event>
+		<transition to="Button3?"></transition>
+	</task-node>
+
+	<decision name="Button3?" expression="#{(button.getMnemonic())}">
+		<transition to="Gestione" name="BtnCancel"></transition>
+		<transition to="super-state1/Save Protocollo" name="BtnSave"></transition>
+	</decision>
+
+	<process-state name="New Segnalazione">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/nuovaSegnalazione" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="StatesManagement?" expression="#{(button.getMnemonic()=='BtnStatesManagement')}">
+		<transition to="clear stateMessage" name="false"></transition>
+		<transition to="super-state3/Gestione Stati" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<process-state name="Gestione Stati">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/gestioneStatiSegnalazione" binding="late"></sub-process>
+			<transition to="../Gestione"></transition>
+		</process-state>
+	</super-state>
+
+	<process-state name="Manage Working Line">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/LineeDiLavoro/manageWorkingLine" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="remove temp"></transition>
+	</process-state>
+
+	<process-state name="icd9">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/filterIcd9" binding="late"></sub-process>
+		<transition to="manage code"></transition>
+	</process-state>
+
+	<node name="manage code">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.code.code eq '14.13' and function.hasCodeIn(UOS.area.code,'WORKMEDICINE')?MedicinaLavoro.setDiagCode(CodeValueIcd9):MalattiaProfessionale.setDiagCode(CodeValueIcd9)}"></action>
+			<action name="2" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<process-state name="gestione aggiornamenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/personDifferences" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="set readonly?" expression="#{(Protocollo.statusCode != null) ? Protocollo.statusCode.getCode().matches('^.*?(completed|cancelled|obsolete).*$') : 'false'}">
+		<transition to="eject" name="false"></transition>
+		<transition to="set readonly" name="true"></transition>
+	</decision>
+
+	<node name="set readonly">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<process-state name="Gestione Tipo">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/tipoSegnalazione" binding="late"></sub-process>
+		<transition to="SaveUOS?"></transition>
+	</process-state>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('entity2Link', Protocollo)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.injectList(Protocollo.documenti)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}}"></action>
+		</event>
+		<transition to="alfresco document"></transition>
+	</node>
+
+	<process-state name="alfresco document">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="esposti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/Esposti" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Manage Link Multi">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/manageLinkMulti" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Jump Pratica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/jumpPraticheSegnalazioni" binding="late"></sub-process>
+		<transition to="ending previous jump?"></transition>
+	</process-state>
+
+	<decision name="ending previous jump?" expression="#{ProcpraticheAction.temporary['jumping'] eq true}">
+		<transition to="inject" name="false"></transition>
+		<transition to="end-state1" name="true"></transition>
+	</decision>
+
+	<process-state name="manage working line">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/LineeDiLavoro/manageWorkingLine" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="segnalazioniUOS">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/segnalazioniUOS" binding="late"></sub-process>
+		<transition to="SaveUOS?"></transition>
+	</process-state>
+
+	<node name="clear stateMessage">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('stateMessage')}"></action>
+		</event>
+		<transition to="Bottone?"></transition>
+	</node>
+
+	<task-node name="set data scadenza">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/data_scadenza_popup')}"></action>
+		</event>
+		<transition to="Button3?"></transition>
+	</task-node>
+
+	<decision name="has special role?" expression="#{Param['p.home.gestione_segnalazione.modificaSegnalazioneAssegnata'].value}">
+		<description>
+			!Param['p.home.gestione_segnalazione.modificaSegnalazioneAssegnata'].value
+		</description>
+		<transition to="set readonly?" name="false"></transition>
+		<transition to="eject" name="true"></transition>
+	</decision>
+
+	<process-state name="geolocation">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/geolocation" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="checkOk?" expression="#{ProtocolloAction.check()}">
+		<transition to="Gestione" name="false"></transition>
+		<transition to="super-state1/Save Protocollo" name="true"></transition>
+	</decision>
+
+	<process-state name="manage validation cantiere data">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/manageRifCantiereFromPNC" binding="late"></sub-process>
+		<transition to="checkOk?"></transition>
+	</process-state>
+
+	<node name="remove temp">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('editNotifica')}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<node name="rollback validation cantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('pncState', 1)}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('datiValidati', false)}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

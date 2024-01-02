@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="notifichePnc">
+
+
+	<start-state name="start-state1">
+		<transition to="Cantiere?"></transition>
+	</start-state>
+
+
+	<node name="read notifiche">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCCantiereAction.read()}"></action>
+		</event>
+		<transition to="notifiche"></transition>
+	</node>
+
+	<task-node name="notifiche">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Cantieri/FORMS/notifichePnc')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</task-node>
+
+	<decision name="Cantiere?" expression="#{not empty Cantiere}">
+		<transition to="filter Cantiere" name="true"></transition>
+		<transition to="filter Protocollo" name="false"></transition>
+	</decision>
+
+	<node name="filter Cantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCCantiereAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PNCCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{PNCCantiereAction.equal.putOr('internalId',PNCCantiereAction.getIdPncCantiereSipralTree(Cantiere.idPnc))}"></action>
+		</event>
+		<transition to="read notifiche"></transition>
+	</node>
+
+	<node name="filter Protocollo">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCCantiereAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PNCCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{PNCCantiereAction.equal.putOr('internalId',PNCCantiereAction.getIdPncCantiereSipralTree(Protocollo.riferimentoCantiere.idPnc))}"></action>
+		</event>
+		<transition to="read notifiche"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>it.insielmercato.phi</groupId>
+        <artifactId>phi-parent</artifactId>
+        <version>2.7-SNAPSHOT</version>
+    </parent>
+    
+    <repositories>
+        <repository>
+            <id>archiva.snapshots</id>
+            <name>Insiel Mercato Snapshots Repository</name>
+            <url>http://archiva.insielmercato.it:8080/archiva/repository/snapshots</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+            <id>archiva.internal</id>
+            <name>Insiel Mercato Internal Repository</name>
+            <url>http://archiva.insielmercato.it:8080/archiva/repository/internal</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+    </repositories>
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>it.insielmercato.phi.solution</groupId>
+    <artifactId>spisal</artifactId>
+    <version>2.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+   	<profiles>
+		<profile>
+			<id>development-env</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>8080</jboss-port>
+				<jboss-home>C:/phi2/jboss-eap-5.2/jboss-as</jboss-home>
+        		<jboss-configuration>default_spisal</jboss-configuration>
+        		<schema>prodCopy</schema>
+        		<connection-url>jdbc:mysql://lcoalhost/${schema}</connection-url> <!-- allspisal01.websanita.intra.rve -->
+		        <user-name>root</user-name>
+		        <password>root</password>
+		        
+		        <hibernate.hbm2ddl.auto>none</hibernate.hbm2ddl.auto>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+
+				<phi.solution.labels>bundle.label.messages</phi.solution.labels>
+				<phi.solution.web-xml><![CDATA[
+					<filter>
+						<filter-name>cors</filter-name>
+						<filter-class>com.phi.rest.cors.CorsFilter</filter-class>
+					</filter>
+					<filter-mapping>
+						<filter-name>cors</filter-name>
+						<url-pattern>/*</url-pattern>
+					</filter-mapping>
+					<filter-mapping>
+						<filter-name>Seam Filter</filter-name>
+						<url-pattern>/resource/rest/pnc/*</url-pattern>
+					</filter-mapping>
+				]]></phi.solution.web-xml>
+			</properties>
+			
+		</profile>
+		<profile>
+			<id>test-im-spisallx</id>
+			<properties>
+				<alfresco-host>10.172.44.105:8080</alfresco-host>
+				<!--  <jboss-hostname>172.31.227.47</jboss-hostname>-->
+				<jboss-hostname>10.172.44.105</jboss-hostname>
+				<jboss-port>8180</jboss-port>
+				<!--<jboss-home>\\10.172.44.105\usr\local\jboss-eap-5.2\jboss-as</jboss-home>-->
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>jdbc:mysql://10.172.44.105/spisal2016</connection-url>
+		        <user-name>spisal</user-name>
+		        <password>Sp1ssa</password>
+		        <schema>exp_spisal</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+		        
+		        <!-- CAS SERVER CONFIG -->
+		        <casServerLoginUrl>https://IM-SPISALLX:18443/cas-server-webapp-3.3.5/login</casServerLoginUrl>
+		        <service>http://IM-SPISALLX:18080/spisal/CasIntegrationServlet</service>
+		        <casServerUrlPrefix>https://IM-SPISALLX:18443/cas-server-webapp-3.3.5/</casServerUrlPrefix>
+		        <serverName>http://IM-SPISALLX:18080</serverName>
+		        
+		        <phi.solution.labels>bundle.label.messages</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		        	<!--FIXME ENABLE CAS-->
+		        	<filter-mapping>
+						<filter-name>Seam Filter</filter-name>
+						<url-pattern>/resource/rest/pnc/*</url-pattern>
+					</filter-mapping>
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>test-venezia</id>
+			<properties>
+				<alfresco-host>172.31.227.47:8080</alfresco-host>
+				<!--  <jboss-hostname>172.31.227.47</jboss-hostname>-->
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>80</jboss-port>
+				<!--<jboss-home>\\172.31.227.47\usr\local\jboss-eap-5.2\jboss-as</jboss-home>-->
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>jdbc:mysql://192.168.102.37/prodCopy</connection-url>
+		        <user-name>spisal</user-name>
+		        <password>Sp1ssa</password>
+		        <schema>prodCopy</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+		        
+		        <!-- CAS SERVER CONFIG -->
+				<casServerLoginUrl>https://cas-test.websanita.intra.rve/cas/login</casServerLoginUrl>
+				<service>https://spisal-test.websanita.intra.rve/spisal/CasIntegrationServlet</service>
+				<casServerUrlPrefix>http://cas-test-backend.farmsanita.intra.rve/cas/</casServerUrlPrefix>
+				<serverName>https://spisal-test.websanita.intra.rve</serverName>
+		        
+		        <phi.solution.labels>bundle.PhiResourceBundle</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		        <filter-mapping>
+					<filter-name>Seam Filter</filter-name>
+					<url-pattern>/resource/rest/pnc/*</url-pattern>
+				</filter-mapping>
+		  		<!-- CAS - Authentication -->
+		  		<filter>
+		   			<filter-name>CAS Authentication Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		    		<init-param>
+		    			<param-name>casServerLoginUrl</param-name>
+		      			<param-value>${casServerLoginUrl}</param-value>
+		    		</init-param>
+		    		<init-param>
+		      			<param-name>service</param-name>
+		      			<param-value>${service}</param-value>
+		    		</init-param>
+		    		<init-param>
+		     	 		<param-name>gateway</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		    		<init-param>            
+					    <param-name>ignorePattern</param-name>
+					    <param-value>/resource/rest/pnc/*</param-value>
+					</init-param>
+		  		</filter>
+		  		
+		  		<!-- CAS - Validation -->
+		  		<filter>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		    		<init-param>
+		      			<param-name>casServerUrlPrefix</param-name>
+		      			<param-value>${casServerUrlPrefix}</param-value>
+		   		 	</init-param>
+		    		<init-param>
+		      			<param-name>serverName</param-name>
+		      			<param-value>${serverName}</param-value>      			
+		    		</init-param>
+		    		<init-param>            
+					    <param-name>ignorePattern</param-name>
+					    <param-value>/resource/rest/pnc/*</param-value>
+					</init-param>
+		  		</filter>
+		  		<filter>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+		  		</filter>
+		
+		 	 	<filter-mapping>
+		    		<filter-name>CAS Authentication Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<!-- CAS Authentication STOP -->
+		  		
+		  		<!-- CAS - Integration Servlet  -->
+				<servlet>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<servlet-class>com.phi.security.CasIntegrationServlet</servlet-class>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<url-pattern>/CasIntegrationServlet</url-pattern>
+				</servlet-mapping>
+				<!-- Cors filter
+				<filter>
+					<filter-name>cors</filter-name>
+					<filter-class>com.phi.rest.cors.CorsFilter</filter-class>
+				</filter>
+			
+				<filter-mapping>
+					<filter-name>cors</filter-name>
+					<url-pattern>/*</url-pattern>
+				</filter-mapping> -->
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>wip-venezia</id>
+			<properties>
+				<alfresco-host>172.31.229.91:8080</alfresco-host>
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>80</jboss-port>
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>jdbc:mysql://192.168.120.77/prodCopy</connection-url>
+		        <user-name>spisal</user-name>
+		        <password>Sp1ssa</password>
+		        <schema>prodCopy</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+		        
+		        <!-- CAS SERVER CONFIG -->
+				<casServerLoginUrl>https://cas-test.websanita.intra.rve/cas/login</casServerLoginUrl>
+				<service>https://spisal-lab.websanita.intra.rve/spisal/CasIntegrationServlet</service>
+				<casServerUrlPrefix>http://cas-test-backend.620.farmsanita.intra.rve/cas/</casServerUrlPrefix>
+				<serverName>https://spisal-lab.websanita.intra.rve</serverName>
+		        
+		        <phi.solution.labels>bundle.PhiResourceBundle</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		        <filter-mapping>
+					<filter-name>Seam Filter</filter-name>
+					<url-pattern>/resource/rest/pnc/*</url-pattern>
+				</filter-mapping>
+		  		<!-- CAS - Authentication -->
+		  		<filter>
+		   			<filter-name>CAS Authentication Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		    		<init-param>
+		    			<param-name>casServerLoginUrl</param-name>
+		      			<param-value>${casServerLoginUrl}</param-value>
+		    		</init-param>
+		    		<init-param>
+		      			<param-name>service</param-name>
+		      			<param-value>${service}</param-value>
+		    		</init-param>
+		      		<init-param>
+		     	 		<param-name>gateway</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		    		<init-param>            
+					    <param-name>ignorePattern</param-name>
+					    <param-value>/resource/rest/pnc/*</param-value>
+					</init-param>
+		  		</filter>
+		  		
+		  		<!-- CAS - Validation -->
+		  		<filter>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		    		<init-param>
+		      			<param-name>casServerUrlPrefix</param-name>
+		      			<param-value>${casServerUrlPrefix}</param-value>
+		   		 	</init-param>
+		    		<init-param>
+		      			<param-name>serverName</param-name>
+		      			<param-value>${serverName}</param-value>      			
+		    		</init-param>
+		    		<init-param>            
+					    <param-name>ignorePattern</param-name>
+					    <param-value>/resource/rest/pnc/*</param-value>
+					</init-param>
+		  		</filter>
+		  		<filter>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+		  		</filter>
+		
+		 	 	<filter-mapping>
+		    		<filter-name>CAS Authentication Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<!-- CAS Authentication STOP -->
+		  		
+		  		<!-- CAS - Integration Servlet  -->
+				<servlet>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<servlet-class>com.phi.security.CasIntegrationServlet</servlet-class>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<url-pattern>/CasIntegrationServlet</url-pattern>
+				</servlet-mapping>
+				<!-- Cors filter
+				<filter>
+					<filter-name>cors</filter-name>
+					<filter-class>com.phi.rest.cors.CorsFilter</filter-class>
+				</filter>
+			
+				<filter-mapping>
+					<filter-name>cors</filter-name>
+					<url-pattern>/*</url-pattern>
+				</filter-mapping> -->
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>preproduction-env</id>
+			<properties>
+				<alfresco-host>172.31.229.91:8080</alfresco-host>
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>80</jboss-port>
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>jdbc:mysql://192.168.120.77/prodCopy</connection-url>
+		        <user-name>spisal</user-name>
+		        <password>Sp1ssa</password>
+		        <schema>prodCopy</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+		        
+		        <!-- CAS SERVER CONFIG -->
+		        <casServerLoginUrl>https://cas-test.websanita.intra.rve/cas/login</casServerLoginUrl>
+		        <service>https://spisal-lab.websanita.intra.rve/spisal/CasIntegrationServlet</service>
+		        <casServerUrlPrefix>http://cas-test-backend.620.farmsanita.intra.rve/cas/</casServerUrlPrefix>
+		        <serverName>https://spisal-lab.websanita.intra.rve</serverName>
+		        
+		        <phi.solution.labels>bundle.PhiResourceBundle</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		       	<!-- CAS - Authentication -->
+				<filter-mapping>
+					<filter-name>Seam Filter</filter-name>
+					<url-pattern>/resource/rest/pnc/*</url-pattern>
+				</filter-mapping>
+		  		<!-- CAS - Authentication -->
+		  		<filter>
+		   			<filter-name>CAS Authentication Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		    		<init-param>
+		    			<param-name>casServerLoginUrl</param-name>
+		      			<param-value>${casServerLoginUrl}</param-value>
+		    		</init-param>
+		    		<init-param>
+		      			<param-name>service</param-name>
+		      			<param-value>${service}</param-value>
+		    		</init-param>
+		    		<!-- <init-param>
+		      			<param-name>renew</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param> -->
+		    		<init-param>
+		     	 		<param-name>gateway</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		    		<init-param>            
+					    <param-name>ignorePattern</param-name>
+					    <param-value>/resource/rest/pnc/*</param-value>
+					</init-param>
+		    		
+		  		</filter>
+		  		
+		  		<!-- CAS - Validation -->
+		  		<filter>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		    		<init-param>
+		      			<param-name>casServerUrlPrefix</param-name>
+		      			<param-value>${casServerUrlPrefix}</param-value>
+		   		 	</init-param>
+		    		<init-param>
+		      			<param-name>serverName</param-name>
+		      			<param-value>${serverName}</param-value>      			
+		    		</init-param>
+		    		<init-param>            
+					<param-name>ignorePattern</param-name>
+					<param-value>/resource/rest/pnc/*</param-value>
+				</init-param>
+				</filter>
+		  		<filter>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+		  		</filter>
+		
+		 	 	<filter-mapping>
+		    		<filter-name>CAS Authentication Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<!-- CAS Authentication STOP -->
+		  		
+		  		<!-- CAS - Integration Servlet  -->
+				<servlet>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<servlet-class>com.phi.security.CasIntegrationServlet</servlet-class>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<url-pattern>/CasIntegrationServlet</url-pattern>
+				</servlet-mapping>
+				
+				
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>production-env</id>
+			<properties>
+				<alfresco-host>172.31.227.47:8080</alfresco-host>
+				<!--  <jboss-hostname>172.31.227.47</jboss-hostname>-->
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>80</jboss-port>
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>jdbc:mysql://172.31.227.47/spisalProd</connection-url>
+		        <user-name>spisal</user-name>
+		        <password>Sp1ssa</password>
+		        <schema>spisalProd</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>true</unpack>
+		        
+		        <!-- CAS SERVER CONFIG -->
+		        <casServerLoginUrl>https://cas.regione.veneto.it/cas/login</casServerLoginUrl>
+		        <service>https://spisal.regione.veneto.it/spisal/CasIntegrationServlet</service>
+		        <casServerUrlPrefix>https://spisal.regione.veneto.it/cas/</casServerUrlPrefix>
+		        <serverName>https://spisal.regione.veneto.it</serverName>
+		        <phi.solution.labels>bundle.PhiResourceBundle</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		  		
+		  		
+		  		<!-- CAS - Authentication -->
+		  		<filter>
+		   			<filter-name>CAS Authentication Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		    		<init-param>
+		    			<param-name>casServerLoginUrl</param-name>
+		      			<!--param-value>https://salute.regione.veneto.it/auth/login</param-value-->
+						<param-value>https://cas.regione.veneto.it/cas/login</param-value>
+		    		</init-param>
+		    		<init-param>
+		      			<param-name>service</param-name>
+		      			<param-value>https://spisal.regione.veneto.it/spisal/CasIntegrationServlet</param-value>
+		    		</init-param>
+		      		<init-param>
+		      			<param-name>renew</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		    		<init-param>
+		     	 		<param-name>gateway</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		  		</filter>
+		  		
+		  		<!-- CAS - Validation -->
+		  		<filter>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		    		<init-param>
+		      			<param-name>casServerUrlPrefix</param-name>
+		      			<!--param-value>http://cas-backend.farmsanita.intra.rve/cas/</param-value-->
+						<param-value>http://cas-internet-backend.farmsanita.intra.rve/cas/</param-value>
+		   		 	</init-param>
+		    		<init-param>
+		      			<param-name>serverName</param-name>
+		      			<param-value>https://spisal.regione.veneto.it</param-value>
+		    		</init-param>
+		  		</filter>
+		  		<filter>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+		  		</filter>
+		
+		 	 	<filter-mapping>
+		    		<filter-name>CAS Authentication Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<!-- CAS Authentication STOP -->
+		  		
+		  		<!-- CAS - Integration Servlet  -->
+				<servlet>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<servlet-class>com.phi.security.CasIntegrationServlet</servlet-class>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<url-pattern>/CasIntegrationServlet</url-pattern>
+				</servlet-mapping>
+		  		
+				
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>xebialab</id>
+			<properties>
+				<alfresco-host>172.31.227.47:8080</alfresco-host>
+				<jboss-hostname>localhost</jboss-hostname>
+				<jboss-port>80</jboss-port>
+				<jboss-home>c:\TEMP\</jboss-home>
+        		<jboss-configuration>default</jboss-configuration>
+        		<connection-url>{{DB_CONNECTION_URL}}</connection-url>
+		        <user-name>{{DB_USERNAME}}</user-name>
+		        <password>{{DB_PASSWORD}}</password>
+		        <schema>{{DB_SCHEMA}}</schema>
+		        <hibernate.default_schema>${schema}</hibernate.default_schema> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+		        <hibernate.hbm2ddl.auto>{{DB_AUTO}}</hibernate.hbm2ddl.auto>
+                <hibernate.show_sql>false</hibernate.show_sql>
+		        <unpack>false</unpack>
+		        <phi.solution.labels>bundle.PhiResourceBundle</phi.solution.labels>
+		        <phi.solution.web-xml><![CDATA[
+		  		
+		  		
+		  		<!-- CAS - Authentication -->
+		  		<filter>
+		   		<filter-name>CAS Authentication Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		    		<init-param>
+		    			<param-name>casServerLoginUrl</param-name>
+		      			<param-value>{{CAS_SERVER_LOGIN_URL}}</param-value>
+		    		</init-param>
+		    		<init-param>
+		      			<param-name>service</param-name>
+		      			<param-value>{{CAS_SERVICE}}</param-value>
+		    		</init-param>
+		      		<init-param>
+		      			<param-name>renew</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		    		<init-param>
+		     	 		<param-name>gateway</param-name>
+		      			<param-value>false</param-value>
+		    		</init-param>
+		  		</filter>
+		  		
+		  		<!-- CAS - Validation -->
+		  		<filter>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
+		    		<init-param>
+		      			<param-name>casServerUrlPrefix</param-name>
+		      			<param-value>{{CAS_SERVER_URL_PREFIX}}</param-value>
+		   		 	</init-param>
+		    		<init-param>
+		      			<param-name>serverName</param-name>
+		      			<param-value>{{CAS_SERVER_NAME}}</param-value>      			
+		    		</init-param>
+		  		</filter>
+		  		<filter>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<filter-class>org.jasig.cas.client.util.HttpServletRequestWrapperFilter</filter-class>
+		  		</filter>
+		
+		 	 	<filter-mapping>
+		    		<filter-name>CAS Authentication Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS Validation Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<filter-mapping>
+		    		<filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
+		    		<url-pattern>/*</url-pattern>
+		  		</filter-mapping>
+		  		<!-- CAS Authentication STOP -->
+		  		
+		  		<!-- CAS - Integration Servlet  -->
+				<servlet>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<servlet-class>com.phi.security.CasIntegrationServlet</servlet-class>
+				</servlet>
+				<servlet-mapping>
+					<servlet-name>CasIntegrationServlet</servlet-name>
+					<url-pattern>/CasIntegrationServlet</url-pattern>
+				</servlet-mapping>
+		  		
+				
+				]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+		<profile>
+			<id>nocas</id>
+			<properties>
+				<phi.solution.labels>bundle.label.messages</phi.solution.labels>
+				<phi.solution.web-xml><![CDATA[
+			        	<!--FIXME ENABLE CAS-->
+					]]></phi.solution.web-xml>
+			</properties>
+		</profile>
+
+	</profiles>
+
+    <properties>
+        <!--skipTests>true</skipTests-->
+        <phi.solution.name>spisal</phi.solution.name>
+        <phi.login.title />
+        <CUSTOMER />     <!-- backend/src/main/resources\seam.properties -->
+        <timeoutInMin>60</timeoutInMin>     <!-- src/main/webresources/WEB-INF/web.xml          to define session-timeout -->
+        <timeoutInSec>3600</timeoutInSec>   <!-- src/main/webresources/WEB-INF/components.xml   to define conversation-timeout -->
+        <quartzComponentsToken /> <!-- components.xml -->
+        <database>mysql</database>
+
+        <jar-file><![CDATA[
+          phi-core.jar</jar-file>
+          <jar-file>spisal-backend.jar
+        ]]></jar-file> <!-- backend/src/main/resources/META-INF/persistence.xml -->
+        
+        <!-- FIXME, move customization -->
+        <phi.solution.head><![CDATA[
+        <link type="text/css" rel="stylesheet" media="screen,projection" href="SKIN/css/font-awesome-overrides.css" />
+        <script src="common/js/baseAction.js" type="text/javascript" charset="utf-8"></script>
+		<script src="common/js/webodf.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="common/js/wodotexteditor/wodotexteditor.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="common/js/odfeditor.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="common/js/alfresco.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="common/js/autoNumeric-1.9.25.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="common/js/google-maps-utils.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="https://accounts.google.com/gsi/client" async="true" defer="true" ></script>
+	    <script src="common/js/google-drive-utils.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src='common/js/moment.min.js'></script>
+		<script src='common/js/fullcalendar.min.js'></script>
+		<script src='common/js/fullcalendar-locale-it.js'></script>
+		<link href='SKIN/css/fullcalendar.min.css' rel='stylesheet' />
+		<link href='SKIN/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+		
+		<script src='common/js/fullCalendarAgenda.js'></script>
+	    <script type="text/javascript">
+	  		var is_developer = '#{Param['p.employee.developer'].value}';
+	    	var user_arpav = '#{spisalUserAction.isArpav()}';
+			var enable_maiusc = '#{Param['p.general.tuttoMaiuscolo'].visible}';
+	    	var alfresco = new Alfresco('#{Param['p.general.alfrescoUrl'].value}','#{Param['p.general.alfrescoUrlHttps'].value}', '#{AlfrescoDocumentAction.alfrescoTicket}', blockUI, unblockUI);
+	    	var gDriveUtils = new GoogleDriveUtils('#{Param['p.general.googleClientId'].value}', #{ParameterManager.getParameter("p.general.alfrescogoogledocs", "value")});
+		</script>
+		<script src='common/js/customizations.js'></script>
+		<script src='common/js/checkBoxAction.js'></script>
+	]]></phi.solution.head>
+	
+	
+		<phi.solution.optionshead><![CDATA[
+	        <script>
+		    	var  unselectableSdlTypeCouple = ['ULSS', 'ARPAV'];
+		    </script>
+		]]></phi.solution.optionshead>
+        
+        <phi.solution.logo><![CDATA[
+		<div id="logo">
+			<img id="logo" src="SKIN/images/Leone_di_san_Marco.png" style="height: 180px;margin: 5px auto;display: block;" />
+			<span style="display: block;text-align:center;">Sistema Informativo Prevenzione Regionale Ambienti Lavoro</span>
+		</div>
+		]]></phi.solution.logo>
+		
+		<phi.solution.form.changed><![CDATA[
+		openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');
+		]]></phi.solution.form.changed>
+		
+		<phi.solution.banner><![CDATA[
+				<a4j:outputPanel rendered="#{ParameterManager.getParameter('p.general.alfrescogoogledocs', 'value')}" layout="none">
+					<div id="g_id_onload" data-client_id="#{Param['p.general.googleClientId'].value}"
+						data-context="signin" data-callback="gsiLoggedIn" data-auto_select="true" data-itp_support="true">
+					</div>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="b" rendered="#{not empty Procpratiche and not userBean.hasRoleIn('viewerRegione')}" layout="none">
+				<div class="banner hidden-print">
+					<div class="iconAndtype">
+						<i class="WorkinkLine #{Procpratiche.serviceDeliveryLocation.area.code} #{Procpratiche.vigilanza.type.code} type#{Procpratiche.medicinaLavoro.type.code}" />
+						<div class="type">
+							<span>#{Procpratiche.tipoComunicazione}</span>
+							<span>#{Procpratiche.serviceDeliveryLocation.area.currentTranslation}</span>
+						</div>
+					</div>
+					<div class="details">
+						<div>
+							<label>Pratica:</label>
+							<span>#{Procpratiche.internalId}</span>
+							<label>Data:</label>
+							<span>#{function.formatDate(Procpratiche.data, 'dd/MM/yyyy')}</span>
+							<label>Numero:</label>
+							<span>#{Procpratiche.numero}</span>
+						</div>
+						<div>
+							<label>Oggetto:</label>
+							<span>#{function.truncate(Procpratiche.oggetto, 50)}</span>
+							<label>Riferito a:</label>
+							<span>#{Procpratiche.riferitoBanner}</span>
+							<label>RFP:</label>
+							<span>#{Procpratiche.rfp.name}</span>
+						</div>
+					</div>
+				</div>
+			</a4j:outputPanel>
+			<a4j:outputPanel id="bview" rendered="#{not empty Procpratiche and userBean.hasRoleIn('viewerRegione')}" layout="none">
+				<div class="banner hidden-print">
+					<div class="iconAndtype">
+						<i class="WorkinkLine #{Procpratiche.serviceDeliveryLocation.area.code} #{Procpratiche.vigilanza.type.code} type#{Procpratiche.medicinaLavoro.type.code}" />
+						<div class="type">
+							<span>#{Procpratiche.tipoComunicazione}</span>
+							<span>#{Procpratiche.serviceDeliveryLocation.area.currentTranslation}</span>
+						</div>
+					</div>
+					<div class="details">
+						<div>
+							<label>Numero:</label>
+							<span>#{Procpratiche.numero}</span>
+						</div>
+					</div>
+				</div>
+			</a4j:outputPanel>
+			<a4j:outputPanel id="protocollo" rendered="#{not empty Protocollo and empty Procpratiche}" layout="none">
+				<div class="banner hidden-print">
+					<div class="iconAndtype">
+						<i class="WorkinkLine #{Protocollo.uos.area.code} type#{MedicinaLavoroAction.getType(Protocollo.code.code)}" />
+						<div class="type">
+							<span>#{Protocollo.code.currentTranslation}</span>
+							<span>#{Protocollo.uos.area.currentTranslation}</span>
+						</div>
+					</div>
+					<div class="details">
+						<div>
+							<label>Comunicazione:</label>
+							<span>#{Protocollo.internalId}</span>
+							<label>Data:</label>
+							<span>#{function.formatDate(Protocollo.data, 'dd/MM/yyyy')}</span>
+						</div>
+						<div>
+							<label>Numero richiesta:</label>
+							<span>#{Protocollo.nrichiesta}</span>
+							<label>Note:</label>
+							<span>#{function.truncate(Protocollo.note, 50)}</span>
+						</div>
+					</div>
+				</div>
+			</a4j:outputPanel>
+		]]></phi.solution.banner>
+		
+		<phi.solution.home-action><![CDATA[
+			<!--action execute="#{processManager.startProcessFromName('MOD_home/CORE/PROCESSES/segnalazioni')}" on-postback="false"/--> 
+			<action execute="#{AlfrescoDocumentAction.alfrescoLogin()}" on-postback="false" /> 
+		]]></phi.solution.home-action>
+		<phi.solution.faces-config><![CDATA[
+		<!--SPISAL validators and converters-->
+		<converter>
+			<!-- Converter implementation for java.lang.Double (and double primitive) 
+				values -->
+			<description>Valuta Converter</description>
+			<converter-id>ValutaConverter</converter-id>
+			<!-- SSA IMPLEMENTATION DOESN'T REMOVE ZEROS -->
+			<converter-class>com.phi.converters.ValutaConverter</converter-class>
+			<property>
+				<property-name>maximumFractionDigits</property-name>
+				<property-class>java.lang.Integer</property-class>
+			</property>
+			<property>
+				<property-name>minimumFractionDigits</property-name>
+				<property-class>java.lang.Integer</property-class>
+			</property>
+			<property>
+				<property-name>locale</property-name>
+				<property-class>java.util.Locale</property-class>
+			</property>
+			<property>
+				<property-name>groupingUsed</property-name>
+				<property-class>java.lang.Boolean</property-class>
+			</property>
+		</converter>
+		<validator>
+			<description>Scheda Esposti Date Validator</description>
+			<validator-id>SchedaEspostiDateValidator</validator-id>
+			<validator-class>com.phi.validators.SchedaEspostiDateValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Latitude validator</description>
+			<validator-id>CoordsLatitudeValidator</validator-id>
+			<validator-class>com.phi.validators.CoordsLatitudeValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Longitude validator</description>
+			<validator-id>CoordsLongitudeValidator</validator-id>
+			<validator-class>com.phi.validators.CoordsLongitudeValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Pression bar validator</description>
+			<validator-id>PressionBarValidator</validator-id>
+			<validator-class>com.phi.validators.PressionBarValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Temperature validator</description>
+			<validator-id>TemperatureValidator</validator-id>
+			<validator-class>com.phi.validators.TemperatureValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Capacity validator</description>
+			<validator-id>CapacityValidator</validator-id>
+			<validator-class>com.phi.validators.CapacityValidator</validator-class>
+		</validator>
+		<validator>
+			<description>Potency validator</description>
+			<validator-id>PotencyValidator</validator-id>
+			<validator-class>com.phi.validators.PotencyValidator</validator-class>
+		</validator>
+		
+		]]></phi.solution.faces-config>
+		
+		<!-- CUSTOMIZATION END -->
+
+    </properties>
+
+    <modules>
+        <module>backend</module>
+        <module>webapp</module>
+        <module>distribution</module>
+    </modules>
+
+    <scm>
+        <connection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/solutions/spisal/trunk</connection>
+        <developerConnection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/solutions/spisal/trunk</developerConnection>
+        <url>https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/solutions/spisal/trunk</url>
+    </scm>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>it.insielmercato.phi</groupId>
+                <artifactId>webapp-skeleton</artifactId>
+                <type>war</type>
+                <version>1.5-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+		<!-- <filters>
+			<filter>..\build.properties</filter> 
+		</filters> -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+</project>

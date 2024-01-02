@@ -1,0 +1,70 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1567509483125}</h1>
+	<div id="disponibilita" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1567509502491" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1569558416082" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1567664207088;BtnOK')}" status="ajaxStatus" id="Link_1567664207088" title="${msg.alt_Link_1567664207088}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1566185066892;BtnAdd')}" status="ajaxStatus" id="Link_1566185066892" title="${msg.alt_Link_1566185066892}" reRender="popup" styleClass="fa fa-plus fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1567516763039" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel id="DataGrid_1565606459108" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+						<table id="d1565606459108" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1565606459108} [DispList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1567524976911" value="${msg.DataGridColumn_1567524976911} &#8593;&#8595;" action="#{DispList.orderBy('anno')}" reRender="DataGrid_1565606459108" ajaxSingle="true" disabled="#{empty DispList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1567524978503" value="${msg.DataGridColumn_1567524978503} &#8593;&#8595;" action="#{DispList.orderBy('dal')}" reRender="DataGrid_1565606459108" ajaxSingle="true" disabled="#{empty DispList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1567524979951" value="${msg.DataGridColumn_1567524979951} &#8593;&#8595;" action="#{DispList.orderBy('al')}" reRender="DataGrid_1565606459108" ajaxSingle="true" disabled="#{empty DispList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1566428216806" value="${msg.DataGridColumn_1566428216806} &#8593;&#8595;" action="#{DispList.orderBy('hh')}" reRender="DataGrid_1565606459108" ajaxSingle="true" disabled="#{empty DispList ? true : false}"/></th>
+									<th>${msg.DataGridColumn_1567282788558}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty DispList or DispList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="5">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1565606459108" value="#{DispList.entities}" var="Disp" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											<span class="base-label" >#{MonteOre.anno}</span>
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Disp.dal}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<h:outputText styleClass="base-label" value="#{Disp.al}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Disp.hh}</span>
+										</td>
+
+										<td >
+											<a4j:commandLink action="#{DispAction.injectAndProceed(Disp, 'Link_1568681602334;BtnDel')}" status="ajaxStatus" id="Link_1568681602334" title="${msg.alt_Link_1568681602334}" reRender="LayoutRow_1567516763039" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

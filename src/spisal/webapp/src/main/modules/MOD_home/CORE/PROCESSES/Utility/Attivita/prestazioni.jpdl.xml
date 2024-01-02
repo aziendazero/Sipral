@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="getInail">
+
+
+	<start-state name="start-state1">
+		<transition to="inject cs"></transition>
+	</start-state>
+
+
+	<node name="inject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('ICD9PROC').id)}"></action>
+		</event>
+		<transition to="tipo segnalazione popup"></transition>
+	</node>
+
+	<task-node name="tipo segnalazione popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/prestazioni_popup')}"></action>
+		</event>
+		<transition to="eject cs"></transition>
+	</task-node>
+
+	<node name="eject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.eject()}"></action>
+		</event>
+		<transition to="operation?"></transition>
+	</node>
+
+	<decision name="operation?" expression="#{button.value}">
+		<transition to="add cv" name="BtnPrestOk"></transition>
+		<transition to="eject" name="BtnPrestCancel"></transition>
+		<transition to="eject" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="add cv">
+		<event type="node-enter">
+			<action name="1" expression="#{VisitaMedica.getPrestazioniICD9().add(CodeValueIcd9)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

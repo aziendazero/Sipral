@@ -1,0 +1,122 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1469783982912}</h1>
+	<div id="fattoreRischioEdit" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1469784019370" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<a4j:commandLink action="#{processManager.manageTask('Link_1469784057946;BtnSave')}" status="ajaxStatus" id="Link_1469784057946" title="${msg.alt_Link_1469784057946}" reRender="DataGrid_1469390827298,popup" styleClass="fa fa-check fa-3x link" />
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1478189630295" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_RadioGroup_1469784162658}</span>
+						<h:selectOneRadio id="RadioGroup_1469784162658" value="#{FattoreRischio.type}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1469784162658}" >
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipiFattoriRischio')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1478189635117" event="onchange" ignoreDupResponses="true" />
+						</h:selectOneRadio>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1478189635117" >
+					<h:selectOneMenu id="ComboBox_1478189635117_id" value="#{FattoreRischio.ext}" rendered="#{function.hasCodeIn(FattoreRischio.type.code,'EX') ? true : 'false'.concat(FattoreRischio.setExt(null))}" styleClass="comboBox" >
+						<f:selectItem itemLabel="-" itemValue=""/>
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:FattoriRischioExt')}" />
+						<f:converter converterId="CodeValueConverter"/>
+					</h:selectOneMenu>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1478264712078" >
+				<label >
+					<span class="label">${msg.label_TextSuggestionBox_1478264712078}</span>
+					#{FattoreRischioAction.autocomplete['code'].setContentType('2')}
+					#{FattoreRischioAction.autocomplete['code'].setCodeSystem('PHIDIC')}
+					#{FattoreRischioAction.autocomplete['code'].setDomain('AgentiMalattie')}
+					#{FattoreRischioAction.autocomplete['code'].setShowCode(true)}
+					<input type="text" id="TextSuggestionBox_1478264712078_MAIN" class="autocomplete showCode inputText" value="#{FattoreRischio.code.displayName}" style="width:300px;"  />
+					<h:outputLabel for="TextSuggestionBox_1478264712078_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1478264712078_CODE" value="#{FattoreRischio.code}" label="${msg.label_TextSuggestionBox_1478264712078}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message for="TextSuggestionBox_1478264712078_CODE" styleClass="errorMessages TextSuggestionBox_1478264712078_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1478264712078" action="#{FattoreRischioAction.autocomplete['code'].autocomplete()}" data="#{FattoreRischioAction.autocomplete['code'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{FattoreRischioAction.autocomplete['code'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+				</label>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1469786687147" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1469786690571}</span>
+						<h:inputText id="TextBox_1469786690571" value="#{FattoreRischio.yearStart}" styleClass="inputText" label="${msg.label_TextBox_1469786690571}" >
+						<f:converter converterId="IntegerConverter"/>
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1469786690571_msg" styleClass="errorContainer" ><h:message for="TextBox_1469786690571" styleClass="errorMessages TextBox_1469786690571_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1469786691108}</span>
+						<h:inputText id="TextBox_1469786691108" value="#{FattoreRischio.yearStop}" styleClass="inputText" label="${msg.label_TextBox_1469786691108}" >
+						<f:converter converterId="IntegerConverter"/>
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1469786691108_msg" styleClass="errorContainer" ><h:message for="TextBox_1469786691108" styleClass="errorMessages TextBox_1469786691108_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_ComboBox_1469786783557}</span>
+					<h:selectOneMenu id="ComboBox_1469786783557" value="#{FattoreRischio.intensityQual}" styleClass="comboBox" style="width:300px;" label="${msg.label_ComboBox_1469786783557}" >
+						<f:selectItem itemLabel="-" itemValue=""/>
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:IntensitaQualitativa')}" />
+						<f:converter converterId="CodeValueConverter"/>
+					</h:selectOneMenu>
+				</label>
+				</div>
+
+				<div class="layoutVertical" >
+				<label style="display:block;" >
+					<span class="widget-label">${msg.label_TextBox_1469786786210}</span>
+					<h:inputText id="TextBox_1469786786210" value="#{FattoreRischio.intensityQuant}" style="width:30%;" styleClass="inputText" label="${msg.label_TextBox_1469786786210}" >
+					<f:converter converterId="DoubleConverter"/>
+				</h:inputText>
+					<a4j:outputPanel id="TextBox_1469786786210_msg" styleClass="errorContainer" ><h:message for="TextBox_1469786786210" styleClass="errorMessages TextBox_1469786786210_E" /></a4j:outputPanel>
+				</label>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1479138966320" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1479138972704}</span>
+						<h:selectOneMenu id="ComboBox_1479138972704" value="#{FattoreRischio.unitaMisura}" styleClass="comboBox" label="${msg.label_ComboBox_1479138972704}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:unit of measure')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_RadioGroup_1469786874743}</span>
+					<h:selectOneRadio id="RadioGroup_1469786874743" value="#{FattoreRischio.causa}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1469786874743}" >
+					<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Causa')}" />
+
+						<f:converter converterId="CodeValueConverter"/>
+					</h:selectOneRadio>
+				</label>
+				</div>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

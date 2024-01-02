@@ -1,0 +1,35 @@
+<form #form="ngForm" id="frm-details">
+  <h1>{{'frm-details' | translate}}</h1>
+  <div id="lyt-details" class="layout horizontal">
+    <div phi-tabbedpanel #tpnldetails>
+      <ul class="tab-nav">
+        <li *ngIf="InternalActivity">
+          <a class="button" [class.activetab]="tpnldetails.selectedTabIndex == 0" (click)="tpnldetails.ie(null, 0)">{{'tab-advice' | translate}}</a>
+        </li>
+        <li>
+          <a class="button" [class.activetab]="tpnldetails.selectedTabIndex == 1" (click)="tpnldetails.ie(null, 1)">{{'tab-appointment' | translate}}</a>
+        </li>
+        <li *ngIf="Appointment?.appgroup?.internalid">
+          <a class="button" [class.activetab]="tpnldetails.selectedTabIndex == 2" (click)="tpnldetails.ie(null, 2)">{{'tab-appgrouper' | translate}}</a>
+        </li>
+        <li *ngIf="Appointment?.appgroup?.internalid">
+          <a class="button" [class.activetab]="tpnldetails.selectedTabIndex == 3" (click)="tpnldetails.ie(null, 3)">{{'tab-appgrouper-lst' | translate}}</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+      <div id="tab-advice" class="layout horizontal" *ngIf="tpnldetails.selectedTabIndex == 0">
+        <phi-internalactivity-details *ngIf="InternalActivity" [InternalActivity]="InternalActivity"></phi-internalactivity-details>
+      </div>
+      <div id="tab-appointment" class="layout horizontal" *ngIf="tpnldetails.selectedTabIndex == 1">
+        <phi-appointment-details *ngIf="Appointment" [Appointment]="Appointment" class="fullWidth" (save)="onSave()"></phi-appointment-details>
+      </div>
+      <div id="tab-appgrouper" class="layout horizontal" *ngIf="tpnldetails.selectedTabIndex == 2">
+        <phi-appointmentgrouper-details *ngIf="Appointment.appgroup" [Appointment]="Appointment" class="fullWidth"></phi-appointmentgrouper-details>
+      </div>
+      <div id="tab-appgrouper-lst" class="layout horizontal" *ngIf="tpnldetails.selectedTabIndex == 3">
+        <phi-appointmentgrouper-list-details *ngIf="Appointment.appgroup" class="fullWidth"></phi-appointmentgrouper-list-details>
+      </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,138 @@
+<form #form="ngForm" id="FrmNrsActvtyz">
+  <div id="LytNrsActvty" class="layout vertical fullHeight">
+    <div phi-tabbedpanel #TbbdPnNrsActvty (tabChange)="shitchMode($event)">
+      <ul class="tab-nav">
+        <li>
+          <a class="button" [class.activetab]="TbbdPnNrsActvty.selectedTabIndex == 0" (click)="TbbdPnNrsActvty.ie(null, 0)">{{'PnlTbNrsActvtyPtnt' | translate}}</a>
+        </li>
+        <li>
+          <a class="button" [class.activetab]="TbbdPnNrsActvty.selectedTabIndex == 1" (click)="TbbdPnNrsActvty.ie(null, 1)">{{'PnlTbNrsActvtyWrd' | translate}}</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+      <div id="PnlTbNrsActvtyPtnt" class="layout vertical" *ngIf="TbbdPnNrsActvty.selectedTabIndex == 0">
+        <div id="LytNrsActvtyPtntBtns" class="layout horizontal fill">
+          <div id="LytNrsActvtyPtntBtnsL" class="layout horizontal">
+            <phi-buttonpdf (binding)="NurseActivityAction.printPTVReport()" id="PDFBtnNrsActvty" tooltip="{{'PDFBtnNrsActvty' | translate}}"></phi-buttonpdf>
+            <phi-buttonpdf (binding)="NurseActivityAction.printCalendarReport()" id="PDFBtnNrsActvtyCal" tooltip="{{'PDFBtnNrsActvtyCal' | translate}}"></phi-buttonpdf>
+            <phi-buttonrefresh (binding)="refresh()" id="BtnRefreshNrsActvty"></phi-buttonrefresh>
+            <phi-buttonadd (binding)="addNurseActivity()" id="BtnAddNrsActvty"></phi-buttonadd>
+          </div>
+          <div id="LytNrsActvtyPtntBtnsR" class="layout horizontal end">
+            <phi-buttonsearch (binding)="toggleSearch()" id="BtnSearchNrsActvtyToggle"></phi-buttonsearch>
+          </div>
+        </div>
+      </div>
+      <div id="PnlTbNrsActvtyWrd" class="layout vertical" *ngIf="TbbdPnNrsActvty.selectedTabIndex == 1">
+        <div id="LytNrsActvtyWrdBtns" class="layout horizontal fill">
+          <div id="LytNrsActvtyWrdBtnsL" class="layout horizontal">
+            <phi-buttonpdf (binding)="NurseActivityAction.printWTVReport()" id="PDFBtnNrsActvtyWard" tooltip="{{'PDFBtnNrsActvtyWard' | translate}}"></phi-buttonpdf>
+            <phi-buttonpdf (binding)="NurseActivityAction.printCartReport()" *ngIf="environment.nurseActivity.drugs" id="PDFBtnNrsActvtyWardCal" tooltip="{{'PDFBtnNrsActvtyWardCal' | translate}}"></phi-buttonpdf>
+          </div>
+          <div id="LytNrsActvtyWrdBtnsR" class="layout horizontal end">
+            <phi-buttonsearch (binding)="toggleSearch()" id="BtnSearchNrsActvtyWard"></phi-buttonsearch>
+          </div>
+        </div>
+        <div id="LytNrsActvtyWrdSrc" class="layout horizontal" style="flex-wrap: wrap;justify-content: space-around;" *ngIf="searchVisible">
+          <phi-textbox [(ngModel)]="NurseActivityAction.equal['patient.name.fam']" name="NurseActivityAction.equal['patient.name.fam']" id="TxtNrsActvtyWrdSrnm" [widgetLabel]="'label_TxtNrsActvtyWrdSrnm' | translate"></phi-textbox>
+          <phi-textbox [(ngModel)]="NurseActivityAction.equal['patient.name.giv']" name="NurseActivityAction.equal['patient.name.giv']" id="TxtNrsActvtyWrdNm" [widgetLabel]="'label_TxtNrsActvtyWrdNm' | translate"></phi-textbox>
+          <phi-textbox [(ngModel)]="NurseActivityAction.equal['room']" name="NurseActivityAction.equal['room']" id="TxtNrsActvtyWrdRoom" [widgetLabel]="'label_TxtNrsActvtyWrdRoom' | translate"></phi-textbox>
+          <phi-textbox [(ngModel)]="NurseActivityAction.equal['bed']" name="NurseActivityAction.equal['bed']" id="TxtNrsActvtyWrdBed" [widgetLabel]="'label_TxtNrsActvtyWrdBed' | translate"></phi-textbox>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div id="LytNrsActvtySrc" class="layout vertical" *ngIf="searchVisible">
+      <div id="LytNrsActvtyDate" class="layout horizontal" style="flex-wrap: wrap;justify-content: space-around;">
+        <phi-combobox [(ngModel)]="selectedWorkShift" name="selectedWorkShift" id="ComboBox_1497965009288" [widgetLabel]="'label_ComboBox_1497965009288' | translate" [listElementsExpression]="NurseActivityAdditionalworkShift" converter="Code Value Converter" [emptyField]="'alt_ComboBox_1497965009288' | translate" (change)="workShiftChange()"></phi-combobox>
+        <phi-monthcalendar [(ngModel)]="NurseActivityAction.equal['plannedDateFrom']" name="NurseActivityAction.equal['plannedDateFrom']" id="MonthCalendar_1497541885135" [widgetLabel]="'label_MonthCalendar_1497541885135' | translate" dateTimeFormat="Date and Time"></phi-monthcalendar>
+        <phi-monthcalendar [(ngModel)]="NurseActivityAction.equal['plannedDateTo']" name="NurseActivityAction.equal['plannedDateTo']" id="MonthCalendar_1497541943561" [widgetLabel]="'label_MonthCalendar_1497541943561' | translate" dateTimeFormat="Date and Time"></phi-monthcalendar>
+        <phi-combobox [(ngModel)]="NurseActivityAction.equal['routeCode.code']" *ngIf="environment.nurseActivity.drugs" name="NurseActivityAction.equal['routeCode.code']" id="CmbBxNrsActvtyRoute" [widgetLabel]="'label_CmbBxNrsActvtyRoute' | translate" [emptyField]="'alt_CmbBxNrsActvtyRoute' | translate" domain="PHIDIC:AdministrationRoute"></phi-combobox>
+        <phi-combobox [(ngModel)]="NurseActivityAction.equal['responsibleCode.code']" name="NurseActivityAction.equal['responsibleCode.code']" id="CmbBxNrsActvtyResp" [widgetLabel]="'label_CmbBxNrsActvtyResp' | translate" [emptyField]="'alt_CmbBxNrsActvtyResp' | translate" domain="ROLES:EmployeeFunction:10,12,21"></phi-combobox>
+        <div id="LayoutRow_1526980569185" class="layout vertical" *ngIf="!environment.nurseActivity.onlyExecutions">
+          <label>{{'LytNrsActvtyTypez' | translate}}</label>
+          <div id="LytNrsActvtyTypez" class="layout horizontal fieldset">
+            <phi-checkbox [(ngModel)]="filterPharma" name="filterPharma" id="ChbBxNrsActvtyPharma">{{'ChbBxNrsActvtyPharma' | translate}}</phi-checkbox>
+            <phi-checkbox [(ngModel)]="filterInfu" name="filterInfu" id="ChbBxNrsActvtyInfu">{{'ChbBxNrsActvtyInfu' | translate}}</phi-checkbox>
+            <phi-checkbox [(ngModel)]="filterExecution" name="filterExecution" id="ChbBxNrsActvtyExecution">{{'ChbBxNrsActvtyExecution' | translate}}</phi-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="LytNrsActvtySrcBtns" class="layout horizontal center" *ngIf="searchVisible">
+      <phi-button (binding)="refresh()" id="BtnSearchNrsActvty">{{'BtnSearchNrsActvty' | translate}}</phi-button>
+      <phi-button (binding)="init()" id="BtnSearchNrsActvtyReset">{{'BtnSearchNrsActvtyReset' | translate}}</phi-button>
+    </div>
+    <div id="DgNurseActivityRow" class="layout horizontal fillHeight">
+      <div id="DgNurseActivity" [phi-datagrid]="NurseActivityList" class="scrollX fullWidth">
+        <thead class="tableHeader">
+          <tr>
+            <th>{{'DataGridColumn_1497618352629' | translate}}</th>
+            <th>{{'DataGridColumn_1497618420195' | translate}}</th>
+            <th>{{'DataGridColumn_1497618418681' | translate}}</th>
+            <th>{{'DataGridColumn_1497536922457' | translate}}</th>
+            <th>{{'DataGridColumn_1497618417553' | translate}}</th>
+            <th (click)="NurseActivityList?.orderBy('encounter.room')">{{'DataGridColumn_1497618416489' | translate}}</th>
+            <th *ngIf="mode=='WARD'">{{'DgcNrsActvtyPatient' | translate}}</th>
+            <th>{{'DataGridColumn_1497618415239' | translate}}</th>
+            <th (click)="NurseActivityList?.orderBy('route')" *ngIf="environment.nurseActivity.drugs">{{'DataGridColumn_1497618413637' | translate}}</th>
+            <th (click)="NurseActivityList?.orderBy('quantity')" *ngIf="environment.nurseActivity.drugs">{{'DataGridColumn_1497618412885' | translate}}</th>
+            <th>{{'DcSbstncAdmnstrtn' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody class="selectable">
+          <tr *ngFor="let NurseActivity of NurseActivityList?.entities; let i = index" (click)="ie(NurseActivity, 'NurseActivity')" [class.selRow]="selected(NurseActivity, 'NurseActivity')">
+            <td [class]="getStatusBackground(NurseActivity)">
+              <span class="fa bigFa {{erogationStatus.getStatusClass(NurseActivity)}}"></span> 
+            </td>
+            <td>
+              <phi-link (binding)="erogate(NurseActivity,$event)" id="Link_1498031887715" styleClass="fa bigFa fa-info-circle" [disabled]="!NurseActivity.erogable && !NurseActivity.removable"></phi-link>
+            </td>
+            <td>
+              <phi-link (binding)="erogate(NurseActivity,$event, true)" id="Link_1498031920348" styleClass="{{NurseActivity.erogablefast ? 'fa fa-plus-circle green bigFa' : 'fa fa-minus-circle red bigFa'}}" [disabled]="!NurseActivity.erogablefast && !NurseActivity.removable"></phi-link>
+            </td>
+            <td>
+              <span *ngIf="NurseActivity.continuous">{{'LblNrsActvtyContinuos' | translate}}</span>
+              <span>{{NurseActivity.planneddate | dateFormat: 'short'}}</span>
+              <span *ngIf="!NurseActivity.planneddate">{{'LblNrsActvtyNeedsBsd' | translate}}</span>
+            </td>
+            <td [class]="getIconClass(NurseActivity)">
+              <span></span>
+            </td>
+            <td>
+              <span *ngIf="NurseActivity.encounter.room != null">{{NurseActivity.encounter.room}}</span>
+              <span *ngIf="NurseActivity.encounter.room != null">{{NurseActivity.encounter.bed}}</span>
+            </td>
+            <td *ngIf="mode=='WARD'">
+              <span>{{NurseActivity.patient}}</span>
+            </td>
+            <td class="smaller">
+              <span *ngFor="let nurseDescription of getDescriptionList(NurseActivity.description);let i2 = index" [style.font-weight]="getStyle(NurseActivity.descriptionbold, i2)">{{nurseDescription}}</span>
+              <div>
+                <label *ngIf="NurseActivity.note" class="italic labelinline">{{'label_LblNrsActvtyNote' | translate}}</label>
+                <span class="italic">{{NurseActivity.note}}</span>
+              </div>
+              <div>
+                <label *ngIf="NurseActivity.cancellationdetails" class="italic labelinline">{{'label_LblNrsActvtyCncDt' | translate}}</label>
+                <span class=" italic error">{{NurseActivity.cancellationdetails}}</span>
+              </div>
+            </td>
+            <td *ngIf="environment.nurseActivity.drugs">
+              <span>{{NurseActivity.route}}</span>
+            </td>
+            <td *ngIf="environment.nurseActivity.drugs">
+              <span>{{NurseActivity.quantity}}</span>
+            </td>
+            <td class="smaller">
+              <span>{{NurseActivity.erogationdate | dateFormat: 'short'}} - {{NurseActivity.executionauthor}}</span>
+              <div>
+                <label *ngIf="NurseActivity.executionnote" class="italic labelinline">{{'label_LblNrsActvtyNote' | translate}}</label>
+                <span class="italic">{{NurseActivity.executionnote}}</span>
+              </div>
+            </td>
+        </tr>
+        </tbody>
+      </div>
+    </div>
+  </div>
+</form>

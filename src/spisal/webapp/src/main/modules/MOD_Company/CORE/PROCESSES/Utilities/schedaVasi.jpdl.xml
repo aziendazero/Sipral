@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="schedaGeneratori">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="Inject New" name="BtnSVNew"></transition>
+		<transition to="Crea Scheda" name="BtnSVMng"></transition>
+		<transition to="Remove" name="BtnSVDel"></transition>
+	</decision>
+
+	<node name="Inject New">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaVasiAction.eject()}"></action>
+			<action name="2" expression="#{SchedaVasiAction.inject(SchedaVasiAction.newEntity())}"></action>
+			<action name="3" expression="#{SchedaVasiAction.setNumero(SchedaVasiList.list)}"></action>
+		</event>
+		<transition to="Crea Scheda"></transition>
+	</node>
+
+	<task-node name="Crea Scheda">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/scheda_vasi')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaVasiAction.eject()}"></action>
+			<action name="2" expression="#{SchedaVasiAction.injectList(ImpRisc.schedaVasi)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="eject1" name="BtnBack"></transition>
+		<transition to="Save" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Save">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaVasiAction.link('impRisc',ImpRisc)}"></action>
+			<action name="2" expression="#{ImpRisc.addSchedaVasi(SchedaVasi)}"></action>
+		</event>
+		<transition to="eject1"></transition>
+	</node>
+
+	<node name="Remove">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpRisc.removeSchedaVasi(SchedaVasi)}"></action>
+		</event>
+		<transition to="eject1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,199 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1466775665316}</h1>
+	<div id="fascicoliLista" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1468251120782" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1466928783245" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1515765984191;BtnBack')}" status="ajaxStatus" id="Link_1515765984191" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1465024530852;newType')}" status="ajaxStatus" id="Link_1465024530852" title="${msg.alt_Link_1465024530852}" disabled="#{Param['p.fascicolazione.fascicoliLista.nuovoFascicolo'].readOnly}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{ProtocolloAction.temporary.put('filterFascicoli',!ProtocolloAction.temporary['filterFascicoli'])}" status="ajaxStatus" id="Link_1465826612964" title="${msg.alt_Link_1465826612964}" reRender="LayoutFill_1467008411229" styleClass="fa fa-bars fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding: 5px;padding:0;" id="LayoutFill_1467008411229" styleClass="layoutContainer layoutContainerVertical green" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filterFascicoli']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1467008411229}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1517506185225" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_RadioGroup_1517506196009}</span>
+							<h:selectOneRadio id="RadioGroup_1517506196009" value="#{TagFascicoloAction.temporary['tagType']}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1517506196009}" >
+							<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TagType:distr,gen,reg,ulss')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneRadio>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1468494435971}</span>
+						<h:inputText id="TextBox_1468494435971" value="#{TagFascicoloAction.temporary['fascicolo']}" styleClass="filter inputText" label="${msg.label_TextBox_1468494435971}" />
+						<a4j:outputPanel id="TextBox_1468494435971_msg" styleClass="errorContainer" ><h:message for="TextBox_1468494435971" styleClass="errorMessages TextBox_1468494435971_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1468589365914" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1465395750646}</span>
+							<h:inputText id="MonthCalendar_1465395750646" value="#{TagFascicoloAction.temporary['from']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1465395750646}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1465395750646" styleClass="errorMessages MonthCalendar_1465395750646_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1468192893392}</span>
+							<h:inputText id="MonthCalendar_1468192893392" value="#{TagFascicoloAction.temporary['to']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1468192893392}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1468192893392" styleClass="errorMessages MonthCalendar_1468192893392_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1467982400119" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1467982406951" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(TagFascicoloAction.temporary['showUOC']) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1467982406951}</span>
+							<h:selectOneMenu id="ComboBox_1467982406951_id" value="#{TagFascicoloAction.temporary['distretto']}" rendered="#{TagFascicoloAction.temporary['showUOC']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1467982406951}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getUocEntities()}" />
+								<f:converter converterId="EntityConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1467982435287,LayoutRow_1515595735155" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1467982435287" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(spisalUserAction.getEnabledUOS().size() gt 1) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1467982435287}</span>
+							<h:selectOneMenu id="ComboBox_1467982435287_id" value="#{TagFascicoloAction.temporary['ldl']}" rendered="#{spisalUserAction.getEnabledUOS().size() gt 1}" styleClass="filter comboBox" label="${msg.label_ComboBox_1467982435287}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{(spisalUserAction.getUocEntities().size() gt 1) ? spisalUserAction.getUosFromSelectedUoc(TagFascicoloAction.temporary['distretto']) : spisalUserAction.getEnabledUOS()}" />
+								<f:converter converterId="EntityConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_CheckBox_1467211364532}</span>
+						<h:selectBooleanCheckbox id="CheckBox_1467211364532" value="#{TagFascicoloAction.temporary['nonAttivi']}" style="filtervertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1467211364532}" />
+						<h:message for="CheckBox_1467211364532" styleClass="errorMessages CheckBox_1467211364532_E" />
+					</label>
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1467211364532" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1467786154267" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468122903173;Search')}" status="ajaxStatus" id="Link_1468122903173" title="${msg.alt_Link_1468122903173}" reRender="DataGrid_1468033153455,TableConversionWidget_1464647803943" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1467475977533;ClearFiltri')}" status="ajaxStatus" id="Link_1467475977533" title="${msg.alt_Link_1467475977533}" reRender="phiDesktop,LayoutFill_1467008411229,DataGrid_1468033153455" styleClass="fa fa-eraser fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1468033153455" layout="block" styleClass="dt layoutTable layoutVertical" >#{TagFascicoloAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1468033153455" value="&#8592;" action="#{TagFascicoloList.prev}" reRender="DataGrid_1468033153455" rendered="#{TagFascicoloList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1468033153455" value="#{TagFascicoloList.pageIndexes}" var="pi1468033153455">
+										<li class="#{(TagFascicoloList.currentPage eq pi1468033153455 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1468033153455" value="#{pi1468033153455}" action="#{TagFascicoloList.goToPage(pi1468033153455)}" reRender="DataGrid_1468033153455" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1468033153455" value="&#8594;" action="#{TagFascicoloList.next}" reRender="DataGrid_1468033153455" rendered="#{TagFascicoloList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1468033153455" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1468033153455} [TagFascicoloList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1467588295962}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1467810795573} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1467039500968" value="${msg.DataGridColumn_1467039500968} &#8593;&#8595;" action="#{TagFascicoloList.orderBy('fascicolo')}" reRender="DataGrid_1468033153455" ajaxSingle="true" disabled="#{empty TagFascicoloList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1515490770550" value="${msg.DataGridColumn_1515490770550} &#8593;&#8595;" action="#{TagFascicoloList.orderBy('tagType')}" reRender="DataGrid_1468033153455" ajaxSingle="true" disabled="#{empty TagFascicoloList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1467119602348} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1466217737298}</th>
+								<th>${msg.DataGridColumn_1465746511221}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1467119502348} &#8593;&#8595;</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty TagFascicoloList or TagFascicoloList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="8">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1468033153455" value="#{TagFascicoloList.entities}" var="TagFascicolo" rowKeyVar="rowIndex" >
+								<tr >
+									<td style="width:5%;" >
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1466761728271_id" title="${msg.alt_Link_1466761728271}" style="color:green;" rendered="#{TagFascicolo.endValidity == null or TagFascicolo.endValidity gt function.currentDateTime()}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1467205157651_id" title="${msg.alt_Link_1467205157651}" style="color:red;" rendered="#{TagFascicolo.endValidity != null and TagFascicolo.endValidity le function.currentDateTime()}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TagFascicoloAction.injectAndProceed(TagFascicolo, 'Link_1467810803668;editType')}" status="ajaxStatus" id="Link_1467810803668" title="${msg.alt_Link_1467810803668}" disabled="#{Param['p.fascicolazione.fascicoliLista.modificaFascicolo'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{TagFascicolo.fascicolo}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{TagFascicolo.tagType}</span>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1467205635851_id" alt="#{LINK}" rendered="#{TagFascicolo.notes == null}" reRender="phiDesktop" styleClass="fa fa-comment-o fa-2x tableButton" />
+
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1467205664451_id" alt="#{LINK}" style="color:#ffc90e" rendered="#{TagFascicolo.notes != null}" reRender="phiDesktop" styleClass="fa fa-comment fa-2x tableButton" title="#{TagFascicolo.notes}"/>
+
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TagFascicolo.startValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TagFascicolo.endValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TagFascicoloAction.injectAndProceed(TagFascicolo, 'Link_1467119518668;delType')}" status="ajaxStatus" id="Link_1467119518668_id" title="${msg.alt_Link_1467119518668}" rendered="#{TagFascicolo.procpratiche.size() lt 1}" reRender="popup" styleClass="fa fa-trash fa-2x tableButton" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="procpratiche">
+
+
+	<start-state name="start">
+		<transition to="role viewer?"></transition>
+	</start-state>
+
+
+	<task-node name="home">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/procpratiche')}"></action>
+		</event>
+		<transition to="BtnStatesManagement?"></transition>
+	</task-node>
+
+	<node name="read">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('showUOC', spisalUserAction.show('UOC'))}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('showULSS', spisalUserAction.show('ULSS'))}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('showUOS', spisalUserAction.show('UOS'))}"></action>
+			<action name="5" expression="#{not ProcpraticheAction.temporary['showUOS'] ? ProcpraticheAction.equal.put('serviceDeliveryLocation.area',spisalUserAction.getFirstEnabledUos().area) : ''}"></action>
+			<action name="6" expression="#{ProcpraticheAction.setReadPageSize(20)}"></action>
+			<action name="7" expression="#{ProcpraticheAction.setDistinct(true)}"></action>
+			<action name="8" expression="#{ProcpraticheAction.setWorkingLine('serviceDeliveryLocation.area')}"></action>
+			<action name="9" expression="#{ProcpraticheAction.orderBy.put('data','descending')}"></action>
+			<action name="10" expression="#{ProcpraticheAction.setStates()}"></action>
+			<action name="11" expression="#{ProcpraticheAction.checkSign4Uoc()}"></action>
+			<action name="12" expression="#{ProcpraticheAction.setUlss()}"></action>
+			<action name="13" expression="#{ProcpraticheAction.filterByOperatore()}"></action>
+			<action name="14" expression="#{ProcpraticheAction.filterByFriabileCompatto()}"></action>
+			<action name="15" expression="#{ProcpraticheAction.filterByProt()}"></action>
+			<action name="16" expression="#{ProcpraticheAction.filterByUtente()}"></action>
+			<action name="17" expression="#{ProcpraticheAction.filterByInfortuni()}"></action>
+			<action name="18" expression="#{ProcpraticheAction.setFullLike(true)}"></action>
+			<action name="19" expression="#{not empty ProcpraticheAction.temporary['parereTecnico.type'] ? ProcpraticheAction.equal.put('parereTecnico.type',ProcpraticheAction.temporary['parereTecnico.type']) : ProcpraticheAction.equal.remove('parereTecnico.type')}"></action>
+			<action name="20" expression="#{ProcpraticheAction.select.add('statusCode.code')}"></action>
+			<action name="21" expression="#{ProcpraticheAction.select.add('heldReason')}"></action>
+			<action name="22" expression="#{ProcpraticheAction.select.add('suspendedReason')}"></action>
+			<action name="23" expression="#{ProcpraticheAction.select.add('data')}"></action>
+			<action name="24" expression="#{ProcpraticheAction.select.add('uoc.name.giv')}"></action>
+			<action name="25" expression="#{ProcpraticheAction.select.add('serviceDeliveryLocation.area')}"></action>
+			<action name="26" expression="#{ProcpraticheAction.select.add('numero')}"></action>
+			<action name="27" expression="#{ProcpraticheAction.setDocumentiStates()}"></action>
+			<action name="28" expression="#{ProcpraticheAction.select.add('note')}"></action>
+			<action name="29" expression="#{ProcpraticheAction.select.add('rfp')}"></action>
+			<action name="30" expression="#{ProcpraticheAction.orderBy.put('data','descending')}"></action>
+			<action name="31" expression="#{ProcpraticheAction.select.add('vigilanza.type.code')}"></action>
+			<action name="32" expression="#{ProcpraticheAction.select.add('medicinaLavoro.type.code')}"></action>
+			<action name="33" expression="#{ProcpraticheAction.temporary.put('rowCount',ProcpraticheAction.countResults())}"></action>
+			<action name="34" expression="#{ProcpraticheAction.read()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="read" name="BtnRefresh"></transition>
+		<transition to="read" name="BtnFilterApply"></transition>
+		<transition to="clean restrictions" name="BtnFilterCancel"></transition>
+		<transition to="Set Color" name="row"></transition>
+		<transition to="injectList of docs" name="BtnAlfrescoDocEdit"></transition>
+		<transition to="cleanRestrictions" name="exit"></transition>
+		<transition to="set temporary 3" name="BtnSrcOperatore"></transition>
+		<transition to="super-state1/Gestione attivita" name="BtnActivityMng"></transition>
+		<transition to="super-state1/Gestione pratica" name="BtnManagement"></transition>
+		<transition to="icd9" name="icd9Popup"></transition>
+		<transition to="home" name="cleanFilters"></transition>
+		<transition to="search tag fascicoli" name="searchTag"></transition>
+		<transition to="end-state1" name="select"></transition>
+		<transition to="set temporary 4" name="BtnSrcReferente"></transition>
+		<transition to="map info popup" name="InfoMap"></transition>
+		<transition to="comparto popup" name="compartoPopup"></transition>
+	</decision>
+
+	<node name="clean restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.clear()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('filter',true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('active', true)}"></action>
+			<action name="5" expression="#{ProcpraticheAction.temporary.put('verified', true)}"></action>
+			<action name="6" expression="#{ProcpraticheAction.temporary.put('showSign',AlfrescoDocumentAction.showSign())}"></action>
+			<action name="7" expression="#{OperatoreAction.eject()}"></action>
+			<action name="8" expression="#{PersonAction.eject()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="10" expression="#{EmployeeAction.eject()}"></action>
+			<action name="11" expression="#{CantiereAction.eject()}"></action>
+			<action name="12" expression="#{ProcpraticheAction.setFilterByComparto(null)}"></action>
+			<action name="13" expression="#{CodeValueAction.ejectList()}"></action>
+			<action name="14" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="select"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<process-state name="Gestione pratica">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestionePratiche" binding="late"></sub-process>
+			<transition to="../home"></transition>
+		</process-state>
+		<process-state name="Gestione attivita">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Attivita/gestioneAttivita" binding="late"></sub-process>
+			<transition to="../to beginning"></transition>
+		</process-state>
+	</super-state>
+
+	<process-state name="alfrescoDocuments">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="is pratica locked 2?"></transition>
+	</process-state>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('entity2Link', Procpratiche)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.injectList(Procpratiche.documenti)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}}"></action>
+		</event>
+		<transition to="is pratica locked?"></transition>
+	</node>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('filter', true)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('active', true)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('verified', true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('showSign',AlfrescoDocumentAction.showSign())}"></action>
+		</event>
+		<transition to="select tag fascicoli"></transition>
+	</node>
+
+	<decision name="BtnStatesManagement?" expression="#{(button.getMnemonic()=='BtnStatesManagement')}">
+		<transition to="button?" name="false"></transition>
+		<transition to="super-state2/Gestione Stati" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<process-state name="Gestione Stati">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneStatiPratica" binding="late"></sub-process>
+			<transition to="../to beginning"></transition>
+		</process-state>
+	</super-state>
+
+	<process-state name="Search Operatore">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/gestioneOperatori" binding="late"></sub-process>
+		<transition to="Button2?"></transition>
+	</process-state>
+
+	<node name="Set Operatore in Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('searchByOp', Operatore)}"></action>
+		</event>
+		<transition to="eject4"></transition>
+	</node>
+
+	<node name="set temporary 3">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Search Operatore"></transition>
+	</node>
+
+	<decision name="Button2?" expression="#{(button.getMnemonic())}">
+		<transition to="eject4" name="BtnBack"></transition>
+		<transition to="Set Operatore in Temporary" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject4">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.eject()}"></action>
+			<action name="2" expression="#{OperatoreAction.ejectList()}"></action>
+		</event>
+		<transition to="remove temporary"></transition>
+	</node>
+
+	<node name="select tag fascicoli">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.select.add('fascicolo')}"></action>
+		</event>
+		<transition to="comingFromPersonManagement?"></transition>
+	</node>
+
+	<decision name="searchExistingPraticaToAdd?" expression="#{ProtocolloAction.temporary['linkProtocollo']==null or ProtocolloAction.temporary['linkProtocollo']=='existing'}">
+		<transition to="select" name="true"></transition>
+		<transition to="super-state1/Gestione pratica" name="false"></transition>
+	</decision>
+
+	<node name="select">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.setDistinct(true)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.setFullLike(true)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.select.add('statusCode.code')}"></action>
+			<action name="4" expression="#{ProcpraticheAction.select.add('heldReason')}"></action>
+			<action name="5" expression="#{ProcpraticheAction.select.add('suspendedReason')}"></action>
+			<action name="6" expression="#{ProcpraticheAction.select.add('data')}"></action>
+			<action name="7" expression="#{ProcpraticheAction.select.add('completedDate')}"></action>
+			<action name="8" expression="#{ProcpraticheAction.select.add('uoc.name.giv')}"></action>
+			<action name="9" expression="#{ProcpraticheAction.select.add('serviceDeliveryLocation.area.langIt')}"></action>
+			<action name="10" expression="#{ProcpraticheAction.select.add('numero')}"></action>
+			<action name="11" expression="#{ProcpraticheAction.select.add('note')}"></action>
+			<action name="12" expression="#{ProcpraticheAction.select.add('dataAssegnazione')}"></action>
+			<action name="13" expression="#{ProcpraticheAction.select.add('urgente')}"></action>
+			<action name="14" expression="#{ProcpraticheAction.select.add('protocolloMasterNumber')}"></action>
+			<action name="15" expression="#{ProcpraticheAction.select.add('vigilanza.internalId')}"></action>
+			<action name="16" expression="#{ProcpraticheAction.select.add('vigilanza.sitoBonificaSede.latitudine')}"></action>
+			<action name="17" expression="#{ProcpraticheAction.select.add('vigilanza.sitoBonificaSede.longitudine')}"></action>
+			<action name="18" expression="#{ProcpraticheAction.select.add('vigilanza.cantiere.latitudine')}"></action>
+			<action name="19" expression="#{ProcpraticheAction.select.add('vigilanza.cantiere.longitudine')}"></action>
+			<action name="20" expression="#{ProcpraticheAction.select.add('vigilanza.latitudine')}"></action>
+			<action name="21" expression="#{ProcpraticheAction.select.add('vigilanza.longitudine')}"></action>
+			<action name="22" expression="#{ProcpraticheAction.select.add('malattiaProfessionale.internalId')}"></action>
+			<action name="23" expression="#{TipologiaCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="24" expression="#{TipologiaCantiereAction.select.add('type')}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<process-state name="icd9">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/filterIcd9" binding="late"></sub-process>
+		<transition to="set filter"></transition>
+	</process-state>
+
+	<node name="set filter">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.like.remove('malattiaProfessionale.diagCode')}"></action>
+			<action name="2" expression="#{not empty CodeValueIcd9 ? ProcpraticheAction.like.put('malattiaProfessionale.diagCode.oid',CodeValueIcd9.getOid()) : ''}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<decision name="comingFromPersonManagement?" expression="#{not empty ProtocolloAction.temporary['personManagement'] and ProtocolloAction.temporary['personManagement']}">
+		<transition to="searchExistingPraticaToAdd?" name="false"></transition>
+		<transition to="readForProvvedimenti?" name="true"></transition>
+	</decision>
+
+	<node name="Set Color">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.setActivitiesColor(Procpratiche)}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="to beginning">
+		<transition to="comingFromPersonManagement?"></transition>
+	</node>
+
+	<decision name="is pratica locked?" expression="#{(Param['p.home.procpratiche.gestionePraticheAssegnate'].value and (not ProcpraticheAction.isCurrentUserOperatore(Procpratiche))) or (Procpratiche.statusCode.getCode().matches('^.*?(suspended|completed|nullified|held).*$'))}">
+		<transition to="alfrescoDocuments" name="false"></transition>
+		<transition to="set readonly docs" name="true"></transition>
+	</decision>
+
+	<node name="set readonly docs">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="alfrescoDocuments"></transition>
+	</node>
+
+	<decision name="is pratica locked 2?" expression="#{(Param['p.home.procpratiche.gestionePraticheAssegnate'].value and (not ProcpraticheAction.isCurrentUserOperatore(Procpratiche))) or (Procpratiche.statusCode.getCode().matches('^.*?(suspended|completed|nullified|held).*$'))}">
+		<transition to="revert readonly " name="true"></transition>
+		<transition to="home" name="false"></transition>
+	</decision>
+
+	<node name="revert readonly ">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(false)}"></action>
+		</event>
+		<transition to="home" name=""></transition>
+	</node>
+
+	<decision name="readForProvvedimenti?" expression="#{not empty ProtocolloAction.temporary['read4provvedimenti'] and ProtocolloAction.temporary['read4provvedimenti']}">
+		<transition to="manage states 1" name="false"></transition>
+		<transition to="read for provvedimenti" name="true"></transition>
+	</decision>
+
+	<node name="read for provvedimenti">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty ProvvedimentiAction.temporary['dittaProvvedimento'] ? ProcpraticheAction.equal.put('attivita.provvedimenti.soggetto.ditta.codiceFiscale',ProvvedimentiAction.temporary['dittaProvvedimento'].codiceFiscale) : ProcpraticheAction.equal.remove('attivita.provvedimenti.soggetto.ditta.codiceFiscale')}"></action>
+			<action name="2" expression="#{not empty ProvvedimentiAction.temporary['personaProvvedimento'] ? ProcpraticheAction.filterProvvedimento(ProvvedimentiAction.temporary['personaProvvedimento'].fiscalCode) : ProcpraticheAction.cleanFilterProvvedimento()}"></action>
+			<action name="3" expression="#{ProcpraticheAction.equal.put('attivita.provvedimenti.isActive',true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.equal.put('attivita.isActive',true)}"></action>
+		</event>
+		<transition to="manage states 2"></transition>
+	</node>
+
+	<process-state name="search tag fascicoli">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/searchTagFascicoli" binding="late"></sub-process>
+		<transition to="home"></transition>
+	</process-state>
+
+	<node name="set temporary 4">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Search Employee - RFP"></transition>
+	</node>
+
+	<process-state name="Search Employee - RFP">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="btn?" name=""></transition>
+	</process-state>
+
+	<decision name="btn?" expression="#{button.mnemonic}">
+		<transition to="filter rfp" name="BtnSave"></transition>
+		<transition to="eject Employee" name="BtnBack"></transition>
+	</decision>
+
+	<node name="filter rfp">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.equal.put('rfp',Employee)}"></action>
+		</event>
+		<transition to="eject Employee"></transition>
+	</node>
+
+	<node name="eject Employee">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.eject()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<node name="manage states 2">
+		<event type="node-enter">
+			<action name="1" expression="#{Param['p.home.procpratiche.gestionePraticheAssegnate'].value ? ProcpraticheAction.temporary.put('showAll',true) : ''}"></action>
+			<action name="2" expression="#{ProcpraticheAction.resetStatesForRovvedimenti()}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<node name="remove temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<task-node name="map info popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/localizationFaq')}"></action>
+		</event>
+		<transition to="home"></transition>
+	</task-node>
+
+	<task-node name="comparto popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/comparto')}"></action>
+		</event>
+		<transition to="lnkCompartoOk?"></transition>
+	</task-node>
+
+	<decision name="lnkCompartoOk?" expression="#{button.value eq 'lnkCompartoOk'}">
+		<transition to="FilterByComparto" name="true"></transition>
+		<transition to="home" name="false"></transition>
+	</decision>
+
+	<node name="FilterByComparto">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.setFilterByComparto(CodeValuePhiAction.get(CodeValueList))}"></action>
+		</event>
+		<transition to="home" name=""></transition>
+	</node>
+
+	<node name="cleanRestrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.clear()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('filter',true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('active', true)}"></action>
+			<action name="5" expression="#{ProcpraticheAction.temporary.put('verified', true)}"></action>
+			<action name="6" expression="#{ProcpraticheAction.temporary.put('showSign',AlfrescoDocumentAction.showSign())}"></action>
+			<action name="7" expression="#{OperatoreAction.eject()}"></action>
+			<action name="8" expression="#{PersonAction.eject()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="10" expression="#{EmployeeAction.eject()}"></action>
+			<action name="11" expression="#{CantiereAction.eject()}"></action>
+			<action name="12" expression="#{ProcpraticheAction.setFilterByComparto(null)}"></action>
+			<action name="13" expression="#{CodeValueAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="manage states 1">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.resetStatesForRovvedimenti()}"></action>
+			<action name="2" expression="#{Param['p.home.procpratiche.gestionePraticheAssegnate'].value ? ProcpraticheAction.temporary.put('showAll',true) : ''}"></action>
+			<action name="3" expression="#{ProcpraticheAction.resetStates()}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<decision name="role viewer?" expression="#{userBean.hasRoleIn('viewerRegione')}">
+		<transition to="set temporary" name="false"></transition>
+		<transition to="procpratiche for viewer" name="true"></transition>
+	</decision>
+
+	<process-state name="procpratiche for viewer">
+		<sub-process name="MOD_home/CORE/PROCESSES/procpraticheViewer" binding="late"></sub-process>
+		<transition to="end-state2"></transition>
+	</process-state>
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+	<action name="security" expression="admin;direttore;"></action>
+
+</process-definition>

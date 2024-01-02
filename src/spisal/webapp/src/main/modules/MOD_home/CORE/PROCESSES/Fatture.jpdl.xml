@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare search"></transition>
+	</start-state>
+
+
+	<task-node name="Fatture">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/fattureSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="search" name="BtnSearch"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="prepare search" name="BtnFilterCancel"></transition>
+		<transition to="Manage Fattura" name="BtnMng"></transition>
+		<transition to="super-state1/archivia" name="BtnArchivia"></transition>
+		<transition to="Manage Delete" name="BtnDelLast"></transition>
+	</decision>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{FatturaAction.orderBy.put('creationDate','descending')}"></action>
+			<action name="3" expression="#{FatturaAction.addArchiviate()}"></action>
+			<action name="4" expression="#{FatturaAction.setArpav()}"></action>
+			<action name="5" expression="#{FatturaAction.read()}"></action>
+		</event>
+		<transition to="Fatture"></transition>
+	</node>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{FattureAction.ejectList()}"></action>
+			<action name="2" expression="#{FattureAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{FattureAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<process-state name="Manage Fattura">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/manageFattura" binding="late"></sub-process>
+		<transition to="search"></transition>
+	</process-state>
+
+	<node name="prepare search">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.eject()}"></action>
+			<action name="2" expression="#{FatturaAction.ejectList()}"></action>
+			<action name="3" expression="#{FatturaAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{FatturaAction.temporary.clear()}"></action>
+			<action name="5" expression="#{FatturaAction.setReadPageSize(20)}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="archivia">
+			<event type="node-enter">
+				<action name="1" expression="#{Fattura.setArchiviata(true)}"></action>
+				<action name="2" expression="#{FatturaAction.create()}"></action>
+			</event>
+			<transition to="../search"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="Manage Delete">
+		<sub-process name="MOD_home/CORE/PROCESSES/deleteFattura" binding="late"></sub-process>
+		<transition to="prepare search"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;"></action>
+
+
+</process-definition>

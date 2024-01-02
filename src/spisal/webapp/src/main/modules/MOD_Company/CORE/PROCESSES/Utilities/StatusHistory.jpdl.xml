@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="StatusHistory">
+
+
+	<start-state name="start-state1">
+		<transition to="read history"></transition>
+	</start-state>
+
+
+	<node name="read history">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.getStatusHistory()}"></action>
+		</event>
+		<transition to="status list"></transition>
+	</node>
+
+	<task-node name="status list">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/p_status_history')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</task-node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,62 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1406192824591}</h1>
+	<div id="f_vp_create_organization" style="position:relative;height:401px;" >
+			<a4j:commandLink action="#{processManager.manageTask('Button_1406018903130;saveORG')}" id="Button_1406018903130" status="ajaxStatus" title="${msg.alt_Button_1406018903130}" style="height: 48px;width: 48px;position: absolute;left: 360px;top: 0px;" styleClass="buttonBase buttonSave" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+				<i/>
+			</a4j:commandLink>
+
+
+			<a4j:outputPanel id="GroupBox_1408006246335" style="position: absolute;left: 0px;top: 70px;" layout="block" >
+			<fieldset style="height: 281px;width: 416px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1408006246335}</legend>
+
+				<h:outputLabel for="IDBox_1407370787036_id" value="${msg.Label_1404381962119}" style="width: 121px;position: absolute;left: 20px;top: 35px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="IDBox_1407370787036" style="left: 160px;top: 35px;" >
+				<h:inputText id="IDBox_1407370787036_id" value="#{ServiceDeliveryLocation.id['HBS'].extension}" required="true" alt="IDBOX" style="height: 41px;width: 226px;" styleClass="required" label="${msg.Label_1404381962119}" />
+				<h:message style="position:absolute;top:41px;" for="IDBox_1407370787036_id" styleClass="errorMessages IDBox_1407370787036_E" />
+				</a4j:outputPanel>
+
+				<h:outputLabel for="TextBox_1404408307427" value="${msg.Label_1404539052665}" style="height: 41px;width: 126px;position: absolute;left: 20px;top: 95px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 165px;top: 95px;" >
+				<h:inputText id="TextBox_1404408307427" value="#{ServiceDeliveryLocation.name.giv}" style="height: 36px;width: 221px;" label="${msg.Label_1404539052665}" />
+				<a4j:outputPanel id="TextBox_1404408307427_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:36px;left:0px;" for="TextBox_1404408307427" styleClass="errorMessages TextBox_1404408307427_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1406089543775" value="${msg.Label_1405115265254}" style="height: 41px;width: 126px;position: absolute;left: 20px;top: 155px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 165px;top: 155px;" >
+				<h:inputText id="TextBox_1406089543775" value="#{ServiceDeliveryLocation.addr.str}" style="height: 41px;width: 221px;" label="${msg.Label_1405115265254}" />
+				<a4j:outputPanel id="TextBox_1406089543775_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:41px;left:0px;" for="TextBox_1406089543775" styleClass="errorMessages TextBox_1406089543775_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextSuggestionBox_1406780094410_MAIN" value="${msg.Label_1405037029276}" style="height: 41px;width: 126px;position: absolute;left: 20px;top: 210px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextSuggestionBox_1406780094410" style="left: 165px;top: 210px;" >
+					<a4j:outputPanel layout="block" >
+					#{ServiceDeliveryLocationAction.autocomplete['addr'].setContentType('0')}
+					<h:inputText id="TextSuggestionBox_1406780094410_MAIN" value="#{ServiceDeliveryLocation.addr.cty}" styleClass="autocomplete autoAddress" style="height: 36px;width: 141px;" label="${msg.Label_1405037029276}" />
+					<h:outputLabel for="TextSuggestionBox_1406780094410_CPA" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1406780094410_CPA" value="#{ServiceDeliveryLocation.addr.cpa}" style="height: 36px;width: 25px;" label="${static.Province}" />
+					<h:outputLabel for="TextSuggestionBox_1406780094410_ZIP" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1406780094410_ZIP" value="#{ServiceDeliveryLocation.addr.zip}" style="height: 36px;width: 45px;" label="${static.ZIP}" />
+					<h:outputLabel for="TextSuggestionBox_1406780094410_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1406780094410_CODE" value="#{ServiceDeliveryLocation.addr.code}" label="${msg.Label_1405037029276}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message style="position:absolute;top:36px;" for="TextSuggestionBox_1406780094410_CODE" styleClass="errorMessages TextSuggestionBox_1406780094410_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1406780094410" action="#{ServiceDeliveryLocationAction.autocomplete['addr'].autocomplete()}" data="#{ServiceDeliveryLocationAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{ServiceDeliveryLocationAction.autocomplete['addr'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+	</div>
+	<script>focusFirstElement();</script>
+</div>

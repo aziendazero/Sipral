@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="BtnCancel">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="isValid?" name="toVerified"></transition>
+		<transition to="Alert" name="toNew"></transition>
+	</decision>
+
+	<node name="Svalida">
+		<event type="node-enter">
+			<action name="1" expression="#{AddebitoAction.setCodeValue('statusCode','PHIDIC','Stato','new')}"></action>
+			<action name="2" expression="#{Addebito.setCodiceConto(null)}"></action>
+			<action name="3" expression="#{Addebito.setImporto(null)}"></action>
+		</event>
+		<transition to="setReadOnly?"></transition>
+	</node>
+
+	<node name="Valida">
+		<event type="node-enter">
+			<action name="1" expression="#{AddebitoAction.setCodiceConto()}"></action>
+			<action name="2" expression="#{AddebitoAction.setCodeValue('statusCode','PHIDIC','Stato','verified')}"></action>
+		</event>
+		<transition to="setReadOnlyTrue"></transition>
+	</node>
+
+	<task-node name="Alert">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/update_add_alert')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="setReadOnly?" name="BtnCancel"></transition>
+		<transition to="Svalida" name="BtnSave"></transition>
+	</decision>
+
+	<decision name="setReadOnly?" expression="#{Addebito.statusCode.code ne 'new'}">
+		<transition to="setReadOnlyFalse" name="false"></transition>
+		<transition to="setReadOnlyTrue" name="true"></transition>
+	</decision>
+
+	<node name="setReadOnlyTrue">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="super-state1/save addebito"></transition>
+	</node>
+
+	<node name="setReadOnlyFalse">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(false)}"></action>
+		</event>
+		<transition to="super-state1/save addebito"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save addebito">
+			<event type="node-enter">
+				<action name="1" expression="#{Addebito.setUtenteUltimaModifica(userBean.getCurrentEmployee())}"></action>
+				<action name="2" expression="#{Addebito.setDataUltimaModifica(function.currentDateTime())}"></action>
+				<action name="3" expression="#{AddebitoAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<decision name="isValid?" expression="#{AddebitoAction.checkAddebito()}">
+		<transition to="Valida" name="true"></transition>
+		<transition to="end-state2" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

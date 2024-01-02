@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="companies">
+
+
+	<start-state name="start">
+		<transition to="inizialize filters"></transition>
+	</start-state>
+
+
+	<task-node name="home">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/companies')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<node name="read">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.orderBy.put('denominazione','ascending')}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.setReadPageSize(10)}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.temporary['ente'] ne 'true' ? PersoneGiuridicheAction.equal.putOr('ente',false,null) : PersoneGiuridicheAction.equal.put('ente',true)}"></action>
+			<action name="4" expression="#{empty PersoneGiuridicheAction.temporary['ente'] ? PersoneGiuridicheAction.equal.remove('ente') : ''}"></action>
+			<action name="5" expression="#{AttivitaIstat.code != null ? PersoneGiuridicheAction.equal.put('attivitaIstat.code',AttivitaIstat.code) : ''}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.filterTag(PersoneGiuridicheAction.temporary['tipologiaDitta'])}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.filterAteco(PersoneGiuridicheAction.temporary['atecoFilterMode'])}"></action>
+			<action name="8" expression="#{PersoneGiuridicheAction.filterMisc()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.equal.put('isActive',true)}"></action>
+			<action name="10" expression="#{PersoneGiuridicheAction.setFullLike(true)}"></action>
+			<action name="11" expression="#{PersoneGiuridicheAction.filterBy()}"></action>
+			<action name="12" expression="#{PersoneGiuridicheAction.filterCodiceDitta(PersoneGiuridicheAction.temporary['codiceDitta'])}"></action>
+			<action name="13" expression="#{PersoneGiuridicheAction.read()}"></action>
+			<action name="14" expression="#{TipologiaDittaAction.like.remove('type')}"></action>
+			<action name="15" expression="#{SediAction.ejectList()}"></action>
+			<action name="16" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="17" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="clean restrictions" name="BtnPGFilterCancel"></transition>
+		<transition to="read" name="BtnPGFilterApply"></transition>
+		<transition to="clean sedi list" name="BtnPGManagement"></transition>
+		<transition to="eject Company" name="BtnPGNew"></transition>
+		<transition to="inject Ruoli Cariche" name="BtnSDetail"></transition>
+		<transition to="inject Sedi" name="BtnPGDetail"></transition>
+		<transition to="inizialize filters" name="BtnBack"></transition>
+		<transition to="end-state1" name="BtnSave"></transition>
+		<transition to="add temporaries" name="searchPratiche"></transition>
+		<transition to="filter ateco" name="attivita"></transition>
+		<transition to="add temporaries prov" name="searchProvvedimenti"></transition>
+	</decision>
+
+	<node name="clean restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.clear()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.temporary.put('filter',true)}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.temporary.put('corrispondenza', 'Tutti')}"></action>
+			<action name="5" expression="#{AttivitaIstat.setCode(null)}"></action>
+			<action name="6" expression="#{TagDitta.setTipologiaDitta(null)}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.temporary.put('atecoFilterMode',null)}"></action>
+			<action name="8" expression="#{PersoneGiuridicheAction.clearAtecoFilters()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.setDistinct(true)}"></action>
+			<action name="10" expression="#{PersoneGiuridicheAction.select.add('denominazione')}"></action>
+			<action name="11" expression="#{PersoneGiuridicheAction.select.add('codiceFiscale')}"></action>
+			<action name="12" expression="#{PersoneGiuridicheAction.select.add('patritaIva')}"></action>
+			<action name="13" expression="#{PersoneGiuridicheAction.select.add('numeroRI')}"></action>
+			<action name="14" expression="#{PersoneGiuridicheAction.select.add('dataCostituzione')}"></action>
+			<action name="15" expression="#{PersoneGiuridicheAction.select.add('dataIscrizioneRI')}"></action>
+			<action name="16" expression="#{PersoneGiuridicheAction.select.add('dataTermine')}"></action>
+			<action name="17" expression="#{PersoneGiuridicheAction.select.add('numPratiche')}"></action>
+			<action name="18" expression="#{PersoneGiuridicheAction.select.add('numProvvedimenti')}"></action>
+			<action name="19" expression="#{PersoneGiuridicheAction.select.add('codiceDitta')}"></action>
+			<action name="20" expression="#{PersoneGiuridicheAction.setFullLike(true)}"></action>
+			<action name="21" expression="#{PersoneGiuridicheAction.equal.putOr('app','',null)}"></action>
+		</event>
+		<transition to="elect PG"></transition>
+	</node>
+
+	<node name="inizialize filters">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{TipologiaDittaAction.select.add('type')}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.temporary.put('corrispondenza', 'Tutti')}"></action>
+		</event>
+		<transition to="search on PARIX"></transition>
+	</node>
+
+	<node name="inject Sedi">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.ejectList()}"></action>
+			<action name="2" expression="#{SediAction.orderBy.put('sedePrincipale','descending')}"></action>
+			<action name="3" expression="#{SediAction.equal.put('personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="4" expression="#{SediAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{SediAction.read()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="eject Company">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="3" expression="#{SediAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.ejectList()}"></action>
+			<action name="5" expression="#{RuoliAction.eject()}"></action>
+			<action name="6" expression="#{RuoliAction.ejectList()}"></action>
+			<action name="7" expression="#{CaricheAction.eject()}"></action>
+			<action name="8" expression="#{CaricheAction.ejectList()}"></action>
+			<action name="9" expression="#{TagDittaAction.injectEmptyList('TagDittaList')}"></action>
+			<action name="10" expression="#{TagDittaAction.injectEmptyList('ToRemoveTagDittaList')}"></action>
+			<action name="11" expression="#{TipologiaDittaAction.like.remove('type')}"></action>
+			<action name="12" expression="#{AttivitaIstatAction.injectEmptyList('AttivitaIstatList')}"></action>
+			<action name="13" expression="#{AttivitaIstatAction.injectEmptyList('ToRemoveAttivitaIstatList')}"></action>
+		</event>
+		<transition to="CompanyManagement"></transition>
+	</node>
+
+	<node name="inject Ruoli Cariche">
+		<event type="node-enter">
+			<action name="1" expression="#{CaricheAction.injectList(Sedi.cariche,'CaricheList')}"></action>
+			<action name="2" expression="#{AttivitaIstatAction.injectList(Sedi.attivitaIstat,'AttivitaIstatList')}"></action>
+			<action name="3" expression="#{RuoliAction.equal.put('sedi.internalId',Sedi.internalId)}"></action>
+			<action name="4" expression="#{RuoliAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{RuoliAction.read()}"></action>
+		</event>
+		<transition to="Dettagli sede"></transition>
+	</node>
+
+	<task-node name="Dettagli sede">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/dettagli_sede')}"></action>
+		</event>
+		<transition to="home"></transition>
+	</task-node>
+
+	<process-state name="CompanyManagement">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companyManagement?stateless=true" binding="late"></sub-process>
+		<transition to="read"></transition>
+	</process-state>
+
+	<process-state name="search on PARIX">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/searchParix?stateless=true" binding="late"></sub-process>
+		<transition to="next from parix?"></transition>
+	</process-state>
+
+	<decision name="next from parix?" expression="#{(button.getMnemonic())}">
+		<transition to="end-state2" name="BtnSave"></transition>
+		<transition to="end-state2" name="BtnBack"></transition>
+		<transition to="eject lists" name="goToALI"></transition>
+	</decision>
+
+	<node name="eject lists">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.temporary.put('filter',true)}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.equal.putOr('app','',null)}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.setFullLike(true)}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.setDistinct(true)}"></action>
+			<action name="8" expression="#{PersoneGiuridicheAction.clearAtecoFilters()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.select.add('denominazione')}"></action>
+			<action name="10" expression="#{PersoneGiuridicheAction.select.add('codiceFiscale')}"></action>
+			<action name="11" expression="#{PersoneGiuridicheAction.select.add('patritaIva')}"></action>
+			<action name="12" expression="#{PersoneGiuridicheAction.select.add('numeroRI')}"></action>
+			<action name="13" expression="#{PersoneGiuridicheAction.select.add('dataCostituzione')}"></action>
+			<action name="14" expression="#{PersoneGiuridicheAction.select.add('dataIscrizioneRI')}"></action>
+			<action name="15" expression="#{PersoneGiuridicheAction.select.add('dataTermine')}"></action>
+			<action name="16" expression="#{PersoneGiuridicheAction.select.add('numPratiche')}"></action>
+			<action name="17" expression="#{PersoneGiuridicheAction.select.add('numProvvedimenti')}"></action>
+			<action name="18" expression="#{PersoneGiuridicheAction.select.add('dataCancellazioneRI')}"></action>
+			<action name="19" expression="#{PersoneGiuridicheAction.select.add('codiceDitta')}"></action>
+			<action name="20" expression="#{SediAction.ejectList()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="add temporaries">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('personManagement',true)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.in.put('internalId', PersoneGiuridicheAction.listPratiche(PersoneGiuridiche))}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="6" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="elenca pratiche"></transition>
+	</node>
+
+	<process-state name="elenca pratiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/procpratiche" binding="late"></sub-process>
+		<transition to="remove temporaries"></transition>
+	</process-state>
+
+	<node name="remove temporaries">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('personManagement',false)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('read4provvedimenti',false)}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<process-state name="filter ateco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set filter"></transition>
+	</process-state>
+
+	<node name="set filter">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.equal.put('attivitaIstat.code',CodeValueAteco)}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="add temporaries prov">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('personManagement',true)}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('read4provvedimenti',true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="5" expression="#{ProvvedimentiAction.temporary.put('dittaProvvedimento',PersoneGiuridiche)}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="7" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="elenca pratiche"></transition>
+	</node>
+
+	<node name="elect PG">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="clean sedi list">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.ejectList()}"></action>
+			<action name="2" expression="#{SediAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="CompanyManagement"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+	<action name="security" expression="admin;direttore;"></action>
+
+</process-definition>

@@ -1,0 +1,445 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1507278795978" styleClass="layoutContainer layoutContainerVertical layoutRootHorizontal  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1505827099294" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1505827099294}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1507315968194" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<h:selectOneRadio id="RadioGroup_1506232411107" value="#{ProtocolloAction.temporary['richiedente']}" styleClass="filter radioGroupTable radioGroup" >
+							<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Utente,Interno,Medico')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1505827099294" event="onclick" action="#{ProtocolloAction.cleanFiltersMittente()}" ignoreDupResponses="true" />
+						</h:selectOneRadio>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1507624316780" style="height:100%;width:100%;" >
+							<a4j:commandLink action="#{ProtocolloAction.temporary.put('richiedente',null)}" status="ajaxStatus" id="cleanFilters1" alt="#{LINK}" reRender="LayoutRow_1505827099294" styleClass="fa fa-eraser fa-2x link" >
+							<f:actionListener binding="#{ProtocolloAction.cleanFiltersMittente()}"/>
+							</a4j:commandLink>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505423165443" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('richiedente').code=='Utente'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1505464251197}</span>
+							<h:inputText id="TextBox_1505464251197" value="#{ProtocolloAction.like['richiedenteUtente.name.fam']}" styleClass="inputText" label="${msg.label_TextBox_1505464251197}" />
+							<a4j:outputPanel id="TextBox_1505464251197_msg" styleClass="errorContainer" ><h:message for="TextBox_1505464251197" styleClass="errorMessages TextBox_1505464251197_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507886049827}</span>
+							<h:inputText id="TextBox_1507886049827" value="#{ProtocolloAction.like['richiedenteUtente.name.giv']}" styleClass="inputText" label="${msg.label_TextBox_1507886049827}" />
+							<a4j:outputPanel id="TextBox_1507886049827_msg" styleClass="errorContainer" ><h:message for="TextBox_1507886049827" styleClass="errorMessages TextBox_1507886049827_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1507688783594}</span>
+							<h:inputText id="MonthCalendar_1507688783594" value="#{ProtocolloAction.equal['richiedenteUtente.birthTime']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1507688783594}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1507688783594" styleClass="errorMessages MonthCalendar_1507688783594_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506629620207}</span>
+							<h:inputText id="TextBox_1506629620207" value="#{ProtocolloAction.like['richiedenteUtente.fiscalCode']}" styleClass="inputText" label="${msg.label_TextBox_1506629620207}" />
+							<a4j:outputPanel id="TextBox_1506629620207_msg" styleClass="errorContainer" ><h:message for="TextBox_1506629620207" styleClass="errorMessages TextBox_1506629620207_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507215254550}</span>
+							<h:inputText id="TextBox_1507215254550" value="#{ProtocolloAction.like['richiedenteUtente.birthPlace.cty']}" styleClass="inputText" label="${msg.label_TextBox_1507215254550}" />
+							<a4j:outputPanel id="TextBox_1507215254550_msg" styleClass="errorContainer" ><h:message for="TextBox_1507215254550" styleClass="errorMessages TextBox_1507215254550_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1506565213097" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('richiedente').code=='Medico'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509354523689}</span>
+							<h:inputText id="TextBox_1509354523689" value="#{ProtocolloAction.like['richiedenteMedico.name.fam']}" styleClass="inputText" label="${msg.label_TextBox_1509354523689}" />
+							<a4j:outputPanel id="TextBox_1509354523689_msg" styleClass="errorContainer" ><h:message for="TextBox_1509354523689" styleClass="errorMessages TextBox_1509354523689_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507625089037}</span>
+							<h:inputText id="TextBox_1507625089037" value="#{ProtocolloAction.like['richiedenteMedico.name.giv']}" styleClass="inputText" label="${msg.label_TextBox_1507625089037}" />
+							<a4j:outputPanel id="TextBox_1507625089037_msg" styleClass="errorContainer" ><h:message for="TextBox_1507625089037" styleClass="errorMessages TextBox_1507625089037_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508215238647}</span>
+							<h:inputText id="TextBox_1508215238647" value="#{ProtocolloAction.like['richiedenteMedico.regionalCode']}" styleClass="inputText" label="${msg.label_TextBox_1508215238647}" />
+							<a4j:outputPanel id="TextBox_1508215238647_msg" styleClass="errorContainer" ><h:message for="TextBox_1508215238647" styleClass="errorMessages TextBox_1508215238647_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1506232955194" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('richiedente').code=='Interno'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1505888582554}</span>
+							<h:inputText id="TextBox_1505888582554" value="#{ProtocolloAction.like['richiedenteInterno.name.fam']}" styleClass="inputText" label="${msg.label_TextBox_1505888582554}" />
+							<a4j:outputPanel id="TextBox_1505888582554_msg" styleClass="errorContainer" ><h:message for="TextBox_1505888582554" styleClass="errorMessages TextBox_1505888582554_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506250893128}</span>
+							<h:inputText id="TextBox_1506250893128" value="#{ProtocolloAction.like['richiedenteInterno.name.giv']}" styleClass="inputText" label="${msg.label_TextBox_1506250893128}" />
+							<a4j:outputPanel id="TextBox_1506250893128_msg" styleClass="errorContainer" ><h:message for="TextBox_1506250893128" styleClass="errorMessages TextBox_1506250893128_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508438781471}</span>
+							<h:inputText id="TextBox_1508438781471" value="#{ProtocolloAction.like['richiedenteInterno.fiscalCode']}" styleClass="inputText" label="${msg.label_TextBox_1508438781471}" />
+							<a4j:outputPanel id="TextBox_1508438781471_msg" styleClass="errorContainer" ><h:message for="TextBox_1508438781471" styleClass="errorMessages TextBox_1508438781471_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505423371833" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('richiedente').code=='Ditta'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1505323540282}</span>
+							<h:inputText id="TextBox_1505323540282" value="#{ProtocolloAction.like['richiedenteDitta.patritaIva']}" styleClass="inputText" label="${msg.label_TextBox_1505323540282}" />
+							<a4j:outputPanel id="TextBox_1505323540282_msg" styleClass="errorContainer" ><h:message for="TextBox_1505323540282" styleClass="errorMessages TextBox_1505323540282_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506024308827}</span>
+							<h:inputText id="TextBox_1506024308827" value="#{ProtocolloAction.like['richiedenteDitta.codiceFiscale']}" styleClass="inputText" label="${msg.label_TextBox_1506024308827}" />
+							<a4j:outputPanel id="TextBox_1506024308827_msg" styleClass="errorContainer" ><h:message for="TextBox_1506024308827" styleClass="errorMessages TextBox_1506024308827_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506067072355}</span>
+							<h:inputText id="TextBox_1506067072355" value="#{ProtocolloAction.like['richiedenteDitta.denominazione']}" styleClass="inputText" label="${msg.label_TextBox_1506067072355}" />
+							<a4j:outputPanel id="TextBox_1506067072355_msg" styleClass="errorContainer" ><h:message for="TextBox_1506067072355" styleClass="errorMessages TextBox_1506067072355_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1649208193619}</span>
+							<h:inputText id="TextBox_1649208193619" value="#{ProtocolloAction.like['richiedenteDitta.codiceDitta']}" styleClass="inputText" label="${msg.label_TextBox_1649208193619}" />
+							<a4j:outputPanel id="TextBox_1649208193619_msg" styleClass="errorContainer" ><h:message for="TextBox_1649208193619" styleClass="errorMessages TextBox_1649208193619_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1509012731498" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1509012731498}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506644299282" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<h:selectOneRadio id="RadioGroup_1506044948413" value="#{ProtocolloAction.temporary['riferimento']}" styleClass="filter radioGroupTable radioGroup" >
+							<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Cantiere,Utente,Altro')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1509012731498" event="onclick" action="#{ProtocolloAction.cleanFiltersRiferito()}" ignoreDupResponses="true" />
+						</h:selectOneRadio>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1507624415786" style="height:100%;width:100%;" >
+							<a4j:commandLink action="#{ProtocolloAction.temporary.put('riferimento',null)}" status="ajaxStatus" id="cleanFilters2" alt="#{LINK}" reRender="LayoutRow_1509012731498" styleClass="fa fa-eraser fa-2x link" >
+							<f:actionListener binding="#{ProtocolloAction.cleanFiltersRiferito()}"/>
+							</a4j:commandLink>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505564907172" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('riferimento').code=='Utente'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508896837885}</span>
+							<h:inputText id="TextBox_1508896837885" value="#{ProtocolloAction.like['riferimentoUtente.name.fam']}" styleClass="inputText" label="${msg.label_TextBox_1508896837885}" />
+							<a4j:outputPanel id="TextBox_1508896837885_msg" styleClass="errorContainer" ><h:message for="TextBox_1508896837885" styleClass="errorMessages TextBox_1508896837885_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507249959962}</span>
+							<h:inputText id="TextBox_1507249959962" value="#{ProtocolloAction.like['riferimentoUtente.name.giv']}" styleClass="inputText" label="${msg.label_TextBox_1507249959962}" />
+							<a4j:outputPanel id="TextBox_1507249959962_msg" styleClass="errorContainer" ><h:message for="TextBox_1507249959962" styleClass="errorMessages TextBox_1507249959962_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1509025890683}</span>
+							<h:inputText id="MonthCalendar_1509025890683" value="#{ProtocolloAction.equal['riferimentoUtente.birthTime']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1509025890683}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1509025890683" styleClass="errorMessages MonthCalendar_1509025890683_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506083466173}</span>
+							<h:inputText id="TextBox_1506083466173" value="#{ProtocolloAction.like['riferimentoUtente.fiscalCode']}" styleClass="inputText" label="${msg.label_TextBox_1506083466173}" />
+							<a4j:outputPanel id="TextBox_1506083466173_msg" styleClass="errorContainer" ><h:message for="TextBox_1506083466173" styleClass="errorMessages TextBox_1506083466173_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507323658465}</span>
+							<h:inputText id="TextBox_1507323658465" value="#{ProtocolloAction.like['riferimentoUtente.birthPlace.cty']}" styleClass="inputText" label="${msg.label_TextBox_1507323658465}" />
+							<a4j:outputPanel id="TextBox_1507323658465_msg" styleClass="errorContainer" ><h:message for="TextBox_1507323658465" styleClass="errorMessages TextBox_1507323658465_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505831138302" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('riferimento').code=='Ditta'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506725711143}</span>
+							<h:inputText id="TextBox_1506725711143" value="#{ProtocolloAction.like['riferimentoDitta.patritaIva']}" styleClass="inputText" label="${msg.label_TextBox_1506725711143}" />
+							<a4j:outputPanel id="TextBox_1506725711143_msg" styleClass="errorContainer" ><h:message for="TextBox_1506725711143" styleClass="errorMessages TextBox_1506725711143_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508489838057}</span>
+							<h:inputText id="TextBox_1508489838057" value="#{ProtocolloAction.like['riferimentoDitta.codiceFiscale']}" styleClass="inputText" label="${msg.label_TextBox_1508489838057}" />
+							<a4j:outputPanel id="TextBox_1508489838057_msg" styleClass="errorContainer" ><h:message for="TextBox_1508489838057" styleClass="errorMessages TextBox_1508489838057_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506802021452}</span>
+							<h:inputText id="TextBox_1506802021452" value="#{ProtocolloAction.like['riferimentoDitta.denominazione']}" styleClass="inputText" label="${msg.label_TextBox_1506802021452}" />
+							<a4j:outputPanel id="TextBox_1506802021452_msg" styleClass="errorContainer" ><h:message for="TextBox_1506802021452" styleClass="errorMessages TextBox_1506802021452_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1648625088742}</span>
+							<h:inputText id="TextBox_1648625088742" value="#{ProtocolloAction.like['riferimentoDitta.codiceDitta']}" styleClass="inputText" label="${msg.label_TextBox_1648625088742}" />
+							<a4j:outputPanel id="TextBox_1648625088742_msg" styleClass="errorContainer" ><h:message for="TextBox_1648625088742" styleClass="errorMessages TextBox_1648625088742_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505818582195" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('riferimento').code=='Cantiere'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507924152236}</span>
+							<h:inputText id="TextBox_1507924152236" value="#{ProtocolloAction.like['riferimentoCantiere.naturaOpera']}" styleClass="inputText" label="${msg.label_TextBox_1507924152236}" />
+							<a4j:outputPanel id="TextBox_1507924152236_msg" styleClass="errorContainer" ><h:message for="TextBox_1507924152236" styleClass="errorMessages TextBox_1507924152236_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507844005222}</span>
+							<h:inputText id="TextBox_1507844005222" value="#{ProtocolloAction.like['riferimentoCantiere.addr.str']}" styleClass="inputText" label="${msg.label_TextBox_1507844005222}" />
+							<a4j:outputPanel id="TextBox_1507844005222_msg" styleClass="errorContainer" ><h:message for="TextBox_1507844005222" styleClass="errorMessages TextBox_1507844005222_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505402132178" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('riferimento').code=='Altro'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508248926570}</span>
+							<h:inputText id="TextBox_1508248926570" value="#{ProtocolloAction.like['riferimentoDenominazione']}" styleClass="inputText" label="${msg.label_TextBox_1508248926570}" />
+							<a4j:outputPanel id="TextBox_1508248926570_msg" styleClass="errorContainer" ><h:message for="TextBox_1508248926570" styleClass="errorMessages TextBox_1508248926570_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1506458641214}</span>
+							<h:inputText id="TextBox_1506458641214" value="#{ProtocolloAction.like['riferimentoUbicazione']}" styleClass="inputText" label="${msg.label_TextBox_1506458641214}" />
+							<a4j:outputPanel id="TextBox_1506458641214_msg" styleClass="errorContainer" ><h:message for="TextBox_1506458641214" styleClass="errorMessages TextBox_1506458641214_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1508176562683" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1508176562683}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506197550750" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<h:selectOneRadio id="RadioGroup_1505707231832" value="#{ProtocolloAction.temporary['ubicazione']}" styleClass="radioGroupTable radioGroup" >
+							<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Cantiere,Altro')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1508176562683" event="onclick" action="#{ProtocolloAction.cleanFiltersUbicazione()}" ignoreDupResponses="true" />
+						</h:selectOneRadio>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1507624453202" style="height:100%;width:100%;" >
+							<a4j:commandLink action="#{ProtocolloAction.temporary.put('ubicazione',null)}" status="ajaxStatus" id="cleanFilters3" alt="#{LINK}" reRender="LayoutRow_1508176562683" styleClass="fa fa-eraser fa-2x link" >
+							<f:actionListener binding="#{ProtocolloAction.cleanFiltersUbicazione()}"/>
+							</a4j:commandLink>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1507556694875" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('ubicazione').code=='Ditta'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508066188226}</span>
+							<h:inputText id="TextBox_1508066188226" value="#{ProtocolloAction.like['ubicazioneDitta.patritaIva']}" styleClass="inputText" label="${msg.label_TextBox_1508066188226}" />
+							<a4j:outputPanel id="TextBox_1508066188226_msg" styleClass="errorContainer" ><h:message for="TextBox_1508066188226" styleClass="errorMessages TextBox_1508066188226_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508644543470}</span>
+							<h:inputText id="TextBox_1508644543470" value="#{ProtocolloAction.like['ubicazioneDitta.codiceFiscale']}" styleClass="inputText" label="${msg.label_TextBox_1508644543470}" />
+							<a4j:outputPanel id="TextBox_1508644543470_msg" styleClass="errorContainer" ><h:message for="TextBox_1508644543470" styleClass="errorMessages TextBox_1508644543470_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1507575840071}</span>
+							<h:inputText id="TextBox_1507575840071" value="#{ProtocolloAction.like['ubicazioneDitta.denominazione']}" styleClass="inputText" label="${msg.label_TextBox_1507575840071}" />
+							<a4j:outputPanel id="TextBox_1507575840071_msg" styleClass="errorContainer" ><h:message for="TextBox_1507575840071" styleClass="errorMessages TextBox_1507575840071_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1649371361692}</span>
+							<h:inputText id="TextBox_1649371361692" value="#{ProtocolloAction.like['ubicazioneDitta.codiceDitta']}" styleClass="inputText" label="${msg.label_TextBox_1649371361692}" />
+							<a4j:outputPanel id="TextBox_1649371361692_msg" styleClass="errorContainer" ><h:message for="TextBox_1649371361692" styleClass="errorMessages TextBox_1649371361692_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505700728003" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('ubicazione').code=='Cantiere'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1505482621808}</span>
+							<h:inputText id="TextBox_1505482621808" value="#{ProtocolloAction.like['ubicazioneCantiere.naturaOpera']}" styleClass="inputText" label="${msg.label_TextBox_1505482621808}" />
+							<a4j:outputPanel id="TextBox_1505482621808_msg" styleClass="errorContainer" ><h:message for="TextBox_1505482621808" styleClass="errorMessages TextBox_1505482621808_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509423340465}</span>
+							<h:inputText id="TextBox_1509423340465" value="#{ProtocolloAction.like['ubicazioneCantiere.addr.str']}" styleClass="inputText" label="${msg.label_TextBox_1509423340465}" />
+							<a4j:outputPanel id="TextBox_1509423340465_msg" styleClass="errorContainer" ><h:message for="TextBox_1509423340465" styleClass="errorMessages TextBox_1509423340465_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1508126429397" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary.get('ubicazione').code=='Altro'}" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508259967016}</span>
+							<h:inputText id="TextBox_1508259967016" value="#{ProtocolloAction.like['ubicazioneAddr.str']}" styleClass="inputText" label="${msg.label_TextBox_1508259967016}" />
+							<a4j:outputPanel id="TextBox_1508259967016_msg" styleClass="errorContainer" ><h:message for="TextBox_1508259967016" styleClass="errorMessages TextBox_1508259967016_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509081086781}</span>
+							<h:inputText id="TextBox_1509081086781" value="#{ProtocolloAction.like['ubicazioneX']}" styleClass="inputText" label="${msg.label_TextBox_1509081086781}" />
+							<a4j:outputPanel id="TextBox_1509081086781_msg" styleClass="errorContainer" ><h:message for="TextBox_1509081086781" styleClass="errorMessages TextBox_1509081086781_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1508800421751}</span>
+							<h:inputText id="TextBox_1508800421751" value="#{ProtocolloAction.like['ubicazioneY']}" styleClass="inputText" label="${msg.label_TextBox_1508800421751}" />
+							<a4j:outputPanel id="TextBox_1508800421751_msg" styleClass="errorContainer" ><h:message for="TextBox_1508800421751" styleClass="errorMessages TextBox_1508800421751_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1653484055327" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1653484055327}</legend>
+					<div class="layoutVertical" >
+					<h:selectBooleanCheckbox id="CheckBox_1653484127626" value="#{ProtocolloAction.temporary['fromPnc']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1653484127626}" />
+					<h:outputLabel value="${msg.CheckBox_1653484127626}" for="CheckBox_1653484127626" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1653484127626" styleClass="errorMessages CheckBox_1653484127626_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1653484127626" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1665494176503" style="padding-top:5px;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<h:outputLabel for="TextBox_1667159938386" value="${msg.Label_1665494183265}" class="labelContent  base-label" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<h:inputText id="TextBox_1667159938386" value="#{ProtocolloAction.equal['riferimentoCantiere.idPnc']}" styleClass="inputText" label="${msg.Label_1665494183265}" >
+							<f:validateLength minimum="0" maximum="10" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+						<a4j:outputPanel id="TextBox_1667159938386_msg" styleClass="errorContainer" ><h:message for="TextBox_1667159938386" styleClass="errorMessages TextBox_1667159938386_E" /></a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

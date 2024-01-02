@@ -1,0 +1,23 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1506402155167}</h1>
+	<div id="popupCopySedeAddr" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1508723757167" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1507898216951" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1507994695508" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1507994695508;BtnSelect')}" status="ajaxStatus" id="Link_1507994695508_id" title="${msg.alt_Link_1507994695508}" rendered="#{ImpiantoAction.temporary['impType'] ne null}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x save link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<h:selectOneRadio id="RadioGroup_1507547879400" value="#{ImpiantoAction.temporary['impType']}" layout="pageDirection" styleClass="radioGroupTable radioGroup" >
+					<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','ImpType:01,02,03,04,05')}" />
+
+					<f:converter converterId="CodeValueConverter"/>
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1507994695508" event="onclick" ignoreDupResponses="true" />
+				</h:selectOneRadio>
+				</div>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,55 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1510138019192}</h1>
+	<div id="reverseGeocodingSegnalazione" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1509525559049" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1509573379913" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1511569695343" >
+					<label style="display:#{(not empty PraticheRiferimenti.ubicazioneAddr.str and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1511569695343}</span>
+						<h:outputText rendered="#{not empty PraticheRiferimenti.ubicazioneAddr.str and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])}" value="#{Protocollo.ubicazioneAddr}" id="Label_1511569695343_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509566677943" >
+					<label style="display:#{(ProtocolloAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Protocollo.ubicazioneAddr,ProtocolloAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1509566677943}</span>
+						<h:outputText rendered="#{ProtocolloAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Protocollo.ubicazioneAddr,ProtocolloAction.temporary['reversedAddress'])}" value="#{function.concat(ProtocolloAction.temporary['reversedAddress'],ProtocolloAction.temporary['reversedAddressLocalita'])}" id="Label_1509566677943_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1511651945433" >
+					<span value="${msg.Label_1511651945433}" id="Label_1511651945433_id" style="display:#{(geolocation.sameAddress(Protocollo.ubicazioneAddr,ProtocolloAction.temporary['reversedAddress'])) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1511651945433}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1510044451322" >
+					<h:outputText rendered="#{not empty ProtocolloAction.temporary['geolocation_error']}" escape="false" value="#{ProtocolloAction.temporary['geolocation_error']}" id="Label_1510044451322_id" style="font-color: red; font-weight: bold;display:block;" class="labelContent  base-label" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1508548296028" >
+					<span value="${msg.Label_1508548296028}" id="Label_1508548296028_id" style="display:#{(ProtocolloAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Protocollo.ubicazioneAddr,ProtocolloAction.temporary['reversedAddress']) or ProtocolloAction.temporary['reversedLat']!=null)) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1508548296028}</span>
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1589533091042" style="height:100%;width:100%;" >
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510795200825" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510836315993;BtnCancel')}" status="ajaxStatus" id="Link_1510836315993" title="${msg.alt_Link_1510836315993}" reRender="popup,LayoutRow_1453833159790" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1511566729475" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511566729475;btnOk')}" status="ajaxStatus" id="Link_1511566729475_id" title="${msg.alt_Link_1511566729475}" rendered="#{ProtocolloAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Protocollo.ubicazioneAddr,ProtocolloAction.temporary['reversedAddress']) or ProtocolloAction.temporary['reversedLat']!=null)}" reRender="popup,LayoutRow_1453833159790" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneAppuntamentoMdl">
+
+
+	<start-state name="start-state1">
+		<transition to="StoreBtnValue"></transition>
+	</start-state>
+
+
+	<node name="StoreBtnValue">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('agenda',button.value)}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<process-state name="Gestione Agenda">
+		<sub-process name="MOD_agendaSp/CORE/PROCESSES/createAppointment" binding="late"></sub-process>
+		<transition to="CANCEL?"></transition>
+	</process-state>
+
+	<decision name="toLink" expression="#{AttivitaAction.temporary.get('agenda')}">
+		<transition to="link paz" name="BtnAgendaVisitaSp"></transition>
+		<transition to="link pazz" name="BtnAgendaAccSp"></transition>
+		<transition to="link paz" name="BtnAgendaVisitaSp2"></transition>
+		<transition to="link pazz" name="BtnAgendaAccSp2"></transition>
+		<transition to="Link Appuntamento VisitaSp" name="BtnAgendaVisitaRemove"></transition>
+		<transition to="Link Appuntamento AccertaSp" name="BtnAgendaAccRemove"></transition>
+	</decision>
+
+	<node name="link paz">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.linkPaziente()}"></action>
+		</event>
+		<transition to="Link Appuntamento VisitaSp"></transition>
+	</node>
+
+	<node name="Link Appuntamento AccertaSp">
+		<event type="node-enter">
+			<action name="1" expression="#{AccertSp.setData(AppointmentSp.data)}"></action>
+			<action name="2" expression="#{AppointmentSp.setAccertSp(AccertSp)}"></action>
+		</event>
+		<transition to="super-state1/create Attivita"></transition>
+	</node>
+
+	<node name="RemoveBtnValue">
+		<event type="node-enter">
+			<action name="1" expression="#{VisitaSpAction.refresh()}"></action>
+			<action name="2" expression="#{AccertSpAction.refresh()}"></action>
+			<action name="3" expression="#{AttivitaAction.temporary.remove('agenda')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject Emp App from Acce">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(VisitaSp.riferimentoInterno)}"></action>
+			<action name="2" expression="#{!empty VisitaSp.appointmentSp and !VisitaSp.appointmentSp.isEmpty() ? AppointmentSpAction.inject(VisitaSp.appointmentSp.get(0))  :  AppointmentSpAction.eject()}"></action>
+		</event>
+		<transition to="Gestione Agenda"></transition>
+	</node>
+
+	<decision name="decision1" expression="#{AttivitaAction.temporary.get('agenda')}">
+		<transition to="inject Emp App from Acce" name="BtnAgendaVisitaSp"></transition>
+		<transition to="inject emp app from Visita" name="BtnAgendaAccSp"></transition>
+		<transition to="inject Emp App from Acce" name="BtnAgendaVisitaSp2"></transition>
+		<transition to="inject emp app from Visita" name="BtnAgendaAccSp"></transition>
+		<transition to="inject Emp App from Acce" name="BtnAgendaVisitaRemove"></transition>
+		<transition to="inject emp app from Visita" name="BtnAgendaAccRemove"></transition>
+		<transition to="disable appointment click" name="BtnAgendaView"></transition>
+	</decision>
+
+	<node name="inject emp app from Visita">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(AccertSp.riferimentoInterno)}"></action>
+			<action name="2" expression="#{!empty AccertSp.appointmentSp and !AccertSp.appointmentSp.isEmpty() ? AppointmentSpAction.inject(AccertSp.appointmentSp.get(0)) :  AppointmentSpAction.eject()}"></action>
+		</event>
+		<transition to="Gestione Agenda"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="create Attivita">
+			<event type="node-enter">
+				<action name="1" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../RemoveBtnValue"></transition>
+		</node>
+	</super-state>
+
+	<decision name="CANCEL?" expression="#{button.mnemonic eq 'CANCEL' or button.mnemonic eq 'BtnCancel'}">
+		<transition to="toLink" name="false"></transition>
+		<transition to="RemoveBtnValue" name="true"></transition>
+	</decision>
+
+	<process-state name="search by agenda">
+		<sub-process name="MOD_agendaSp/CORE/PROCESSES/searchByAgenda" binding="late"></sub-process>
+		<transition to="end-state1"></transition>
+	</process-state>
+
+	<node name="Link Appuntamento VisitaSp">
+		<event type="node-enter">
+			<action name="1" expression="#{VisitaSp.setData(AppointmentSp.data)}"></action>
+			<action name="2" expression="#{AppointmentSp.setVisitaSp(VisitaSp)}"></action>
+		</event>
+		<transition to="super-state1/create Attivita"></transition>
+	</node>
+
+	<node name="link pazz">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.linkPaziente()}"></action>
+		</event>
+		<transition to="Link Appuntamento AccertaSp"></transition>
+	</node>
+
+	<node name="disable appointment click">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.temporary.put('disableAppointmentClick', true)}"></action>
+		</event>
+		<transition to="search by agenda"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

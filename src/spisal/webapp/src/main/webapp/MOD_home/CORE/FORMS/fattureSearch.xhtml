@@ -1,0 +1,305 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1536200267488}</h1>
+	<div id="indirizzoSpedSearch" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1533014405579" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1534457462851" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1534550153699" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1533435875155;BtnBack')}" status="ajaxStatus" id="Link_1533435875155" title="${msg.alt_Link_1533435875155}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1533629476126" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('AddFattura;BtnMng')}" status="ajaxStatus" id="AddFattura" title="${msg.alt_AddFattura}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1536454489032" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1536454489032;BtnArchivia')}" status="ajaxStatus" id="Link_1536454489032_id" title="${msg.alt_Link_1536454489032}" rendered="#{not empty Fattura and not Fattura.archiviata}" reRender="phiDesktop" styleClass="fa fa-archive fa-3x link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="width:33%;padding:0;" id="LayoutRow_1534467617766" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{FatturaList.size()>0 and spisalUserAction.getArpav().size()==1}" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('DelLast;BtnDelLast')}" status="ajaxStatus" id="DelLast" title="${msg.alt_DelLast}" reRender="phiDesktop" styleClass="fa fa-trash-o fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1536693051104" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical green layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1536693051104}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1532801096215" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1533512988262}</span>
+							<h:selectOneMenu id="ComboBox_1533512988262" value="#{FatturaAction.temporary['selectedARPAV']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1533512988262}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getArpav()}" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1534971193324" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1536663905478" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1535357491807}</span>
+								<h:inputText id="TextBox_1535357491807" value="#{FatturaAction.equal['anno']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1535357491807}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validateLength minimum="4" maximum="4" />
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1535357491807_msg" styleClass="errorContainer" ><h:message for="TextBox_1535357491807" styleClass="errorMessages TextBox_1535357491807_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1533208801292}</span>
+								<h:selectOneMenu id="ComboBox_1533208801292" value="#{FatturaAction.equal['tipologiaFattura']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1533208801292}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoFattura')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1533081497431}</span>
+								<h:inputText id="MonthCalendar_1533081497431" value="#{FatturaAction.greaterEqual['creationDate']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1533081497431}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1533081497431" styleClass="errorMessages MonthCalendar_1533081497431_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1536663906065" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1536664023550" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1532886169532}</span>
+									<h:inputText id="TextBox_1532886169532" value="#{FatturaAction.greaterEqual['meseDal']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1532886169532}" >
+									<f:converter converterId="IntegerConverter"/>
+									<f:validateLength minimum="1" maximum="2" />
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1532886169532_msg" styleClass="errorContainer" ><h:message for="TextBox_1532886169532" styleClass="errorMessages TextBox_1532886169532_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1535332606753}</span>
+									<h:inputText id="TextBox_1535332606753" value="#{FatturaAction.lessEqual['meseAl']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1535332606753}" >
+									<f:converter converterId="IntegerConverter"/>
+									<f:validateLength minimum="1" maximum="2" />
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1535332606753_msg" styleClass="errorContainer" ><h:message for="TextBox_1535332606753" styleClass="errorMessages TextBox_1535332606753_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1534923258871}</span>
+								<h:selectOneMenu id="ComboBox_1534923258871" value="#{FatturaAction.equal['tipologiaDocumento']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1534923258871}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoDocumento')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1532882814543}</span>
+								<h:inputText id="MonthCalendar_1532882814543" value="#{FatturaAction.lessEqual['creationDate']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1532882814543}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1532882814543" styleClass="errorMessages MonthCalendar_1532882814543_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1536663906670" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1534269194129}</span>
+								<h:inputText id="TextBox_1534269194129" value="#{FatturaAction.equal['gruppo']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1534269194129}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1534269194129_msg" styleClass="errorContainer" ><h:message for="TextBox_1534269194129" styleClass="errorMessages TextBox_1534269194129_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1536664194340" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1536664200900}</span>
+									<span value="${msg.Label_1536664200900}" class="labelContent  base-label" ></span>
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectBooleanCheckbox id="CheckBox_1535939659121" value="#{FatturaAction.temporary['archiviate']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" />
+								<h:message for="CheckBox_1535939659121" styleClass="errorMessages CheckBox_1535939659121_E" />
+								</div>
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1535939659121" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736155275" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1536285086037;BtnSearch')}" status="ajaxStatus" id="Link_1536285086037" title="${msg.alt_Link_1536285086037}" reRender="phiDesktop" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1533020067509;BtnFilterCancel')}" status="ajaxStatus" id="Link_1533020067509" title="${msg.alt_Link_1533020067509}" reRender="phiDesktop,LayoutRow_1536693051104,DataGrid_1535284575107" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1535284575107" layout="block" styleClass="dt layoutTable layoutVertical" >#{FatturaAction.setReadPageSize(20)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1535284575107" value="&#8592;" action="#{FatturaList.prev}" reRender="DataGrid_1535284575107" rendered="#{FatturaList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1535284575107" value="#{FatturaList.pageIndexes}" var="pi1535284575107">
+										<li class="#{(FatturaList.currentPage eq pi1535284575107 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1535284575107" value="#{pi1535284575107}" action="#{FatturaList.goToPage(pi1535284575107)}" reRender="DataGrid_1535284575107" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1535284575107" value="&#8594;" action="#{FatturaList.next}" reRender="DataGrid_1535284575107" rendered="#{FatturaList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1535284575107" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1535284575107} [FatturaList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1536439745309" value="${msg.DataGridColumn_1536439745309} &#8593;&#8595;" action="#{FatturaList.orderBy('creationDate')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533931387385" value="${msg.DataGridColumn_1533931387385} &#8593;&#8595;" action="#{FatturaList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1536191960149" value="${msg.DataGridColumn_1536191960149} &#8593;&#8595;" action="#{FatturaList.orderBy('anno')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533097945397" value="${msg.DataGridColumn_1533097945397} &#8593;&#8595;" action="#{FatturaList.orderBy('meseDal')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1535502712359" value="${msg.DataGridColumn_1535502712359} &#8593;&#8595;" action="#{FatturaList.orderBy('meseAl')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533066730948" value="${msg.DataGridColumn_1533066730948} &#8593;&#8595;" action="#{FatturaList.orderBy('tipologiaFattura')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1534672193848" value="${msg.DataGridColumn_1534672193848} &#8593;&#8595;" action="#{FatturaList.orderBy('tipologiaDocumento')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1536653246584" value="${msg.DataGridColumn_1536653246584} &#8593;&#8595;" action="#{FatturaList.orderBy('personaGiuridica.denominazione')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533302254596" value="${msg.DataGridColumn_1533302254596} &#8593;&#8595;" action="#{FatturaList.orderBy('operatore.name')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1534928075004" value="${msg.DataGridColumn_1534928075004} &#8593;&#8595;" action="#{FatturaList.orderBy('gruppo')}" reRender="DataGrid_1535284575107" ajaxSingle="true" disabled="#{empty FatturaList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1534254121031} &#8593;&#8595;</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1536389622083} &#8593;&#8595;</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1536738692946} &#8593;&#8595;</th>
+								<th style="#{(FatturaAction.temporary['archiviate'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1533867767374} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1536226585885}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty FatturaList or FatturaList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="15">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1535284575107" value="#{FatturaList.entities}" var="Fattura" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1535284575107(this.id);" class="#{FatturaAction.getEntity().equals(Fattura) or Fattura.internalId != 0 and FatturaAction.entity.internalId.equals(Fattura.internalId) ? 'selRow' : ''}" >
+									<td >
+										<h:outputText styleClass="base-label" value="#{Fattura.creationDate}" >
+											<s:convertDateTime pattern="${format.dateTimeNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.serviceDeliveryLocation.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.anno}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.meseDal}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.meseAl}</span>
+									</td>
+
+									<td >
+										#{Fattura.tipologiaFattura}
+									</td>
+
+									<td >
+										#{Fattura.tipologiaDocumento}
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.personaGiuridica.denominazione}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Fattura.operatore.name}</span>
+									</td>
+
+									<td >
+										#{Fattura.gruppo}
+									</td>
+
+									<td >
+										<a4j:outputPanel layout="block" id="JollyWidget_1535318621043" rendered="false" >
+											<a target="_blank"  download="#{Fattura.filename}"  href="#{function.concat('resource/rest/fatturas/',Fattura.internalId,'/download/content')}"  class="readOnly">
+												<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+											</a>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1664870846523" >
+													                <s:link action="#{downloadAttachment.download}" target="_blank">
+																		<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+													                    <f:param name="path" value="#{function.concat('Fattura.',Fattura.internalId)}" />
+													                </s:link>
+										</a4j:outputPanel>
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{FatturaAction.inject(Fattura)}" status="ajaxStatus" id="Link_1535614605785_id" title="${msg.alt_Link_1535614605785}" style="color: red;" rendered="#{Fattura.statusCode.code=='nullified'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{FatturaAction.inject(Fattura)}" status="ajaxStatus" id="Link_1534601404306_id" title="${msg.alt_Link_1534601404306}" style="color: green;" rendered="#{Fattura.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<span class="c-text-0080FF c-text-bold base-label" >#{FatturaAction.getImporti(Fattura, 'imponibile')}</span>
+									</td>
+
+									<td style="#{(FatturaAction.temporary['archiviate'] ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{FatturaAction.inject(Fattura)}" status="ajaxStatus" id="Link_1534727388583_id" title="${msg.alt_Link_1534727388583}" rendered="#{Fattura.archiviata}" reRender="phiDesktop" styleClass="fa fa-archive fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{FatturaAction.injectAndProceed(Fattura, 'EditFattura;BtnMng')}" status="ajaxStatus" id="EditFattura" title="${msg.alt_EditFattura}" reRender="phiDesktop" styleClass="fa fa-info-circle fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1535284575107" name="ie1535284575107" status="ajaxStatus" action="#{FatturaList.injectEject}" data="#{FatturaList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1535284575107'))" reRender="LayoutRow_1534457462851" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{FatturaList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

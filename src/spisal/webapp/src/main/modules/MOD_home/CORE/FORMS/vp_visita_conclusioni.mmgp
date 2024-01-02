@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:components="http:///components.ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <components:Editor xmi:id="_kw7YUFV_EeaQGIx-cW3crw" formName="Form_1505374912979">
+    <layoutRow xmi:type="components:LayoutRow" xmi:id="_uj6VUFV_EeaQGIx-cW3crw" name="LayoutRow_1503829062176" expandMode="Full Automatic" orientation="vertical" asGroupBox="true" boxLabel="Conclusioni">
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_DeOhUI7rEeeOn6XiVqSR_w" name="LayoutRow_1504252585956" orientation="vertical">
+        <textArea xmi:type="components:TextArea" xmi:id="_EbGZQI7rEeeOn6XiVqSR_w" name="TextArea_1504252592340" binding="ConclusioniMdl.diagnosiTxt" widgetLabel="Diagnosi" maximumLength="4000" rows="5"/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_aNkXIJFIEeeO0cAoNmupZQ" name="LayoutRow_1505033675932" style="padding-bottom:10px;" orientation="vertical" asGroupBox="true" boxLabel="Diagnosi">
+        <dataGrid xmi:type="components:DataGrid" xmi:id="_aNkXIZFIEeeO0cAoNmupZQ" name="DataGrid_1506358919409" binding="DiagMdlList" value="Diagnosi" style="max-height:400px;overflow:auto;" styleClass="linkUnlink" numberOfRowPerPage="0" paginationFastStep="0" resize="manual" type="pagination" toReload="onrowclick(header,phiDesktop,LayoutRow_1451352826176)" caption="false">
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_aNkXJJFIEeeO0cAoNmupZQ" name="DataGridColumn_1504979831216" binding="DiagMdl.icd9.code" value="Codice ICD9"/>
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_aNkXJZFIEeeO0cAoNmupZQ" name="DataGridColumn_1503525819648" binding="DiagMdl.icd9.currentTranslation" value="Descrizione" sortable="yes"/>
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_aNkXJpFIEeeO0cAoNmupZQ" name="DataGridColumn_1502372393502" binding="DiagMdl.inail.code" value="Codice INAIL" sortable="yes"/>
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_aNkXJ5FIEeeO0cAoNmupZQ" name="DataGridColumn_1504168443393" binding="DiagMdl.inail.currentTranslation" value="Descrizione"/>
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_8lOTEJFkEeeO0cAoNmupZQ" name="DataGridColumn_1504524840641" value="Modifica">
+            <widgets xmi:type="components:Link" xmi:id="__IkZkJFkEeeO0cAoNmupZQ" name="MngDiag" tag="" styleClass="fa fa-pencil-square-o fa-2x linkUnlink" readOnly="true" mnemonicName="BtnDiag" tooltip="Modifica" toReload=""/>
+          </dataGridLabelDG>
+          <dataGridLabelDG xmi:type="components:DataGridColumn" xmi:id="_aNkXLJFIEeeO0cAoNmupZQ" name="DataGridColumn_1505364969893" parameter="p.home.vp_pratica_workdisease.fattoreRischioDelete" tag="" value="Elimina" renderedEL="Param['p.home.vp_pratica_workdisease.fattoreRischioDelete'].visible">
+            <widgets xmi:type="components:Link" xmi:id="_aNkXLZFIEeeO0cAoNmupZQ" name="DelDiag" tag="" styleClass="fa fa-trash fa-2x linkUnlink" mnemonicName="BtnDiag" tooltip="Elimina" toReload=""/>
+          </dataGridLabelDG>
+        </dataGrid>
+        <link xmi:type="components:Link" xmi:id="_aNkXLpFIEeeO0cAoNmupZQ" name="NewDiag" value="" styleClass="fa fa-plus fa-2x" mnemonicName="BtnDiag" tooltip="Aggiungi" renderedEL="" toReload=""/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_DjCI0I7rEeeOn6XiVqSR_w" name="LayoutRow_1504252586461" style="padding-bottom:10px;">
+        <jollyWidget xmi:type="components:JollyWidget" xmi:id="_jvSAUZF8Eee4L7nI0T2IPQ" name="JollyWidget_1504413013813" value="updateControlloDates" customCode="&lt;script type=&quot;text/javascript&quot;>&#xD;&#xA;//&lt;![CDATA[&#xD;&#xA;function updateControlloDates(lowerElement, middleElement, higherElement, changingElement) {&#xD;&#xA;debugger;&#xD;&#xA;   dateCompare(lowerElement,higherElement);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;var lowerWidget = jQuery(lowerElement);&#xD;&#xA;&#x9;if (lowerWidget.length > 0 &amp;&amp; lowerWidget.is('div')) {&#xD;&#xA;&#x9;&#x9;lowerWidget = lowerWidget.children('input:first');&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;var middleWidget = jQuery(middleElement);&#xD;&#xA;&#x9;if (middleWidget.length > 0 &amp;&amp; middleWidget.is('div')) {&#xD;&#xA;&#x9;&#x9;middleWidget = middleWidget.children('input:first');&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;var higherWidget = jQuery(higherElement);&#xD;&#xA;&#x9;if (higherWidget.length > 0 &amp;&amp; higherWidget.is('div')) {&#xD;&#xA;&#x9;&#x9;higherWidget = higherWidget.children('input:first');&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;var jLowerWidget = jQuery(lowerWidget);&#xD;&#xA;&#x9;var lowerValue = jLowerWidget.datepicker('getDate');&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;var jHigherWidget = jQuery(higherWidget);&#xD;&#xA;&#x9;var higherValue = jHigherWidget.datepicker('getDate');&#xD;&#xA;&#xD;&#xA;&#x9;var middleValue = middleWidget.val();&#xD;&#xA;&#xD;&#xA;&#x9;switch(changingElement){&#xD;&#xA;&#x9;&#x9;case lowerElement:&#xD;&#xA;&#x9;&#x9;&#x9;if(higherValue){&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;middleValue = getDaysDiffBetween(lowerValue,higherValue);&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;middleWidget.val(middleValue);&#xD;&#xA;&#x9;&#x9;&#x9;}else if(middleValue) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;higherValue = addDays(lowerValue,middleValue);&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;jHigherWidget.datepicker('setDate', higherValue);&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;break;&#xD;&#xA;&#x9;&#x9;case middleElement:&#xD;&#xA;&#x9;&#x9;&#x9;if(lowerValue){&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;higherValue = addDays(lowerValue,middleValue);&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;jHigherWidget.datepicker('setDate', higherValue);&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;break;&#xD;&#xA;&#x9;&#x9;case higherElement:&#xD;&#xA;&#x9;&#x9;&#x9;if(lowerValue){&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;middleValue = getDaysDiffBetween(lowerValue,higherValue);&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;middleWidget.val(middleValue);&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;function getDaysDiffBetween(date1, date2){&#xD;&#xA;debugger;&#xD;&#xA;  if (date1==null || date2==null)&#xD;&#xA;&#x9;return;&#xD;&#xA;&#x9;var timeDiff = Math.abs(date2.getTime() - date1.getTime());&#xD;&#xA;&#x9;var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); &#xD;&#xA;&#x9;return diffDays;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;function addDays(date, days) {&#xD;&#xA;debugger;&#xD;&#xA;  if (date==null || days==null)&#xD;&#xA;&#x9;return;&#xD;&#xA;  var result = new Date(date);&#xD;&#xA;  result.setDate(result.getDate() + Number(days));&#xD;&#xA;  return result;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;//]]>&#xD;&#xA;&lt;/script>"/>
+        <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_wqwccJF1Eee4L7nI0T2IPQ" name="MonthCalendar_1504532062135" binding="ConclusioniMdl.conclusioneVisita" jollyParameter="rerender=&quot;LayoutRow_1504532363133&quot; onchange=&quot;updateControlloDates(this,'#'+getIdPrefix(this)+'TextBox_1504532133575','#'+getIdPrefix(this)+'MonthCalendar_1504532198639',this)&quot;" widgetLabel="Data conclusione visita" toReload=""/>
+        <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_FAj38JF2Eee4L7nI0T2IPQ" name="MonthCalendar_1504532198639" binding="ConclusioniMdl.controllo" jollyParameter="onchange=&quot;updateControlloDates('#'+getIdPrefix(this)+'MonthCalendar_1504532062135','#'+getIdPrefix(this)+'TextBox_1504532133575',this,this)&quot;" widgetLabel="Data controlli successivi"/>
+        <textBox xmi:type="components:TextBox" xmi:id="_7UD9cJF1Eee4L7nI0T2IPQ" name="TextBox_1504532133575" binding="ConclusioniMdl.ggControlli" jollyParameter="onkeyup=&quot;updateControlloDates('#'+getIdPrefix(this)+'MonthCalendar_1504532062135',this,'#'+getIdPrefix(this)+'MonthCalendar_1504532198639',this)&quot;" widgetLabel="Giorni controlli successivi" converter="Integer Converter"/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_H5yu4JF2Eee4L7nI0T2IPQ" name="LayoutRow_1504532218061" style="padding-bottom:10px;">
+        <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_I6CD4JF2Eee4L7nI0T2IPQ" name="MonthCalendar_1504532224798" binding="ConclusioniMdl.uscitaFollowUp" widgetLabel="Data uscita follow-up"/>
+        <textArea xmi:type="components:TextArea" xmi:id="_U47e0JF2Eee4L7nI0T2IPQ" name="TextArea_1504532305213" binding="ConclusioniMdl.uscitaFollowUpTxt" widgetLabel="Motivo uscita follow-up" maximumLength="4000" rows="5"/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_m-wbwJF2Eee4L7nI0T2IPQ" name="LayoutRow_1504532426619" renderedEL="MedicinaLavoro.type.code eq '05'" orientation="vertical" asGroupBox="true" boxLabel="Giudizio di idoneità">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_dhTC0JF2Eee4L7nI0T2IPQ" name="LayoutRow_1504532363133" style="padding-bottom:10px;">
+          <comboBox xmi:type="components:ComboBox" xmi:id="_YZHBAJF2Eee4L7nI0T2IPQ" name="ComboBox_1504532328720" binding="ConclusioniMdl.idoneitaMdl" widgetLabel="" toReload="onchange(LayoutRow_1505988234032)"/>
+          <jollyWidget xmi:type="components:JollyWidget" xmi:id="_xfb0QJ6zEeerr7gJHDIzhw" name="JollyWidget_1505988061572" value="updateScadenza" customCode="&lt;script type=&quot;text/javascript&quot;>&#xD;&#xA;//&lt;![CDATA[&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;function updateScadenza(dataConclusioneId, mesiId, dataScadenzaId) {&#xD;&#xA;&#x9;debugger;&#xD;&#xA;    var dataConclusioneElement = jQuery(dataConclusioneId.replace( /(:|\.|\[|\]|,|=|@)/g, &quot;\\$1&quot; ));&#xD;&#xA;&#x9;var mesiElement = jQuery(mesiId.replace( /(:|\.|\[|\]|,|=|@)/g, &quot;\\$1&quot; ));&#xD;&#xA;&#x9;var dataScadenzaElement = jQuery(dataScadenzaId.replace( /(:|\.|\[|\]|,|=|@)/g, &quot;\\$1&quot; ));&#xD;&#xA;&#x9;var newDate = addDays(dataConclusioneElement.datepicker('getDate'),mesiElement.val()*30);&#xD;&#xA;&#x9;dataScadenzaElement.datepicker('setDate', newDate);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;//]]>&#xD;&#xA;&lt;/script>"/>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_LMJDAJ60Eeerr7gJHDIzhw" name="LayoutRow_1505988234032" renderedEL="ConclusioniMdl.idoneitaMdl.code eq '02' or ConclusioniMdl.idoneitaMdl.code eq '04'">
+            <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_ryIrMJF2Eee4L7nI0T2IPQ" name="MonthCalendar_1504532458851" binding="ConclusioniMdl.scadenza" widgetLabel="Data scadenza" renderedEL="" toReload=""/>
+            <textBox xmi:type="components:TextBox" xmi:id="_npeMsJF2Eee4L7nI0T2IPQ" name="TextBox_1504532431099" binding="ConclusioniMdl.durataMesi" jollyParameter="onkeyup=&quot;updateScadenza('#'+getIdPrefix(this)+'MonthCalendar_1504532062135','#'+getIdPrefix(this)+'TextBox_1504532431099','#'+getIdPrefix(this)+'MonthCalendar_1504532458851')&quot;" widgetLabel="Durata in mesi" converter="Integer Converter" renderedEL="" defaultValue="0" toReload=""/>
+          </layoutRow>
+        </layoutRow>
+        <textArea xmi:type="components:TextArea" xmi:id="_i2jQQJF2Eee4L7nI0T2IPQ" name="TextArea_1504532398916" binding="ConclusioniMdl.note" maximumLength="4000" rows="5"/>
+      </layoutRow>
+    </layoutRow>
+  </components:Editor>
+  <notation:Diagram xmi:id="_kw7YUVV_EeaQGIx-cW3crw" type="components" element="_kw7YUFV_EeaQGIx-cW3crw" name="visitaMedicaEdit.mmgp" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_uj7jcFV_EeaQGIx-cW3crw" type="2061" element="_uj6VUFV_EeaQGIx-cW3crw" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_uj8KgFV_EeaQGIx-cW3crw" type="7010">
+        <children xmi:type="notation:Shape" xmi:id="_DeRkoI7rEeeOn6XiVqSR_w" type="3170" element="_DeOhUI7rEeeOn6XiVqSR_w" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_DeRkoo7rEeeOn6XiVqSR_w" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_EbHAUI7rEeeOn6XiVqSR_w" type="3165" element="_EbGZQI7rEeeOn6XiVqSR_w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_EbHAUo7rEeeOn6XiVqSR_w" type="8063"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EbHAUY7rEeeOn6XiVqSR_w"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_DeRko47rEeeOn6XiVqSR_w"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_DeRkpI7rEeeOn6XiVqSR_w"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DeRkoY7rEeeOn6XiVqSR_w"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_aNh64JFIEeeO0cAoNmupZQ" type="2061" element="_aNkXIJFIEeeO0cAoNmupZQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_aNh64ZFIEeeO0cAoNmupZQ" type="7010">
+            <children xmi:type="notation:Shape" xmi:id="_aNh65ZFIEeeO0cAoNmupZQ" type="2018" element="_aNkXLpFIEeeO0cAoNmupZQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_aNh65pFIEeeO0cAoNmupZQ" type="5048"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh655FIEeeO0cAoNmupZQ" x="850" y="515"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_aNh66JFIEeeO0cAoNmupZQ" type="2007" element="_aNkXIZFIEeeO0cAoNmupZQ">
+              <children xmi:type="notation:Node" xmi:id="_aNh66ZFIEeeO0cAoNmupZQ" type="5037">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_aNh66pFIEeeO0cAoNmupZQ" y="5"/>
+              </children>
+              <children xmi:type="notation:DecorationNode" xmi:id="_aNh665FIEeeO0cAoNmupZQ" type="7002">
+                <children xmi:type="notation:Shape" xmi:id="_aNh68pFIEeeO0cAoNmupZQ" type="3008" element="_aNkXJJFIEeeO0cAoNmupZQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_aNh685FIEeeO0cAoNmupZQ" type="5020"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh69JFIEeeO0cAoNmupZQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_aNh69ZFIEeeO0cAoNmupZQ" type="3008" element="_aNkXJZFIEeeO0cAoNmupZQ">
+                  <children xmi:type="notation:Node" xmi:id="_aNh69pFIEeeO0cAoNmupZQ" type="5020"/>
+                  <styles xmi:type="notation:ShapeStyle" xmi:id="_aNh695FIEeeO0cAoNmupZQ" fontName="Segoe UI"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh6-JFIEeeO0cAoNmupZQ"/>
+                </children>
+                <children xmi:type="notation:Node" xmi:id="_aNh6-ZFIEeeO0cAoNmupZQ" type="3008" element="_aNkXJpFIEeeO0cAoNmupZQ">
+                  <children xmi:type="notation:Node" xmi:id="_aNh6-pFIEeeO0cAoNmupZQ" type="5020"/>
+                  <styles xmi:type="notation:ShapeStyle" xmi:id="_aNh6-5FIEeeO0cAoNmupZQ" fontName="Segoe UI"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh6_JFIEeeO0cAoNmupZQ"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_aNh6_ZFIEeeO0cAoNmupZQ" type="3008" element="_aNkXJ5FIEeeO0cAoNmupZQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_aNh6_pFIEeeO0cAoNmupZQ" type="5020"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh6_5FIEeeO0cAoNmupZQ"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_8lRWYJFkEeeO0cAoNmupZQ" type="3008" element="_8lOTEJFkEeeO0cAoNmupZQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_8lRWYpFkEeeO0cAoNmupZQ" type="5020"/>
+                  <children xmi:type="notation:Shape" xmi:id="__IjygJFkEeeO0cAoNmupZQ" type="2018" element="__IkZkJFkEeeO0cAoNmupZQ" fontName="Segoe UI">
+                    <children xmi:type="notation:DecorationNode" xmi:id="__IjygZFkEeeO0cAoNmupZQ" type="5048"/>
+                    <layoutConstraint xmi:type="notation:Bounds" xmi:id="__IjygpFkEeeO0cAoNmupZQ"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_8lRWYZFkEeeO0cAoNmupZQ"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_aNh7DJFIEeeO0cAoNmupZQ" type="3008" element="_aNkXLJFIEeeO0cAoNmupZQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_aNh7DZFIEeeO0cAoNmupZQ" type="5020"/>
+                  <children xmi:type="notation:Shape" xmi:id="_aNh7DpFIEeeO0cAoNmupZQ" type="3009" element="_aNkXLZFIEeeO0cAoNmupZQ" fontName="Segoe UI">
+                    <children xmi:type="notation:DecorationNode" xmi:id="_aNh7D5FIEeeO0cAoNmupZQ" type="5010"/>
+                    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh7EJFIEeeO0cAoNmupZQ"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh7EZFIEeeO0cAoNmupZQ"/>
+                </children>
+              </children>
+              <styles xmi:type="notation:ShapeStyle" xmi:id="_aNh7EpFIEeeO0cAoNmupZQ" fontName="Segoe UI"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh7E5FIEeeO0cAoNmupZQ" width="100"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_aNh7FJFIEeeO0cAoNmupZQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_aNh7FZFIEeeO0cAoNmupZQ"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aNh7FpFIEeeO0cAoNmupZQ"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_DjCI0Y7rEeeOn6XiVqSR_w" type="3170" element="_DjCI0I7rEeeOn6XiVqSR_w" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_DjCv4I7rEeeOn6XiVqSR_w" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_wq6NcJF1Eee4L7nI0T2IPQ" type="3157" element="_wqwccJF1Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_wq6NcpF1Eee4L7nI0T2IPQ" type="8056"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wq6NcZF1Eee4L7nI0T2IPQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_7UEkgJF1Eee4L7nI0T2IPQ" type="3144" element="_7UD9cJF1Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_7UEkgpF1Eee4L7nI0T2IPQ" type="8043"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7UEkgZF1Eee4L7nI0T2IPQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_FAj38ZF2Eee4L7nI0T2IPQ" type="3157" element="_FAj38JF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_FAkfAJF2Eee4L7nI0T2IPQ" type="8056"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FAj38pF2Eee4L7nI0T2IPQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_jvPkG5F8Eee4L7nI0T2IPQ" type="3154" element="_jvSAUZF8Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_jvPkHJF8Eee4L7nI0T2IPQ" type="8053"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jvPkHZF8Eee4L7nI0T2IPQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_DjCv4Y7rEeeOn6XiVqSR_w"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_DjCv4o7rEeeOn6XiVqSR_w"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DjCI0o7rEeeOn6XiVqSR_w"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_H5zV8JF2Eee4L7nI0T2IPQ" type="3170" element="_H5yu4JF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_H5zV8pF2Eee4L7nI0T2IPQ" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_I6CD4ZF2Eee4L7nI0T2IPQ" type="3157" element="_I6CD4JF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_I6Cq8JF2Eee4L7nI0T2IPQ" type="8056"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_I6CD4pF2Eee4L7nI0T2IPQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_U48F4JF2Eee4L7nI0T2IPQ" type="3165" element="_U47e0JF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_U48F4pF2Eee4L7nI0T2IPQ" type="8063"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U48F4ZF2Eee4L7nI0T2IPQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_H5zV85F2Eee4L7nI0T2IPQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_H5zV9JF2Eee4L7nI0T2IPQ"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_H5zV8ZF2Eee4L7nI0T2IPQ"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_m-wbwZF2Eee4L7nI0T2IPQ" type="3170" element="_m-wbwJF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_m-xC0JF2Eee4L7nI0T2IPQ" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_dhTp4JF2Eee4L7nI0T2IPQ" type="3170" element="_dhTC0JF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_dhTp4pF2Eee4L7nI0T2IPQ" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_YZHBAZF2Eee4L7nI0T2IPQ" type="3146" element="_YZHBAJF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_YZHBA5F2Eee4L7nI0T2IPQ" type="8045"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YZHBApF2Eee4L7nI0T2IPQ"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_LMJDAZ60Eeerr7gJHDIzhw" type="3170" element="_LMJDAJ60Eeerr7gJHDIzhw" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_LMJDA560Eeerr7gJHDIzhw" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_npezwJF2Eee4L7nI0T2IPQ" type="3144" element="_npeMsJF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_npezwpF2Eee4L7nI0T2IPQ" type="8043"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_npezwZF2Eee4L7nI0T2IPQ"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_ryJSQJF2Eee4L7nI0T2IPQ" type="3157" element="_ryIrMJF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_ryJSQpF2Eee4L7nI0T2IPQ" type="8056"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ryJSQZF2Eee4L7nI0T2IPQ"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_LMJDBJ60Eeerr7gJHDIzhw"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_LMJDBZ60Eeerr7gJHDIzhw"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_LMJDAp60Eeerr7gJHDIzhw"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_xfe3kJ6zEeerr7gJHDIzhw" type="3154" element="_xfb0QJ6zEeerr7gJHDIzhw" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_xffeoJ6zEeerr7gJHDIzhw" type="8053"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xfe3kZ6zEeerr7gJHDIzhw"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_dhTp45F2Eee4L7nI0T2IPQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_dhTp5JF2Eee4L7nI0T2IPQ"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_dhTp4ZF2Eee4L7nI0T2IPQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_i2j3UJF2Eee4L7nI0T2IPQ" type="3165" element="_i2jQQJF2Eee4L7nI0T2IPQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_i2j3UpF2Eee4L7nI0T2IPQ" type="8063"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_i2j3UZF2Eee4L7nI0T2IPQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_m-xC0ZF2Eee4L7nI0T2IPQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_m-xC0pF2Eee4L7nI0T2IPQ"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m-wbwpF2Eee4L7nI0T2IPQ"/>
+        </children>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_uj8KgVV_EeaQGIx-cW3crw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_uj8KglV_EeaQGIx-cW3crw"/>
+      </children>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uj7jcVV_EeaQGIx-cW3crw" x="10" y="10" width="1066" height="476"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_kw7YUlV_EeaQGIx-cW3crw"/>
+  </notation:Diagram>
+</xmi:XMI>

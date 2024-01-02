@@ -1,0 +1,396 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1465919621564}</h1>
+	<div id="f_create_employee_MULTI" style="position:relative;height:916px;" >
+			<div class="widgetDiv" style="left: 10px;top: 10px;" >
+			<a4j:commandLink action="#{ViewManager.goHome()}" status="ajaxStatus" id="Link_1464257842007" title="${msg.alt_Link_1464257842007}" immediate="true" reRender="phiDesktop" styleClass="fa fa-home fa-3x popup" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+			</div>
+
+			<div class="widgetDiv" style="left: 70px;top: 10px;" >
+			<a4j:commandLink action="#{processManager.manageTask('Link_1466100971918;BACK')}" status="ajaxStatus" id="Link_1466100971918" title="${msg.alt_Link_1466100971918}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+			</div>
+
+			<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1466002238921" style="left: 130px;top: 10px;" >
+			<span value="${msg.Label_1466002238921}" id="Label_1466002238921_id" style="display:#{(!empty Employee.employeeRole) ? 'block' : 'none' };height: 20px;width: 381px;" class="c-text-bold base-label" >${msg.Label_1466002238921}</span>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Link_1464819552833" style="left: 885px;top: 10px;" >
+			<a4j:commandLink action="#{processManager.manageTask('Link_1464819552833;Delete')}" status="ajaxStatus" id="Link_1464819552833_id" title="${msg.alt_Link_1464819552833}" immediate="true" rendered="#{EmployeeRoleList.size()==0}" reRender="phiDesktop" styleClass="fa fa-user-times fa-3x" />
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Link_1463078513605" style="left: 945px;top: 10px;" >
+			<a4j:commandLink action="#{processManager.manageTask('Link_1463078513605;Save')}" status="ajaxStatus" id="Link_1463078513605_id" title="${msg.alt_Link_1463078513605}" rendered="#{EmployeeRoleList.size()>0}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x savePopupButton" />
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" id="JollyWidget_1480348286015" style="position: absolute;left: 1140px;top: 10px;" >
+				<script>
+				jQuery('input[type=text]:visible, textarea:visible').not('#i\\:username input[type=text]').not('#i\\:usrFirma').not('#i\\:pwdFirma').each(function() {
+					jQuery(this).val(jQuery(this).val().toUpperCase());
+				}).on('input',function() {
+				   	jQuery(this).val(jQuery(this).val().toUpperCase());
+				});
+				</script>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1464404742236" style="left: 130px;top: 35px;" >
+			<span value="${msg.Label_1464404742236}" id="Label_1464404742236_id" style="display:#{(empty Employee.employeeRole) ? 'block' : 'none' };height: 16px;width: 381px;" class="c-text-bold base-label" >${msg.Label_1464404742236}</span>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="GroupBox_1462468336172" style="position: absolute;left: 10px;top: 65px;" layout="block" >
+			<fieldset style="height: 126px;width: 981px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1462468336172}</legend>
+
+				<h:outputLabel for="IDBox_1463548147362" value="${msg.Label_1462994320481}" style="height: 20px;width: 108px;position: absolute;left: 20px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 130px;top: 30px;" >
+				<h:inputText id="IDBox_1463548147362" value="#{Employee.id['PERSID'].extension}" alt="IDBOX" style="height: 20px;width: 201px;" />
+				</div>
+
+				<h:outputLabel for="username_id" value="${msg.Label_1464139249519}" style="height: 20px;width: 121px;position: absolute;left: 430px;top: 30px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="username" style="left: 550px;top: 30px;" >
+				<h:inputText id="username_id" value="#{Employee.username}" style="height: 20px;width: 136px;" styleClass="required" required="true" label="${msg.Label_1464139249519}" >
+					<f:validator validatorId="UniqueRecordValidator"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="username_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="username_id" styleClass="errorMessages username_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1561373297406" style="left: 705px;top: 30px;" >
+				<h:outputLabel rendered="#{(empty Employee or Employee.internalId eq 0) and Param['p.employees.employee.password'].visible}" for="TextBox_1561630941118_id" value="${msg.Label_1561373297406}" id="Label_1561373297406_id" style="display:#{((empty Employee or Employee.internalId eq 0) and Param['p.employees.employee.password'].visible) ? 'block' : 'none' };height: 21px;width: 86px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1561630941118" style="left: 815px;top: 30px;" >
+				<h:inputText id="TextBox_1561630941118_id" value="#{Employee.password}" style="height: 20px;width: 136px;" styleClass="required" required="true" rendered="#{(empty Employee or Employee.internalId eq 0) and Param['p.employees.employee.password'].visible}" label="${msg.Label_1561373297406}" />
+				<a4j:outputPanel id="TextBox_1561630941118_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1561630941118_id" styleClass="errorMessages TextBox_1561630941118_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1465096115639" style="left: 20px;top: 60px;" >
+				<span value="${msg.Label_1465096115639}" id="Label_1465096115639_id" style="display:#{((not empty Employee.username) and (Employee.id['PERSID'].extension == Employee.username)) ? 'block' : 'none' };height: 20px;width: 456px;" class="c-text-red c-text-bold c-text-11 base-label" >${msg.Label_1465096115639}</span>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="Interval_1463490533278_A" value="${msg.Label_1464402539036}" style="height: 20px;width: 106px;position: absolute;left: 20px;top: 90px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Interval_1463490533278" style="left: 130px;top: 90px;" >
+				<label for="i:Interval_1463490533278_A" style="margin-right: 5px;">[</label>
+				<h:inputText id="Interval_1463490533278_A" value="#{Employee.effectiveTime.low}"  style="width:76px;height:20px;" styleClass="datepicker required" label="${msg.Label_1464402539036}" required="true" onchange="dateCompare(this,'#'+getIdPrefix(this)+'Interval_1463490533278_B')" >
+					<s:convertDateTime pattern="${format.dateNormal}" />
+				</h:inputText>
+				<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+				<label for="i:Interval_1463490533278_B" style="margin: 5px;">-</label>
+				<h:inputText id="Interval_1463490533278_B" value="#{Employee.effectiveTime.high}"  style="width:76px;height:20px;" styleClass="datepicker" label="${msg.Label_1464402539036}" onchange="dateCompare('#'+getIdPrefix(this)+'Interval_1463490533278_A',this)" >
+					<s:convertDateTime pattern="${format.dateNormal}" />
+				</h:inputText>
+				<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+				<span >]</span>
+				<a4j:outputPanel id="Interval_1463490533278_A_E" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="Interval_1463490533278_A" styleClass="errorMessages Interval_1463490533278_A_E" /></a4j:outputPanel>
+				<a4j:outputPanel id="Interval_1463490533278_B_E" styleClass="errorContainer" ><h:message style="position:absolute;top:-15px;left:98px;" for="Interval_1463490533278_B" styleClass="errorMessages Interval_1463490533278_B_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="TextBox_1464904985455" value="${msg.Label_1466092253613}" style="height: 21px;width: 126px;position: absolute;left: 430px;top: 90px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 555px;top: 90px;" >
+				<h:inputText id="TextBox_1464904985455" value="#{Employee.additionalId}" style="height: 21px;width: 135px;" label="${msg.Label_1466092253613}" />
+				<a4j:outputPanel id="TextBox_1464904985455_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1464904985455" styleClass="errorMessages TextBox_1464904985455_E" /></a4j:outputPanel>
+				</div>
+
+				<div class="widgetDiv" style="height: 21px;line-height: 16px;left: 710px;top: 90px;" >
+				<label >
+					<span class="label">${msg.label_CheckBox_1466495210319}</span>
+					<h:selectBooleanCheckbox id="CheckBox_1466495210319" value="#{Employee.upg}" style="vertical-align:middle;height: 21px;" alt="CHECKBOX" label="${msg.label_CheckBox_1466495210319}" />
+					<h:message style="position:absolute;top:15px;" for="CheckBox_1466495210319" styleClass="errorMessages CheckBox_1466495210319_E" />
+				</label>
+				</div>
+				<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1466495210319" style="display:none;" value="hiddenLabel"></h:outputLabel>
+			</fieldset>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="GroupBox_1465075500705" style="position: absolute;left: 10px;top: 205px;" layout="block" >
+			<fieldset style="height: 151px;width: 981px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1465075500705}</legend>
+
+				<h:outputLabel for="TextBox_1462224548506_id" value="${msg.Label_1462582315736}" style="height: 20px;width: 82px;position: absolute;left: 15px;top: 30px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1462224548506" style="left: 101px;top: 30px;" >
+				<h:inputText id="TextBox_1462224548506_id" value="#{Employee.name.fam}" style="height: 20px;width: 201px;" styleClass="required" required="true" label="${msg.Label_1462582315736}" />
+				<a4j:outputPanel id="TextBox_1462224548506_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1462224548506_id" styleClass="errorMessages TextBox_1462224548506_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="TextBox_1463185350517_id" value="${msg.Label_1462423663692}" style="height: 20px;width: 82px;position: absolute;left: 315px;top: 30px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1463185350517" style="left: 400px;top: 30px;" >
+				<h:inputText id="TextBox_1463185350517_id" value="#{Employee.name.giv}" style="height: 20px;width: 201px;" styleClass="required" required="true" label="${msg.Label_1462423663692}" />
+				<a4j:outputPanel id="TextBox_1463185350517_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1463185350517_id" styleClass="errorMessages TextBox_1463185350517_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="TextBox_1463347856678" value="${msg.Label_1465491913788}" style="height: 20px;width: 81px;position: absolute;left: 615px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 700px;top: 30px;" >
+				<h:inputText id="TextBox_1463347856678" value="#{Employee.fiscalCode}" style="height: 20px;width: 251px;" label="${msg.Label_1465491913788}" >
+					<f:validator validatorId="ItalianNationalIdentificationNumberNoUID"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="TextBox_1463347856678_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1463347856678" styleClass="errorMessages TextBox_1463347856678_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextSuggestionBox_1465783360834_MAIN" value="${msg.Label_1462489366024}" style="height: 20px;width: 82px;position: absolute;left: 14px;top: 70px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextSuggestionBox_1465783360834" style="left: 100px;top: 70px;" >
+					<a4j:outputPanel layout="block" >
+					#{EmployeeAction.autocomplete['birthPlace'].setContentType('0')}
+					#{EmployeeAction.autocomplete['birthPlace'].setCodeSystem('Comuni')}
+					<h:inputText id="TextSuggestionBox_1465783360834_MAIN" value="#{Employee.birthPlace.cty}" styleClass="autocomplete autoAddress" style="height: 20px;width: 121px;" label="${msg.Label_1462489366024}" />
+					<h:outputLabel for="TextSuggestionBox_1465783360834_CPA" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1465783360834_CPA" value="#{Employee.birthPlace.cpa}" style="height: 20px;width: 25px;" label="${static.Province}" />
+					<h:outputLabel for="TextSuggestionBox_1465783360834_ZIP" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1465783360834_ZIP" value="#{Employee.birthPlace.zip}" style="height: 20px;width: 45px;" label="${static.ZIP}" />
+					<h:outputLabel for="TextSuggestionBox_1465783360834_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1465783360834_CODE" value="#{Employee.birthPlace.code}" label="${msg.Label_1462489366024}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message style="position:absolute;top:20px;" for="TextSuggestionBox_1465783360834_CODE" styleClass="errorMessages TextSuggestionBox_1465783360834_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1465783360834" action="#{EmployeeAction.autocomplete['birthPlace'].autocomplete()}" data="#{EmployeeAction.autocomplete['birthPlace'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{EmployeeAction.autocomplete['birthPlace'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="MonthCalendar_1462054525652" value="${msg.Label_1462589346351}" style="height: 20px;width: 81px;position: absolute;left: 314px;top: 70px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 399px;top: 70px;" >
+				<h:inputText id="MonthCalendar_1462054525652" value="#{Employee.birthTime}" class="datepicker" style="vertical-align:middle;height: 20px;width: 180px;" label="${msg.Label_1462589346351}"  autocomplete="off" >
+					<s:convertDateTime pattern="${format.dateNormal}" />
+				</h:inputText>
+				<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+				<h:message style="position:absolute;top:20px;left:0px;" for="MonthCalendar_1462054525652" styleClass="errorMessages MonthCalendar_1462054525652_E" />
+				</div>
+
+				<h:outputLabel for="TextBox_1463661138091" value="${msg.Label_1464190465147}" style="height: 20px;width: 81px;position: absolute;left: 15px;top: 110px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 100px;top: 110px;" >
+				<h:inputText id="TextBox_1463661138091" value="#{Employee.addr.str}" style="height: 20px;width: 201px;" label="${msg.Label_1464190465147}" />
+				<a4j:outputPanel id="TextBox_1463661138091_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1463661138091" styleClass="errorMessages TextBox_1463661138091_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1463645004094" value="${msg.Label_1463497773586}" style="height: 20px;width: 80px;position: absolute;left: 315px;top: 110px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 400px;top: 110px;" >
+				<h:inputText id="TextBox_1463645004094" value="#{Employee.addr.bnr}" style="height: 20px;width: 41px;" label="${msg.Label_1463497773586}" />
+				<a4j:outputPanel id="TextBox_1463645004094_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1463645004094" styleClass="errorMessages TextBox_1463645004094_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextSuggestionBox_1463386001016_MAIN" value="${msg.Label_1466094434052}" style="height: 21px;width: 61px;position: absolute;left: 455px;top: 110px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextSuggestionBox_1463386001016" style="left: 520px;top: 110px;" >
+					<a4j:outputPanel layout="block" >
+					#{EmployeeAction.autocomplete['addr'].setContentType('0')}
+					#{EmployeeAction.autocomplete['addr'].setCodeSystem('Comuni')}
+					<h:inputText id="TextSuggestionBox_1463386001016_MAIN" value="#{Employee.addr.cty}" styleClass="autocomplete autoAddress" style="height: 20px;width: 121px;" label="${msg.Label_1466094434052}" />
+					<h:outputLabel for="TextSuggestionBox_1463386001016_CPA" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1463386001016_CPA" value="#{Employee.addr.cpa}" style="height: 20px;width: 25px;" label="${static.Province}" />
+					<h:outputLabel for="TextSuggestionBox_1463386001016_ZIP" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1463386001016_ZIP" value="#{Employee.addr.zip}" style="height: 20px;width: 45px;" label="${static.ZIP}" />
+					<h:outputLabel for="TextSuggestionBox_1463386001016_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1463386001016_CODE" value="#{Employee.addr.code}" label="${msg.Label_1466094434052}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message style="position:absolute;top:20px;" for="TextSuggestionBox_1463386001016_CODE" styleClass="errorMessages TextSuggestionBox_1463386001016_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1463386001016" action="#{EmployeeAction.autocomplete['addr'].autocomplete()}" data="#{EmployeeAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{EmployeeAction.autocomplete['addr'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="GroupBox_1463069744200" style="position: absolute;left: 10px;top: 370px;" layout="block" >
+			<fieldset style="height: 71px;width: 981px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1463069744200}</legend>
+
+				<h:outputLabel for="TextBox_1465817171244" value="${msg.Label_1465294990581}" style="height: 20px;width: 112px;position: absolute;left: 15px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 126px;top: 30px;" >
+				<h:inputText id="TextBox_1465817171244" value="#{Employee.telecom.dir}" style="height: 20px;width: 121px;" label="${msg.Label_1465294990581}" >
+					<f:validator validatorId="NumbersOnlyValidator"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="TextBox_1465817171244_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1465817171244" styleClass="errorMessages TextBox_1465817171244_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1466015237778" value="${msg.Label_1462870594379}" style="height: 20px;width: 81px;position: absolute;left: 265px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 345px;top: 30px;" >
+				<h:inputText id="TextBox_1466015237778" value="#{Employee.telecom.mc}" style="height: 20px;width: 121px;" label="${msg.Label_1462870594379}" >
+					<f:validator validatorId="NumbersOnlyValidator"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="TextBox_1466015237778_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1466015237778" styleClass="errorMessages TextBox_1466015237778_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1466028897632" value="${msg.Label_1463836267338}" style="height: 20px;width: 81px;position: absolute;left: 480px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 560px;top: 30px;" >
+				<h:inputText id="TextBox_1466028897632" value="#{Employee.telecom.hp}" style="height: 20px;width: 121px;" label="${msg.Label_1463836267338}" >
+					<f:validator validatorId="NumbersOnlyValidator"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="TextBox_1466028897632_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1466028897632" styleClass="errorMessages TextBox_1466028897632_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1462364520218" value="${msg.Label_1465747180864}" style="height: 20px;width: 58px;position: absolute;left: 700px;top: 30px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 755px;top: 30px;" >
+				<h:inputText id="TextBox_1462364520218" value="#{Employee.telecom.mail}" style="height: 20px;width: 206px;" label="${msg.Label_1465747180864}" >
+					<f:validator validatorId="MailAddressValidator"/>
+					<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+				</h:inputText>
+				<a4j:outputPanel id="TextBox_1462364520218_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:20px;left:0px;" for="TextBox_1462364520218" styleClass="errorMessages TextBox_1462364520218_E" /></a4j:outputPanel>
+				</div>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" style="position: absolute;left: 10px;top: 455px;height: 96px;width: 981px;" id="LayoutRow_1560428679903" styleClass="layoutContainer layoutRootVertical" >
+			<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Employee.internalId gt 0 and Param['p.employees.employee.managesecurity'].visible}" >
+			<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1560428679903}</legend>
+				<a4j:outputPanel layout="block" id="LayoutRow_1560494953207" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1562252016112}" class="labelContent  base-label" >${msg.Label_1562252016112}</span>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1562192421200" >
+					<h:outputText rendered="#{!empty Employee.lastChangedPassword}" value="#{function.formatDate(Employee.lastChangedPassword, 'dd/MM/yyyy HH:mm')}" id="Label_1562192421200_id" style="display:block;" class="labelContent c-text-bold c-text-11 base-label" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1562877558764;RESET')}" value="#{msg.Button_1562877558764}" id="Button_1562877558764_id" status="ajaxStatus" style="height: 20px;width: 151px;" styleClass="buttonGeneric buttonBase" immediate="true" reRender="popup, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1560819551927" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1559514433612}" class="labelContent  base-label" >${msg.Label_1559514433612}</span>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1559675707982;RESETCOUNT')}" value="#{msg.Button_1559675707982}" id="Button_1559675707982_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1562569669166}</span>
+						<h:outputText value="#{Employee.loginCount}" id="Label_1562569669166" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+			</fieldset>
+			</a4j:outputPanel>
+			</a4j:outputPanel>
+			<a4j:outputPanel id="GroupBox_1464020862083" style="position: absolute;left: 10px;top: 565px;" layout="block" >
+			<fieldset style="height: 301px;width: 541px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1464020862083}</legend>
+
+				<div class="widgetDiv" style="left: 15px;top: 35px;" >
+				<a4j:commandLink action="#{processManager.manageTask('Link_1464640749196;NEWROLE')}" status="ajaxStatus" id="Link_1464640749196" title="${msg.alt_Link_1464640749196}" reRender="phiDesktop" styleClass="fa fa-user-plus fa-3x" />
+				</div>
+
+				<a4j:outputPanel id="DataGrid_1462502959907" layout="block" styleClass="dt" style="position: absolute; top: 85px; left: 15px; width: 500px; height: 186px;" >#{EmployeeRoleAction.setReadPageSize(5)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1462502959907" value="&#8592;" action="#{EmployeeRoleList.prev}" reRender="DataGrid_1462502959907" rendered="#{EmployeeRoleList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1462502959907" value="#{EmployeeRoleList.pageIndexes}" var="pi1462502959907">
+										<li class="#{(EmployeeRoleList.currentPage eq pi1462502959907 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1462502959907" value="#{pi1462502959907}" action="#{EmployeeRoleList.goToPage(pi1462502959907)}" reRender="DataGrid_1462502959907" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1462502959907" value="&#8594;" action="#{EmployeeRoleList.next}" reRender="DataGrid_1462502959907" rendered="#{EmployeeRoleList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1462502959907" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1462502959907} [EmployeeRoleList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th class="sortableColumn">${msg.DataGridColumn_1463355382160} &#8593;&#8595;</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1466078208099} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1464010789496" value="${msg.DataGridColumn_1464010789496} &#8593;&#8595;" action="#{EmployeeRoleList.orderBy(function.getLang('code.'))}" reRender="DataGrid_1462502959907" ajaxSingle="true" disabled="#{empty EmployeeRoleList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1462474688208" value="${msg.DataGridColumn_1462474688208} &#8593;&#8595;" action="#{EmployeeRoleList.orderBy('effectiveTime.low')}" reRender="DataGrid_1462502959907" ajaxSingle="true" disabled="#{empty EmployeeRoleList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1464361655365" value="${msg.DataGridColumn_1464361655365} &#8593;&#8595;" action="#{EmployeeRoleList.orderBy('effectiveTime.high')}" reRender="DataGrid_1462502959907" ajaxSingle="true" disabled="#{empty EmployeeRoleList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty EmployeeRoleList or EmployeeRoleList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1462502959907" value="#{EmployeeRoleList.entities}" var="EmployeeRole" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1462502959907(this.id);" class="#{EmployeeRoleAction.getEntity().equals(EmployeeRole) or EmployeeRole.internalId != 0 and EmployeeRoleAction.entity.internalId.equals(EmployeeRole.internalId) ? 'selRow' : ''}" >
+									<td >
+										<a4j:commandLink action="#{EmployeeRoleAction.injectAndProceed(EmployeeRole, 'Link_1463707274508;EDITROLE')}" status="ajaxStatus" id="Link_1463707274508" title="${msg.alt_Link_1463707274508}" reRender="phiDesktop" styleClass="fa fa-pencil fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{EmployeeRoleAction.injectAndProceed(EmployeeRole, 'Link_1465209193985;DELETEROLE')}" status="ajaxStatus" id="Link_1465209193985" title="${msg.alt_Link_1465209193985}" reRender="DataGrid_1462502959907" styleClass="fa fa-trash fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{EmployeeRole.code.currentTranslation}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{EmployeeRole.effectiveTime.low}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{EmployeeRole.effectiveTime.high}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+					<script>manageTables('DataGrid_1462502959907');</script>
+				<a4j:jsFunction id="ie1462502959907" name="ie1462502959907" status="ajaxStatus" action="#{EmployeeRoleList.injectEject}" data="#{EmployeeRoleList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1462502959907'))" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{EmployeeRoleList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="GroupBox_1512993895947" style="position: absolute;left: 570px;top: 565px;" layout="block" >
+			<fieldset style="height: 106px;width: 421px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1512993895947}</legend>
+
+				<div class="widgetDiv" style="left: 25px;top: 30px;" >
+				<label style="display:block;" >
+					<span class="widget-label">${msg.label_usrFirma}</span>
+					<h:inputText id="usrFirma" value="#{Employee.signUser}" style="height: 21px;width: 90px;" label="${msg.label_usrFirma}" />
+					<a4j:outputPanel id="usrFirma_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="usrFirma" styleClass="errorMessages usrFirma_E" /></a4j:outputPanel>
+				</label>
+				</div>
+
+				<div class="widgetDiv" style="left: 25px;top: 65px;" >
+				<label style="display:block;" >
+					<span class="widget-label">${msg.label_pwdFirma}</span>
+					<h:inputText id="pwdFirma" value="#{Employee.signClearPassword}" style="height: 21px;width: 90px;" label="${msg.label_pwdFirma}" />
+					<a4j:outputPanel id="pwdFirma_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="pwdFirma" styleClass="errorMessages pwdFirma_E" /></a4j:outputPanel>
+				</label>
+				</div>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+	</div>
+	<script>focusFirstElement();</script>
+</div>

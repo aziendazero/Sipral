@@ -1,0 +1,53 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1507225792778" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1509093706468" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1506975308623" >
+					<label style="display:#{(not empty Sedi.addr.str and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1506975308623}</span>
+						<h:outputText rendered="#{not empty Sedi.addr.str and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])}" value="#{Sedi.addr}" id="Label_1506975308623_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1511030064075" >
+					<label style="display:#{(SediAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1511030064075}</span>
+						<h:outputText rendered="#{SediAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])}" value="#{function.concat(SediAction.temporary['reversedAddress'],SediAction.temporary['reversedAddressLocalita'])}" id="Label_1511030064075_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509357997363" >
+					<span value="${msg.Label_1509357997363}" id="Label_1509357997363_id" style="display:#{(geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1509357997363}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509951248039" >
+					<h:outputText rendered="#{not empty SediAction.temporary['geolocation_error']}" escape="false" value="#{SediAction.temporary['geolocation_error']}" id="Label_1509951248039_id" style="font-color: red; font-weight: bold;display:block;" class="labelContent  base-label" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509991231160" >
+					<span value="${msg.Label_1509991231160}" id="Label_1509991231160_id" style="display:#{(SediAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress']) or SediAction.temporary['reversedLat']!=null)) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1509991231160}</span>
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1589270680760" style="height:100%;width:100%;" >
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510577246328" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1508044768499;BtnCancel')}" status="ajaxStatus" id="Link_1508044768499" title="${msg.alt_Link_1508044768499}" reRender="phiDesktop,popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1509463249571" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1509463249571;btnOk')}" status="ajaxStatus" id="Link_1509463249571_id" title="${msg.alt_Link_1509463249571}" rendered="#{SediAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress']) or SediAction.temporary['reversedLat']!=null)}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

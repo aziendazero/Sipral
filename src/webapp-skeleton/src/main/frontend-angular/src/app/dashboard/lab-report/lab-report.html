@@ -1,0 +1,51 @@
+<form #form="ngForm" id="frm-labreport">
+  <div id="lyt-labreport" class="layout vertical fullHeight">
+    <div id="lyt-labreport-tbl" class="layout horizontal fillHeight" [class.hidden]="!DettaglioRefertoLabList || DettaglioRefertoLabList.entities.length == 0">
+      <div id="dg-labreport-exam" #labreportexam phi-datagrid>
+        <thead class="tableHeader">
+          <tr>
+            <th (click)="DettaglioRefertoLabList?.orderBy('group')">{{'DgC_Group' | translate}} <i *ngIf="DettaglioRefertoLabList?.sortColumn('group')" [class]="DettaglioRefertoLabList.sortArrow"></i></th>
+            <th (click)="DettaglioRefertoLabList?.orderBy('exam')">{{'DgC_Exam' | translate}} <i *ngIf="DettaglioRefertoLabList?.sortColumn('exam')" [class]="DettaglioRefertoLabList.sortArrow"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let DettaglioRefertoLab of DettaglioRefertoLabList?.entities; let i = index">
+          <td [class.no-border]="i > 0 && (DettaglioRefertoLab.group == DettaglioRefertoLabList.entities[i-1].group)">
+              <span>{{DettaglioRefertoLab.group}}</span>
+            </td>
+            <td>
+              <span>{{DettaglioRefertoLab.exam}}</span>
+            </td>
+        </tr>
+        </tbody>
+      </div>
+      <div id="dg-labreport" #labreport phi-datagrid>
+        <thead class="tableHeader">
+          <tr>
+          <th *ngFor="let hdr of DettaglioRefertoLabList?.headers">
+            <span *ngFor="let hdrRow of hdr">{{hdrRow}}</span>
+          </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let DettaglioRefertoLab of DettaglioRefertoLabList?.entities; let i = index">
+          <td *ngFor="let col of DettaglioRefertoLab.values" class={{col?.class}} [class.ok]="col && !col.class">
+            <i class="fa fa-circle" *ngIf="col"></i>
+            <span title="{{DettaglioRefertoLab.exam + ': ' + col?.value}}">{{col?.value}}</span>
+            </td>
+        </tr>
+        </tbody>
+      </div>
+    </div>
+    <div id="lyt-labreport-noexams" class="layout horizontal center fillHeight" *ngIf="!DettaglioRefertoLabList || DettaglioRefertoLabList.entities.length == 0">
+      <div class="lbl">
+      <span>{{'No_exams_Warning' | translate}}</span>
+      </div>
+    </div>
+    <div id="lyt-labreport-ftr" class="layout horizontal fill">
+      <phi-monthcalendar [(ngModel)]="startDate" name="startDate" id="cal-labreport-frm"></phi-monthcalendar>
+      <phi-slider [(ngModel)]="from" name="from" id="slider-labreport" styleClass="fullWidth" converter="Date Time Converter"  [range]="true" [highValue]="to.getTime()" (change)="refresh($event)" step="86400000" [showBounds]="false" [minimum]="startDate?.getTime()" [maximum]="endDate?.getTime()"></phi-slider>
+      <phi-monthcalendar [(ngModel)]="endDate" name="endDate" id="cal-labreport-to"></phi-monthcalendar>
+    </div>
+  </div>
+</form>

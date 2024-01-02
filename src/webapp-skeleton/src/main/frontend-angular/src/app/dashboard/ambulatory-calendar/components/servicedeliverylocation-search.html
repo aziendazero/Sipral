@@ -1,0 +1,17 @@
+<form #form="ngForm" id="frm-sdloc-search">
+  <div id="lyt-sdloc-search" class="layout vertical">
+    <div id="lyt-sdloc-search-h" class="layout horizontal">
+      <phi-textbox [(ngModel)]="name" name="name" id="txt-sdloc-search" [widgetLabel]="'label_txt-sdloc-search' | translate" [autoFocus]="true" (keyup.enter)="filter($event.target.value)"></phi-textbox>
+      <phi-buttonsearch (binding)="filter(name)" id="btn-sdloc-search"></phi-buttonsearch>
+    </div>
+    <div id="lyt-sdloc-search-sel" class="layout horizontal space-between">
+      <phi-button (binding)="selectAll()" id="btn-sdloc-search-sel">{{'btn-sdloc-search-sel' | translate}}</phi-button>
+      <phi-button (binding)="unselectAll()" id="btn-sdloc-search-desel">{{'btn-sdloc-search-desel' | translate}}</phi-button>
+    </div>
+    <phi-tree [(ngModel)]="sdLocs" name="sdLocs" [listElementsExpression]="enabledSdlocs" styleClass="searchSdlocTree" [checkbox]="true" [expand]="2" [required]="true" [selectOnlyLeaves]="true"></phi-tree>
+    <div id="lyt-sdloc-search-f" class="layout horizontal space-between">
+      <phi-buttoncancel (binding)="onCancel()" id="btn-sdloc-search-canc"></phi-buttoncancel>
+      <phi-buttoncheck (binding)="onSelect()" id="btn-sdloc-search-ok" [form]="form"></phi-buttoncheck>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSegnalazione">
+
+
+	<start-state name="start-state1">
+		<transition to="eject"></transition>
+	</start-state>
+
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="set temporary richiedente" name="BtnSearchRichiedente"></transition>
+		<transition to="set temporary riferimento" name="BtnSearchRiferimento"></transition>
+		<transition to="setTemporaryUbicazione" name="BtnSearchUbicazione"></transition>
+		<transition to="injectRichiedente" name="BtnInfoRichiedente"></transition>
+	</decision>
+
+	<decision name="target?" expression="#{PraticheRiferimentiAction.temporary['target']}">
+		<transition to="Search Ditta" name="Ditta"></transition>
+		<transition to="Search Interno" name="Interno"></transition>
+		<transition to="Search Utente" name="Utente"></transition>
+		<transition to="Search Cantiere" name="Cantiere"></transition>
+		<transition to="prepare read" name="Medico"></transition>
+	</decision>
+
+	<process-state name="Search Interno">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="temp Interno"></transition>
+	</process-state>
+
+	<process-state name="Search Ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="temp Ditta"></transition>
+	</process-state>
+
+	<process-state name="Search Utente">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="temp Utente"></transition>
+	</process-state>
+
+	<super-state name="super-state1">
+		<node name="Save Segnalazione">
+			<event type="node-enter">
+				<action name="1" expression="#{PraticheRiferimentiAction.create()}"></action>
+			</event>
+			<transition to="../clean temporary"></transition>
+		</node>
+	</super-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="set temporary"></transition>
+	</node>
+
+	<node name="set temporary richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('base','richiedente')}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.put('target',PraticheRiferimenti.richiedente.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<node name="set temporary riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('base','riferimento')}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.put('target',PraticheRiferimenti.riferimento.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<decision name="base" expression="#{PraticheRiferimentiAction.temporary['base']}">
+		<transition to="unlink richiedente" name="richiedente"></transition>
+		<transition to="unlink ubicazione" name="ubicazione"></transition>
+		<transition to="unlink riferimento" name="riferimento"></transition>
+	</decision>
+
+	<node name="setTemporaryUbicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('base','ubicazione')}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.put('target',PraticheRiferimenti.ubicazione.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.remove('base')}"></action>
+			<action name="3" expression="#{PraticheRiferimentiAction.temporary.remove('target')}"></action>
+			<action name="4" expression="#{PraticheRiferimentiAction.temporary.remove('toLink')}"></action>
+			<action name="5" expression="#{PraticheRiferimentiAction.temporary.remove('sedeLink')}"></action>
+			<action name="6" expression="#{PraticheRiferimentiAction.temporary.remove('linkObj')}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="8" expression="#{SediAction.eject()}"></action>
+			<action name="9" expression="#{EmployeeAction.eject()}"></action>
+			<action name="10" expression="#{PersonAction.eject()}"></action>
+			<action name="11" expression="#{CantiereAction.eject()}"></action>
+			<action name="12" expression="#{PhysicianAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="Button1" expression="#{(button.getMnemonic())}">
+		<transition to="base" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<process-state name="Search Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/GestioneCantieri" binding="late"></sub-process>
+		<transition to="temp Cantiere 1"></transition>
+	</process-state>
+
+	<node name="temp Ditta">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('linkObj',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Interno">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('linkObj',Employee)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Utente">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('linkObj',Person)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Cantiere 1">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('linkObj',Cantiere)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="compose ToLink">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('toLink',function.concat(PraticheRiferimentiAction.temporary['base'],PraticheRiferimentiAction.temporary['target']))}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.put('sedeLink',function.concat(PraticheRiferimentiAction.temporary['base'],'Sede'))}"></action>
+		</event>
+		<transition to="target?"></transition>
+	</node>
+
+	<node name="unlink ubicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimenti.setUbicazioneDitta(null)}"></action>
+			<action name="2" expression="#{PraticheRiferimenti.setUbicazioneSede(null)}"></action>
+			<action name="3" expression="#{PraticheRiferimenti.setUbicazioneUtente(null)}"></action>
+			<action name="4" expression="#{PraticheRiferimenti.setUbicazioneCantiere(null)}"></action>
+		</event>
+		<transition to="set address"></transition>
+	</node>
+
+	<node name="unlink richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimenti.setRichiedenteDitta(null)}"></action>
+			<action name="2" expression="#{PraticheRiferimenti.setRichiedenteSede(null)}"></action>
+			<action name="3" expression="#{PraticheRiferimenti.setRichiedenteInterno(null)}"></action>
+			<action name="4" expression="#{PraticheRiferimenti.setRichiedenteUtente(null)}"></action>
+			<action name="5" expression="#{PraticheRiferimenti.setRichiedenteMedico(null)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<node name="unlink riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimenti.setRiferimentoDitta(null)}"></action>
+			<action name="2" expression="#{PraticheRiferimenti.setRiferimentoSede(null)}"></action>
+			<action name="3" expression="#{PraticheRiferimenti.setRiferimentoInterno(null)}"></action>
+			<action name="4" expression="#{PraticheRiferimenti.setRiferimentoUtente(null)}"></action>
+			<action name="5" expression="#{PraticheRiferimenti.setRiferimentoCantiere(null)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<node name="link object">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.link(PraticheRiferimentiAction.temporary['toLink'],PraticheRiferimentiAction.temporary['linkObj'])}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.link(PraticheRiferimentiAction.temporary['sedeLink'], Sedi)}"></action>
+		</event>
+		<transition to="preset ubicazione?"></transition>
+	</node>
+
+	<node name="set address">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.setUbicazioneAddr(Sedi, Cantiere, PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<process-state name="Search Medico">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/mediciGestione" binding="late"></sub-process>
+		<transition to="temp Medico"></transition>
+	</process-state>
+
+	<node name="prepare read">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PhysicianAction.equal.put('code.code','oth')}"></action>
+		</event>
+		<transition to="Search Medico"></transition>
+	</node>
+
+	<node name="temp Medico">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('linkObj',Physician)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<decision name="preset ubicazione?" expression="#{PraticheRiferimentiAction.temporary['base'] eq 'riferimento' and (PraticheRiferimentiAction.temporary['target'] eq 'Ditta' or PraticheRiferimentiAction.temporary['target'] eq 'Cantiere')}">
+		<transition to="super-state1/Save Segnalazione" name="false"></transition>
+		<transition to="preset ubicazione" name="true"></transition>
+	</decision>
+
+	<node name="preset ubicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheRiferimentiAction.temporary.put('base','ubicazione')}"></action>
+			<action name="2" expression="#{PraticheRiferimentiAction.temporary.put('toLink',function.concat(PraticheRiferimentiAction.temporary['base'],PraticheRiferimentiAction.temporary['target']))}"></action>
+			<action name="3" expression="#{PraticheRiferimenti.setUbicazione(PraticheRiferimenti.riferimento)}"></action>
+		</event>
+		<transition to="unlink ubicazione"></transition>
+	</node>
+
+	<node name="injectRichiedente"></node>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

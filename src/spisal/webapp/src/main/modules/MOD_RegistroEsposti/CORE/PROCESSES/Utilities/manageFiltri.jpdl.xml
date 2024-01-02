@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manageFiltri">
+
+
+	<start-state name="start-state1">
+		<transition to="operation?"></transition>
+	</start-state>
+
+
+	<decision name="operation?" expression="#{(button.getMnemonic())}">
+		<transition to="filter inail" name="filterInail"></transition>
+		<transition to="filter ateco" name="filterAteco"></transition>
+		<transition to="ClearFiltriScheda" name="ClearFiltriScheda"></transition>
+		<transition to="ClearFiltriEsposti" name="ClearFiltriEsposti"></transition>
+	</decision>
+
+	<process-state name="filter ateco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="end-state1"></transition>
+	</process-state>
+
+	<process-state name="filter inail">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterInail" binding="late"></sub-process>
+		<transition to="end-state1"></transition>
+	</process-state>
+
+	<node name="ClearFiltriScheda">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaEspostiAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+			<action name="3" expression="#{CodeValueInailAction.eject()}"></action>
+			<action name="4" expression="#{SchedaEspostiAction.temporary.clear()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="ClearFiltriEsposti">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{EspostiAction.temporary.clear()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

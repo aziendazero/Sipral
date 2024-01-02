@@ -1,0 +1,39 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1475442511430}</h1>
+	<div id="associa_uoc" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1475293071165" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1479335923831" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1478669889931;BtnOK')}" status="ajaxStatus" id="Link_1478669889931" title="${msg.alt_Link_1478669889931}" style="float:right;" reRender="popup,LayoutRow_1484770281604,LayoutRow_1477958553617,LayoutRow_1478562732367,LayoutRow_1501645506305,vpFilters" styleClass="fa fa-check fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1558000263214" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						if (jQuery("a.jstree-clicked > i.fa-leaf").size() &lt; 1)
+							jQuery("#p\\:Link_1478669889931").hide();
+						else 
+							jQuery("#p\\:Link_1478669889931").show();
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="TreeContainer" style="overflow:auto;height:90%;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1490366845667" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						var popupWidth = 0.6;
+						var popupHeight = 0.6;
+						Tree.buildCheckTreeDictionary(jQuery("#p\\:JollyWidget_1490366845667"), 'PHIDIC', 'ComplexType', 'CodeValuePhi', 'translation', 'injectFromTree','CodeValuePhi', '', true, '','#{ComplexTypesList}','#{ComplexTypesList}','ComplexTypesList');
+						</script>
+						<a4j:jsFunction  name="injectFromTree"  reRender="LayoutRow_1479335923831" limitToList="false" ajaxSingle="true" oncomplete="somethingChanged=false;">
+						</a4j:jsFunction>	
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

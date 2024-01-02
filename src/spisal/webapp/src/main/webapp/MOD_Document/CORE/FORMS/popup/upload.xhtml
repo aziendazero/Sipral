@@ -1,0 +1,151 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1457620492814}</h1>
+	<div id="upload" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRowUpload" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<a4j:outputPanel layout="block" id="JollyWidgetUploadForm" style="height:100%;width:100%;" >
+					<div class="layoutVertical" >
+						<label style="display:block;" >
+						<span class="widget-label">${msg.label_file}</span>
+						<input id="filedata"  type="file" name="filedata" onchange="fileChanged(this);" />
+						</label>
+					</div>
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_filename}</span>
+						<h:inputText id="filename" name="filename" value="#{AlfrescoDocument.name}" styleClass="inputText layoutRequired" required="true" label="${msg.label_filename}" >
+					<!--		<f:validator validatorId="AlfrescoNameValidator"/> -->
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+						<a4j:outputPanel id="filename_msg" styleClass="errorContainer" ><h:message for="filename" styleClass="errorMessages filename_E" /></a4j:outputPanel>
+					</label>
+					</div>
+					<div class="layoutVertical inputArea">
+						<label >
+							<span class="label">${msg.label_description}</span>
+							<div class="widgetWrapper">
+								<textarea id="description" name="description">${AlfrescoDocument.description}</textarea>
+							</div>
+						</label>
+					</div>
+					<div class="layoutVertical">
+						<label >
+							<span class="label">${msg.label_ChkBxMajorVersion}</span>
+							<input id="majorversion" name="majorversion" type="checkbox" value="true"/>
+							<label for="majorversion">${msg.ChkBxMajorVersion}</label>
+						</label>
+					</div>
+					<h:inputHidden id="returnedNodeRef" name="returnedNodeRef" value="#{AlfrescoDocument.nodeRef}"/>
+					<h:inputHidden id="returnedName" name="returnedName" value="#{AlfrescoDocument.name}"/>
+					<h:inputHidden id="returnedDesc" name="returnedDesc" value="#{AlfrescoDocument.description}"/>
+					<h:inputHidden id="returnedMimeType" name="returnedMimeType" value="#{AlfrescoDocument.mimeType}"/>
+					<h:inputHidden id="isTemplate" name="isTemplate" value="#{AlfrescoDocumentAction.temporary.isTemplate}"/>
+					<script>
+					function fileChanged(fu) {
+						var mimetype= fu.files[0].type;
+						var filename = fu.files[0].name;
+						jQuery('#p\\:filename').val(filename);
+						var extensionReg = /(?:\.([^.]+))?$/;
+						var extension = extensionReg.exec(filename);
+						var extensionOriginal = '#{AlfrescoDocument.name}';
+						extensionOriginal = extensionReg.exec(extensionOriginal);
+					
+						if(extensionOriginal[1]!=undefined){
+							if(extension[1]!=extensionOriginal[1]){
+								window.alert('Non si possono caricare file di tipo diverso dall\'originale!');
+								jQuery('#filedata').val('');
+								jQuery('#filename').val('');
+								filename=null;
+								mimetype=null;
+					    		return;
+					    	}
+						}
+					
+						if (!mimetype) {
+							if (extension[1] == 'odt') {
+								mimetype='application/vnd.oasis.opendocument.text';
+							}
+						} 
+						jQuery('#p\\:returnedMimeType').val(mimetype);
+					}
+					
+					function manageTaskOk() {
+						manageTask('BtnUploadAlfrescoDocOk_id','OK');
+					}
+					</script>
+					<a4j:jsFunction  name="manageTask"  action="#{processManager.manageTask}"   reRender="popup,DgAlfrescoDocument, header, errorMenu"  limitToList="false" immediate="false" ajaxSingle="false">
+						<a4j:actionparam name="value" assignTo="#{button.value}"/>
+						<a4j:actionparam name="mnemonic" assignTo="#{button.mnemonic}"/>
+					</a4j:jsFunction>	
+					
+				</a4j:outputPanel>
+				</div>
+
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1589983119928" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!spisalUserAction.isArpav()}" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="CmbBxUploadType" >
+					<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_CmbBxUploadType}</span>
+						<h:selectOneMenu id="CmbBxUploadType_id" value="#{AlfrescoDocument.type}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_CmbBxUploadType}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:ReportType')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1465906249393" >
+					<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_ComboBox_1465906249393}</span>
+						<h:selectOneMenu id="ComboBox_1465906249393_id" value="#{AlfrescoDocument.serviceDeliveryLocation}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_ComboBox_1465906249393}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{AlfrescoDocumentAction.getUlss()}" />
+							<f:converter converterId="EntityConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRowUploadBtnBar" event="onchange" ignoreDupResponses="true" />
+						</h:selectOneMenu>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1589983122030" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{spisalUserAction.isArpav()}" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1590395205653" >
+					<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_ComboBox_1590395205653}</span>
+						<h:selectOneMenu id="ComboBox_1590395205653_id" value="#{AlfrescoDocument.typeArpav}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_ComboBox_1590395205653}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{AlfrescoDocumentAction.getMixedVocItems()}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1589775537468" >
+					<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_ComboBox_1589775537468}</span>
+						<h:selectOneMenu id="ComboBox_1589775537468_id" value="#{AlfrescoDocument.serviceDeliveryLocation}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_ComboBox_1589775537468}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{AlfrescoDocumentAction.getArpav()}" />
+							<f:converter converterId="EntityConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRowUploadBtnBar" event="onchange" ignoreDupResponses="true" />
+						</h:selectOneMenu>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRowUploadBtnBar" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a id="LnkUploadAlfrescoDocOk" onclick="stopPropagation(event);alfresco.upload('#fPop', '#{AlfrescoDocumentAction.temporary.alfrescoPath}/#{AlfrescoDocument.serviceDeliveryLocation.name.giv}', '#{AlfrescoDocument.nodeRef}', manageTaskOk);" title="${msg.alt_LnkUploadAlfrescoDocOk}" class="fa fa-check fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnUploadAlfrescoDocCancel;BtnCancel')}" status="ajaxStatus" id="BtnUploadAlfrescoDocCancel" title="${msg.alt_BtnUploadAlfrescoDocCancel}" immediate="true" reRender="popup" styleClass="fa fa-trash fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

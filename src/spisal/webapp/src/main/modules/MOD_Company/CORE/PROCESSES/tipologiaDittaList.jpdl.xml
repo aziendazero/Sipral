@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fascicolazioneGestione">
+
+
+	<start-state name="start-state1">
+		<transition to="prepara cerca tipologie"></transition>
+	</start-state>
+
+
+	<node name="prepara cerca tipologie">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('filterDitte',true)}"></action>
+			<action name="2" expression="#{TipologiaDittaAction.setFullLike(true)}"></action>
+			<action name="3" expression="#{TipologiaDittaAction.setReadPageSize(10)}"></action>
+			<action name="4" expression="#{TipologiaDittaAction.temporary.put('showULSS', spisalUserAction.show('ULSS'))}"></action>
+		</event>
+		<transition to="cerca fascicoli UI"></transition>
+	</node>
+
+	<task-node name="cerca fascicoli UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/tipologiaDittaList')}"></action>
+		</event>
+		<transition to="operation"></transition>
+	</task-node>
+
+	<decision name="operation" expression="#{(button.getMnemonic())}">
+		<transition to="ulss &gt;1 ?" name="Search"></transition>
+		<transition to="clear filter" name="ClearFiltri"></transition>
+		<transition to="manage types" name="newType"></transition>
+		<transition to="manage types" name="delType"></transition>
+		<transition to="manage types" name="editType"></transition>
+	</decision>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{TipologiaDittaAction.select.add('type')}"></action>
+			<action name="3" expression="#{TipologiaDittaAction.select.add('serviceDeliveryLocation.name.giv')}"></action>
+			<action name="4" expression="#{TipologiaDittaAction.select.add('startValidity')}"></action>
+			<action name="5" expression="#{TipologiaDittaAction.select.add('endValidity')}"></action>
+			<action name="6" expression="#{TipologiaDittaAction.select.add('uos')}"></action>
+			<action name="7" expression="#{TipologiaDittaAction.select.add('notes')}"></action>
+			<action name="8" expression="#{((TipologiaDittaAction.temporary.get('nonattivi')).equals(false)) ? TipologiaDittaAction.isNull.put('endValidity',true) : TipologiaDittaAction.isNull.remove('endValidity')}"></action>
+			<action name="9" expression="#{TipologiaDittaAction.read()}"></action>
+		</event>
+		<transition to="cerca fascicoli UI"></transition>
+	</node>
+
+	<node name="clear filter">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{TipologiaDittaAction.temporary.clear()}"></action>
+		</event>
+		<transition to="cerca fascicoli UI"></transition>
+	</node>
+
+	<process-state name="manage types">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/tipologiaDittaGestione" binding="late"></sub-process>
+		<transition to="ulss &gt;1 ?"></transition>
+	</process-state>
+
+	<decision name="ulss &gt;1 ?" expression="#{(spisalUserAction.getUlssEntities().size() gt 1)}">
+		<transition to="uos &gt; 1 ?" name="true"></transition>
+		<transition to="inject ulss restriction" name="false"></transition>
+	</decision>
+
+	<node name="inject ulss restriction">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.equal.put('serviceDeliveryLocation',spisalUserAction.getFirstEnabledUlss().getChildren().get(0))}"></action>
+		</event>
+		<transition to="uos &gt; 1 ?"></transition>
+	</node>
+
+	<decision name="uos &gt; 1 ?" expression="#{(spisalUserAction.getEnabledUOS().size() gt 1)}">
+		<transition to="search" name="true"></transition>
+		<transition to="add uos restriction" name="false"></transition>
+	</decision>
+
+	<node name="add uos restriction">
+		<event type="node-enter">
+			<action name="1" expression="#{TipologiaDittaAction.equal.put('uos',spisalUserAction.getFirstEnabledUos())}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

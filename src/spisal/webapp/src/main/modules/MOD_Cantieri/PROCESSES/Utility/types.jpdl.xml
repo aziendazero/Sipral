@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="types">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<node name="add new">
+		<event type="node-enter">
+			<action name="1" expression="#{TagCantiereAction.inject(TagCantiereAction.newEntity())}"></action>
+			<action name="2" expression="#{TagCantiereList.list.add(TagCantiere)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="add new" name="addType"></transition>
+		<transition to="remove" name="delType"></transition>
+	</decision>
+
+	<node name="remove">
+		<event type="node-enter">
+			<action name="1" expression="#{TagCantiereList.list.remove(TagCantiere)}"></action>
+			<action name="2" expression="#{ToRemoveTagCantiereList.list.add(TagCantiere)}"></action>
+			<action name="3" expression="#{TagCantiere.setTipologiaCantiere(null)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{TagCantiereAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

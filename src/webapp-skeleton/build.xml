@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="webapp-skeleton" basedir=".">
+	
+	<target name="clean" description="Clean">
+		<exec executable="cmd">
+			<arg line="/c mvn clean" />
+		</exec>
+	</target>
+	
+	<target name="install" description="Build and deploy">
+		<exec executable="cmd">
+			<arg line="/c mvn install" />
+		</exec>
+	</target>
+
+	<target name="webpack-dev-server" description="Run developement server for hotDeploy of js">
+		<exec executable="cmd" dir="src/main/frontend">
+			<arg line="/c node\npm.cmd start" />
+		</exec>
+	</target>
+	
+</project>

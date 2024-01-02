@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="editRenam">
+
+
+	<start-state name="start-state1">
+		<transition to="empty questParte"></transition>
+	</start-state>
+
+
+	<task-node name="fontespizio">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam')}"></action>
+		</event>
+		<transition to="frontespizio button?"></transition>
+	</task-node>
+
+	<decision name="frontespizio button?" expression="#{button.mnemonic}">
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="operations" name="operation"></transition>
+		<transition to="link interv" name="searchIntervistatore"></transition>
+		<transition to="fill temp" name="BtnNext"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="Save Quest">
+			<event type="node-enter">
+				<action name="1" expression="#{Questionario.setHasParts(true)}"></action>
+				<action name="2" expression="#{QuestionarioAction.create()}"></action>
+				<action name="3" expression="#{QuestParteAtoCRenamAction.persistTabella(TabellaBList.list)}"></action>
+				<action name="4" expression="#{QuestParteAtoCRenamAction.persistTabella(TabellaCList.list)}"></action>
+				<action name="5" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD1aList.list)}"></action>
+				<action name="6" expression="#{QuestParteDbisRenamAction.persistTabella(TabellaD1bList.list)}"></action>
+				<action name="7" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2List.list)}"></action>
+				<action name="8" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2aList.list)}"></action>
+				<action name="9" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2bList.list)}"></action>
+				<action name="10" expression="#{QuestParteFaRenamAction.persistTabella(TabellaF2List.list)}"></action>
+				<action name="11" expression="#{QuestParteFbRenamAction.persistTabella(TabellaF10List.list)}"></action>
+				<action name="12" expression="#{QuestParteFbRenamAction.persistTabella(TabellaF11List.list)}"></action>
+				<action name="13" expression="#{QuestParteFaRenamAction.persistTabella(TabellaG2List.list)}"></action>
+				<action name="14" expression="#{QuestParteIRenamAction.persistTabella(TabellaI5List.list)}"></action>
+				<action name="15" expression="#{QuestionarioAction.persistSoggetto()}"></action>
+				<action name="16" expression="#{QuestionarioAction.persistSoggettoAltro()}"></action>
+			</event>
+			<transition to="../fontespizio"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject Soggetto">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestSoggettoAction.inject(Questionario.soggetto)}"></action>
+			<action name="2" expression="#{QuestSoggettoAction.temporary.put('soggName',Questionario.soggetto.soggUtente.name)}"></action>
+			<action name="3" expression="#{QuestSoggettoAction.temporary.put('soggBirthTime',Questionario.soggetto.soggUtente.birthTime)}"></action>
+			<action name="4" expression="#{QuestSoggettoAction.temporary.put('soggGender',Questionario.soggetto.soggUtente.genderCode)}"></action>
+			<action name="5" expression="#{QuestSoggettoAction.temporary.put('soggBirthPlace',Questionario.soggetto.soggUtente.birthPlace)}"></action>
+			<action name="6" expression="#{QuestSoggettoAction.temporary.put('soggAddr',Questionario.soggetto.soggUtente.addr)}"></action>
+			<action name="7" expression="#{QuestSoggettoAction.temporary.put('soggTel',Questionario.soggetto.soggUtente.telecom)}"></action>
+			<action name="8" expression="#{QuestSoggettoAction.temporary.put('soggMarital',Questionario.soggetto.soggUtente.maritalStatusCode)}"></action>
+			<action name="9" expression="#{QuestSoggettoAction.temporary.put('annoMatrimonio',Questionario.soggetto.annoMatrimonio)}"></action>
+			<action name="10" expression="#{QuestSoggettoAction.temporary.put('titoloStudio',Questionario.soggetto.titoloStudio)}"></action>
+			<action name="11" expression="#{QuestSoggettoAction.eject()}"></action>
+		</event>
+		<transition to="exists soggetto altro?"></transition>
+	</node>
+
+	<decision name="exists soggetto?" expression="#{not empty Questionario.soggetto}">
+		<transition to="inject Soggetto" name="true"></transition>
+		<transition to="exists soggetto altro?" name="false"></transition>
+	</decision>
+
+	<node name="inject SoggettoAltro">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestSoggettoAction.inject(Questionario.soggettoAltro)}"></action>
+			<action name="2" expression="#{QuestSoggettoAction.temporary.put('soggAltroName',Questionario.soggettoAltro.soggUtente.name)}"></action>
+			<action name="3" expression="#{QuestSoggettoAction.temporary.put('soggAltroGender',Questionario.soggettoAltro.soggUtente.genderCode)}"></action>
+			<action name="4" expression="#{QuestSoggettoAction.temporary.put('soggAltroBirthTime',Questionario.soggettoAltro.soggUtente.birthTime)}"></action>
+			<action name="5" expression="#{QuestSoggettoAction.temporary.put('soggAltroAddr',Questionario.soggettoAltro.soggUtente.addr)}"></action>
+			<action name="6" expression="#{QuestSoggettoAction.temporary.put('soggAltroTel',Questionario.soggettoAltro.soggUtente.telecom)}"></action>
+			<action name="7" expression="#{QuestSoggettoAction.temporary.put('soggAltroParentela',Questionario.soggettoAltro.gradoParentela)}"></action>
+			<action name="8" expression="#{QuestSoggettoAction.eject()}"></action>
+		</event>
+		<transition to="fontespizio"></transition>
+	</node>
+
+	<decision name="empty questParte" expression="#{Questionario.hasParts eq null or Questionario.hasParts eq false}">
+		<transition to="inject new QuestParte" name="true"></transition>
+		<transition to="inject QuestParte" name="false"></transition>
+	</decision>
+
+	<node name="inject new QuestParte">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteAtoCRenamAction.inject(QuestParteAtoCRenamAction.newEntity())}"></action>
+			<action name="2" expression="#{QuestionarioAction.link('questParteAtoCRenam',QuestParteAtoCRenam)}"></action>
+			<action name="3" expression="#{QuestParteDtoERenamAction.inject(QuestParteDtoERenamAction.newEntity())}"></action>
+			<action name="4" expression="#{QuestionarioAction.link('questParteDtoERenam',QuestParteDtoERenam)}"></action>
+			<action name="5" expression="#{QuestParteIRenamAction.inject(QuestParteIRenamAction.newEntity())}"></action>
+			<action name="6" expression="#{QuestionarioAction.link('questParteIRenam',QuestParteIRenam)}"></action>
+			<action name="7" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.initTabellaD1a(), 'TabellaD1aList')}"></action>
+			<action name="8" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.initTabellaD2a(), 'TabellaD2aList')}"></action>
+			<action name="9" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.initTabellaD2b(), 'TabellaD2bList')}"></action>
+			<action name="10" expression="#{QuestTabellaAction.injectList(QuestParteIRenamAction.initTabellaI5(), 'TabellaI5List')}"></action>
+		</event>
+		<transition to="exists soggetto?"></transition>
+	</node>
+
+	<node name="inject QuestParte">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestionarioAction.refresh()}"></action>
+			<action name="2" expression="#{QuestParteAtoCRenamAction.inject(Questionario.questParteAtoCRenam.get(0))}"></action>
+			<action name="3" expression="#{QuestTabellaAction.injectList(QuestParteAtoCRenamAction.loadTabella('B'), 'TabellaBList')}"></action>
+			<action name="4" expression="#{QuestTabellaAction.injectList(QuestParteAtoCRenamAction.loadTabella('C'), 'TabellaCList')}"></action>
+			<action name="5" expression="#{QuestParteDtoERenamAction.inject(Questionario.questParteDtoERenam.get(0))}"></action>
+			<action name="6" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.loadTabella('D1a'), 'TabellaD1aList')}"></action>
+			<action name="7" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.loadTabella('D2'), 'TabellaD2List')}"></action>
+			<action name="8" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.loadTabella('D2a'), 'TabellaD2aList')}"></action>
+			<action name="9" expression="#{QuestTabellaAction.injectList(QuestParteDtoERenamAction.loadTabella('D2b'), 'TabellaD2bList')}"></action>
+			<action name="10" expression="#{QuestParteIRenamAction.inject(Questionario.questParteIRenam.get(0))}"></action>
+			<action name="11" expression="#{QuestTabellaAction.injectList(QuestParteIRenamAction.loadTabella('I5'), 'TabellaI5List')}"></action>
+		</event>
+		<transition to="exists soggetto?"></transition>
+	</node>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="exists soggetto?"></transition>
+	</process-state>
+
+	<process-state name="link interv">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/linkIntervistatoreQuest" binding="late"></sub-process>
+		<transition to="fontespizio"></transition>
+	</process-state>
+
+	<node name="clear temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestionarioAction.temporary.clear()}"></action>
+			<action name="2" expression="#{QuestSoggettoAction.temporary.clear()}"></action>
+		</event>
+		<transition to="eject all"></transition>
+	</node>
+
+	<process-state name="manage tabella B">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/manageTabelleQuest" binding="late"></sub-process>
+		<transition to="parte B"></transition>
+	</process-state>
+
+	<node name="fill temp">
+		<transition to="parte A"></transition>
+	</node>
+
+	<task-node name="parte A">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_A')}"></action>
+		</event>
+		<transition to="Parte A button?" name=""></transition>
+	</task-node>
+
+	<decision name="parte B button?" expression="#{button.mnemonic}">
+		<transition to="manage tabella B" name="BtnRigaAdd"></transition>
+		<transition to="parte A" name="BtnPrev"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="parte C" name="BtnNext"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="parte B valid?" name="BtnSaveDef"></transition>
+		<transition to="manage tabella B" name="BtnRigaDel"></transition>
+	</decision>
+
+	<decision name="Parte A button?" expression="#{button.mnemonic}">
+		<transition to="parte B" name="BtnNext"></transition>
+		<transition to="fontespizio" name="BtnPrev"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="parte A valid ?" name="BtnSaveDef"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+	</decision>
+
+	<task-node name="parte B">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_B')}"></action>
+		</event>
+		<transition to="parte B button?" name=""></transition>
+	</task-node>
+
+	<decision name="parte A valid ?" expression="#{QuestParteAtoCRenamAction.checkParteA()}">
+		<transition to="invalidate A" name="false"></transition>
+		<transition to="super-state2/save parte A" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<node name="save parte A">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedA(true)}"></action>
+				<action name="2" expression="#{QuestParteAtoCRenamAction.create()}"></action>
+			</event>
+			<transition to="../parte A"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="parte C">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_C')}"></action>
+		</event>
+		<transition to="parte C button?"></transition>
+	</task-node>
+
+	<decision name="parte C button?" expression="#{button.mnemonic}">
+		<transition to="parte B" name="BtnPrev"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="parte C valid?" name="BtnSaveDef"></transition>
+		<transition to="parte D" name="BtnNext"></transition>
+		<transition to="manage tabella C" name="BtnRigaAdd"></transition>
+		<transition to="manage tabella C" name="BtnRigaDel"></transition>
+		<transition to="schede renam" name="fillScheda"></transition>
+	</decision>
+
+	<decision name="parte B valid?" expression="#{QuestParteAtoCRenamAction.checkParteB(TabellaBList.list)}">
+		<transition to="invalidate B" name="false"></transition>
+		<transition to="super-state3/save parte B" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<node name="save parte B">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedB(true)}"></action>
+				<action name="2" expression="#{QuestParteAtoCRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteAtoCRenamAction.persistTabella(TabellaBList.list)}"></action>
+			</event>
+			<transition to="../parte B" name=""></transition>
+		</node>
+	</super-state>
+
+	<decision name="parte C valid?" expression="#{QuestParteAtoCRenamAction.checkParteC()}">
+		<transition to="invalidate C" name="false"></transition>
+		<transition to="super-state4/save parte C" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state4">
+		<node name="save parte C">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedC(true)}"></action>
+				<action name="2" expression="#{QuestParteAtoCRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteAtoCRenamAction.persistTabella(TabellaCList.list)}"></action>
+			</event>
+			<transition to="../parte C" name=""></transition>
+		</node>
+	</super-state>
+
+	<task-node name="parte D">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_D')}"></action>
+		</event>
+		<transition to="parte D button?"></transition>
+	</task-node>
+
+	<decision name="parte D button?" expression="#{button.mnemonic}">
+		<transition to="parte E" name="BtnNext"></transition>
+		<transition to="parte C" name="BtnPrev"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="parte D valid?" name="BtnSaveDef"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="manage tabella D" name="BtnRigaD1aAdd"></transition>
+		<transition to="manage tabella D" name="BtnRigaAdd"></transition>
+		<transition to="search scheda" name="fillDbis"></transition>
+		<transition to="manage tabella D" name="BtnRigaDel"></transition>
+	</decision>
+
+	<task-node name="parte E">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_E')}"></action>
+		</event>
+		<transition to="parte E button?"></transition>
+	</task-node>
+
+	<decision name="parte E button?" expression="#{button.mnemonic}">
+		<transition to="parte I" name="BtnNext"></transition>
+		<transition to="parte D" name="BtnPrev"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="parte E valid?" name="BtnSaveDef"></transition>
+	</decision>
+
+	<task-node name="parte I">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_I')}"></action>
+		</event>
+		<transition to="parte I button?"></transition>
+	</task-node>
+
+	<decision name="parte I button?" expression="#{button.mnemonic}">
+		<transition to="parte E" name="BtnPrev"></transition>
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="parte I valid?" name="BtnSaveDef"></transition>
+	</decision>
+
+	<node name="invalidate A">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedA(false)}"></action>
+		</event>
+		<transition to="parte A"></transition>
+	</node>
+
+	<node name="invalidate B">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedB(false)}"></action>
+		</event>
+		<transition to="parte B"></transition>
+	</node>
+
+	<node name="invalidate C">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteAtoCRenam.setConfirmedC(false)}"></action>
+		</event>
+		<transition to="parte C"></transition>
+	</node>
+
+	<decision name="parte D valid?" expression="#{QuestParteDtoERenamAction.checkParteD(TabellaD1aList.list, TabellaD1bList.list, TabellaD2List.list, TabellaD2aList.list, TabellaD2bList.list)}">
+		<transition to="invalidate D" name="false"></transition>
+		<transition to="super-state5/save parte D" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state5">
+		<node name="save parte D">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteDtoERenam.setConfirmedD(true)}"></action>
+				<action name="2" expression="#{QuestParteDtoERenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD1aList.list)}"></action>
+				<action name="4" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD1bList.list)}"></action>
+				<action name="5" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2List.list)}"></action>
+				<action name="6" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2aList.list)}"></action>
+				<action name="7" expression="#{QuestParteDtoERenamAction.persistTabella(TabellaD2bList.list)}"></action>
+			</event>
+			<transition to="../parte D"></transition>
+		</node>
+	</super-state>
+
+	<node name="invalidate D">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteDtoERenam.setConfirmedD(false)}"></action>
+		</event>
+		<transition to="parte D"></transition>
+	</node>
+
+	<super-state name="super-state6">
+		<node name="save parte E">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteDtoERenam.setConfirmedE(true)}"></action>
+				<action name="2" expression="#{QuestParteDtoERenamAction.create()}"></action>
+			</event>
+			<transition to="../parte E"></transition>
+		</node>
+	</super-state>
+
+	<node name="invalidate E">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteDtoERenam.setConfirmedE(false)}"></action>
+		</event>
+		<transition to="parte E"></transition>
+	</node>
+
+	<decision name="parte E valid?" expression="#{QuestionarioAction.checkParteE()}">
+		<transition to="invalidate E" name="false"></transition>
+		<transition to="super-state6/save parte E" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state10">
+		<node name="save parte I">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteIRenam.setConfirmedI(true)}"></action>
+				<action name="2" expression="#{QuestParteIRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteIRenamAction.persistTabella(TabellaI5List.list)}"></action>
+			</event>
+			<transition to="../parte I"></transition>
+		</node>
+	</super-state>
+
+	<node name="invalidate I">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteIRenam.setConfirmedI(false)}"></action>
+		</event>
+		<transition to="parte I"></transition>
+	</node>
+
+	<decision name="parte I valid?" expression="#{QuestParteIRenamAction.checkParteI(TabellaI5List.list)}">
+		<transition to="invalidate I" name="false"></transition>
+		<transition to="super-state10/save parte I" name="true"></transition>
+	</decision>
+
+	<process-state name="manage tabella C">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/manageTabelleQuest" binding="late"></sub-process>
+		<transition to="parte C"></transition>
+	</process-state>
+
+	<process-state name="manage tabella D">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/manageTabelleQuest" binding="late"></sub-process>
+		<transition to="parte D"></transition>
+	</process-state>
+
+	<node name="eject all">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestionarioAction.eject()}"></action>
+			<action name="2" expression="#{QuestPartecipantiAction.eject()}"></action>
+			<action name="3" expression="#{QuestParteAction.ejectAllParts()}"></action>
+			<action name="4" expression="#{QuestTabellaAction.ejectList('TabellaBList')}"></action>
+			<action name="5" expression="#{QuestTabellaAction.ejectList('TabellaCList')}"></action>
+			<action name="6" expression="#{QuestTabellaAction.ejectList('TabellaD1aList')}"></action>
+			<action name="7" expression="#{QuestTabellaAction.ejectList('TabellaD1bList')}"></action>
+			<action name="8" expression="#{QuestTabellaAction.ejectList('TabellaD2List')}"></action>
+			<action name="9" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="exists soggetto altro?" expression="#{not empty Questionario.soggettoAltro}">
+		<transition to="inject SoggettoAltro" name="true"></transition>
+		<transition to="fontespizio" name="false"></transition>
+	</decision>
+
+	<decision name="exists scheda?" expression="#{not empty QuestParteDbisRenam}">
+		<transition to="inject new scheda" name="false"></transition>
+		<transition to="inject stuff D bis" name="true"></transition>
+	</decision>
+
+	<node name="search scheda">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteDbisRenamAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{QuestParteDbisRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="3" expression="#{QuestParteDbisRenamAction.read()}"></action>
+			<action name="4" expression="#{QuestParteDbisRenamAction.injectFirst()}"></action>
+		</event>
+		<transition to="exists scheda?"></transition>
+	</node>
+
+	<node name="inject new scheda">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteDbisRenamAction.inject(QuestParteDbisRenamAction.newEntity())}"></action>
+			<action name="2" expression="#{QuestParteDbisRenam.setQuestTabella(QuestTabella)}"></action>
+		</event>
+		<transition to="parte D bis"></transition>
+	</node>
+
+	<task-node name="parte D bis">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_Dbis')}"></action>
+		</event>
+		<transition to="parte D bis button?"></transition>
+	</task-node>
+
+	<decision name="parte D bis button?" expression="#{button.mnemonic}">
+		<transition to="clear temporary" name="BtnBack"></transition>
+		<transition to="parte D" name="BtnPrev"></transition>
+		<transition to="manage tabelle D bis" name="BtnRigaAdd"></transition>
+		<transition to="parte Dbis valid?" name="BtnSaveDef"></transition>
+		<transition to="super-state1/Save Quest" name="BtnSaveQuest"></transition>
+		<transition to="manage tabelle D bis" name="BtnRigaDel"></transition>
+	</decision>
+
+	<super-state name="super-state11">
+		<node name="save parte D bis">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteDbisRenam.setConfirmed(true)}"></action>
+				<action name="2" expression="#{QuestParteDbisRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteDbisRenamAction.persistTabella(TabellaD1bList.list)}"></action>
+				<action name="4" expression="#{QuestTabella.setBl03(true)}"></action>
+			</event>
+			<transition to="../parte D bis"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="manage tabelle D bis">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/manageTabelleQuest" binding="late"></sub-process>
+		<transition to="parte D bis"></transition>
+	</process-state>
+
+	<node name="inject stuff D bis">
+		<event type="node-enter"></event>
+		<transition to="parte D bis"></transition>
+	</node>
+
+	<decision name="parte Dbis valid?" expression="#{QuestParteDbisRenamAction.checkParteDbis(TabellaD1bList.list)}">
+		<transition to="invalidate Dbis" name="false"></transition>
+		<transition to="super-state11/save parte D bis" name="true"></transition>
+	</decision>
+
+	<node name="invalidate Dbis">
+		<transition to="parte D bis"></transition>
+	</node>
+
+	<process-state name="schede renam">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Questionari/schedeRenam" binding="late"></sub-process>
+		<transition to="parte C"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

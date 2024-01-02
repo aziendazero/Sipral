@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="addScheda">
+
+
+	<start-state name="start-state1">
+		<transition to="button mnemonic?"></transition>
+	</start-state>
+
+
+	<decision name="button mnemonic?" expression="#{button.value}">
+		<transition to="add new gen" name="addGen"></transition>
+		<transition to="add new rec" name="addRec"></transition>
+		<transition to="add new tub" name="addTub"></transition>
+		<transition to="del gen" name="delGen"></transition>
+		<transition to="del rec" name="delRec"></transition>
+		<transition to="del tub" name="delTub"></transition>
+	</decision>
+
+	<node name="add new gen">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaGeneratoriIndivAction.eject()}"></action>
+			<action name="2" expression="#{SchedaGeneratoriIndivAction.inject(SchedaGeneratoriIndivAction.newEntity())}"></action>
+			<action name="3" expression="#{SchedaGeneratoriIndivAction.setNumero(SchedaGeneratoriIndivList.list)}"></action>
+			<action name="4" expression="#{SchedaGeneratoriIndivAction.link('impPress',ImpCopy)}"></action>
+			<action name="5" expression="#{ImpCopy.addSchedaGeneratoriIndiv(SchedaGeneratoriIndiv)}"></action>
+		</event>
+		<transition to="super-state1/save gen"></transition>
+	</node>
+
+	<node name="add new rec">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaRecipientiIndivAction.eject()}"></action>
+			<action name="2" expression="#{SchedaRecipientiIndivAction.inject(SchedaRecipientiIndivAction.newEntity())}"></action>
+			<action name="3" expression="#{SchedaRecipientiIndivAction.setNumero(SchedaRecipientiIndivList.list)}"></action>
+			<action name="4" expression="#{SchedaRecipientiIndivAction.link('impPress',ImpCopy)}"></action>
+			<action name="5" expression="#{ImpCopy.addSchedaRecipientiIndiv(SchedaRecipientiIndiv)}"></action>
+		</event>
+		<transition to="super-state2/save rec"></transition>
+	</node>
+
+	<node name="add new tub">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaTubazioniIndivAction.eject()}"></action>
+			<action name="2" expression="#{SchedaTubazioniIndivAction.inject(SchedaTubazioniIndivAction.newEntity())}"></action>
+			<action name="3" expression="#{SchedaTubazioniIndivAction.setNumero(SchedaTubazioniIndivList.list)}"></action>
+			<action name="4" expression="#{SchedaTubazioniIndivAction.link('impPress',ImpCopy)}"></action>
+			<action name="5" expression="#{ImpCopy.addSchedaTubazioniIndiv(SchedaTubazioniIndiv)}"></action>
+		</event>
+		<transition to="super-state3/save tub"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save gen">
+			<event type="node-enter">
+				<action name="1" expression="#{SchedaGeneratoriIndivAction.create()}"></action>
+			</event>
+			<transition to="../reload list gen"></transition>
+		</node>
+	</super-state>
+
+	<node name="reload list gen">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaGeneratoriIndivAction.ejectList()}"></action>
+			<action name="2" expression="#{SchedaGeneratoriIndivAction.equal.put('impPress',ImpCopy)}"></action>
+			<action name="3" expression="#{SchedaGeneratoriIndivAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="del gen">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaGeneratoriIndiv.setIsActive(false)}"></action>
+			<action name="2" expression="#{ImpCopy.removeSchedaGeneratoriIndiv(SchedaGeneratoriIndiv)}"></action>
+			<action name="3" expression="#{SchedaGeneratoriIndivAction.unLink('impPress',ImpCopy)}"></action>
+		</event>
+		<transition to="super-state1/save gen"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="save rec">
+			<event type="node-enter">
+				<action name="1" expression="#{SchedaRecipientiIndivAction.create()}"></action>
+			</event>
+			<transition to="../reload list rec"></transition>
+		</node>
+	</super-state>
+
+	<node name="reload list rec">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaRecipientiIndivAction.ejectList()}"></action>
+			<action name="2" expression="#{SchedaRecipientiIndivAction.equal.put('impPress',ImpCopy)}"></action>
+			<action name="3" expression="#{SchedaRecipientiIndivAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="del rec">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaRecipientiIndiv.setIsActive(false)}"></action>
+			<action name="2" expression="#{ImpCopy.removeSchedaRecipientiIndiv(SchedaRecipientiIndiv)}"></action>
+			<action name="3" expression="#{SchedaRecipientiIndivAction.unLink('impPress',ImpCopy)}"></action>
+		</event>
+		<transition to="super-state2/save rec"></transition>
+	</node>
+
+	<super-state name="super-state3">
+		<node name="save tub">
+			<event type="node-enter">
+				<action name="1" expression="#{SchedaTubazioniIndivAction.create()}"></action>
+			</event>
+			<transition to="../reload list tub"></transition>
+		</node>
+	</super-state>
+
+	<node name="reload list tub">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaTubazioniIndivAction.ejectList()}"></action>
+			<action name="2" expression="#{SchedaTubazioniIndivAction.equal.put('impPress',ImpCopy)}"></action>
+			<action name="3" expression="#{SchedaTubazioniIndivAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="del tub">
+		<event type="node-enter">
+			<action name="1" expression="#{SchedaTubazioniIndiv.setIsActive(false)}"></action>
+			<action name="2" expression="#{ImpCopy.removeSchedaTubazioniIndiv(SchedaTubazioniIndiv)}"></action>
+			<action name="3" expression="#{SchedaTubazioniIndivAction.unLink('impPress',ImpCopy)}"></action>
+		</event>
+		<transition to="super-state3/save tub"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

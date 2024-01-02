@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="operations">
+
+
+	<start-state name="start-state1">
+		<transition to="backup anags"></transition>
+	</start-state>
+
+
+	<decision name="operation?" expression="#{operation.type}">
+		<transition to="end-state1" name="null"></transition>
+		<transition to="details" name="Details"></transition>
+		<transition to="edit" name="Edit"></transition>
+		<transition to="link" name="Link"></transition>
+		<transition to="unlink" name="Unlink"></transition>
+		<transition to="update" name="Update"></transition>
+	</decision>
+
+	<process-state name="details">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/opDetails" binding="late"></sub-process>
+		<transition to="restore anags"></transition>
+	</process-state>
+
+	<node name="clear operation">
+		<event type="node-enter">
+			<action name="1" expression="#{OperationManager.clearOperation()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<process-state name="edit">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/opEdit" binding="late"></sub-process>
+		<transition to="restore anags"></transition>
+	</process-state>
+
+	<process-state name="link">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/opLink" binding="late"></sub-process>
+		<transition to="restore anags"></transition>
+	</process-state>
+
+	<process-state name="unlink">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/opUnlink" binding="late"></sub-process>
+		<transition to="restore anags"></transition>
+	</process-state>
+
+	<node name="backup anags">
+		<event type="node-enter">
+			<action name="1" expression="#{operation.setPerson(Person)}"></action>
+			<action name="2" expression="#{operation.setPhysician(Physician)}"></action>
+			<action name="3" expression="#{operation.setEmployee(Employee)}"></action>
+			<action name="4" expression="#{operation.setSede(Sedi)}"></action>
+			<action name="5" expression="#{operation.setDitta(PersoneGiuridiche)}"></action>
+			<action name="6" expression="#{operation.setCantiere(Cantiere)}"></action>
+		</event>
+		<transition to="operation?"></transition>
+	</node>
+
+	<node name="restore anags">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(operation.person)}"></action>
+			<action name="2" expression="#{PhysicianAction.inject(operation.physician)}"></action>
+			<action name="3" expression="#{EmployeeAction.inject(operation.employee)}"></action>
+			<action name="4" expression="#{SediAction.inject(operation.sede)}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.inject(operation.ditta)}"></action>
+			<action name="6" expression="#{CantiereAction.inject(operation.cantiere)}"></action>
+		</event>
+		<transition to="clear operation"></transition>
+	</node>
+
+	<process-state name="update">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/opUpdate" binding="late"></sub-process>
+		<transition to="clear operation"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

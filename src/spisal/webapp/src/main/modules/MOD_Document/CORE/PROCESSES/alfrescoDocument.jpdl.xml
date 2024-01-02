@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="alfrescoDocument">
+
+
+	<start-state name="start-state1">
+		<transition to="backup dangerous pageddatamodels"></transition>
+	</start-state>
+
+
+	<task-node name="alfrescoDocument">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/alfrescoDocument')}"></action>
+		</event>
+		<transition to="add or edit"></transition>
+	</task-node>
+
+	<decision name="add or edit" expression="#{button.mnemonic}">
+		<transition to="ejectDoc" name="HOME"></transition>
+		<transition to="inject new" name="ADD"></transition>
+		<transition to="webOdf" name="EDIT"></transition>
+		<transition to="inject new 4 upload" name="UPLOADNEW"></transition>
+		<transition to="ejectDoc" name="BACK"></transition>
+		<transition to="popup upload" name="UPLOAD"></transition>
+		<transition to="delete confirmation" name="DELETE"></transition>
+		<transition to="readHeaderAndFooters" name="APPLYMODEL"></transition>
+		<transition to="apply model multi" name="APPLYMODELMULTI"></transition>
+		<transition to="fixModel" name="FIXMODEL"></transition>
+		<transition to="enable back" name="HISTORY"></transition>
+		<transition to="signature" name="PDFLIST"></transition>
+		<transition to="signature" name="UNLOCK"></transition>
+		<transition to="signature" name="REGISTER"></transition>
+		<transition to="signature" name="APPLY_SIGNATURE"></transition>
+		<transition to="pdfView" name="LnkDoc2Pdf"></transition>
+		<transition to="pdfView" name="LnkDoc2PdfSigned"></transition>
+		<transition to="isTemplateManager?" name="REFRESH"></transition>
+		<transition to="deactivate confirm?" name="DEACTIVATE"></transition>
+		<transition to="signature" name="VIEW_DESTINATARI"></transition>
+		<transition to="pdfView" name="LnkDoc2PdfUploaded"></transition>
+	</decision>
+
+	<task-node name="webOdf">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/webOdf')}"></action>
+		</event>
+		<transition to="decision2" name=""></transition>
+	</task-node>
+
+	<task-node name="popup add new">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/popup/addNew')}"></action>
+		</event>
+		<transition to="popup button?" name=""></transition>
+	</task-node>
+
+	<decision name="popup button?" expression="#{button.mnemonic}">
+		<transition to="eject" name="BtnAddAlfrescoDocCancel"></transition>
+		<transition to="eject" name="BtnCancel"></transition>
+		<transition to="applyExtension" name="BtnAddAlfrescoDocOk"></transition>
+		<transition to="set no bindings" name="BtnAddAlfrescoTmplt"></transition>
+		<transition to="template selected" name="RowTemplateSelected"></transition>
+		<transition to="searchTemplates" name="BtnTmpltSearch"></transition>
+	</decision>
+
+	<node name="inject new">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.inject(AlfrescoDocumentAction.newEntity())}"></action>
+			<action name="2" expression="#{AlfrescoDocument.setMimeType('application/vnd.oasis.opendocument.text')}"></action>
+		</event>
+		<transition to="isTemplate?"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.eject()}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="isTemplateManager?" name="BACK"></transition>
+		<transition to="ejectDoc" name="HOME"></transition>
+		<transition to="super-state3/save2" name="SAVE"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.create()}"></action>
+				<action name="2" expression="#{AlfrescoDocumentList.list.contains(AlfrescoDocument) ? '' : AlfrescoDocumentList.list.add(AlfrescoDocument)}"></action>
+			</event>
+			<transition to="../isTemplateManager?"></transition>
+		</node>
+		<node name="link">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocument.setIsTemplate(false)}"></action>
+				<action name="2" expression="#{AlfrescoDocumentAction.temporary.entity2Link.addDocumenti(AlfrescoDocument)}"></action>
+			</event>
+			<transition to="save"></transition>
+		</node>
+		<decision name="isTemplate? 2" expression="#{AlfrescoDocumentAction.temporary.isTemplate eq true}">
+			<transition to="set isTemplate" name="true"></transition>
+			<transition to="link" name="false"></transition>
+		</decision>
+		<node name="set isTemplate">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocument.setIsTemplate(true)}"></action>
+			</event>
+			<transition to="save"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject new 4 upload">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.inject(AlfrescoDocumentAction.newEntity())}"></action>
+			<action name="2" expression="#{AlfrescoDocument.setPath(AlfrescoDocumentAction.temporary['alfrescoPath'])}"></action>
+			<action name="3" expression="#{AlfrescoDocument.setFromTemplate(false)}"></action>
+			<action name="4" expression="#{AlfrescoDocument.setLockedForSignature(false)}"></action>
+			<action name="5" expression="#{AlfrescoDocument.setNrUpload(0)}"></action>
+		</event>
+		<transition to="popup upload"></transition>
+	</node>
+
+	<task-node name="popup upload">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/upload')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="eject 4 upload" name="BtnUploadAlfrescoDocCancel_id"></transition>
+		<transition to="eject 4 upload" name="BtnCancel"></transition>
+		<transition to="eject 4 upload" name="BtnUploadAlfrescoDocCancel"></transition>
+		<transition to="update nr upload" name="BtnUploadAlfrescoDocOk_id"></transition>
+	</decision>
+
+	<node name="eject 4 upload">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.eject()}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.alfrescoDelete(AlfrescoDocument.nodeRef)}"></action>
+				<action name="2" expression="#{AlfrescoDocumentAction.delete()}"></action>
+			</event>
+			<transition to="../isTemplateManager?"></transition>
+		</node>
+		<decision name="isTemplate? 3" expression="#{AlfrescoDocumentAction.temporary.isTemplate eq true}">
+			<transition to="remove from template list" name="true"></transition>
+			<transition to="unlink" name="false"></transition>
+		</decision>
+		<node name="remove from template list">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentList.list.remove(AlfrescoDocument)}"></action>
+			</event>
+			<transition to="delete"></transition>
+		</node>
+		<node name="unlink">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.temporary.entity2Link.removeDocumenti(AlfrescoDocument)}"></action>
+			</event>
+			<transition to="remove from template list"></transition>
+		</node>
+	</super-state>
+
+	<node name="calculate doc path">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('alfrescoPath', AlfrescoDocumentAction.getPath(AlfrescoDocumentAction.temporary.isTemplate, Protocollo, Procpratiche))}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.temporary.put('showNotSigned',true)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.put('showPartiallySigned',true)}"></action>
+			<action name="4" expression="#{AlfrescoDocumentAction.temporary.put('showSigned',true)}"></action>
+			<action name="5" expression="#{AlfrescoDocumentAction.temporary.put('showSentToRegister',true)}"></action>
+			<action name="6" expression="#{AlfrescoDocumentAction.temporary.put('showRegistered',true)}"></action>
+			<action name="7" expression="#{AlfrescoDocumentAction.temporary.put('showDeactivated',false)}"></action>
+			<action name="8" expression="#{(Procpratiche!=null)?AlfrescoDocumentAction.temporary.put('showSign',AlfrescoDocumentAction.showSign(Procpratiche.uoc)):''}"></action>
+			<action name="9" expression="#{(Procpratiche== null and Protocollo!=null)?AlfrescoDocumentAction.temporary.put('showSign',AlfrescoDocumentAction.showSign(Protocollo.serviceDeliveryLocation)):''}"></action>
+		</event>
+		<transition to="isTemplateManager?"></transition>
+	</node>
+
+	<node name="createFromTemplate">
+		<event type="node-enter">
+			<action name="1" expression="#{spisalUserAction.isArpav() ? AlfrescoDocumentAction.applyExtension(AlfrescoDocument, '.ODT') : AlfrescoDocumentAction.applyExtension(AlfrescoDocument, '.odt')}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.generateFromTemplateAndSave(AlfrescoDocumentTemplate, AlfrescoDocumentAction.temporary['alfrescoPath'], AlfrescoDocument)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.remove('noBindings')}"></action>
+		</event>
+		<transition to="errorFromTemplate"></transition>
+	</node>
+
+	<node name="template selected">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.initDoc(AlfrescoDocument, AlfrescoDocumentTemplate, AlfrescoDocumentAction.temporary.entity2Link)}"></action>
+		</event>
+		<transition to="popup add new"></transition>
+	</node>
+
+	<decision name="isTemplate?" expression="#{AlfrescoDocumentAction.temporary.isTemplate eq true}">
+		<transition to="readTemplates" name="false"></transition>
+		<transition to="popup add new" name="true"></transition>
+	</decision>
+
+	<node name="readTemplates">
+		<event type="node-enter">
+			<action name="1" expression="#{ AlfrescoDocumentAction.ejectTemplates()}"></action>
+			<action name="2" expression="#{(empty Impianto and empty VerificaImp and empty Addebito and empty PersoneGiuridiche) ? AlfrescoDocumentAction.setReadTemplatesFilters(Procpratiche, Protocollo, Attivita, Provvedimenti) : ''}"></action>
+			<action name="3" expression="#{(not empty Impianto or not empty VerificaImp or not empty Addebito or not empty PersoneGiuridiche) ? AlfrescoDocumentAction.setReadTemplatesFilters(Impianto, VerificaImp, Addebito, PersoneGiuridiche) : ''}"></action>
+			<action name="4" expression="#{ AlfrescoDocumentAction.readTemplates()}"></action>
+		</event>
+		<transition to="popup add new"></transition>
+	</node>
+
+	<task-node name="delete confirmation">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_Oggetto_alert')}"></action>
+		</event>
+		<transition to="really delete?"></transition>
+	</task-node>
+
+	<decision name="really delete?" expression="#{(button.getMnemonic())}">
+		<transition to="alfrescoDocument" name="BtnCancel"></transition>
+		<transition to="super-state2/isTemplate? 3" name="BtnDel"></transition>
+	</decision>
+
+	<node name="readHeaderAndFooters">
+		<event type="node-enter">
+			<action name="1" expression="#{ AlfrescoDocumentAction.readHeaderAndFooters(spisalUserAction.isArpav())}"></action>
+		</event>
+		<transition to="popup selectHeaderFooter"></transition>
+	</node>
+
+	<task-node name="popup selectHeaderFooter">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/selectHeaderFooter')}"></action>
+		</event>
+		<transition to="popup hf button?"></transition>
+	</task-node>
+
+	<decision name="popup hf button?" expression="#{button.mnemonic}">
+		<transition to="apply Model To Document" name="CHECK"></transition>
+		<transition to="alfrescoDocument" name="CANCEL"></transition>
+		<transition to="alfrescoDocument" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="apply Model To Document">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.applyModelToDocument(AlfrescoDocumentHeaderFooter.nodeRefUrl)}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<node name="applyExtension">
+		<event type="node-enter">
+			<action name="1" expression="#{spisalUserAction.isArpav() ? AlfrescoDocumentAction.applyExtension(AlfrescoDocument, '.ODT') : AlfrescoDocumentAction.applyExtension(AlfrescoDocument, '.odt')}"></action>
+		</event>
+		<transition to="super-state1/isTemplate? 2"></transition>
+	</node>
+
+	<node name="searchTemplates">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.readTemplates()}"></action>
+		</event>
+		<transition to="popup add new"></transition>
+	</node>
+
+	<super-state name="super-state3">
+		<node name="save2">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocument.setLastChange(function.currentDateTime() )}"></action>
+				<action name="2" expression="#{AlfrescoDocumentAction.create()}"></action>
+			</event>
+			<transition to="../webOdf"></transition>
+		</node>
+	</super-state>
+
+	<node name="ejectDoc">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.eject()}"></action>
+		</event>
+		<transition to="restore dangerous pageddatamodels"></transition>
+	</node>
+
+	<process-state name="apply model multi">
+		<sub-process name="MOD_Document/CORE/PROCESSES/applyModelMulti" binding="late"></sub-process>
+		<transition to="alfrescoDocument"></transition>
+	</process-state>
+
+	<node name="fixModel">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.fixModel(AlfrescoDocument)}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<process-state name="alfresco browse">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoBrowse" binding="late"></sub-process>
+		<transition to="alfrescoDocument"></transition>
+	</process-state>
+
+	<node name="enable back">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('enableBack', true)}"></action>
+		</event>
+		<transition to="alfresco browse"></transition>
+	</node>
+
+	<node name="refreshList">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.doFilters(AlfrescoDocumentList.getList())}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<decision name="errorFromTemplate" expression="#{AlfrescoDocumentAction.temporary['brokenGeneration'] eq true}">
+		<transition to="super-state1/isTemplate? 2" name="false"></transition>
+		<transition to="alfrescoDocument" name="true"></transition>
+	</decision>
+
+	<process-state name="signature">
+		<sub-process name="MOD_Document/CORE/PROCESSES/signature" binding="late"></sub-process>
+		<transition to="isTemplateManager?"></transition>
+	</process-state>
+
+	<process-state name="pdfView">
+		<sub-process name="MOD_Document/CORE/PROCESSES/pdfView" binding="late"></sub-process>
+		<transition to="isTemplateManager?"></transition>
+	</process-state>
+
+	<super-state name="super-state4">
+		<node name="DEACTIVATE">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocument.setIsActive(false)}"></action>
+				<action name="2" expression="#{AlfrescoDocumentAction.create()}"></action>
+			</event>
+			<transition to="../isTemplateManager?"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="deactivate confirm?">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_Oggetto_alert')}"></action>
+		</event>
+		<transition to="deactivate button?"></transition>
+	</task-node>
+
+	<decision name="deactivate button?" expression="#{button.mnemonic}">
+		<transition to="super-state4/DEACTIVATE" name="BtnDel"></transition>
+		<transition to="isTemplateManager?" name="BtnCancel"></transition>
+	</decision>
+
+	<decision name="isTemplateManager?" expression="#{((AlfrescoDocumentAction.temporary['isTemplate'] ne null) and (AlfrescoDocumentAction.temporary['isTemplate']))}">
+		<transition to="refreshList" name="false"></transition>
+		<transition to="refreshListTemplate" name="true"></transition>
+	</decision>
+
+	<node name="refreshListTemplate">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.refresh(AlfrescoDocumentList.getList())}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.findLastChangeInfo(function.objectsAsList(AlfrescoDocument))}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<decision name="valid name?" expression="#{AlfrescoDocumentAction.checkValidName(AlfrescoDocument)}">
+		<transition to="createFromTemplate" name="true"></transition>
+		<transition to="rename popup" name="false"></transition>
+	</decision>
+
+	<task-node name="rename popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/renamePopup')}"></action>
+		</event>
+		<transition to="rename button?"></transition>
+	</task-node>
+
+	<decision name="rename button?" expression="#{button.mnemonic}">
+		<transition to="valid name?" name="BtnOk"></transition>
+		<transition to="alfrescoDocument" name="BtnCancel"></transition>
+	</decision>
+
+	<decision name="Not ARPAV?" expression="#{!AlfrescoDocumentAction.isArpav()}">
+		<transition to="calculate doc path" name="true"></transition>
+		<transition to="calculate doc path arpav" name="false"></transition>
+	</decision>
+
+	<node name="calculate doc path arpav">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('alfrescoPath', AlfrescoDocumentAction.getPath(AlfrescoDocumentAction.temporary.isTemplate, Impianto, VerificaImp, Addebito, ImpiantoAction.temporary.get('impOrVer'), PersoneGiuridiche))}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.temporary.put('showNotSigned',true)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.put('showPartiallySigned',true)}"></action>
+			<action name="4" expression="#{AlfrescoDocumentAction.temporary.put('showSigned',true)}"></action>
+			<action name="5" expression="#{AlfrescoDocumentAction.temporary.put('showSentToRegister',true)}"></action>
+			<action name="6" expression="#{AlfrescoDocumentAction.temporary.put('showRegistered',true)}"></action>
+			<action name="7" expression="#{AlfrescoDocumentAction.temporary.put('showDeactivated',false)}"></action>
+		</event>
+		<transition to="alfrescoDocument"></transition>
+	</node>
+
+	<node name="update nr upload">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.updateNrUpload(AlfrescoDocument)}"></action>
+		</event>
+		<transition to="super-state1/isTemplate? 2"></transition>
+	</node>
+
+	<node name="backup dangerous pageddatamodels">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('ProcpraticheList',ProcpraticheList)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.temporary.put('PersoneGiuridicheList',PersoneGiuridicheList)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.put('ImpiantoList',ImpiantoList)}"></action>
+			<action name="4" expression="#{AlfrescoDocumentAction.temporary.put('VerificaImpList',VerificaImpList)}"></action>
+			<action name="5" expression="#{AlfrescoDocumentAction.temporary.put('AddebitoList',AddebitoList)}"></action>
+			<action name="6" expression="#{org.jboss.seam.core.conversationContext.remove('ProcpraticheList')}"></action>
+			<action name="7" expression="#{org.jboss.seam.core.conversationContext.remove('PersoneGiuridicheList')}"></action>
+			<action name="8" expression="#{org.jboss.seam.core.conversationContext.remove('ImpiantoList')}"></action>
+			<action name="9" expression="#{org.jboss.seam.core.conversationContext.remove('VerificaImpList')}"></action>
+			<action name="10" expression="#{org.jboss.seam.core.conversationContext.remove('AddebitoList')}"></action>
+		</event>
+		<transition to="Not ARPAV?"></transition>
+	</node>
+
+	<node name="restore dangerous pageddatamodels">
+		<event type="node-enter">
+			<action name="1" expression="#{org.jboss.seam.core.conversationContext.set('ProcpraticheList',AlfrescoDocumentAction.temporary['ProcpraticheList'])}"></action>
+			<action name="2" expression="#{org.jboss.seam.core.conversationContext.set('PersoneGiuridicheList',AlfrescoDocumentAction.temporary['PersoneGiuridicheList'])}"></action>
+			<action name="3" expression="#{org.jboss.seam.core.conversationContext.set('ImpiantoList',AlfrescoDocumentAction.temporary['ImpiantoList'])}"></action>
+			<action name="4" expression="#{org.jboss.seam.core.conversationContext.set('VerificaImpList',AlfrescoDocumentAction.temporary['VerificaImpList'])}"></action>
+			<action name="5" expression="#{org.jboss.seam.core.conversationContext.set('AddebitoList',AlfrescoDocumentAction.temporary['AddebitoList'])}"></action>
+			<action name="6" expression="#{AlfrescoDocumentAction.temporary.remove('ProcpraticheList')}"></action>
+			<action name="7" expression="#{AlfrescoDocumentAction.temporary.remove('PersoneGiuridicheList')}"></action>
+			<action name="8" expression="#{AlfrescoDocumentAction.temporary.remove('ImpiantoList')}"></action>
+			<action name="9" expression="#{AlfrescoDocumentAction.temporary.remove('VerificaImpList')}"></action>
+			<action name="10" expression="#{AlfrescoDocumentAction.temporary.remove('AddebitoList')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set no bindings">
+		<event type="node-enter">
+			<action name="1" expression="#{button.value eq 'BtnAddAlfrescoUnoundTmplt' ? AlfrescoDocumentAction.temporary.put('noBindings', true) : ''}"></action>
+		</event>
+		<transition to="createFromTemplate"></transition>
+	</node>
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

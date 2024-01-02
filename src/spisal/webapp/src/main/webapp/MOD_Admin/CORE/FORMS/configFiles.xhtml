@@ -1,0 +1,138 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1528125438916}</h1>
+	<div id="configFiles" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1528125476311" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1533557781307" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1532923506043;BtnBack')}" status="ajaxStatus" id="Link_1532923506043" title="${msg.alt_Link_1532923506043}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1526868602215" styleClass="layoutContainer layoutContainerVertical padding-bottom:25px;" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty TariffarioLast}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1526868602215}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1533527324925" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1533527324925;BtnMngTariffario')}" status="ajaxStatus" id="Link_1533527324925_id" title="${msg.alt_Link_1533527324925}" rendered="#{not empty TariffarioLast}" reRender="phiDesktop,popup" styleClass="fa fa-pencil-square-o fa-2x link" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1528354836220}</span>
+						<span value="${msg.Label_1528354836220}" class="labelContent  base-label" ></span>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1527496628168" style="height:100%;width:100%;" rendered="false" >
+						<a target="_blank"  download="#{TariffarioLast.filename}"  href="#{function.concat('resource/rest/tariffarios/',TariffarioLast.internalId,'/download/content')}">
+							<i class="c-text-red c-text-14 c-text-underline">#{TariffarioLast.filename}</i>
+						</a>
+					</a4j:outputPanel>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1664869930359" style="height:100%;width:100%;" >
+								                <s:link action="#{downloadAttachment.download}" target="_blank">
+													<i class="c-text-red c-text-14 c-text-underline">#{TariffarioLast.filename}</i>
+								                    <f:param name="path" value="#{function.concat('TariffarioLast.',TariffarioLast.internalId)}" />
+								                </s:link>
+					</a4j:outputPanel>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1528089407936}</span>
+						<h:outputText value="#{TariffarioLast.dataRif}" id="Label_1528089407936" styleClass="labelContent  base-label" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:outputText>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1533561479668}</span>
+						<h:outputText value="#{TariffarioLast.auth.name}" id="Label_1533561479668" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1527262264491}</span>
+						<h:outputText value="#{TariffarioLast.descr}" id="Label_1527262264491" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1533734869308" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1530194115010" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1530194115010;BtnAddTariffario')}" status="ajaxStatus" id="Link_1530194115010_id" title="${msg.alt_Link_1530194115010}" rendered="#{TariffarioLast eq null or TariffarioLast.dataRifEnd ne null}" reRender="phiDesktop,popup" styleClass="fa fa-upload fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1533735677589" >
+					<span value="${msg.Label_1533735677589}" id="Label_1533735677589_id" style="display:#{(TariffarioLast ne null and TariffarioLast.dataRifEnd eq null) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold c-text-red base-label" >${msg.Label_1533735677589}</span>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1535327443629" layout="block" styleClass="dt layoutTable layoutVertical" >
+					<table id="d1535327443629" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1535327443629} [TariffarioList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th class="sortableColumn">${msg.DataGridColumn_1534556043639} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1532135398463" value="${msg.DataGridColumn_1532135398463} &#8593;&#8595;" action="#{TariffarioList.orderBy('dataRif')}" reRender="DataGrid_1535327443629" ajaxSingle="true" disabled="#{empty TariffarioList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533732331770" value="${msg.DataGridColumn_1533732331770} &#8593;&#8595;" action="#{TariffarioList.orderBy('dataRifEnd')}" reRender="DataGrid_1535327443629" ajaxSingle="true" disabled="#{empty TariffarioList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1533561558628" value="${msg.DataGridColumn_1533561558628} &#8593;&#8595;" action="#{TariffarioList.orderBy('auth.name')}" reRender="DataGrid_1535327443629" ajaxSingle="true" disabled="#{empty TariffarioList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1532159477085" value="${msg.DataGridColumn_1532159477085} &#8593;&#8595;" action="#{TariffarioList.orderBy('descr')}" reRender="DataGrid_1535327443629" ajaxSingle="true" disabled="#{empty TariffarioList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty TariffarioList or TariffarioList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1535327443629" value="#{TariffarioList.entities}" var="Tariffario" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1535327443629(this.id);" class="#{TariffarioAction.getEntity().equals(Tariffario) or Tariffario.internalId != 0 and TariffarioAction.entity.internalId.equals(Tariffario.internalId) ? 'selRow' : ''}" >
+									<td >
+										<a4j:outputPanel layout="block" id="JollyWidget_1534947641605" >
+											<a target="_blank"  download="#{Tariffario.filename}"  href="#{function.concat('resource/rest/tariffarios/',Tariffario.internalId,'/download/content')}">
+												<i class="c-text-red c-text-14 c-text-underline">#{Tariffario.filename}</i>
+											</a>
+										</a4j:outputPanel>
+
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Tariffario.dataRif}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Tariffario.dataRifEnd}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Tariffario.auth.name}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Tariffario.descr}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1535327443629" name="ie1535327443629" status="ajaxStatus" action="#{TariffarioList.injectEject}" data="#{TariffarioList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1535327443629'))" reRender="LayoutRow_1528125476311" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{TariffarioList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

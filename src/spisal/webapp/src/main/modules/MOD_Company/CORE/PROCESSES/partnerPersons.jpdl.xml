@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="partnerPersons">
+
+
+	<start-state name="start-state1">
+		<transition to="process-state1"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="super-state1/save" name="BtnSave"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{SoggettoAction.newEntity()}"></action>
+				<action name="2" expression="#{SoggettoAction.link('utente', Person)}"></action>
+				<action name="3" expression="#{SoggettoAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="process-state1">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="decision1"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

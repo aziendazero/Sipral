@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fascicolazioneGestioneCambioTipi">
+
+
+	<start-state name="start-state1">
+		<transition to="new fascicolo?"></transition>
+	</start-state>
+
+
+	<decision name="new fascicolo?" expression="#{TagFascicolo.internalId==0}">
+		<transition to="type changed?" name="false"></transition>
+		<transition to="collector" name="true"></transition>
+	</decision>
+
+	<task-node name="type change popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_fascicolazione/CORE/FORMS/typeFascicolo_alert')}"></action>
+		</event>
+		<transition to="button popup pressed?"></transition>
+	</task-node>
+
+	<decision name="button popup pressed?" expression="#{button.mnemonic}">
+		<transition to="update fields" name="BtnTypeSave"></transition>
+		<transition to="revert type" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="update fields">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicolo.setDistretti(null)}"></action>
+			<action name="2" expression="#{TagFascicolo.setLinee(null)}"></action>
+			<action name="3" expression="#{TagFascicolo.setUlss(null)}"></action>
+			<action name="4" expression="#{TagFascicoloAction.temporary.put('prevType',TagFascicolo.tagType)}"></action>
+		</event>
+		<transition to="collector"></transition>
+	</node>
+
+	<node name="revert type">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicolo.setTagType(TagFascicoloAction.temporary.get('prevType'))}"></action>
+		</event>
+		<transition to="collector"></transition>
+	</node>
+
+	<node name="collector">
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="type changed?" expression="#{TagFascicolo.tagType != TagFascicoloAction.temporary.get('prevType')}">
+		<transition to="type change popup" name="true"></transition>
+		<transition to="collector" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

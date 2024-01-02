@@ -1,0 +1,108 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1467299905899}</h1>
+	<div id="fascicolaPratica" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1468454312947" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1466146024619" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468386346021;BtnBack')}" status="ajaxStatus" id="Link_1468386346021" title="${msg.alt_Link_1468386346021}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1516878656283;newType')}" status="ajaxStatus" id="Link_1516878656283" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" type="reset" ajaxSingle="true" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1465710475394" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1465710475394;BtnSave')}" status="ajaxStatus" id="Link_1465710475394_id" title="${msg.alt_Link_1465710475394}" rendered="#{not TagFascicoloAction.temporary['disable']}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1467383210517" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1467300099420" >
+					<label >
+						<span class="label">${msg.label_TextSuggestionBox_1467300099420}</span>
+						<input type="text" id="TextSuggestionBox_1467300099420_MAIN" class="autocomplete inputText readOnly" value="#{TagFascicolo.fascicolo}"  />
+						<h:outputLabel for="TextSuggestionBox_1467300099420_CODE" style="display:none;"/>
+						<h:inputText id="TextSuggestionBox_1467300099420_CODE" value="#{TagFascicolo}" label="${msg.label_TextSuggestionBox_1467300099420}"  style="display: none">
+							<f:converter converterId="EntityConverter"/>
+
+						</h:inputText>
+						<h:message for="TextSuggestionBox_1467300099420_CODE" styleClass="errorMessages TextSuggestionBox_1467300099420_CODE_E" />
+						<a4j:jsFunction name="TextSuggestionBox_1467300099420" action="#{TagFascicoloAction.readFascicoli4Suggestion()}" data="#{TagFascicoloList.list}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+							<a4j:actionparam name="search" assignTo="#{TagFascicoloAction.like['fascicolo']}"/>
+							<a4j:actionparam name="ui"/>
+						</a4j:jsFunction>
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1467366300356;addTag')}" status="ajaxStatus" id="Link_1467366300356" title="${msg.alt_Link_1467366300356}" reRender="TextSuggestionBox_1467300099420,DataGrid_1467366260499" styleClass="fa fa-plus fa-2x linkUnlink link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1470320764652" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1470320875006}</span>
+						<span value="${msg.Label_1470320875006}" class="labelContent  base-label" ></span>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1470320866324;manualSearch')}" status="ajaxStatus" id="Link_1470320866324" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link readOnly" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1516701846998" styleClass="layoutContainer layoutContainerVertical" rendered="false" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1516701863922;newType')}" status="ajaxStatus" id="Link_1516701863922" alt="#{LINK}" reRender="phiDesktop" value="#{msg.Link_1516701863922}" styleClass="link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1467366260499" layout="block" styleClass="dt layoutTable layoutVertical" >
+					<table id="d1467366260499" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1467366260499} [PraticheTagFascicoloList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1467366270265" value="${msg.DataGridColumn_1467366270265} &#8593;&#8595;" action="#{PraticheTagFascicoloList.orderBy('fascicolo')}" reRender="DataGrid_1467366260499" ajaxSingle="true" disabled="#{empty PraticheTagFascicoloList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1517574572875" value="${msg.DataGridColumn_1517574572875} &#8593;&#8595;" action="#{PraticheTagFascicoloList.orderBy('tagType')}" reRender="DataGrid_1467366260499" ajaxSingle="true" disabled="#{empty PraticheTagFascicoloList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1493391674646} &#8593;&#8595;</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1467366370526} &#8593;&#8595;</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty PraticheTagFascicoloList or PraticheTagFascicoloList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="4">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1467366260499" value="#{PraticheTagFascicoloList.entities}" var="PraticheTagFascicolo" rowKeyVar="rowIndex" >
+								<tr >
+									<td style="width:30%;" >
+										<span class="base-label" >#{PraticheTagFascicolo.fascicolo}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{PraticheTagFascicolo.tagType}</span>
+									</td>
+
+									<td style="width:60%;" >
+										<a4j:commandLink action="#{PraticheTagFascicoloAction.inject(PraticheTagFascicolo)}" status="ajaxStatus" id="Link_1516441570474_id" alt="#{LINK}" style="color:#ffc90e" rendered="#{PraticheTagFascicolo.notes != null}" reRender="phiDesktop" styleClass="fa fa-comment fa-2x tableButton" title="#{PraticheTagFascicolo.notes}"/>
+
+										<a4j:commandLink action="#{PraticheTagFascicoloAction.inject(PraticheTagFascicolo)}" status="ajaxStatus" id="Link_1516369200304_id" alt="#{LINK}" rendered="#{PraticheTagFascicolo.notes == null}" reRender="phiDesktop" styleClass="fa fa-comment-o fa-2x tableButton" />
+
+									</td>
+
+									<td style="width:10%;" >
+										<a4j:commandLink action="#{PraticheTagFascicoloAction.injectAndProceed(PraticheTagFascicolo, 'Link_1467366376998;removeTag')}" status="ajaxStatus" id="Link_1467366376998" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

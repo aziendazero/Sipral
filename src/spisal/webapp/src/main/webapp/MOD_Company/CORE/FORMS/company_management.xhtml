@@ -1,0 +1,1362 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1450956548198}</h1>
+	<div id="gestione_segnalazione" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1452488282457" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1450488259215" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1452353463687" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPGBack;BtnPGBack')}" status="ajaxStatus" id="BtnPGBack" title="${msg.alt_BtnPGBack}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}'); delete lastOpenTab['i:TabbedPane_1450394712634'];"/>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnPGSave" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPGSave;BtnPGSave')}" status="ajaxStatus" id="BtnPGSave_id" title="${msg.alt_BtnPGSave}" rendered="#{not ProtocolloAction.temporary['linking']}" reRender="phiDesktop,popup" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1572269061897" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnPGAlfrescoDocEdit" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPGAlfrescoDocEdit;BtnPGAlfrescoDocEdit')}" status="ajaxStatus" id="BtnPGAlfrescoDocEdit_id" title="${msg.alt_BtnPGAlfrescoDocEdit}" rendered="#{PersoneGiuridiche.app eq 'ARPAV'}" reRender="phiDesktop" styleClass="fa fa-file-text-o fa-3x link readOnly" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1462548026045" style="height:100%;width:100%;" >
+						<script>
+						jQuery('input[type=text]:visible, textarea:visible').not('#i\\:LayoutRow_1474011248964 input[type=text]').each(function() {
+							jQuery(this).val(jQuery(this).val().toUpperCase());
+						}).on('input',function() {
+						   	jQuery(this).val(jQuery(this).val().toUpperCase());
+						});
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1508892650095" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+							(function resetTabz(){
+								if (typeof lastOpenTab['i:TabbedPane_1450394712634'] == 'undefined')
+									lastOpenTab['i:TabbedPane_1450394712634'] = 1	;
+							})();
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1539248903316" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1539248912456" style="height:100%;width:100%;" >
+						<a4j:outputPanel id="personaGiuridicaArpav" rendered="#{not empty PersoneGiuridiche and PersoneGiuridicheAction.isArpavSelected()}" layout="none">
+							<div class="banner hidden-print">
+								<div class="details">
+									<div>
+										<label>Denominazione:</label>
+										<span>#{PersoneGiuridiche.denominazione}</span>
+										<label>Codice fiscale:</label>
+										<span>#{PersoneGiuridiche.codiceFiscale}</span>
+										<label>Partita IVA:</label>
+										<span>#{PersoneGiuridiche.patritaIva}</span>
+									</div>
+								</div>
+							</div>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<a4j:outputPanel id="TabbedPane_1450394712634" layout="block" styleClass="tabset tabbedPanel" style="padding: 5px;" >
+					<ul class="tabs">
+						<li><a href="#tab-1">${msg.LayoutRowPanelTab_1474010994133}</a></li>
+						<li class="#{not empty PersoneGiuridiche ? '' : 'hideTab hidden' }" ><a href="#tab-2">${msg.LayoutRowPanelTab_1474011003886}</a></li>
+						<li class="#{PersoneGiuridiche.app ne 'ARPAV' ? '' : 'hideTab hidden' }" ><a href="#tab-3">${msg.LayoutRowPanelTab_1474297850355}</a></li>
+						<li class="#{PersoneGiuridiche.app eq 'ARPAV' and false ? '' : 'hideTab hidden' }" ><a href="#tab-4">${msg.LayoutRowPanelTab_1507207601451}</a></li>
+						<li class="#{PersoneGiuridiche.app eq 'ARPAV' and PersoneGiuridicheAction.notInception ? '' : 'hideTab hidden' }" ><a href="#tab-5">${msg.LayoutRowPanelTab_1507208100734}</a></li>
+						<li class="#{PersoneGiuridiche.app eq 'ARPAV' and PersoneGiuridicheAction.notInception ? '' : 'hideTab hidden' }" ><a href="#tab-6">${msg.LayoutRowPanelTab_1520515300560}</a></li>
+					</ul>
+					<div class="tab-1 tab-content #{PersonaGiuridicaArpavAction.temporary['stopPgChain'] eq true ? 'disableTab' : ''}" id="LayoutRowPanelTab_1474010994133" label="${msg.LayoutRowPanelTab_1474010994133}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1453312048012" style="width:100%;padding: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1453941242130" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1453430373463" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1453430373463}</span>
+									<h:inputText id="TextBox_1453430373463_id" value="#{PersoneGiuridiche.denominazione}" styleClass="inputText layoutRequired" required="true" disabled="#{ProtocolloAction.temporary['linking']}" label="${msg.label_TextBox_1453430373463}" />
+									<a4j:outputPanel id="TextBox_1453430373463_msg" styleClass="errorContainer" ><h:message for="TextBox_1453430373463_id" styleClass="errorMessages TextBox_1453430373463_E" /></a4j:outputPanel>
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1451734540197" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1451734540197}</span>
+									<h:inputText id="TextBox_1451734540197_id" value="#{PersoneGiuridiche.codiceFiscale}" styleClass="inputText layoutRequired" required="true" disabled="#{ProtocolloAction.temporary['linking']}" label="${msg.label_TextBox_1451734540197}" />
+									<a4j:outputPanel id="TextBox_1451734540197_msg" styleClass="errorContainer" ><h:message for="TextBox_1451734540197_id" styleClass="errorMessages TextBox_1451734540197_E" /></a4j:outputPanel>
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1453286972152}</span>
+									<h:inputText id="TextBox_1453286972152" value="#{PersoneGiuridiche.numeroRI}" style="width: 46px;" styleClass="inputText" disabled="#{ProtocolloAction.temporary['linking']}" label="${msg.label_TextBox_1453286972152}" />
+									<a4j:outputPanel id="TextBox_1453286972152_msg" styleClass="errorContainer" ><h:message for="TextBox_1453286972152" styleClass="errorMessages TextBox_1453286972152_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1453916609897}</span>
+									<h:inputText id="MonthCalendar_1453916609897" value="#{PersoneGiuridiche.dataCostituzione}" disabled="#{ProtocolloAction.temporary['linking']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1453916609897}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1453916609897" styleClass="errorMessages MonthCalendar_1453916609897_E" />
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1650360405380}</span>
+									<h:inputText id="TextBox_1650360405380" value="#{PersoneGiuridiche.codiceDitta}" styleClass="inputText" label="${msg.label_TextBox_1650360405380}" >
+									<f:validateLength minimum="0" maximum="50" />
+									<f:validator validatorId="LettersNumberNoSpaceValidator"/>
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1650360405380_msg" styleClass="errorContainer" ><h:message for="TextBox_1650360405380" styleClass="errorMessages TextBox_1650360405380_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1451659807505" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1453029533022}</span>
+									<h:selectOneMenu id="ComboBox_1453029533022" value="#{PersoneGiuridiche.formaGiuridica}" disabled="#{ProtocolloAction.temporary['linking']}" styleClass="comboBox" label="${msg.label_ComboBox_1453029533022}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:FormaGiuridica')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1452700078335}</span>
+									<h:inputText id="TextBox_1452700078335" value="#{PersoneGiuridiche.patritaIva}" styleClass="inputText" disabled="#{ProtocolloAction.temporary['linking']}" label="${msg.label_TextBox_1452700078335}" />
+									<a4j:outputPanel id="TextBox_1452700078335_msg" styleClass="errorContainer" ><h:message for="TextBox_1452700078335" styleClass="errorMessages TextBox_1452700078335_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1453622170576}</span>
+									<h:inputText id="MonthCalendar_1453622170576" value="#{PersoneGiuridiche.dataIscrizioneRI}" disabled="#{ProtocolloAction.temporary['linking']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1453622170576}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1453622170576" styleClass="errorMessages MonthCalendar_1453622170576_E" />
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_MonthCalendar_1452622384606}</span>
+									<h:inputText id="MonthCalendar_1452622384606" value="#{PersoneGiuridiche.dataCancellazioneRI}" disabled="#{ProtocolloAction.temporary['linking']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1452622384606}"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message style="float:left;" for="MonthCalendar_1452622384606" styleClass="errorMessages MonthCalendar_1452622384606_E" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<div class="layoutHorizontal" >
+							<label style="display:none;" >
+								<span class="label">${msg.label_MonthCalendar_1577782823547}</span>
+								<h:inputText id="MonthCalendar_1577782823547" value="#{PersoneGiuridiche.dataTermine}" rendered="false" disabled="#{ProtocolloAction.temporary['linking']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1577782823547}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);" style="display:none;"  />
+								<h:message style="float:left;" for="MonthCalendar_1577782823547" styleClass="errorMessages MonthCalendar_1577782823547_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1474011248964" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app ne 'ARPAV'}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1474011248964}</legend>
+							<div class="layoutVertical" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1474012314439;addType')}" status="ajaxStatus" id="Link_1474012314439" title="${msg.alt_Link_1474012314439}" reRender="DataGrid_1472840112769" styleClass="fa fa-plus fa-2x linkUnlink link" />
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1472840112769" layout="block" styleClass="dt layoutTable layoutVertical" style="max-height:600px;overflow:auto;" >
+								<table id="d1472840112769" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1472840112769} [TagDittaList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th>${msg.DataGridColumn_1474321584498}</th>
+											<th>${msg.DataGridColumn_1475628623226}</th>
+											<th>${msg.DataGridColumn_1475289425906}</th>
+											<th>${msg.DataGridColumn_1472868001563}</th>
+											<th>${msg.DataGridColumn_1474203994242}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TagDittaList or TagDittaList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="5">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1472840112769" value="#{TagDittaList.entities}" var="TagDitta" rowKeyVar="rowIndex" >
+											<tr >
+												<td style="width:28%;" >
+													<a4j:outputPanel layout="block" id="JollyWidget_1482941019131" >
+																								<input type="text" id="TextSuggestionBox_1472968912582_MAIN" class="autocomplete" value="#{TagDitta.tipologiaDitta.type}"  />
+																								<h:outputLabel for="TextSuggestionBox_1472968912582_CODE" style="display:none;"/>
+																								<h:inputText id="TextSuggestionBox_1472968912582_CODE" required="false" value="#{TagDitta.tipologiaDitta}"  style="display: none" label="Tipologia">
+																									<f:converter converterId="EntityConverter"/>
+																									</h:inputText>
+																								<h:message for="TextSuggestionBox_1472968912582_CODE" styleClass="errorMessages TextSuggestionBox_1472968912582_CODE_E" />
+																								<a4j:jsFunction name="TextSuggestionBox_1472968912582" action="#{TipologiaDittaAction.read()}" data="#{TipologiaDittaList.list}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+																									<a4j:actionparam name="search" assignTo="#{TipologiaDittaAction.like['type']}"/>
+																									<a4j:actionparam name="ui"/>
+																								</a4j:jsFunction>
+													</a4j:outputPanel>
+
+												</td>
+
+												<td style="width:20%;" >
+									<h:inputText id="MonthCalendar_1475610491391" value="#{TagDitta.startValidity}" class="datepicker" style="vertical-align:middle;" label="Inizio validita"  autocomplete="off" >
+										<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message for="MonthCalendar_1475610491391" styleClass="errorMessages MonthCalendar_1475610491391_E" />
+
+												</td>
+
+												<td style="width:20%;" >
+									<h:inputText id="MonthCalendar_1475349325697" value="#{TagDitta.endValidity}" class="datepicker" style="vertical-align:middle;"  autocomplete="off" >
+										<s:convertDateTime pattern="${format.dateNormal}" />
+									</h:inputText>
+									<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+									<h:message for="MonthCalendar_1475349325697" styleClass="errorMessages MonthCalendar_1475349325697_E" />
+
+												</td>
+
+												<td style="width:22%;" >
+ 
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1472464307986_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<h:inputTextarea id="TextArea_1472464307986_id" value="#{TagDitta.notes}" >
+										<f:validateLength minimum="0" maximum="2000"/>
+									</h:inputTextarea>
+									<h:message for="TextArea_1472464307986_id" styleClass="errorMessages TextArea_1472464307986_E" />
+
+												</td>
+
+												<td style="width:10%;" >
+													<a4j:commandLink action="#{TagDittaAction.injectAndProceed(TagDitta, 'Link_1472706624145;delType')}" status="ajaxStatus" id="Link_1472706624145" title="${msg.alt_Link_1472706624145}" reRender="DataGrid_1472840112769" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+					<div class="tab-2 tab-content hidden" id="LayoutRowPanelTab_1474011003886" label="${msg.LayoutRowPanelTab_1474011003886}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{not empty PersoneGiuridiche}" >
+						<a4j:outputPanel layout="block" style="padding-bottom:12px;padding:0;" id="LayoutRow_1452008979110" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not ProtocolloAction.temporary['linking']}" >
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1551356849393" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{(PersoneGiuridiche.app ne 'ARPAV' or rimPdm2CA.contains(PersoneGiuridiche)) and PersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('BtnSNew;BtnSNew')}" status="ajaxStatus" id="BtnSNew" title="${msg.alt_BtnSNew}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x popup link" />
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="margin-left: 8px;padding:0;" id="LayoutRow_1545211188405" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app eq 'ARPAV'}" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{PersoneGiuridicheAction.temporary.put('panelVisible',!PersoneGiuridicheAction.temporary.get('panelVisible'))}" status="ajaxStatus" id="Link_1545211183800" title="${msg.alt_Link_1545211183800}" reRender="LayoutRow_1508157507186,LayoutRow_1543847740558" styleClass="fa fa-eye fa-3x link link readOnly" />
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="margin-left: 8px;padding:0;" id="LayoutRow_1544180992659" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and false}" >
+								<div class="layoutHorizontal" >
+								<a4j:outputPanel layout="block" id="JollyWidget_1544185678750" style="height:100%;width:100%;" >
+									<style>
+										.visible {
+											visibility: hidden;
+											display: none;
+										}
+									</style>
+									
+									<script type="text/javascript">
+									// Commuta la visibilità delle tabelle sedi
+									
+									var target1 = jQuery("[id='i:LayoutRow_1508157507186']");
+									var target2 = jQuery("[id='i:LayoutRow_1543847740558']");
+									
+									target1.addClass('visible');
+									target2.addClass('visible');
+									
+									jQuery('#toggleVisible').on('click', function() {
+										target1.toggleClass('visible');
+										target2.toggleClass('visible');
+									});
+									
+									</script>
+									
+									<a class="fa fa-eye fa-3x link" href="#" id="toggleVisible" name="toggleVisible" onclick=""></a>
+								</a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1551360868204" >
+							<span value="${msg.Label_1551360868204}" id="Label_1551360868204_id" style="display:#{(PersoneGiuridiche.app eq 'ARPAV' and not rimPdm2CA.contains(PersoneGiuridiche)) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1551360868204}</span>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1508157507186" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridicheAction.temporary['panelVisible'] or PersoneGiuridiche.app ne 'ARPAV'}" >
+							<a4j:outputPanel id="DataGrid_1451536702251" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+								<table id="d1451536702251" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1451536702251} [SediList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1452394548614} &#8593;&#8595;</th>
+											<th class="sortableColumn">${msg.DataGridColumn_1463992516603} &#8593;&#8595;</th>
+											<th style="#{(PersoneGiuridiche.app eq 'ARPAV' ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1545231494706} &#8593;&#8595;</th>
+											<th><a4j:commandLink id="DataGridColumn_1452981104000" value="${msg.DataGridColumn_1452981104000} &#8593;&#8595;" action="#{SediList.orderBy('denominazioneUnitaLocale')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1452278631468" value="${msg.DataGridColumn_1452278631468} &#8593;&#8595;" action="#{SediList.orderBy('provinciaCCIAA')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1454289689588" value="${msg.DataGridColumn_1454289689588} &#8593;&#8595;" action="#{SediList.orderBy('numeroREA')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1450681287653" value="${msg.DataGridColumn_1450681287653} &#8593;&#8595;" action="#{SediList.orderBy('insegna')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1451769484568" value="${msg.DataGridColumn_1451769484568} &#8593;&#8595;" action="#{SediList.orderBy('addr.cty')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1450830126584" value="${msg.DataGridColumn_1450830126584} &#8593;&#8595;" action="#{SediList.orderBy('addr.str')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1451261081284" value="${msg.DataGridColumn_1451261081284} &#8593;&#8595;" action="#{SediList.orderBy('telecom.as')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1577115058271" value="${msg.DataGridColumn_1577115058271} &#8593;&#8595;" action="#{SediList.orderBy('dataCessazione')}" reRender="DataGrid_1451536702251" ajaxSingle="true" disabled="#{empty SediList ? true : false}"/></th>
+											<th class="sortableColumn">${msg.DataGridColumn_1511186693033} &#8593;&#8595;</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody selectable">
+										<jstl:if test="#{empty SediList or SediList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="12">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1451536702251" value="#{SediList.entities}" var="Sedi" rowKeyVar="rowIndex" >
+											<tr id="#{rowIndex}" onclick="ie1451536702251(this.id);" class="#{SediAction.getEntity().equals(Sedi) or Sedi.internalId != 0 and SediAction.entity.internalId.equals(Sedi.internalId) ? 'selRow' : ''}" >
+												<td style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')} " >
+													<a4j:commandLink action="#{SediAction.injectAndProceed(Sedi, 'BtnSManagement;BtnSManagement')}" status="ajaxStatus" id="BtnSManagement" title="${msg.alt_BtnSManagement}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+												<td >
+													<a4j:commandLink action="#{SediAction.inject(Sedi)}" status="ajaxStatus" id="Link_1463943020180_id" title="${msg.alt_Link_1463943020180}" rendered="#{Sedi.sedePrincipale}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+												<td style="#{(PersoneGiuridiche.app eq 'ARPAV' ? '' : 'display:none;')} " >
+													<a4j:commandLink action="#{SediAction.inject(Sedi)}" status="ajaxStatus" id="Link_1545231653934_id" alt="#{LINK}" rendered="#{Sedi.sedeAddebito}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.denominazioneUnitaLocale}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.provinciaCCIAA}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.numeroREA}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.insegna}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.addr.cty}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{function.concat(Sedi.addr.str, ' N ', Sedi.addr.bnr)}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{Sedi.telecom.as}</span>
+												</td>
+
+												<td >
+													<h:outputText styleClass="base-label" value="#{Sedi.dataCessazione}" >
+														<s:convertDateTime pattern="${format.dateNormal}" />
+													</h:outputText>
+												</td>
+
+												<td >
+													<a4j:commandLink action="#{SediAction.injectAndProceed(Sedi, 'Link_1511186735297;BtnSDel')}" status="ajaxStatus" id="Link_1511186735297_id" title="${msg.alt_Link_1511186735297}" rendered="#{Sedi.deletable}" reRender="TabbedPane_1450394712634" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							<a4j:jsFunction id="ie1451536702251" name="ie1451536702251" status="ajaxStatus" action="#{SediList.injectEject}" data="#{SediList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1451536702251'))" reRender="DataGrid_1509812148816,DataGrid_1506353739349,LayoutRow_1508157270142,LayoutRow_1508157283314" limitToList="true" ajaxSingle="true">
+								<a4j:actionparam name="rowIndex" assignTo="#{SediList.selectedIndex}"/>
+							</a4j:jsFunction>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1539863330358" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1539863333054}" class="labelContent  base-label" ></span>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1604917792848" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app eq 'ARPAV'}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1604917792848}</legend>
+							<a4j:outputPanel layout="block" id="LayoutRow_1604917809070" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1604933823459" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1604935010062;addSAE')}" status="ajaxStatus" id="Link_1604935010062" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1604933827159" style="margin-left: 8px;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{PersoneGiuridicheAction.temporary.put('saEsterneVisible',!PersoneGiuridicheAction.temporary.get('saEsterneVisible'))}" status="ajaxStatus" id="Link_1604933834039" alt="#{LINK}" reRender="LayoutRow_1604917813718" styleClass="fa fa-eye fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1604917813718" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridicheAction.temporary['saEsterneVisible']}" >
+								<a4j:outputPanel id="DataGrid_1604917885966" layout="block" styleClass="dt layoutTable layoutHorizontal" style="display:#{(!empty SAEsternaList and SAEsternaList.size() gt 0) ? 'block' : 'none' };" >
+									<table id="d1604917885966" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1604917885966} [SAEsternaList]" >
+										<thead class="tableHeader">
+											<tr>
+												<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1604917998525}</th>
+												<th><a4j:commandLink id="DataGridColumn_1604918032294" value="${msg.DataGridColumn_1604918032294} &#8593;&#8595;" action="#{SAEsternaList.orderBy('denominazioneUnitaLocale')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918094677" value="${msg.DataGridColumn_1604918094677} &#8593;&#8595;" action="#{SAEsternaList.orderBy('provinciaCCIAA')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918400582" value="${msg.DataGridColumn_1604918400582} &#8593;&#8595;" action="#{SAEsternaList.orderBy('numeroREA')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918424262" value="${msg.DataGridColumn_1604918424262} &#8593;&#8595;" action="#{SAEsternaList.orderBy('insegna')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918437853" value="${msg.DataGridColumn_1604918437853} &#8593;&#8595;" action="#{SAEsternaList.orderBy('addr.cty')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918448701" value="${msg.DataGridColumn_1604918448701} &#8593;&#8595;" action="#{SAEsternaList.orderBy('addr.str')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918464765" value="${msg.DataGridColumn_1604918464765} &#8593;&#8595;" action="#{SAEsternaList.orderBy('telecom.as')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1604918472245" value="${msg.DataGridColumn_1604918472245} &#8593;&#8595;" action="#{SAEsternaList.orderBy('dataCessazione')}" reRender="DataGrid_1604917885966" ajaxSingle="true" disabled="#{empty SAEsternaList ? true : false}"/></th>
+												<th>${msg.DataGridColumn_1604918483141}</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody">
+											<jstl:if test="#{empty SAEsternaList or SAEsternaList.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="10">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1604917885966" value="#{SAEsternaList.entities}" var="SAEsterna" rowKeyVar="rowIndex" >
+												<tr >
+													<td style="#{(false ? '' : 'display:none;')} " >
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.denominazioneUnitaLocale}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.provinciaCCIAA}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.numeroREA}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.insegna}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.addr.cty}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{function.concat(SAEsterna.addr.str, ' N ', SAEsterna.addr.bnr)}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.telecom.as}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SAEsterna.dataCessazione}</span>
+													</td>
+
+													<td >
+														<a4j:commandLink action="#{SAEsternaAction.injectAndProceed(SAEsterna, 'Link_1605011630412;delSAE')}" status="ajaxStatus" id="Link_1605011630412_id" alt="#{LINK}" rendered="#{SAEsternaAction.isUnlinkable(PersoneGiuridiche, SAEsterna)}" reRender="TabbedPane_1450394712634" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1508157270142" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and PPersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1508157270142}</legend>
+							<a4j:outputPanel layout="block" style="padding-bottom:12px;padding:0;" id="LayoutRow_1508147638274" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!empty Sedi or true}" >
+								<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1551361349636" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{rimPdm2CA.contains(PersoneGiuridiche) and PersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1507568758554;addSi')}" status="ajaxStatus" id="Link_1507568758554" title="${msg.alt_Link_1507568758554}" reRender="popup" styleClass="fa fa-plus fa-3x popup link" />
+									</div>
+
+								</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1551361350219" style="margin-left: 8px;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{PersoneGiuridicheAction.temporary.put('sediInstVisible',!PersoneGiuridicheAction.temporary.get('sediInstVisible'))}" status="ajaxStatus" id="Link_1547196343596" title="${msg.alt_Link_1547196343596}" reRender="LayoutRow_1543847740558" styleClass="fa fa-eye fa-3x link readOnly" />
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1543847740558" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridicheAction.temporary['sediInstVisible']}" >
+								<a4j:outputPanel id="DataGrid_1509812148816" layout="block" styleClass="dt layoutTable layoutHorizontal" style="display:#{(!empty SediInstallazioneList and SediInstallazioneList.size() gt 0) ? 'block' : 'none' };" >
+									<table id="d1509812148816" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1509812148816} [SediInstallazioneList]" >
+										<thead class="tableHeader">
+											<tr>
+												<th class="sortableColumn">${msg.DataGridColumn_1508161754408} &#8593;&#8595;</th>
+												<th><a4j:commandLink id="DataGridColumn_1509849025282" value="${msg.DataGridColumn_1509849025282} &#8593;&#8595;" action="#{SediInstallazioneList.orderBy('denominazione')}" reRender="DataGrid_1509812148816" ajaxSingle="true" disabled="#{empty SediInstallazioneList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1508230579150" value="${msg.DataGridColumn_1508230579150} &#8593;&#8595;" action="#{SediInstallazioneList.orderBy('addr')}" reRender="DataGrid_1509812148816" ajaxSingle="true" disabled="#{empty SediInstallazioneList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1508361257972" value="${msg.DataGridColumn_1508361257972} &#8593;&#8595;" action="#{SediInstallazioneList.orderBy('tipoSede.displayName')}" reRender="DataGrid_1509812148816" ajaxSingle="true" disabled="#{empty SediInstallazioneList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1508000568551" value="${msg.DataGridColumn_1508000568551} &#8593;&#8595;" action="#{SediInstallazioneList.orderBy('tipologiaSede.displayName')}" reRender="DataGrid_1509812148816" ajaxSingle="true" disabled="#{empty SediInstallazioneList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1511190685543} &#8593;&#8595;</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody selectable">
+											<jstl:if test="#{empty SediInstallazioneList or SediInstallazioneList.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="6">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1509812148816" value="#{SediInstallazioneList.entities}" var="SediInstallazione" rowKeyVar="rowIndex" >
+												<tr id="#{rowIndex}" onclick="ie1509812148816('row;ImpiantoPerSi',this.id);" class="#{SediInstallazioneAction.getEntity().equals(SediInstallazione) or SediInstallazione.internalId != 0 and SediInstallazioneAction.entity.internalId.equals(SediInstallazione.internalId) ? 'selRow' : ''}" >
+													<td >
+														<a4j:commandLink action="#{SediInstallazioneAction.injectAndProceed(SediInstallazione, 'Link_1508161764277;editSi')}" status="ajaxStatus" id="Link_1508161764277" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+													<td >
+														<span class="base-label" >#{SediInstallazione.denominazione}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SediInstallazione.addr}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SediInstallazione.tipoSede.displayName}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{SediInstallazione.tipologiaSede.displayName}</span>
+													</td>
+
+													<td >
+														<a4j:commandLink action="#{SediInstallazioneAction.injectAndProceed(SediInstallazione, 'Link_1511190692239;delSi')}" status="ajaxStatus" id="Link_1511190692239_id" title="${msg.alt_Link_1511190692239}" rendered="#{SediInstallazione.deletable}" reRender="TabbedPane_1450394712634" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								<a4j:jsFunction id="ie1509812148816" name="ie1509812148816" status="ajaxStatus" action="#{SediInstallazioneList.injectEject}" data="#{SediInstallazioneList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1509812148816'))" reRender="DataGrid_1506353739349,LayoutRow_1508157283314" limitToList="true" ajaxSingle="true">
+									<a4j:actionparam name="mnemonicName" assignTo="#{SediInstallazioneList.mnemonicName}"/>
+									<a4j:actionparam name="rowIndex" assignTo="#{SediInstallazioneList.selectedIndex}"/>
+								</a4j:jsFunction>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1539863346790" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1539863349190}" class="labelContent  base-label" ></span>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding-top:20px;padding:0;" id="LayoutRow_1508157283314" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and !empty SediInstallazione and empty ImpiantoAction.temporary['hideImpiantiAndVerifiche']}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1508157283314}</legend>
+							<a4j:outputPanel layout="block" style="padding-bottom:12px;padding:0;" id="LayoutRow_1506535408016" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridicheAction.temporary['stopChain'] ne true and PersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('addPerSi;BtnImpPerSi')}" status="ajaxStatus" id="addPerSi" title="${msg.alt_addPerSi}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x popup link" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:outputPanel layout="block" id="JollyWidget_1564496223304" style="height:100%;width:100%;" >
+									<script>
+									jQuery('td span[class="base-label"]').each(function() {
+										jQuery(this).text(jQuery(this).text().toUpperCase());
+									});
+									</script>
+								</a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel id="DataGrid_1506353739349" layout="block" styleClass="dt layoutTable layoutVertical" style="display:#{(!empty ImpiantoPerSiList and ImpiantoPerSiList.size() gt 0) ? 'block' : 'none' };" >
+								<table id="d1506353739349" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1506353739349} [ImpiantoPerSiList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1506401894232} &#8593;&#8595;</th>
+											<th><a4j:commandLink id="DataGridColumn_1510184912948" value="${msg.DataGridColumn_1510184912948} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy(function.getLang('code.'))}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th style="#{(false ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1508017164549" value="${msg.DataGridColumn_1508017164549} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('sedeInstallazione.sede.denominazioneUnitaLocale')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1508892663036" value="${msg.DataGridColumn_1508892663036} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('sedeInstallazione.denominazione')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1564565657272" value="${msg.DataGridColumn_1564565657272} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('sedeInstallazione.addr')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1507273158413" value="${msg.DataGridColumn_1507273158413} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('sigla')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1507380279359" value="${msg.DataGridColumn_1507380279359} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('matricola')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1507829761971" value="${msg.DataGridColumn_1507829761971} &#8593;&#8595;" action="#{ImpiantoPerSiList.orderBy('anno')}" reRender="DataGrid_1506353739349" ajaxSingle="true" disabled="#{empty ImpiantoPerSiList ? true : false}"/></th>
+											<th class="sortableColumn">${msg.DataGridColumn_1511263453367} &#8593;&#8595;</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty ImpiantoPerSiList or ImpiantoPerSiList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="9">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1506353739349" value="#{ImpiantoPerSiList.entities}" var="ImpiantoPerSi" rowKeyVar="rowIndex" >
+											<tr >
+												<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')} " >
+													<a4j:commandLink action="#{ImpiantoPerSiAction.injectAndProceed(ImpiantoPerSi, 'mngPerSi;BtnImpPerSi')}" status="ajaxStatus" id="mngPerSi" title="${msg.alt_mngPerSi}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" />
+
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.code.currentTranslation}</span>
+												</td>
+
+												<td style="#{(false ? '' : 'display:none;')} " >
+													<span class="base-label" >#{ImpiantoPerSi.sedeInstallazione.sede.denominazioneUnitaLocale}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.sedeInstallazione.denominazione}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.sedeInstallazione.addr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.sigla}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.matricola}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{ImpiantoPerSi.anno}</span>
+												</td>
+
+												<td >
+													<a4j:commandLink action="#{ImpiantoPerSiAction.injectAndProceed(ImpiantoPerSi, 'del2;BtnImp')}" status="ajaxStatus" id="del2_id" title="${msg.alt_del2}" rendered="#{ImpiantoAction.isDeletable(ImpiantoPerSi)}" reRender="popup,phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+					<div class="tab-3 tab-content hidden" id="LayoutRowPanelTab_1474297850355" label="${msg.LayoutRowPanelTab_1474297850355}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{PersoneGiuridiche.app ne 'ARPAV'}" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1507722896556" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1473610272797" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1473610272797;addAttivita')}" status="ajaxStatus" id="Link_1473610272797_id" title="${msg.alt_Link_1473610272797}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="DataGrid_1475098639271" styleClass="fa fa-plus fa-3x linkUnlink link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel id="DataGrid_1475098639271" layout="block" styleClass="dt layoutTable layoutVertical" >
+							<table id="d1475098639271" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1475098639271} [AttivitaIstatList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th>${msg.DataGridColumn_1474867509306}</th>
+										<th><a4j:commandLink id="DataGridColumn_1473636998937" value="${msg.DataGridColumn_1473636998937} &#8593;&#8595;" action="#{AttivitaIstatList.orderBy('cfonte')}" reRender="DataGrid_1475098639271" ajaxSingle="true" disabled="#{empty AttivitaIstatList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1475557656756" value="${msg.DataGridColumn_1475557656756} &#8593;&#8595;" action="#{AttivitaIstatList.orderBy('importanza')}" reRender="DataGrid_1475098639271" ajaxSingle="true" disabled="#{empty AttivitaIstatList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1475266616179" value="${msg.DataGridColumn_1475266616179} &#8593;&#8595;" action="#{AttivitaIstatList.orderBy('dataInizioAttivita')}" reRender="DataGrid_1475098639271" ajaxSingle="true" disabled="#{empty AttivitaIstatList ? true : false}"/></th>
+										<th style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')}">${msg.DataGridColumn_1472422220368}</th>
+									</tr>
+								</thead>
+								<tbody class="tableBody">
+									<jstl:if test="#{empty AttivitaIstatList or AttivitaIstatList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="5">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1475098639271" value="#{AttivitaIstatList.entities}" var="AttivitaIstat" rowKeyVar="rowIndex" >
+										<tr >
+											<td style="width:60%;" >
+												<h:inputText id="TextBox_1476143372330" value="#{AttivitaIstat.code.code}" style="min-width:100px;width:100px;float: left;margin-right: 10px;" disabled="true" />
+												<a4j:outputPanel id="TextBox_1476143372330_msg" styleClass="errorContainer" ><h:message for="TextBox_1476143372330" styleClass="errorMessages TextBox_1476143372330_E" /></a4j:outputPanel>
+
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1475942859022_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<h:inputTextarea id="TextArea_1475942859022_id" value="#{AttivitaIstat.code.langIt}" style="height:70px;width:60%;float:left;margin-right: 10px;" readonly="true" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message for="TextArea_1475942859022_id" styleClass="errorMessages TextArea_1475942859022_E" />
+
+												<a4j:commandLink action="#{AttivitaIstatAction.injectAndProceed(AttivitaIstat, 'Link_1476284191756;attivita')}" status="ajaxStatus" id="Link_1476284191756" alt="#{LINK}" style="margin-right: 10px;" immediate="true" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink tableButton" />
+
+												<a4j:commandLink action="#{AttivitaIstat.setCode(null)}" status="ajaxStatus" id="Link_1472612011842" title="${msg.alt_Link_1472612011842}" reRender="DataGrid_1475098639271" styleClass="fa fa-eraser fa-2x linkUnlink tableButton" />
+
+											</td>
+
+											<td style="width:10%;" >
+								<h:selectOneMenu id="ComboBox_1473822569465" value="#{AttivitaIstat.cfonte}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:CodiceFonte')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+
+											</td>
+
+											<td style="width:10%;" >
+								<h:selectOneMenu id="ComboBox_1475377565583" value="#{AttivitaIstat.importanza}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Importanza')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+
+											</td>
+
+											<td style="width:10%;" >
+								<h:inputText id="MonthCalendar_1475997148362" value="#{AttivitaIstat.dataInizioAttivita}" class="datepicker" style="vertical-align:middle;"  autocomplete="off" >
+									<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message for="MonthCalendar_1475997148362" styleClass="errorMessages MonthCalendar_1475997148362_E" />
+
+											</td>
+
+											<td style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')} width:10%;" >
+												<a4j:commandLink action="#{AttivitaIstatAction.injectAndProceed(AttivitaIstat, 'Link_1474639710130;delAttivita')}" status="ajaxStatus" id="Link_1474639710130" title="${msg.alt_Link_1474639710130}" reRender="DataGrid_1475098639271" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+					<div class="tab-4 tab-content hidden" id="LayoutRowPanelTab_1507207601451" label="${msg.LayoutRowPanelTab_1507207601451}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and false}" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1508164119222" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="padding-bottom:12px;padding:0;" id="LayoutRow_1505133302441" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not ProtocolloAction.temporary['linking']}" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1505675469778;addSedeAddebito')}" status="ajaxStatus" id="Link_1505675469778" title="${msg.alt_Link_1505675469778}" reRender="popup,phiDesktop" styleClass="fa fa-plus fa-3x popup link" />
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel id="DataGrid_1507872624729" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1507872624729" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1507872624729} [SediAddebitoList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1505285493903} &#8593;&#8595;</th>
+											<th><a4j:commandLink id="DataGridColumn_1509108384190" value="${msg.DataGridColumn_1509108384190} &#8593;&#8595;" action="#{SediAddebitoList.orderBy('denominazione')}" reRender="DataGrid_1507872624729" ajaxSingle="true" disabled="#{empty SediAddebitoList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1507835509859" value="${msg.DataGridColumn_1507835509859} &#8593;&#8595;" action="#{SediAddebitoList.orderBy('addr.cty')}" reRender="DataGrid_1507872624729" ajaxSingle="true" disabled="#{empty SediAddebitoList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1507681769104" value="${msg.DataGridColumn_1507681769104} &#8593;&#8595;" action="#{SediAddebitoList.orderBy('addr.str')}" reRender="DataGrid_1507872624729" ajaxSingle="true" disabled="#{empty SediAddebitoList ? true : false}"/></th>
+											<th class="sortableColumn">${msg.DataGridColumn_1511255715648} &#8593;&#8595;</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody selectable">
+										<jstl:if test="#{empty SediAddebitoList or SediAddebitoList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="5">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1507872624729" value="#{SediAddebitoList.entities}" var="SediAddebito" rowKeyVar="rowIndex" >
+											<tr id="#{rowIndex}" onclick="ie1507872624729('row;IndPerSa',this.id);" class="#{SediAddebitoAction.getEntity().equals(SediAddebito) or SediAddebito.internalId != 0 and SediAddebitoAction.entity.internalId.equals(SediAddebito.internalId) ? 'selRow' : ''}" >
+												<td style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')} width:1%;" >
+													<a4j:commandLink action="#{SediAddebitoAction.injectAndProceed(SediAddebito, 'Link_1507262995543;editSedeAddebito')}" status="ajaxStatus" id="Link_1507262995543" title="${msg.alt_Link_1507262995543}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+												<td style="width:3%;" >
+													<span class="base-label" >#{SediAddebito.denominazione}</span>
+												</td>
+
+												<td style="width:2%;" >
+													<span class="base-label" >#{SediAddebito.addr.cty}</span>
+												</td>
+
+												<td style="width:3%;" >
+													<span class="base-label" >#{function.concat(SediAddebito.addr.str, ' N ', SediAddebito.addr.bnr)}</span>
+												</td>
+
+												<td style="width:1%;" >
+													<a4j:commandLink action="#{SediAddebitoAction.injectAndProceed(SediAddebito, 'Link_1511255722296;delSedeAddebito')}" status="ajaxStatus" id="Link_1511255722296_id" title="${msg.alt_Link_1511255722296}" rendered="#{SediAddebitoAction.isDeletable(SediAddebito)}" reRender="TabbedPane_1450394712634" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							<a4j:jsFunction id="ie1507872624729" name="ie1507872624729" status="ajaxStatus" action="#{SediAddebitoList.injectEject}" data="#{SediAddebitoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1507872624729'))" reRender="LayoutRow_1507983688604" limitToList="true" ajaxSingle="true">
+								<a4j:actionparam name="mnemonicName" assignTo="#{SediAddebitoList.mnemonicName}"/>
+								<a4j:actionparam name="rowIndex" assignTo="#{SediAddebitoList.selectedIndex}"/>
+							</a4j:jsFunction>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1507983688604" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty SediAddebito}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1507983688604}</legend>
+							<a4j:outputPanel id="DataGrid_1506630807127" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1506630807127" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1506630807127} [IndirizzoSpedPerSAList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1508359174153} &#8593;&#8595;</th>
+											<th class="sortableColumn">${msg.DataGridColumn_1508383008976} &#8593;&#8595;</th>
+											<th><a4j:commandLink id="DataGridColumn_1507407888541" value="${msg.DataGridColumn_1507407888541} &#8593;&#8595;" action="#{IndirizzoSpedPerSAList.orderBy('denominazione')}" reRender="DataGrid_1506630807127" ajaxSingle="true" disabled="#{empty IndirizzoSpedPerSAList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1510215783712" value="${msg.DataGridColumn_1510215783712} &#8593;&#8595;" action="#{IndirizzoSpedPerSAList.orderBy('addr')}" reRender="DataGrid_1506630807127" ajaxSingle="true" disabled="#{empty IndirizzoSpedPerSAList ? true : false}"/></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty IndirizzoSpedPerSAList or IndirizzoSpedPerSAList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="4">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1506630807127" value="#{IndirizzoSpedPerSAList.entities}" var="IndirizzoSpedPerSA" rowKeyVar="rowIndex" >
+											<tr >
+												<td style="#{(not ProtocolloAction.temporary['linking'] ? '' : 'display:none;')} width:-1000%;" >
+													<a4j:commandLink action="#{IndirizzoSpedPerSAAction.injectAndProceed(IndirizzoSpedPerSA, 'Link_1508710949897;editSped')}" status="ajaxStatus" id="Link_1508710949897" title="${msg.alt_Link_1508710949897}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+												</td>
+
+												<td >
+													<a4j:commandLink action="#{IndirizzoSpedPerSAAction.inject(IndirizzoSpedPerSA)}" status="ajaxStatus" id="Link_1507563366590_id" title="${msg.alt_Link_1507563366590}" rendered="#{!empty SediAddebito.indirizzoSpedPrinc and SediAddebito.indirizzoSpedPrinc.internalId eq IndirizzoSpedPerSA.internalId}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" />
+
+													<a4j:commandLink action="#{IndirizzoSpedPerSAAction.injectAndProceed(IndirizzoSpedPerSA, 'Link_1508169804081;setPrimary')}" status="ajaxStatus" id="Link_1508169804081_id" alt="#{LINK}" style="color: #dedede" rendered="#{empty SediAddebito.indirizzoSpedPrinc or SediAddebito.indirizzoSpedPrinc.internalId ne IndirizzoSpedPerSA.internalId}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" />
+
+												</td>
+
+												<td >
+													<span class="base-label" >#{IndirizzoSpedPerSA.denominazione}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{IndirizzoSpedPerSA.addr}</span>
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+					<div class="tab-5 tab-content hidden" id="LayoutRowPanelTab_1507208100734" label="${msg.LayoutRowPanelTab_1507208100734}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and PersoneGiuridicheAction.notInception}" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1507276266526" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="add" >
+							<a4j:commandLink action="#{processManager.manageTask('add;BtnImp')}" status="ajaxStatus" id="add_id" title="${msg.alt_add}" rendered="#{PersonaGiuridicaArpavAction.temporary['stopChain'] ne true and PersonaGiuridicaArpavAction.temporary['stopPgChain'] ne true}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnImpSellMulti" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnImpSellMulti;BtnImpSellMulti')}" status="ajaxStatus" id="BtnImpSellMulti_id" title="${msg.alt_BtnImpSellMulti}" rendered="#{not empty function.propertyAsList(ImpiantoList.list,'isNew') and function.propertyAsList(ImpiantoList.list,'isNew').contains(true)}" reRender="phiDesktop" styleClass="cessione link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1539861976225" styleClass="layoutContainer layoutContainerVertical padding-bottom:20px;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1545146882689" styleClass="layoutContainer layoutContainerVertical" rendered="false" >
+								<a4j:outputPanel id="DataGrid_1508648018420" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+									<table id="d1508648018420" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1508648018420} [ImpiantoList]" >
+										<thead class="tableHeader">
+											<tr>
+												<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">${msg.DataGridColumn_1505938612167}</th>
+												<th><a4j:commandLink id="DataGridColumn_1507045991035" value="${msg.DataGridColumn_1507045991035} &#8593;&#8595;" action="#{ImpiantoList.orderBy(function.getLang('code.'))}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1507722020183} &#8593;&#8595;</th>
+												<th><a4j:commandLink id="DataGridColumn_1507722119437" value="${msg.DataGridColumn_1507722119437} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.denominazione')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1507969980971" value="${msg.DataGridColumn_1507969980971} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sigla')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1506901708364" value="${msg.DataGridColumn_1506901708364} &#8593;&#8595;" action="#{ImpiantoList.orderBy('matricola')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1509028165053" value="${msg.DataGridColumn_1509028165053} &#8593;&#8595;" action="#{ImpiantoList.orderBy('anno')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1542374586207} &#8593;&#8595;</th>
+												<th><a4j:commandLink id="DataGridColumn_1540217546169" value="${msg.DataGridColumn_1540217546169} &#8593;&#8595;" action="#{ImpiantoList.orderBy('isNew')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1507454687824} &#8593;&#8595;</th>
+												<th style="#{(true ? '' : 'display:none;')}">${msg.DataGridColumn_1542645287876}</th>
+												<th><a4j:commandLink id="DataGridColumn_1564126399045" value="${msg.DataGridColumn_1564126399045} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.addr')}" reRender="DataGrid_1508648018420" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+											</tr>
+										</thead>
+										<tbody class="tableBody">
+											<jstl:if test="#{empty ImpiantoList or ImpiantoList.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="12">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1508648018420" value="#{ImpiantoList.entities}" var="Impianto" rowKeyVar="rowIndex" >
+												<tr >
+													<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')} " >
+														<a4j:commandLink action="#{ImpiantoAction.injectAndProceed(Impianto, 'mng;BtnImp')}" status="ajaxStatus" id="mng" title="${msg.alt_mng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.code.currentTranslation}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.sedeInstallazione.sede.denominazioneUnitaLocale ne 'Solo installazione impianti' ? Impianto.sedeInstallazione.sede.denominazioneUnitaLocale : ''}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.sedeInstallazione.denominazione}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.sigla}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.matricola}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.anno}</span>
+													</td>
+
+													<td >
+														<h:outputText styleClass="base-label" value="#{ImpiantoAction.getDataAcquisizione(Impianto, PersoneGiuridiche)}" >
+															<s:convertDateTime pattern="${format.dateNormal}" />
+														</h:outputText>
+													</td>
+
+													<td >
+										<h:selectBooleanCheckbox id="CheckBox_1540217687376" value="#{Impianto.isNew}" style="vertical-align:middle;" alt="CHECKBOX" >
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1507276266526" event="onchange" ignoreDupResponses="true" />
+										</h:selectBooleanCheckbox>
+										<h:message for="CheckBox_1540217687376" styleClass="errorMessages CheckBox_1540217687376_E" />
+										<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1540217687376" style="display:none;" value="hiddenLabel"></h:outputLabel>
+													</td>
+
+													<td >
+														<a4j:commandLink action="#{ImpiantoAction.injectAndProceed(Impianto, 'del;BtnImp')}" status="ajaxStatus" id="del_id" title="${msg.alt_del}" rendered="#{ImpiantoAction.isDeletable(Impianto)}" reRender="TabbedPane_1450394712634" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+													</td>
+
+													<td style="#{(true ? '' : 'display:none;')} " >
+														<a4j:outputPanel layout="block" id="JollyWidget_1542624265687" >
+															<script type="text/javascript">
+															//console.log(jQuery('td:has(input[type=checkbox])')[0]);
+															
+															function toggleAll(ch){
+																	jQuery('td input[type=checkbox]').each(function() {
+																		jQuery(this).prop('checked', ch.checked);
+																		jQuery(this).trigger('onchange');
+																	});
+															}
+															</script>
+															
+															<div class="layoutHorizontal" >
+																<h:selectBooleanCheckbox id="CheckBox_1542623863010" onclick="toggleAll(this)" reRender="BtnImpSellMulti" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="" />
+																<h:outputLabel value="" for="CheckBox_1542623863010" style="vertical-align:middle;margin-left:3px;" />
+																<h:message for="CheckBox_1542623863010" styleClass="errorMessages CheckBox_1542623863010_E" />
+															</div>
+														</a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<span class="base-label" >#{Impianto.sedeInstallazione.addr}</span>
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1545146893562" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<a4j:outputPanel layout="block" id="JollyWidget_1545145247940" style="height:100%;width:100%;" >
+									<script type="text/javascript">
+									//console.log(jQuery('td:has(input[type=checkbox])')[0]);
+									
+									function toggleAll(ch){
+											jQuery('td[class="selectAll"] input[type=checkbox]').each(function() {
+												jQuery(this).prop('checked', ch.checked);
+												jQuery(this).trigger('onchange');
+											});
+									}
+									</script>
+									
+															<a4j:outputPanel id="DataGrid_1543821198131" layout="block" styleClass="dt layoutTable layoutVertical" >
+																<table id="d1543821198131" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1543821198131} [ImpiantoList]" >
+																	<thead class="tableHeader">
+																		<tr>
+																			<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">${msg.DataGridColumn_1544827509061}</th>
+																			<th><a4j:commandLink id="DataGridColumn_1546552271053" value="${msg.DataGridColumn_1546552271053} &#8593;&#8595;" action="#{ImpiantoList.orderBy(function.getLang('code.'))}" reRender="DataGrid_1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									
+																			<th><a4j:commandLink id="DataGridColumn_1544223684344" value="${msg.DataGridColumn_1544223684344} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.denominazione')}" reRender="DataGrid_1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+																			<th><a4j:commandLink id="DataGridColumn_1564126895201" value="${msg.DataGridColumn_1564126895201} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.addr')}" reRender="DataGrid__1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+																			<th><a4j:commandLink id="DataGridColumn_1543201083675" value="${msg.DataGridColumn_1543201083675} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sigla')}" reRender="DataGrid_1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+																			<th><a4j:commandLink id="DataGridColumn_1546046913747" value="${msg.DataGridColumn_1546046913747} &#8593;&#8595;" action="#{ImpiantoList.orderBy('matricola')}" reRender="DataGrid_1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+																			<th><a4j:commandLink id="DataGridColumn_1545435227037" value="${msg.DataGridColumn_1545435227037} &#8593;&#8595;" action="#{ImpiantoList.orderBy('anno')}" reRender="DataGrid_1543821198131" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+																			<th class="sortableColumn">${msg.DataGridColumn_1544925498696} &#8593;&#8595;</th>
+																			<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}"><h:selectBooleanCheckbox id="CheckBox_1542623863011" onclick="toggleAll(this)" reRender="BtnImpSellMulti" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="" />  Cessione</th>
+																			<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">${msg.DataGridColumn_1546660485359}</th>
+																		</tr>
+																	</thead>
+																	<tbody class="tableBody">
+																		<jstl:if test="#{empty ImpiantoList or ImpiantoList.isEmpty()}">
+																			<tr class="noresults">
+																				<td colspan="10">${error.emtpy_search_for_table}</td>
+																			</tr>
+																		</jstl:if>
+																		<a4j:repeat id="r1543821198131" value="#{ImpiantoList.entities}" var="Impianto" rowKeyVar="rowIndex" >
+																			<tr >
+																				<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">
+																					<a4j:commandLink action="#{ImpiantoAction.injectAndProceed(Impianto, 'mng;BtnImp')}" status="ajaxStatus" id="mngg_id" title="${msg.alt_mng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton readOnly" />
+									
+																				</td>
+									
+																				<td >
+																					<span class="base-label" >#{Impianto.code.currentTranslation}</span>
+																				</td>
+									
+																				<td >
+																					<span class="base-label" >#{Impianto.sedeInstallazione.denominazione}</span>
+																				</td>
+									
+																						<td >
+																							<span class="base-label" >#{Impianto.sedeInstallazione.addr}</span>
+																						</td>
+									
+																				<td >
+																					<span class="base-label" >#{Impianto.sigla}</span>
+																				</td>
+									
+																				<td >
+																					<span class="base-label" >#{Impianto.matricola}</span>
+																				</td>
+									
+																				<td >
+																					<span class="base-label" >#{Impianto.anno}</span>
+																				</td>
+									
+																				<td >
+																					<h:outputText styleClass="base-label" value="#{ImpiantoAction.getDataAcquisizione(Impianto, PersoneGiuridiche)}" >
+																						<s:convertDateTime pattern="${format.dateNormal}" />
+																					</h:outputText>
+																				</td>
+									
+																				<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}" class="selectAll">
+																	<h:selectBooleanCheckbox id="CheckBox_1546974797883" value="#{Impianto.isNew}" style="vertical-align:middle;" alt="CHECKBOX" >
+																		<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1507276266526" event="onchange" ignoreDupResponses="true" />
+																	</h:selectBooleanCheckbox>
+																	<h:message for="CheckBox_1546974797883" styleClass="errorMessages CheckBox_1546974797883_E" />
+																	<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1546974797883" style="display:none;" value="hiddenLabel"></h:outputLabel>
+																				</td>
+									
+																				<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">
+																					<a4j:commandLink action="#{ImpiantoAction.injectAndProceed(Impianto, 'del;BtnImp')}" status="ajaxStatus" id="dell_id" title="${msg.alt_del}" rendered="#{ImpiantoAction.isDeletable(Impianto)}" reRender="popup,phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+									
+																				</td>
+									
+																			</tr>
+																		</a4j:repeat>
+																	</tbody>
+																</table>
+															</a4j:outputPanel>
+									
+								</a4j:outputPanel>
+								</div>
+
+								<a4j:outputPanel layout="block" id="LayoutRow_1545292695768" styleClass="layoutContainer layoutContainerVertical" rendered="false" >
+									<div class="layoutHorizontal" >
+									<a4j:outputPanel layout="block" id="JollyWidget_1545293670261" style="height:100%;width:100%;" >
+										//1- Script che precede la tabella
+										
+										<script type="text/javascript">
+										//console.log(jQuery('td:has(input[type=checkbox])')[0]);
+										
+										function toggleAll(ch){
+												jQuery('td[class="selectAll"] input[type=checkbox]').each(function() {
+													jQuery(this).prop('checked', ch.checked);
+													jQuery(this).trigger('onchange');
+												});
+										}
+										</script>
+										
+										// 2- Intestazione della colonna cessioni con check-box seleziona tutti
+										
+										<th><h:selectBooleanCheckbox id="CheckBox_1542623863012" onclick="toggleAll(this)" reRender="BtnImpSellMulti" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="" />  Cessione</th>
+										
+										// 3- Corpo della colonna cessioni. Da notare la classe selectAll che viene richiamata nello script
+										
+																					<td class="selectAll">
+																		<h:selectBooleanCheckbox id="CheckBox_1546974797883" value="#{Impianto.isNew}" style="vertical-align:middle;" alt="CHECKBOX" >
+																			<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1507276266526" event="onchange" ignoreDupResponses="true" />
+																		</h:selectBooleanCheckbox>
+																		<h:message for="CheckBox_1546974797883" styleClass="errorMessages CheckBox_1546974797883_E" />
+																		<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1546974797883" style="display:none;" value="hiddenLabel"></h:outputLabel>
+																					</td>
+										
+									</a4j:outputPanel>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1539863217783" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1539863224486}" class="labelContent  base-label" ></span>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1539859757325" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{CessioneImpList.size()>0}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1539859757325}</legend>
+							<a4j:outputPanel id="DataGrid_1539862713443" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1539862713443" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1539862713443} [CessioneImpList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th class="sortableColumn">${msg.DataGridColumn_1539862726747} &#8593;&#8595;</th>
+											<th><a4j:commandLink id="DataGridColumn_1539862728643" value="${msg.DataGridColumn_1539862728643} &#8593;&#8595;" action="#{CessioneImpList.orderBy('personaGiuridica.denominazione')}" reRender="DataGrid_1539862713443" ajaxSingle="true" disabled="#{empty CessioneImpList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1539865877801" value="${msg.DataGridColumn_1539865877801} &#8593;&#8595;" action="#{CessioneImpList.orderBy('sediInstallazione.denominazione')}" reRender="DataGrid_1539862713443" ajaxSingle="true" disabled="#{empty CessioneImpList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1539862729371" value="${msg.DataGridColumn_1539862729371} &#8593;&#8595;" action="#{CessioneImpList.orderBy('dataCessione')}" reRender="DataGrid_1539862713443" ajaxSingle="true" disabled="#{empty CessioneImpList ? true : false}"/></th>
+											<th class="sortableColumn">${msg.DataGridColumn_1539862730122} &#8593;&#8595;</th>
+											<th style="#{(false ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1539862730715} &#8593;&#8595;</th>
+											<th class="sortableColumn">${msg.DataGridColumn_1539862731403} &#8593;&#8595;</th>
+											<th class="sortableColumn">${msg.DataGridColumn_1539862731994} &#8593;&#8595;</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty CessioneImpList or CessioneImpList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="8">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1539862713443" value="#{CessioneImpList.entities}" var="CessioneImp" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{CessioneImpAction.getTipo(CessioneImp)}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{CessioneImp.personaGiuridica.denominazione}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{CessioneImp.sediInstallazione.denominazione}</span>
+												</td>
+
+												<td >
+													<h:outputText styleClass="base-label" value="#{CessioneImp.dataCessione}" >
+														<s:convertDateTime pattern="${format.dateNormal}" />
+													</h:outputText>
+												</td>
+
+												<td >
+													<span class="base-label" >#{CessioneImpAction.getSigla(CessioneImp)}</span>
+												</td>
+
+												<td style="#{(false ? '' : 'display:none;')} " >
+													<span class="base-label" >#{CessioneImpAction.getSottotipo(CessioneImp)}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{CessioneImpAction.getMatricola(CessioneImp)}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{CessioneImpAction.getAnno(CessioneImp)}</span>
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+					<div class="tab-6 tab-content hidden" id="LayoutRowPanelTab_1520515300560" label="${msg.LayoutRowPanelTab_1520515300560}" >
+					<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{PersoneGiuridiche.app eq 'ARPAV' and PersoneGiuridicheAction.notInception}" >
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1520515335656" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridicheAction.temporary['stopChain'] ne true}" >
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('addAddPG;BtnAddAnag')}" status="ajaxStatus" id="addAddPG" title="${msg.alt_addAddPG}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel id="DataGrid_1522309032613" layout="block" styleClass="dt layoutTable layoutVertical" >#{AddebitoAction.setReadPageSize(20)}
+									<div class="paging">
+										<ul>
+											<li class="bk"><a4j:commandLink id="prev1522309032613" value="&#8592;" action="#{AddebitoList.prev}" reRender="DataGrid_1522309032613" rendered="#{AddebitoList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+											<a4j:repeat id="pr1522309032613" value="#{AddebitoList.pageIndexes}" var="pi1522309032613">
+												<li class="#{(AddebitoList.currentPage eq pi1522309032613 ? 'active' : '')}">
+													<a4j:commandLink id="goTo1522309032613" value="#{pi1522309032613}" action="#{AddebitoList.goToPage(pi1522309032613)}" reRender="DataGrid_1522309032613" ajaxSingle="true" status="ajaxStatus" />
+												</li>
+											</a4j:repeat>
+											<li class="fw"><a4j:commandLink id="next1522309032613" value="&#8594;" action="#{AddebitoList.next}" reRender="DataGrid_1522309032613" rendered="#{AddebitoList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+										</ul>
+									</div>
+							<table id="d1522309032613" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1522309032613} [AddebitoList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">${msg.DataGridColumn_1519869938417}</th>
+										<th>${msg.DataGridColumn_1521772992057}</th>
+										<th><a4j:commandLink id="DataGridColumn_1520021824144" value="${msg.DataGridColumn_1520021824144} &#8593;&#8595;" action="#{AddebitoList.orderBy('data')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1520457515642" value="${msg.DataGridColumn_1520457515642} &#8593;&#8595;" action="#{AddebitoList.orderBy('impType')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1520606113871" value="${msg.DataGridColumn_1520606113871} &#8593;&#8595;" action="#{AddebitoList.orderBy('sigla')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1520814418290" value="${msg.DataGridColumn_1520814418290} &#8593;&#8595;" action="#{AddebitoList.orderBy('note')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1522129951849" value="${msg.DataGridColumn_1522129951849} &#8593;&#8595;" action="#{AddebitoList.orderBy('operatore.name')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1520098959462" value="${msg.DataGridColumn_1520098959462} &#8593;&#8595;" action="#{AddebitoList.orderBy('importo')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1521732403006" value="${msg.DataGridColumn_1521732403006} &#8593;&#8595;" action="#{AddebitoList.orderBy('impSearchCollector.denominazioneSI')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1520540983388" value="${msg.DataGridColumn_1520540983388} &#8593;&#8595;" action="#{AddebitoList.orderBy('impSearchCollector.denominazioneSA')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1519958707516" value="${msg.DataGridColumn_1519958707516} &#8593;&#8595;" action="#{AddebitoList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1522309032613" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+										<th style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')}">${msg.DataGridColumn_1519512427610}</th>
+									</tr>
+								</thead>
+								<tbody class="tableBody selectable">
+									<jstl:if test="#{empty AddebitoList or AddebitoList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="12">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1522309032613" value="#{AddebitoList.entities}" var="Addebito" rowKeyVar="rowIndex" >
+										<tr id="#{rowIndex}" onclick="ie1522309032613(this.id);" class="#{AddebitoAction.getEntity().equals(Addebito) or Addebito.internalId != 0 and AddebitoAction.entity.internalId.equals(Addebito.internalId) ? 'selRow' : ''}" >
+											<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')} " >
+												<a4j:commandLink action="#{AddebitoAction.injectAndProceed(Addebito, 'addMngPG;BtnAddAnag')}" status="ajaxStatus" id="addMngPG" title="${msg.alt_addMngPG}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+											</td>
+
+											<td >
+												<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1519885063006_id" title="${msg.alt_Link_1519885063006}" style="color: red;" rendered="#{Addebito.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+												<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1520092111150_id" title="${msg.alt_Link_1520092111150}" style="color: green;" rendered="#{Addebito.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+												<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1519809285813_id" title="${msg.alt_Link_1519809285813}" style="color: GoldenRod;" rendered="#{Addebito.statusCode.code=='verified'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+											</td>
+
+											<td >
+												<h:outputText styleClass="base-label" value="#{Addebito.data}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.impType}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{function.concat(Addebito.sigla, '/', Addebito.matricola, '/', Addebito.anno)}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.note}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.operatore.name}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.importo}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.impSearchCollector.denominazioneSI}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.impSearchCollector.denominazioneSA}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Addebito.serviceDeliveryLocation.name.giv}</span>
+											</td>
+
+											<td style="#{(PersoneGiuridicheAction.temporary['stopChain'] ne true ? '' : 'display:none;')} " >
+												<a4j:commandLink action="#{AddebitoAction.injectAndProceed(Addebito, 'addDelPG;BtnAddAnag')}" status="ajaxStatus" id="addDelPG_id" title="${msg.alt_addDelPG}" rendered="#{Addebito.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						<a4j:jsFunction id="ie1522309032613" name="ie1522309032613" status="ajaxStatus" action="#{AddebitoList.injectEject}" data="#{AddebitoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1522309032613'))" reRender="BtnGestAddAlfrescoDocEdit" limitToList="true" ajaxSingle="true">
+							<a4j:actionparam name="rowIndex" assignTo="#{AddebitoList.selectedIndex}"/>
+						</a4j:jsFunction>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div style="clear: both;"></div>
+					</div>
+				</a4j:outputPanel>
+				</div>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

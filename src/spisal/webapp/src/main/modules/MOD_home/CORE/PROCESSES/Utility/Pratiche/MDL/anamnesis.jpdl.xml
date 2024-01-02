@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fattoriRischio">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{button.value}">
+		<transition to="inject fattori rischio" name="EditAnamnesis"></transition>
+		<transition to="delete" name="DelAnamnesis"></transition>
+		<transition to="new Anamnesis" name="NewAnamnesis"></transition>
+	</decision>
+
+	<node name="eject and reRead">
+		<event type="node-enter">
+			<action name="1" expression="#{AnamnesisMdlAction.injectList(MedicinaLavoro.anamnesisMdl)}"></action>
+			<action name="2" expression="#{AnamnesisMdlList.orderBy('startValidity','descending')}"></action>
+			<action name="3" expression="#{FattoreRischioAction.injectList(MedicinaLavoro.fattoreRischio)}"></action>
+			<action name="4" expression="#{FattoreRischioList.orderBy('startValidity','descending')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="link anamnesis">
+		<event type="node-enter">
+			<action name="1" expression="#{MedicinaLavoro.addAnamnesisMdl(AnamnesisMdl)}"></action>
+			<action name="2" expression="#{AnamnesisMdl.setMedicinaLavoro(MedicinaLavoro)}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<task-node name="edit anamnesis">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/anamnesisMdl')}"></action>
+		</event>
+		<transition to="next from edit?"></transition>
+	</task-node>
+
+	<decision name="next from edit?" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="BtnBack"></transition>
+		<transition to="link anamnesis" name="BtnSave"></transition>
+		<transition to="operations" name="operation"></transition>
+		<transition to="fattori rischio lav" name="NewFattoreLav"></transition>
+		<transition to="fattori rischio lav" name="EditFattoreLav"></transition>
+		<transition to="fattori rischio lav" name="DelFattoreLav"></transition>
+		<transition to="inject comparto" name="editComparto"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{rimPdm2CA.contains(AnamnesisMdl) and not empty AnamnesisMdl.medicinaLavoro ? AnamnesisMdlAction.refresh() : AnamnesisMdlAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<node name="delete">
+		<event type="node-enter">
+			<action name="1" expression="#{MedicinaLavoroAction.unLink('anamnesisMdl',AnamnesisMdl)}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<node name="new Anamnesis">
+		<event type="node-enter">
+			<action name="1" expression="#{AnamnesisMdlAction.inject(AnamnesisMdlAction.newEntity())}"></action>
+		</event>
+		<transition to="inject fattori rischio"></transition>
+	</node>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="edit anamnesis"></transition>
+	</process-state>
+
+	<process-state name="fattori rischio lav">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MDL/fattoriRischioLav" binding="late"></sub-process>
+		<transition to="edit anamnesis"></transition>
+	</process-state>
+
+	<node name="inject fattori rischio">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.injectList(AnamnesisMdl.fattoreRischio)}"></action>
+			<action name="2" expression="#{FattoreRischioList.orderBy('startValidity','descending')}"></action>
+		</event>
+		<transition to="edit anamnesis"></transition>
+	</node>
+
+	<node name="inject comparto">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(AnamnesisMdl.comparto)}"></action>
+		</event>
+		<transition to="select ateco ui"></transition>
+	</node>
+
+	<process-state name="select ateco ui">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set comparto"></transition>
+	</process-state>
+
+	<node name="set comparto">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? AnamnesisMdl.setComparto(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="edit anamnesis"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

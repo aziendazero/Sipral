@@ -1,0 +1,139 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1557604531092}</h1>
+	<div id="costo_diretto" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1560839636875" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1558524828625" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1559303473648;BtnBack')}" status="ajaxStatus" id="Link_1559303473648" title="${msg.alt_Link_1559303473648}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1558799997820" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1558799997820;BtnSave')}" status="ajaxStatus" id="Link_1558799997820_id" title="${msg.alt_Link_1558799997820}" rendered="#{CostoIndiretto.serviceDeliveryLocation ne null}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1558650132492" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1558650132492}</legend>
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1561504448225}</span>
+						<h:outputText value="#{CostoIndiretto.serviceDeliveryLocation.name.giv}" id="Label_1561504448225" styleClass="labelContent layoutRequired base-label" />
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1558529908968;BtnULSS')}" status="ajaxStatus" id="Link_1558529908968" alt="#{LINK}" immediate="true" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1559715799057" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1559715799057}</span>
+						<h:inputText id="TextBox_1559715799057_id" value="#{CostoIndiretto.anno}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1559715799057}" >
+						<f:converter converterId="IntegerConverter"/>
+						<f:validator validatorId="NumbersOnlyValidator"/>
+						<f:validateLength minimum="4" maximum="4" />
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1559715799057_msg" styleClass="errorContainer" ><h:message for="TextBox_1559715799057_id" styleClass="errorMessages TextBox_1559715799057_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1568012775614}</span>
+						<h:inputText id="TextBox_1568012775614" value="#{CostoIndiretto.annoAl}" styleClass="inputText" label="${msg.label_TextBox_1568012775614}" >
+						<f:converter converterId="IntegerConverter"/>
+						<f:validator validatorId="NumbersOnlyValidator"/>
+						<f:validateLength minimum="4" maximum="4" />
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1568012775614_msg" styleClass="errorContainer" ><h:message for="TextBox_1568012775614" styleClass="errorMessages TextBox_1568012775614_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1561343794342" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1561343794342}</span>
+						<h:selectOneMenu id="ComboBox_1561343794342_id" value="#{CostoIndiretto.lineaDiLavoro}" required="true" styleClass="filter layoutRequired comboBox" label="${msg.label_ComboBox_1561343794342}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkingLine')}" />
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1561060803923" event="onchange" ignoreDupResponses="true" />
+						</h:selectOneMenu>
+						<h:message style="float:left;" for="ComboBox_1561343794342_id" styleClass="errorMessages ComboBox_1561343794342_E" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1561060803923" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1560478013497" >
+						<label style="display:#{(CostoIndiretto.lineaDiLavoro.code=='SUPERVISION') ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1560478013497}</span>
+							<h:selectOneMenu id="ComboBox_1560478013497_id" value="#{CostoIndiretto.tipoLineaDiLavoro}" rendered="#{CostoIndiretto.lineaDiLavoro.code=='SUPERVISION'}" required="true" styleClass="filter layoutRequired comboBox" label="${msg.label_ComboBox_1560478013497}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:types')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							<h:message style="float:left;" for="ComboBox_1560478013497_id" styleClass="errorMessages ComboBox_1560478013497_E" />
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1559858642793" >
+						<label style="display:#{(CostoIndiretto.lineaDiLavoro.code=='WORKMEDICINE') ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1559858642793}</span>
+							<h:selectOneMenu id="ComboBox_1559858642793_id" value="#{CostoIndiretto.tipoLineaDiLavoro}" rendered="#{CostoIndiretto.lineaDiLavoro.code=='WORKMEDICINE'}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1559858642793}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:MdlType')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							<h:message style="float:left;" for="ComboBox_1559858642793_id" styleClass="errorMessages ComboBox_1559858642793_E" />
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1559739269132" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="RadioGroup_1559634298502" >
+					<label >
+						<span class="label">${msg.label_RadioGroup_1559634298502}</span>
+						<h:selectOneRadio id="RadioGroup_1559634298502_id" value="#{CostoIndiretto.tipologia}" required="true" styleClass="radioGroupTable radioGroup layoutRequired" label="${msg.label_RadioGroup_1559634298502}" >
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoInd')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneRadio>
+					</label>
+					<h:message for="RadioGroup_1559634298502_id" styleClass="errorMessages RadioGroup_1559634298502_E" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1561674726242" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1561674726242}</span>
+						<h:selectOneMenu id="ComboBox_1561674726242_id" value="#{CostoIndiretto.qualifica}" required="true" styleClass="filter layoutRequired comboBox" label="${msg.label_ComboBox_1561674726242}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+						<h:message style="float:left;" for="ComboBox_1561674726242_id" styleClass="errorMessages ComboBox_1561674726242_E" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1559347455851" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1559347455851}</span>
+						<h:inputText id="TextBox_1559347455851_id" value="#{CostoIndiretto.peso}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1559347455851}" >
+						<f:validator validatorId="NumbersOnlyValidator"/>
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1559347455851_msg" styleClass="errorContainer" ><h:message for="TextBox_1559347455851_id" styleClass="errorMessages TextBox_1559347455851_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<h:outputText escape="false" value="#{CostoIndirettoAction.temporary['check']}" id="Label_1567047104041" style="display:block;" styleClass="labelContent c-text-red base-label" />
+				</div>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

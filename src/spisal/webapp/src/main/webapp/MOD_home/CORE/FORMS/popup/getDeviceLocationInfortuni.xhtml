@@ -1,0 +1,52 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1509453843273}</h1>
+	<div id="getDeviceLocationInfortuni" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1511159180079" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1509292784731" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<span value="${msg.Label_1507532451517}" class="labelContent  base-label" >${msg.Label_1507532451517}</span>
+					</div>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_Label_1510754429753}</span>
+						<h:outputText value="#{InfortuniAction.temporary['latitude']}" id="Label_1510754429753" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_Label_1507423108134}</span>
+						<h:outputText value="#{InfortuniAction.temporary['longitude']}" id="Label_1507423108134" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1508675419880" style="height:100%;width:100%;" >
+						<div id="googleMapStatic" class="layoutVertical" style="width:300px;height:300px;word-break: break-word;">
+						<img src="https://maps.googleapis.com/maps/api/staticmap?center=#{InfortuniAction.temporary['latitude']}&#44;#{InfortuniAction.temporary['longitude']}&amp;zoom=16&amp;size=300x300&amp;sensor=false&amp;markers=color:red|label: |#{InfortuniAction.temporary['latitude']}&#44;#{InfortuniAction.temporary['longitude']}&amp;key=#{geolocation.googleMapsApiKeyFromUrl()}" style="width:300px;height:300px;" 
+						 onError="googleStaticMapErrorFunction(src)"/>
+						</div>
+						
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510996520974" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1508009622432;BtnCancel')}" status="ajaxStatus" id="Link_1508009622432" title="${msg.alt_Link_1508009622432}" reRender="phiDesktop,popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1507845605719;btnOk')}" status="ajaxStatus" id="Link_1507845605719" title="${msg.alt_Link_1507845605719}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

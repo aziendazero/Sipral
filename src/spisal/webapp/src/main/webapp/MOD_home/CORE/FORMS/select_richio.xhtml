@@ -1,0 +1,45 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1458745667432}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1474231077876" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1473384903777" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1471438795153}</span>
+						<h:inputText id="TextBox_1471438795153" styleClass="inputText" label="${msg.label_TextBox_1471438795153}" />
+						<a4j:outputPanel id="TextBox_1471438795153_msg" styleClass="errorContainer" ><h:message for="TextBox_1471438795153" styleClass="errorMessages TextBox_1471438795153_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnRischioSearch" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1472031227449').jstree(true).search(jQuery('#p\\:TextBox_1471438795153').val());" title="${msg.alt_BtnRischioSearch}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnRischioClean" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1472031227449').jstree('clear_search');" title="${msg.alt_BtnRischioClean}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnRischioOk" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnRischioOk;BtnOk')}" status="ajaxStatus" id="BtnRischioOk_id" title="${msg.alt_BtnRischioOk}" style="float:right;" rendered="#{not empty CodeValuePhi}" reRender="popup,LayoutRow_1480928197964" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1471935578046" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1472031227449" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						var popupWidth = 0.8;
+						var popupHeight = 0.8;
+						Tree.initTreeDictionary(jQuery("#p\\:JollyWidget_1472031227449"), 'PHIDIC', 'CondizioniRischio', 'CodeValuePhi', 'translation', 'injectFromTree','CodeValuePhi', false, '','#{CodeValueAction.getCodeAndParents(CodeValuePhi)}','#{CodeValuePhi.id}');
+						</script>
+						<a4j:jsFunction  name="injectFromTree"  action="#{CodeValuePhiAction.injectFromTree}"   reRender="BtnRischioOk"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+							<a4j:actionparam name="id" assignTo="#{CodeValuePhiAction.id}"/>
+						</a4j:jsFunction>	
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

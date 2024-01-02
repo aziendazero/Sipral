@@ -1,0 +1,346 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1463990572344}</h1>
+	<div id="gestione_cantieri" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1463990576003" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1464488691885" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1464593616169;BtnBack')}" status="ajaxStatus" id="Link_1464593616169" title="${msg.alt_Link_1464593616169}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1467281211814" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1467281211814;newCantiere')}" status="ajaxStatus" id="Link_1467281211814_id" title="${msg.alt_Link_1467281211814}" rendered="#{not userBean.hasRoleIn('VisualizzatoreNotifiche')}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1467249028587" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1467249028587;editCantiere')}" status="ajaxStatus" id="Link_1467249028587_id" title="${msg.alt_Link_1467249028587}" rendered="#{not empty Cantiere and not userBean.hasRoleIn('VisualizzatoreNotifiche')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x link readOnly" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1664642441246" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1664642441246;editCantiere')}" status="ajaxStatus" id="Link_1664642441246_id" title="${msg.alt_Link_1664642441246}" rendered="#{not empty Cantiere and userBean.hasRoleIn('VisualizzatoreNotifiche')}" reRender="phiDesktop" styleClass="fa fa-display fa-3x link readOnly" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1477064155343" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1477064155343;clonaCantiere')}" status="ajaxStatus" id="Link_1477064155343_id" title="${msg.alt_Link_1477064155343}" rendered="#{not empty Cantiere and Cantiere.notifica and not userBean.hasRoleIn('VisualizzatoreNotifiche')}" reRender="phiDesktop" styleClass="fa fa-clone fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1464593616159" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1464593616159;BtnSave')}" status="ajaxStatus" id="Link_1464593616159_id" title="${msg.alt_Link_1464593616159}" rendered="#{ProtocolloAction.temporary.get('search') and not empty Cantiere and not userBean.hasRoleIn('VisualizzatoreNotifiche')}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1662986465299" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+							var iconMonitor = jQuery(".fa-display-medical");
+							var iconDisplay = jQuery(".fa-display-medical-arrow-down");
+							var iconCircle = jQuery(".fa-question-circle");
+							
+							iconMonitor.each( function(){
+								 jQuery(this).attr('title','Anagrafiche validate');
+							});
+							
+							iconDisplay.each( function(){
+								 jQuery(this).attr('title','Variazione');
+							});
+						
+							
+							iconCircle.each( function(){
+								 jQuery(this).attr('title','Nuova da validare'); 
+							});
+						
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding: 5px;padding:0;" id="FiltriCantieri" styleClass="layoutContainer layoutContainerVertical green" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filterCantieri']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.FiltriCantieri}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1463991373616" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1494488876972}</span>
+							<h:inputText id="TextBox_1494488876972" value="#{CantiereAction.equal['id']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1494488876972}" />
+							<a4j:outputPanel id="TextBox_1494488876972_msg" styleClass="errorContainer" ><h:message for="TextBox_1494488876972" styleClass="errorMessages TextBox_1494488876972_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1483451344046" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_TextArea_1483451344046}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1483451344046_id" value="#{CantiereAction.like['naturaOpera']}" styleClass="filter readOnly" label="${msg.label_TextArea_1483451344046}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1483451344046_id" styleClass="errorMessages TextArea_1483451344046_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1463991374856" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463991428718}</span>
+							<h:inputText id="TextBox_1463991428718" value="#{CantiereAction.temporary['committente']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1463991428718}" />
+							<a4j:outputPanel id="TextBox_1463991428718_msg" styleClass="errorContainer" ><h:message for="TextBox_1463991428718" styleClass="errorMessages TextBox_1463991428718_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463991438647}</span>
+							<h:inputText id="TextBox_1463991438647" value="#{CantiereAction.temporary['responsabile']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1463991438647}" />
+							<a4j:outputPanel id="TextBox_1463991438647_msg" styleClass="errorContainer" ><h:message for="TextBox_1463991438647" styleClass="errorMessages TextBox_1463991438647_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1463991380672" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1467029312339" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1483439971287}</span>
+								<h:inputText id="TextBox_1483439971287" value="#{CantiereAction.like['addr.str']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1483439971287}" />
+								<a4j:outputPanel id="TextBox_1483439971287_msg" styleClass="errorContainer" ><h:message for="TextBox_1483439971287" styleClass="errorMessages TextBox_1483439971287_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1483439974272}</span>
+								<h:inputText id="TextBox_1483439974272" value="#{CantiereAction.equal['addr.bnr']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1483439974272}" />
+								<a4j:outputPanel id="TextBox_1483439974272_msg" styleClass="errorContainer" ><h:message for="TextBox_1483439974272" styleClass="errorMessages TextBox_1483439974272_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1463991453638" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1463991453638}</span>
+								#{CantiereAction.autocomplete['addr'].setContentType('0')}
+								#{CantiereAction.autocomplete['addr'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1463991453638_MAIN" value="#{CantiereAction.equal['addr.cty']}" styleClass="autocomplete autoAddress inputText readOnly" label="${msg.label_TextSuggestionBox_1463991453638}" />
+								<h:outputLabel for="TextSuggestionBox_1463991453638_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1463991453638_CPA" value="#{CantiereAction.equal['addr.cpa']}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1463991453638_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1463991453638_ZIP" value="#{CantiereAction.equal['addr.zip']}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1463991453638_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1463991453638_CODE" value="#{CantiereAction.equal['addr.code']}" label="${msg.label_TextSuggestionBox_1463991453638}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1463991453638_CODE" styleClass="errorMessages TextSuggestionBox_1463991453638_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1463991453638" action="#{CantiereAction.autocomplete['addr'].autocomplete()}" data="#{CantiereAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{CantiereAction.autocomplete['addr'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1463991465143" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1463991465143}</span>
+							#{CantiereAction.autocomplete['tagCantiere.tipologiaCantiere'].setCustomList(aaa)}
+							<input type="text" id="TextSuggestionBox_1463991465143_MAIN" class="autocomplete inputText readOnly" value="#{CantiereAction.equal['tagCantiere.tipologiaCantiere'].type}"  />
+							<h:outputLabel for="TextSuggestionBox_1463991465143_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1463991465143_CODE" value="#{CantiereAction.equal['tagCantiere.tipologiaCantiere']}" label="${msg.label_TextSuggestionBox_1463991465143}"  style="display: none">
+								<f:converter converterId="EntityConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1463991465143_CODE" styleClass="errorMessages TextSuggestionBox_1463991465143_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1463991465143" action="#{TipologiaCantiereAction.read()}" data="#{TipologiaCantiereList.list}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{TipologiaCantiereAction.like['type']}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1463991471942}</span>
+						<h:selectOneMenu id="ComboBox_1463991471942" value="#{CantiereAction.equal['tipologiaNotifica']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1463991471942}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipologiaNotifica')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1494587850155" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1494586915365" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1494583578095}</span>
+								<span value="${msg.Label_1494583578095}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1482323883556" value="#{CantiereAction.temporary['notificaSi']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1482323883556}" />
+							<h:outputLabel value="${msg.CheckBox_1482323883556}" for="CheckBox_1482323883556" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1482323883556" styleClass="errorMessages CheckBox_1482323883556_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1482323883556" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1494583567719" value="#{CantiereAction.temporary['notificaNo']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1494583567719}" />
+							<h:outputLabel value="${msg.CheckBox_1494583567719}" for="CheckBox_1494583567719" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1494583567719" styleClass="errorMessages CheckBox_1494583567719_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1494583567719" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CheckBox_1482324081760" >
+						<label style="display:#{(processManager.currentProcess eq 'MOD_Anagrafiche/CORE/PROCESSES/Cantieri') ? 'block' : 'none' };" >
+							<span class="label">${msg.label_CheckBox_1482324081760}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1482324081760_id" value="#{CantiereAction.equal['lastVersion']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" rendered="#{processManager.currentProcess eq 'MOD_Anagrafiche/CORE/PROCESSES/Cantieri'}" label="${msg.label_CheckBox_1482324081760}" />
+							<h:message for="CheckBox_1482324081760_id" styleClass="errorMessages CheckBox_1482324081760_E" />
+						</label>
+						</a4j:outputPanel>
+						<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{processManager.currentProcess eq 'MOD_Anagrafiche/CORE/PROCESSES/Cantieri'}"  for="CheckBox_1482324081760" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1655206004742}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1655206004742" value="#{CantiereAction.temporary['fromPnc']}" style="vertical-align:middle;" styleClass="checkBox readOnly" alt="CHECKBOX" label="${msg.label_CheckBox_1655206004742}" />
+							<h:message for="CheckBox_1655206004742" styleClass="errorMessages CheckBox_1655206004742_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1655206004742" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1665489932737}</span>
+							<h:inputText id="TextBox_1665489932737" value="#{CantiereAction.equal['idPnc']}" styleClass="inputText" label="${msg.label_TextBox_1665489932737}" >
+							<f:validateLength minimum="0" maximum="10" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1665489932737_msg" styleClass="errorContainer" ><h:message for="TextBox_1665489932737" styleClass="errorMessages TextBox_1665489932737_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1494587628942" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1533039687205" style="width: 100.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1533769701317}</span>
+								<span value="${msg.Label_1533769701317}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1534339534234" value="#{CantiereAction.temporary['titoloIVSi']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1534339534234}" />
+							<h:outputLabel value="${msg.CheckBox_1534339534234}" for="CheckBox_1534339534234" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1534339534234" styleClass="errorMessages CheckBox_1534339534234_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1534339534234" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1531363582760" value="#{CantiereAction.temporary['titoloIVNo']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1531363582760}" />
+							<h:outputLabel value="${msg.CheckBox_1531363582760}" for="CheckBox_1531363582760" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1531363582760" styleClass="errorMessages CheckBox_1531363582760_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1531363582760" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1462695798071" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1462458772727;Search')}" status="ajaxStatus" id="Link_1462458772727" title="${msg.alt_Link_1462458772727}" reRender="DataGrid_1463991322936,LayoutRow_1464488691885" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1464546029917;ClearFiltri')}" status="ajaxStatus" id="Link_1464546029917" title="${msg.alt_Link_1464546029917}" reRender="phiDesktop,FiltriCantieri,DataGrid_1463991322936" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1463991322936" layout="block" styleClass="dt layoutTable layoutVertical" >#{CantiereAction.setReadPageSize(20)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1463991322936" value="&#8592;" action="#{CantiereList.prev}" reRender="DataGrid_1463991322936" rendered="#{CantiereList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1463991322936" value="#{CantiereList.pageIndexes}" var="pi1463991322936">
+										<li class="#{(CantiereList.currentPage eq pi1463991322936 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1463991322936" value="#{pi1463991322936}" action="#{CantiereList.goToPage(pi1463991322936)}" reRender="DataGrid_1463991322936" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1463991322936" value="&#8594;" action="#{CantiereList.next}" reRender="DataGrid_1463991322936" rendered="#{CantiereList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1463991322936" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1463991322936} [CantiereList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th class="sortableColumn">${msg.DataGridColumn_1494490488010} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1463992453884}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1477048790881} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1463992454587}</th>
+								<th>${msg.DataGridColumn_1463992454987}</th>
+								<th>${msg.DataGridColumn_1463992456042}</th>
+								<th>${msg.DataGridColumn_1464012432063}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1652451580434} &#8593;&#8595;</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty CantiereList or CantiereList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="8">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1463991322936" value="#{CantiereList.entities}" var="Cantiere" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1463991322936(this.id);" class="#{CantiereAction.getEntity().equals(Cantiere) or Cantiere.internalId != 0 and CantiereAction.entity.internalId.equals(Cantiere.internalId) ? 'selRow' : ''}" >
+									<td style="width:5%;" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1653035008658" styleClass="layoutContainer" >
+							<div class="layoutHorizontal" >
+							<h:outputText value="#{Cantiere.id}" id="Label_1653035248434" style="padding-right: 12px;display:block;" styleClass="labelContent  base-label" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1652451184518" >
+							<a id="Link_1652451184518_id" onclick="stopPropagation(event);null" alt="#{LINK}" style="display:#{(Cantiere.idPnc ne null and Cantiere.idPnc ne '') ? 'block' : 'none' };" class="#{CantiereAction.computeClass(Cantiere)} link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+									</td>
+
+									<td style="width:20%;" >
+										#{Cantiere.naturaOpera}
+									</td>
+
+									<td style="width:10%;" >
+										<a4j:commandLink action="#{CantiereAction.inject(Cantiere)}" status="ajaxStatus" id="Link_1477048814760_id" alt="#{LINK}" rendered="#{Cantiere.notifica}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td style="width:20%;" >
+										#{CantiereAction.printCommittenti(Cantiere.committente)}
+									</td>
+
+									<td style="width:20%;" >
+										#{CantiereAction.printResponsabili(Cantiere.personeCantiere)}
+									</td>
+
+									<td style="width:20%;" >
+										#{Cantiere.addr}
+									</td>
+
+									<td style="width:5%;" >
+										<a4j:commandLink action="#{CantiereAction.injectAndProceed(Cantiere, 'Link_1464012490433;delCantiere')}" status="ajaxStatus" id="Link_1464012490433_id" title="${msg.alt_Link_1464012490433}" rendered="#{not Cantiere.notifica}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{CantiereAction.injectAndProceed(Cantiere, 'Link_1652451591711;notifiche')}" status="ajaxStatus" id="Link_1652451591711_id" title="${msg.alt_Link_1652451591711}" rendered="#{Cantiere.idPnc ne null and Cantiere.idPnc ne ''}" reRender="phiDesktop" styleClass="fa fa-ballot-check fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1463991322936" name="ie1463991322936" status="ajaxStatus" action="#{CantiereList.injectEject}" data="#{CantiereList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1463991322936'))" reRender="LayoutRow_1464488691885" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{CantiereList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

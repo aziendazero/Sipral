@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="dictionaryManagerProcess">
+
+
+	<start-state name="start-state1">
+		<transition to="apply user Restrictions"></transition>
+	</start-state>
+
+
+	<task-node name="dictionaryManager">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Dictionary/CORE/FORMS/dictionaryManager')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<node name="get CsList and select first">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.temporary.put('CsList',CodeSystemAction.getAllCodeSystemCombo())}"></action>
+			<action name="2" expression="#{CodeValueAction.temporary.put('changed',false)}"></action>
+			<!--action name="3" expression="#{CodeSystemAction.injectCs(CodeSystemAction.temporary.get('CsList').get(0).getValue())}"></action>
+			<action name="4" expression="#{CodeSystemAction.temporary.put('selectedCs',CodeSystem.id)}"></action-->
+		</event>
+		<transition to="read for Combo"></transition>
+	</node>
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="REVERT"></transition>
+		<transition to="select Code system" name="OK"></transition>
+		<transition to="super-state2/delete" name="DELETE"></transition>
+		<transition to="instance and suggest id" name="ADDCHILD"></transition>
+		<transition to="instance and suggest id" name="ADDTOP"></transition>
+		<transition to="eject" name="RELOAD"></transition>
+		<transition to="super-state1/save" name="SAVE"></transition>
+		<transition to="read History" name="ViewHistory"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.refresh()}"></action>
+		</event>
+		<transition to="set changed false"></transition>
+	</node>
+
+	<node name="select Code system">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.injectCs(CodeSystemAction.temporary['selectedCs'])}"></action>
+			<action name="2" expression="#{CodeValueAction.eject()}"></action>
+		</event>
+		<transition to="set changed false"></transition>
+	</node>
+
+	<node name="set changed false">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.temporary.put('changed',false)}"></action>
+		</event>
+		<transition to="dictionaryManager"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{empty CodeValue.code ? CodeValue.setCode('-') : CodeValue.setCode(CodeValue.code)}"></action>
+				<action name="2" expression="#{CodeValueAction.create()}"></action>
+			</event>
+			<transition to="../set changed false"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state2">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{CodeValueAction.temporary.put('parent', CodeValue.parent)}"></action>
+				<action name="2" expression="#{CodeValueAction.delete()}"></action>
+			</event>
+			<transition to="../parentI != null?"></transition>
+		</node>
+	</super-state>
+
+	<node name="instance and suggest id">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.suggest()}"></action>
+			<action name="2" expression="#{CodeValueAction.inject(CodeValueAction.newEntity(CodeSystem.codeValueClass))}"></action>
+			<action name="3" expression="#{CodeValueAction.temporary.put('type','C')}"></action>
+		</event>
+		<transition to="code value"></transition>
+	</node>
+
+	<task-node name="code value">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Dictionary/CORE/FORMS/codeValue')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<node name="set Properties">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.setProperties()}"></action>
+		</event>
+		<transition to="super-state1/save"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{(button.getMnemonic())}">
+		<transition to="set Properties" name="OK"></transition>
+		<transition to="eject" name="BACK"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.eject()}"></action>
+		</event>
+		<transition to="set changed false"></transition>
+	</node>
+
+	<decision name="parentI != null?" expression="#{!empty CodeValueAction.temporary['parent']}">
+		<transition to="set changed false"></transition>
+		<transition to="refresh parent" name="true"></transition>
+	</decision>
+
+	<node name="refresh parent">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.refresh(CodeValueAction.temporary['parent'])}"></action>
+			<action name="2" expression="#{CodeValueAction.temporary.put('parent', null)}"></action>
+		</event>
+		<transition to="set changed false"></transition>
+	</node>
+
+	<node name="apply user Restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.applyRestrictions()}"></action>
+		</event>
+		<transition to="get CsList and select first"></transition>
+	</node>
+
+	<node name="read History">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.temporary.put('history',!CodeValueAction.temporary.get('history'))}"></action>
+			<action name="2" expression="#{CodeValueAction.history()}"></action>
+		</event>
+		<transition to="set changed false"></transition>
+	</node>
+
+	<node name="read for Combo">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.select.add('name.giv')}"></action>
+			<action name="2" expression="#{EmployeeAction.select.add('name.fam')}"></action>
+			<action name="3" expression="#{EmployeeAction.select.add('name.giv')}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;1;"></action>
+
+
+</process-definition>

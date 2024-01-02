@@ -1,0 +1,46 @@
+<jbpm-configuration>
+
+  <jbpm-context>
+
+    <service name="event">  
+     <factory>        
+      <bean class="com.phi.ps.JbpmServiceFactory">
+          <property name="supportedEventTypes">
+            <!-- a comma separated list of events that should be logged -->
+            <string value="process-start,process-end,subprocess-created,subprocess-end,superstate-enter,superstate-leave" />
+          </property>  
+      </bean>      
+     </factory>
+    </service>
+
+  </jbpm-context> 
+  
+  <bean name="jbpm.sub.process.resolver" class="com.phi.ps.JbpmSubProcessResolver" />
+  <!--string name="jbpm.mail.class.name" value="com.phi.ps.Mail" /-->
+  
+  <!--bean name="jbpm.expression.evaluator" class="org.jboss.seam.bpm.SeamExpressionEvaluator" singleton="true" /-->
+
+   <!-- examples for compiling mail configuration data -->
+   <!--string name="resource.mail.templates"  value="PHI_AAS.war/templates/jbpm.mail.templates.xml" /-->
+	
+   <!--string name="jbpm.mail.from.address"  value="mario.rossi@tbsgroup.com" />
+   <string name="jbpm.mail.smtp.host" value="ip.adddress.host.mailserver" />
+   <string name="jbpm.mail.smtp.username"  value="mario.rossi" />
+   <string name="jbpm.mail.smtp.password"  value="segreto" /-->
+   
+   <!--string name="jbpm.mail.from.address"  value="from.address@gmail.com" />
+   <string name="jbpm.mail.smtp.host" value="smtp.gmail.com" />
+   <string name="jbpm.mail.smtp.port" value="587"/>
+   <string name="jbpm.mail.smtp.useSSL" value="true"/>
+   <string name="jbpm.mail.smtp.username"  value="username@gmail.com" />
+   <string name="jbpm.mail.smtp.password"  value="Pass" /-->
+   
+   <string name="jbpm.mail.smtp.host"  value="im-sm01.insielmercato.it"/>
+   <string name="jbpm.mail.smtp.port" value="25"/>
+   <!-- 
+   <string name="jbpm.mail.from.address"  value="ssa-aas@mail.infotn.it" />
+   <string name="jbpm.mail.smtp.username"  value="ssa-aas@mail.infotn.it" />
+   <string name="jbpm.mail.smtp.password"  value="ferq322fr" />
+    -->
+	
+</jbpm-configuration>

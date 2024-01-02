@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSegnalazionePratica">
+
+
+	<start-state name="start-state1">
+		<transition to="isValid?"></transition>
+	</start-state>
+
+
+	<task-node name="Link Pratica">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/associa_pratica')}"></action>
+		</event>
+		<transition to="button value 1"></transition>
+	</task-node>
+
+	<process-state name="Existing Pratica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/existingPratica" binding="late"></sub-process>
+		<transition to="button value 2"></transition>
+	</process-state>
+
+	<process-state name="New Pratica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/newPratica" binding="late"></sub-process>
+		<transition to="button value 3"></transition>
+	</process-state>
+
+	<decision name="button value 1" expression="#{button.value}">
+		<transition to="addTemporaryNew" name="new"></transition>
+		<transition to="removeTemporaryForSubProcess" name="exit"></transition>
+		<transition to="addTemporaryExisting" name="existing"></transition>
+	</decision>
+
+	<decision name="button value 2" expression="#{button.value}">
+		<transition to="Link Pratica" name="exit"></transition>
+		<transition to="setMaster2" name="save"></transition>
+	</decision>
+
+	<decision name="button value 3" expression="#{button.value}">
+		<transition to="Link Pratica" name="exit"></transition>
+		<transition to="setMaster1" name="save"></transition>
+		<transition to="setMaster2" name="link"></transition>
+	</decision>
+
+	<node name="setMaster1">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setIsMaster('true')}"></action>
+			<action name="2" expression="#{Procpratiche.setProtocolloMasterNumber(Protocollo.nprotocollo)}"></action>
+		</event>
+		<transition to="GENERA NUMERO"></transition>
+	</node>
+
+	<process-state name="Gestione Pratiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/procpratiche" binding="late"></sub-process>
+		<transition to="removeTemporaryForSubProcess"></transition>
+	</process-state>
+
+	<super-state name="super-state1">
+		<node name="Save Pratica">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+			</event>
+			<transition to="../Refresh Procpratiche"></transition>
+		</node>
+	</super-state>
+
+	<node name="Refresh Procpratiche">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.refresh()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.eject()}"></action>
+		</event>
+		<transition to="addTemporaryExisting2"></transition>
+	</node>
+
+	<process-state name="Manage Working Line">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/LineeDiLavoro/manageWorkingLine" binding="late"></sub-process>
+		<transition to="Link Pratica"></transition>
+	</process-state>
+
+	<node name="removeTemporaryForSubProcess">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('linkProtocollo')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="addTemporaryNew">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkProtocollo','new')}"></action>
+		</event>
+		<transition to="New Pratica"></transition>
+	</node>
+
+	<node name="addTemporaryExisting">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkProtocollo','existing')}"></action>
+		</event>
+		<transition to="Existing Pratica"></transition>
+	</node>
+
+	<node name="addTemporaryExisting2">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkProtocollo','new')}"></action>
+		</event>
+		<transition to="Gestione Pratiche"></transition>
+	</node>
+
+	<decision name="isValid?" expression="#{ProtocolloAction.checkProtocollo()}">
+		<transition to="Manage Working Line" name="true"></transition>
+		<transition to="end-state3" name="false"></transition>
+	</decision>
+
+	<node name="setMaster2">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setIsMaster('false')}"></action>
+		</event>
+		<transition to="pre-actions"></transition>
+	</node>
+
+	<node name="pre-actions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','completed')}"></action>
+			<action name="2" expression="#{ProtocolloAction.link('procpratiche', Procpratiche)}"></action>
+			<action name="3" expression="#{not empty Vigilanza?CommittenteVigilanzaAction.equal.put('vigilanza',Vigilanza):''}"></action>
+			<action name="4" expression="#{not empty Vigilanza?CommittenteVigilanzaAction.read():''}"></action>
+		</event>
+		<transition to="super-state2/Save Protocollo"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Save Protocollo">
+			<event type="node-enter">
+				<action name="1" expression="#{ProtocolloAction.create()}"></action>
+			</event>
+			<transition to="../super-state1/Save Pratica"></transition>
+		</node>
+	</super-state>
+
+	<node name="GENERA NUMERO">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.copyFromProtocollo(Protocollo)}"></action>
+			<action name="2" expression="#{VigilanzaAction.copyFrom(Protocollo, DettagliBonifiche)}"></action>
+			<action name="3" expression="#{CommittenteVigilanzaAction.eject()}"></action>
+			<action name="4" expression="#{CommittenteVigilanzaAction.copyFrom(DettagliBonifiche)}"></action>
+			<action name="5" expression="#{ProcpraticheAction.link('sdlStart',Procpratiche.serviceDeliveryLocation)}"></action>
+			<action name="6" expression="#{ProcpraticheAction.setNumero(Procpratiche.serviceDeliveryLocation)}"></action>
+		</event>
+		<transition to="pre-actions"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state3"></end-state>
+
+
+</process-definition>

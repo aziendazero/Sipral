@@ -1,0 +1,82 @@
+@mixin reset() {
+  background: #fff;
+}
+
+date-input-polyfill {
+  @include reset();
+  position: absolute !important;
+  text-align: center;
+  box-shadow:
+    0 7px 8px -4px rgba(0,0,0,.2),
+    0 12px 17px 2px rgba(0,0,0,.14),
+    0 5px 22px 4px rgba(0,0,0,.12);
+  cursor: default;
+  z-index: 1000;
+
+  .numberUp, .numberDown {
+    display: block;
+    width:15px;
+    height: 15px;
+  }
+
+  *[show="false"] {
+    display: none;
+  }
+
+  &[data-open="false"] {
+    visibility: hidden;
+  }
+  &[data-open="true"] {
+    visibility: visible;
+  }
+
+  select, table, th, td {
+    @include reset();
+    box-shadow: none;
+  }
+
+  select, button {
+    vertical-align: top;
+  }
+
+  select {
+    width: 50%;
+
+    &:first-of-type {
+      width: 30%;
+    }
+  }
+  button {
+    padding: 0;
+    width: 20%;
+    line-height: 0px;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+  th, td {
+    width: 32px;
+    padding: 4px;
+    text-align: center;
+    border: 0;
+  }
+  td[data-day] {
+    cursor: pointer;
+
+    &:hover {
+      background: #E0E0E0;
+    }
+  }
+  [data-selected] {
+    font-weight: bold;
+    background: #D8EAF6;
+  }
+
+}
+
+input[data-has-picker] {
+  &::-ms-clear {
+    display: none;
+  }
+}

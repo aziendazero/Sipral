@@ -1,0 +1,214 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1505363938582" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1505227529181" style="padding-bottom: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1506304955069}</span>
+						<h:selectOneMenu id="ComboBox_1506304955069" value="#{Procpratiche.esitoPratica}" styleClass="layoutRequired comboBox" style="min-width: 500px;" label="${msg.label_ComboBox_1506304955069}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsitoPratica')}" />
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1506132661245" event="onchange" action="#{ProcpraticheAction.getArchList(Procpratiche.serviceDeliveryLocation.area.code)}" ignoreDupResponses="true" />
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1506132661245" >
+					<label style="display:#{(Procpratiche.esitoPratica.code eq '04' and not empty ProcpraticheAction.temporary['archList'] and ProcpraticheAction.temporary['archList'].size() gt 0 ? true : 'false'.concat(Procpratiche.setEsitoConclusione(null))) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_ComboBox_1506132661245}</span>
+						<h:selectOneMenu id="ComboBox_1506132661245_id" value="#{Procpratiche.esitoConclusione}" rendered="#{Procpratiche.esitoPratica.code eq '04' and not empty ProcpraticheAction.temporary['archList'] and ProcpraticheAction.temporary['archList'].size() gt 0 ? true : 'false'.concat(Procpratiche.setEsitoConclusione(null))}" styleClass="comboBox" label="${msg.label_ComboBox_1506132661245}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{ProcpraticheAction.temporary['archList']}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</a4j:outputPanel>
+
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1506766894887" >
+					<label >
+						<span class="label">${msg.label_TextArea_1506766894887}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1506766894887_id" value="#{Procpratiche.conclusioni}" style="height: 60px;" label="${msg.label_TextArea_1506766894887}" rows="5">
+							<f:validateLength minimum="0" maximum="2500"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1506766894887_id" styleClass="errorMessages TextArea_1506766894887_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1504128561722" style="padding-bottom: 30px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1504128561722}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1506696046743" >
+					<span value="${msg.Label_1506696046743}" id="Label_1506696046743_id" style="padding-bottom: 15px;display:#{(Procpratiche.statusCode.code=='active') ? 'block' : 'none' };" class="labelContent c-text-14 c-text-bold c-text-center base-label" >${msg.Label_1506696046743}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1504463606258" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1504463606258" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1504463606258} [ProvvedimentiList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1505459300738" value="${msg.DataGridColumn_1505459300738} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy(function.getLang('attivita.code.'))}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1504308773534" value="${msg.DataGridColumn_1504308773534} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('data')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1504881004026" value="${msg.DataGridColumn_1504881004026} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('numero')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1504701684782" value="${msg.DataGridColumn_1504701684782} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('type.displayName')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1506367938777} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1504847129583" value="${msg.DataGridColumn_1504847129583} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('carica.sediPersone.person.name')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1505159248329" value="${msg.DataGridColumn_1505159248329} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('dataNotifica')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1506574760402" value="${msg.DataGridColumn_1506574760402} &#8593;&#8595;" action="#{ProvvedimentiList.orderBy('esito')}" reRender="DataGrid_1504463606258" ajaxSingle="true" disabled="#{empty ProvvedimentiList ? true : false}"/></th>
+									<th>${msg.DataGridColumn_1503233174719}</th>
+									<th>${msg.DataGridColumn_1503174918198}</th>
+									<th>${msg.DataGridColumn_1502838827361}</th>
+									<th style="#{(Procpratiche.statusCode.code=='active' ? '' : 'display:none;')}">${msg.DataGridColumn_1503886750943}</th>
+									<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1503563440954}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty ProvvedimentiList or ProvvedimentiList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="13">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1504463606258" value="#{ProvvedimentiList.entities}" var="Provvedimenti" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											#{Provvedimenti.attivita.code.currentTranslation}
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Provvedimenti.data}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											#{Provvedimenti.numero}
+										</td>
+
+										<td >
+											#{Provvedimenti.type.displayName}
+										</td>
+
+										<td >
+											<span class="base-label" >#{Provvedimenti.soggetto.code.code.equals('Utente')?(function.concat('U: ', Provvedimenti.soggetto.utente.name, ' (',Provvedimenti.soggetto.ruolo, ')')):(Provvedimenti.soggetto.code.code.equals('Ditta')?(function.concat('D: ', Provvedimenti.soggetto.ditta.denominazione)):(''))}</span>
+										</td>
+
+										<td >
+											<span style="display:#{(Provvedimenti.soggetto.code.code.equals('Ditta')  and Provvedimenti.carica!=null) ? 'block' : 'none' };" class="base-label" >#{function.concat(Provvedimenti.carica.sediPersone.person.name, ' (', Provvedimenti.carica.ruolo, ')')}</span>
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Provvedimenti.dataNotifica}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											#{Provvedimenti.esito}
+										</td>
+
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{ProvvedimentiAction.inject(Provvedimenti)}" status="ajaxStatus" id="Link_1504879995933_id" title="${msg.alt_Link_1504879995933}" style="color: GoldenRod;" rendered="#{Provvedimenti.statusCode.code=='active'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+											<a4j:commandLink action="#{ProvvedimentiAction.inject(Provvedimenti)}" status="ajaxStatus" id="Link_1504906705918_id" title="${msg.alt_Link_1504906705918}" style="color: green;" rendered="#{Provvedimenti.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+										</td>
+
+										<td >
+											<a4j:commandLink action="#{ProvvedimentiAction.injectAndProceed(Provvedimenti, 'Link_1503576111633;BtnProvvInfo')}" status="ajaxStatus" id="Link_1503576111633" title="${msg.alt_Link_1503576111633}" reRender="phiDesktop,popup" styleClass="fa fa-info-circle fa-2x readOnly tableButton" />
+
+										</td>
+
+										<td style="width:10%;" >
+											<a4j:commandLink action="#{ProvvedimentiAction.injectAndProceed(Provvedimenti, 'Link_1504449669819;BtnProvvMng')}" status="ajaxStatus" id="Link_1504449669819" title="${msg.alt_Link_1504449669819}" disabled="#{Param['p.home.attivita_new.modificaProvvedimento'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" />
+
+										</td>
+
+										<td style="#{(Procpratiche.statusCode.code=='active' ? '' : 'display:none;')} width:10%;" >
+											<a4j:commandLink action="#{ProvvedimentiAction.injectAndProceed(Provvedimenti, 'Link_1502717157624;BtnProvvDel')}" status="ajaxStatus" id="Link_1502717157624_id" title="${msg.alt_Link_1502717157624}" rendered="#{Provvedimenti.statusCode.code!='completed'}" disabled="#{Param['p.home.attivita_new.eliminaProvvedimento'].readOnly}" reRender="popup,phiDesktop" styleClass="fa fa-trash fa-2x tableButton" />
+
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<a4j:commandLink action="#{ProvvedimentiAction.inject(Provvedimenti)}" status="ajaxStatus" id="Link_1506132764917" title="${msg.alt_Link_1506132764917}" reRender="phiDesktop" styleClass="fa fa-eye fa-2x tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="width:100%;padding:0;" id="LayoutRow_1506271622053" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{MiglioramentiList.size()>0}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1506271622053}</legend>
+					<a4j:outputPanel id="DataGrid_1503902969876" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1503902969876" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1503902969876} [MiglioramentiList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1502715791599" value="${msg.DataGridColumn_1502715791599} &#8593;&#8595;" action="#{MiglioramentiList.orderBy('codeLegge81')}" reRender="DataGrid_1503902969876" ajaxSingle="true" disabled="#{empty MiglioramentiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1504202695240" value="${msg.DataGridColumn_1504202695240} &#8593;&#8595;" action="#{MiglioramentiList.orderBy('dataScadenza')}" reRender="DataGrid_1503902969876" ajaxSingle="true" disabled="#{empty MiglioramentiList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1503738853710} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1504235463043" value="${msg.DataGridColumn_1504235463043} &#8593;&#8595;" action="#{MiglioramentiList.orderBy(function.getLang('esito.'))}" reRender="DataGrid_1503902969876" ajaxSingle="true" disabled="#{empty MiglioramentiList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1502906588796} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty MiglioramentiList or MiglioramentiList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="5">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1503902969876" value="#{MiglioramentiList.entities}" var="Miglioramenti" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:30%;" >
+											#{Miglioramenti.codeLegge81}
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Miglioramenti.dataScadenza}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Miglioramenti.articolo==null?'Miglioramento generico':Miglioramenti.articolo.code.displayName}</span>
+										</td>
+
+										<td >
+											#{Miglioramenti.esito.currentTranslation}
+										</td>
+
+										<td style="width:10%;" >
+											<a4j:commandLink action="#{MiglioramentiAction.injectAndProceed(Miglioramenti, 'Link_1506022682996;BtnImpMng')}" status="ajaxStatus" id="Link_1506022682996" title="${msg.alt_Link_1506022682996}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1503214668802" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1503214668802}</legend>
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1504944065623" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						Tree.buildCheckTreeDictionary(jQuery("#i\\:VPvp_valutazioneConclusiva_generic\\:JollyWidget_1504944065623"), 'Legge81Index', 'Index', 'CodeValueLaw', 'translation', '','CodeValueLaw',  '', false, '','#{BuonePraticheList}','#{BuonePraticheList}','BuonePraticheList');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

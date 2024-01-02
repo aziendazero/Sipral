@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="protocollo">
+
+
+	<start-state name="start">
+		<transition to="set temporary"></transition>
+	</start-state>
+
+
+	<task-node name="home">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/segnalazioniInScadenza')}"></action>
+		</event>
+		<transition to="clear stateMessage"></transition>
+	</task-node>
+
+	<node name="read">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setWorkingLine('uos.area')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{ProtocolloAction.orderBy.put('data','descending')}"></action>
+			<action name="4" expression="#{ProtocolloAction.orderBy.put('internalId','descending')}"></action>
+			<action name="5" expression="#{ProtocolloAction.setUlss()}"></action>
+			<action name="6" expression="#{ProtocolloAction.setCodes()}"></action>
+			<action name="7" expression="#{ProtocolloAction.filterExpired()}"></action>
+			<action name="8" expression="#{ProtocolloAction.equal.put('statusCode.code','new')}"></action>
+			<action name="9" expression="#{ProtocolloAction.temporary.put('showUOC', spisalUserAction.show('UOC'))}"></action>
+			<action name="10" expression="#{ProtocolloAction.temporary.put('showULSS', spisalUserAction.show('ULSS'))}"></action>
+			<action name="11" expression="#{ProtocolloAction.temporary.put('showUOS', spisalUserAction.show('UOS'))}"></action>
+			<action name="12" expression="#{ProtocolloAction.temporary.put('rowCount',ProtocolloAction.countResults())}"></action>
+			<action name="13" expression="#{ProtocolloAction.read()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="Close Filter Types" name="BtnRefresh"></transition>
+		<transition to="Close Filter Types" name="BtnFilterApply"></transition>
+		<transition to="clean restrictions" name="BtnFilterCancel"></transition>
+		<transition to="Gestione segnalazioni" name="BtnManagement"></transition>
+		<transition to="inject" name="row"></transition>
+		<transition to="readComplexTypes" name="BtnFilterType"></transition>
+		<transition to="notificheCantieri" name="notifiche"></transition>
+	</decision>
+
+	<process-state name="Gestione segnalazioni">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/gestioneSegnalazioni" binding="late"></sub-process>
+		<transition to="eject"></transition>
+	</process-state>
+
+	<node name="clean restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.clear()}"></action>
+			<action name="2" expression="#{ProtocolloAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('filter',true)}"></action>
+			<action name="4" expression="#{ProtocolloAction.initializeComplexTypes()}"></action>
+			<action name="5" expression="#{ProtocolloAction.temporary.put('filterType', false)}"></action>
+		</event>
+		<transition to="select"></transition>
+	</node>
+
+	<node name="inject">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeRoleAction.injectList(Protocollo.richiedenteInterno.employeeRole)}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('filter', true)}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('filterType', false)}"></action>
+			<action name="3" expression="#{ProtocolloAction.initializeComplexTypes()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="select">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.select.add('statusCode.code')}"></action>
+			<action name="2" expression="#{ProtocolloAction.select.add('nullifieReason')}"></action>
+			<action name="3" expression="#{ProtocolloAction.select.add('cancelReason')}"></action>
+			<action name="4" expression="#{ProtocolloAction.select.add('data')}"></action>
+			<action name="5" expression="#{ProtocolloAction.select.add('code')}"></action>
+			<action name="6" expression="#{ProtocolloAction.select.add('uos.area.langIt')}"></action>
+			<action name="7" expression="#{ProtocolloAction.select.add('serviceDeliveryLocation.name.giv')}"></action>
+			<action name="8" expression="#{ProtocolloAction.select.add('nprotocollo')}"></action>
+			<action name="9" expression="#{ProtocolloAction.select.add('applicant')}"></action>
+			<action name="10" expression="#{ProtocolloAction.select.add('richiedente.code')}"></action>
+			<action name="11" expression="#{ProtocolloAction.select.add('riferimento.code')}"></action>
+			<action name="12" expression="#{ProtocolloAction.select.add('richiedenteInterno.name.giv')}"></action>
+			<action name="13" expression="#{ProtocolloAction.select.add('richiedenteInterno.name.fam')}"></action>
+			<action name="14" expression="#{ProtocolloAction.select.add('richiedenteUtente.name.giv')}"></action>
+			<action name="15" expression="#{ProtocolloAction.select.add('richiedenteUtente.name.fam')}"></action>
+			<action name="16" expression="#{ProtocolloAction.select.add('richiedenteMedico.name.fam')}"></action>
+			<action name="17" expression="#{ProtocolloAction.select.add('richiedenteMedico.name.giv')}"></action>
+			<action name="18" expression="#{ProtocolloAction.select.add('richiedenteDitta.denominazione')}"></action>
+			<action name="19" expression="#{ProtocolloAction.select.add('riferimentoCantiere.addr.cty')}"></action>
+			<action name="20" expression="#{ProtocolloAction.select.add('riferimentoCantiere.addr.str')}"></action>
+			<action name="21" expression="#{ProtocolloAction.select.add('riferimentoCantiere.addr.bnr')}"></action>
+			<action name="22" expression="#{ProtocolloAction.select.add('riferimentoDitta.denominazione')}"></action>
+			<action name="23" expression="#{ProtocolloAction.select.add('riferimentoInterno.name.giv')}"></action>
+			<action name="24" expression="#{ProtocolloAction.select.add('riferimentoInterno.name.fam')}"></action>
+			<action name="25" expression="#{ProtocolloAction.select.add('riferimentoUtente.name.giv')}"></action>
+			<action name="26" expression="#{ProtocolloAction.select.add('riferimentoUtente.name.fam')}"></action>
+			<action name="27" expression="#{ProtocolloAction.select.add('riferimentoUtente.mpi')}"></action>
+			<action name="28" expression="#{ProtocolloAction.select.add('infortunio.gravita')}"></action>
+			<action name="29" expression="#{ProtocolloAction.select.add('infortunio.noteprognosi')}"></action>
+			<action name="30" expression="#{ProtocolloAction.select.add('infortunio.ggPrognosi1')}"></action>
+			<action name="31" expression="#{ProtocolloAction.select.add('infortunio.ggPrognosi2')}"></action>
+			<action name="32" expression="#{ProtocolloAction.select.add('riferimentoEntita.code')}"></action>
+			<action name="33" expression="#{ProtocolloAction.select.add('riferimentoEntita.displayName')}"></action>
+			<action name="34" expression="#{ProtocolloAction.select.add('riferimentoIMO')}"></action>
+			<action name="35" expression="#{ProtocolloAction.select.add('riferimentoTarga')}"></action>
+			<action name="36" expression="#{ProtocolloAction.select.add('urgente')}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<node name="Close Filter Types">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('filterType', false)}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<task-node name="Filter Types">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/filter_types_segnalazione')}"></action>
+		</event>
+		<transition to="selectFilters?"></transition>
+	</task-node>
+
+	<node name="clear stateMessage">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('stateMessage')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</node>
+
+	<decision name="selectFilters?" expression="#{(button.getMnemonic())}">
+		<transition to="setComplexTypesFilter" name="BtnOK"></transition>
+		<transition to="read" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="setComplexTypesFilter">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setComplexTypesFilter(ComplexTypesList)}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<node name="readComplexTypes">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.readComplexTypes(ProtocolloAction.temporary['complexTypes'])}"></action>
+		</event>
+		<transition to="Filter Types"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.eject()}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<process-state name="notificheCantieri">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/notifichePnc" binding="late"></sub-process>
+		<transition to="home"></transition>
+	</process-state>
+
+	<action name="security" expression="admin;direttore;"></action>
+
+</process-definition>

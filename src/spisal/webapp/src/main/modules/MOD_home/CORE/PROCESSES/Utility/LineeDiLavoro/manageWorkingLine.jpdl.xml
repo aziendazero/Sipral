@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="cleanWorkingLine">
+
+
+	<start-state name="start-state1">
+		<transition to="Mittente anonimo?"></transition>
+	</start-state>
+
+
+	<decision name="workingLine?" expression="#{UOS.area.code}">
+		<description>
+			Protocollo.uos.area.code
+		</description>
+		<transition to="empty Infortuni" name="WORKACCIDENT"></transition>
+		<transition to="super-state2/Save Protocollo" name="ARPAV"></transition>
+		<transition to="super-state2/Save Protocollo" name="ASBESTOSREMOVAL"></transition>
+		<transition to="super-state2/Save Protocollo" name="COUNSELING"></transition>
+		<transition to="super-state2/Save Protocollo" name="INFORMATION"></transition>
+		<transition to="super-state2/Save Protocollo" name="LIFESTYLE"></transition>
+		<transition to="super-state2/Save Protocollo" name="TECHNICALADVICE"></transition>
+		<transition to="super-state2/Save Protocollo" name="TRAINING"></transition>
+		<transition to="super-state2/Save Protocollo" name="WORKACCIDENTREG"></transition>
+		<transition to="mdl not null?" name="WORKMEDICINE"></transition>
+		<transition to="malattia not null?" name="WORKDISEASE"></transition>
+		<transition to="super-state2/Save Protocollo" name="TRAINING"></transition>
+		<transition to="super-state2/Save Protocollo" name="INFORMATION"></transition>
+		<transition to="super-state2/Save Protocollo" name="GENERIC"></transition>
+		<transition to="super-state2/Save Protocollo" name="SUPERVISION"></transition>
+	</decision>
+
+	<decision name="UOS not null?" expression="#{not empty UOS and UOS.area.code != null}">
+		<transition to="end-state2" name="false"></transition>
+		<transition to="workingLine?" name="true"></transition>
+	</decision>
+
+	<node name="Inject stuff">
+		<event type="node-enter">
+			<action name="1" expression="#{InfortuniAction.inject(Protocollo.infortunio)}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.inject(Protocollo.malattiaProfessionale)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Save Infortunio">
+			<event type="node-enter">
+				<action name="1" expression="#{InfortuniAction.create()}"></action>
+				<action name="2" expression="#{ProtocolloAction.create()}"></action>
+				<action name="3" expression="#{ProtocolloAction.link('infortunio', Infortuni)}"></action>
+			</event>
+			<transition to="../Inject stuff"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state3">
+		<node name="Save Malattia">
+			<event type="node-enter">
+				<action name="1" expression="#{MalattiaProfessionaleAction.inject(MalattiaProfessionaleAction.newEntity())}"></action>
+				<action name="2" expression="#{MalattiaProfessionaleAction.create()}"></action>
+				<action name="3" expression="#{ProtocolloAction.create()}"></action>
+				<action name="4" expression="#{MalattiaProfessionaleAction.link('protocollo', Protocollo)}"></action>
+			</event>
+			<transition to="../Inject stuff"></transition>
+		</node>
+	</super-state>
+
+	<decision name="malattia not null?" expression="#{Protocollo.malattiaProfessionale!=null}">
+		<transition to="super-state3/Save Malattia" name="false"></transition>
+		<transition to="Inject stuff" name="true"></transition>
+	</decision>
+
+	<decision name="Mittente anonimo?" expression="#{Protocollo.richiedente eq null or Protocollo.richiedente.code eq null  or Protocollo.richiedente.code.equals('Anonimo')}">
+		<transition to="clean 1" name="true"></transition>
+		<transition to="Riferimento altro?" name="false"></transition>
+	</decision>
+
+	<decision name="Riferimento altro?" expression="#{Protocollo.riferimento == null or Protocollo.riferimento.code == null}">
+		<description>
+			Protocollo.riferimento != null and Protocollo.riferimento.code.equals('Anonimo')
+		</description>
+		<transition to="clean 2" name="true"></transition>
+		<transition to="Ubicazione non previsto?" name="false"></transition>
+	</decision>
+
+	<decision name="Ubicazione non previsto?" expression="#{Protocollo.ubicazione == null or Protocollo.ubicazione.code == null or Protocollo.ubicazione.code.equals('NonPrevisto')}">
+		<transition to="clean 3" name="true"></transition>
+		<transition to="Ubicazione altro?" name="false"></transition>
+	</decision>
+
+	<decision name="Ubicazione altro?" expression="#{Protocollo.ubicazione == null or Protocollo.ubicazione.code == null or Protocollo.ubicazione.code.equals('Altro')}">
+		<transition to="clean 4" name="true"></transition>
+		<transition to="super-state4/Save" name="false"></transition>
+	</decision>
+
+	<node name="clean 1">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setRichiedenteDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setRichiedenteSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setRichiedenteUtente(null)}"></action>
+			<action name="4" expression="#{Protocollo.setRichiedenteInterno(null)}"></action>
+			<action name="5" expression="#{Protocollo.setRichiedenteMedico(null)}"></action>
+		</event>
+		<transition to="Riferimento altro?"></transition>
+	</node>
+
+	<node name="clean 2">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setRiferimentoDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setRiferimentoSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setRiferimentoCantiere(null)}"></action>
+			<action name="4" expression="#{Protocollo.setRiferimentoUtente(null)}"></action>
+			<action name="5" expression="#{Protocollo.setRiferimentoEntita(null)}"></action>
+			<action name="6" expression="#{Protocollo.setRiferimentoIMO(null)}"></action>
+			<action name="7" expression="#{Protocollo.setRiferimentoTarga(null)}"></action>
+			<action name="8" expression="#{Protocollo.setRiferimentoSpec(null)}"></action>
+			<action name="9" expression="#{Protocollo.setRiferimentoDenominazione(null)}"></action>
+			<action name="10" expression="#{Protocollo.setRiferimentoNote(null)}"></action>
+		</event>
+		<transition to="Ubicazione non previsto?"></transition>
+	</node>
+
+	<node name="clean 3">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setUbicazioneDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setUbicazioneSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setUbicazioneCantiere(null)}"></action>
+			<action name="4" expression="#{Protocollo.setUbicazioneEntita(null)}"></action>
+			<action name="5" expression="#{Protocollo.setUbicazioneIMO(null)}"></action>
+			<action name="6" expression="#{Protocollo.setUbicazioneTarga(null)}"></action>
+			<action name="7" expression="#{Protocollo.setUbicazioneSpec(null)}"></action>
+			<action name="8" expression="#{Protocollo.setUbicazioneAddr(null)}"></action>
+			<action name="9" expression="#{Protocollo.setUbicazioneY(null)}"></action>
+			<action name="10" expression="#{Protocollo.setUbicazioneX(null)}"></action>
+			<action name="11" expression="#{Protocollo.setUbicazioneLocalita(null)}"></action>
+		</event>
+		<transition to="Ubicazione altro?"></transition>
+	</node>
+
+	<node name="clean 4">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setUbicazioneDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setUbicazioneSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setUbicazioneCantiere(null)}"></action>
+		</event>
+		<transition to="super-state4/Save"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Save Protocollo">
+			<event type="node-enter">
+				<action name="1" expression="#{ProtocolloAction.create()}"></action>
+			</event>
+			<transition to="../Inject stuff"></transition>
+		</node>
+	</super-state>
+
+	<decision name="empty Infortuni" expression="#{empty Infortuni}">
+		<transition to="super-state1/Save Infortunio" name="false"></transition>
+		<transition to="injectNew Infortuni" name="true"></transition>
+	</decision>
+
+	<node name="injectNew Infortuni">
+		<event type="node-enter">
+			<action name="1" expression="#{InfortuniAction.inject(InfortuniAction.newEntity())}"></action>
+			<action name="2" expression="#{InfortuniAction.presetNotePrognosi(Infortuni)}"></action>
+		</event>
+		<transition to="super-state1/Save Infortunio"></transition>
+	</node>
+
+	<super-state name="super-state4">
+		<node name="Save">
+			<event type="node-enter">
+				<action name="1" expression="#{ProtocolloAction.create()}"></action>
+			</event>
+			<transition to="../UOS not null?"></transition>
+		</node>
+	</super-state>
+
+	<decision name="mdl not null?" expression="#{Protocollo.medicinaLavoro!=null}">
+		<transition to="Inject stuff" name="true"></transition>
+		<transition to="super-state5/Save Mdl" name="false"></transition>
+	</decision>
+
+	<super-state name="super-state5">
+		<node name="Save Mdl">
+			<event type="node-enter">
+				<action name="1" expression="#{MedicinaLavoroAction.inject(MedicinaLavoroAction.newEntity())}"></action>
+				<action name="2" expression="#{MedicinaLavoroAction.create()}"></action>
+				<action name="3" expression="#{ProtocolloAction.create()}"></action>
+				<action name="4" expression="#{MedicinaLavoroAction.link('protocollo',Protocollo)}"></action>
+			</event>
+			<transition to="../Inject stuff"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

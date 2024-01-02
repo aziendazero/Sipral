@@ -1,0 +1,113 @@
+Patient: removed relation to Person, moved attributes of person into Patient:
+	
+	New:									Old:
+		Patient.externalId						Patient.id['DBTA']	
+		Patient.foreignBirthPlace				Patient.person.foreignBirthPlace		
+		Patient.internalConsent					Patient.person.internalConsent			
+		Patient.externalConsent					Patient.person.externalConsent			
+		Patient.genderCode						Patient.person.administrativeGenderCode	
+		Patient.countryOfBirth					Patient.person.citizen					
+		Patient.birthTime						Patient.person.birthTime
+		Patient.deceasedTime					Patient.person.deceasedTime
+		Patient.date3							Patient.person.date3
+		Patient.date2							Patient.person.date2
+		Patient.date1							Patient.person.date1
+		Patient.name.giv						Patient.person.name.giv
+		Patient.name.fam						Patient.person.name.fam
+		Patient.fiscalCode						Patient.person.fiscalCode
+		Patient.genericExemption				Patient.certificateText.string
+		Patient.note1							Patient.person.note1
+		Patient.note2							Patient.person.note2
+		Patient.note3							Patient.person.note3	
+		Patient.birthPlace.xx					Patient.person.birthPlace.xx
+		Patient.language.displayName			Patient.person.language.displayName
+		Patient.addr.xx							Patient.person.addr.xx
+		
+	Patient contacts moved:
+	New:									Old:
+		Patient.contact.name.fam				Patient.person.personLink.contactParty.name.fam
+		Patient.contact.name.giv				Patient.person.personLink.contactParty.name.giv
+		Patient.contact.telecom.hp				Patient.person.personLink.contactParty.telecom.hp
+		Patient.contact.telecom.mc				Patient.person.personLink.contactParty.telecom.mc
+		Patient.contact.parentalCode			Patient.person.personLink.contactParty.parentalCode
+ 
+ 
+ Employee:  removed relation to Person, moved attributes of person into Employee: 
+ 	added externalId, genderCode, fiscalCode and birthTime
+ 	
+	New:									Old:
+		Employee.externalId						Employee.id['ANAG']	
+		Employee.name.fam						Employee.person.name.fam
+		Employee.name.giv						Employee.person.name.giv
+		Employee.telecom.hp						Employee.person.telecom.hp
+		Employee.telecom.mc						Employee.person.telecom.mc
+		Employee.telecom.mail					Employee.person.telecom.mail
+
+Deleted Classes:
+	FamiliarAnamnesis -> removed, not used
+	PatologicAnamnesis -> removed, not used
+	PhisiologicAnamnesis -> removed, not used
+
+Renamed Classes:
+	act.Anamnesis -> baseEntity.MedicalHistory
+	act.ObjectiveExam  -> baseEntity.PhysicalExam
+	role.EmployeeRole -> baseEntity.EmployeeRole
+
+Modified ACT relations:
+	Allergy:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		EmployeeRole disAllergyAuthor (disAllergyAuthor) 		-> Employee cancelledBy (cancelled_by_id)
+	Annotation:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		EmployeeRole cancellationAuthor (cancellationAuthor) 	-> Employee cancelledBy (cancelled_by_id)
+	AssessmentScale:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Diagnosis:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	AssessmentScale:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Diagnosis:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Discharge:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Document:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Identification:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	LEPActivity:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		EmployeeRole disLepAuthor (disLepAuthor) 				-> Employee cancelledBy (cancelled_by_id)
+	LEPExecution:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Nanda:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		EmployeeRole disNandaAuthor (disNandaAuthor) 			-> Employee cancelledBy (cancelled_by_id)
+	PatientEncounter:
+		EmployeeRole admitter (admitter) 						-> Employee author (admitter_id)
+		EmployeeRole referrer (referrer) 						-> Employee referrer (referrer_id)
+		EmployeeRole discharger (discharger) 					-> Employee discharger (discharger_id)
+		removed relations:
+			private List<Anamnesis> anamnesis;
+			private List<FamiliarAnamnesis> familiarAnamnesis;
+			private List<PhisiologicAnamnesis> phisiologicAnamnesis;
+			private List<PatologicAnamnesis> patologicAnamnesis;
+			private List<ObjectiveExam> objectiveExam;
+	Prescription:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		EmployeeRole deleteAuthor (delete_author) 				-> Employee cancelledBy (cancelled_by_id)
+	SubstanceAdministration:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	Therapy:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+	VitalSign:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+
+Modified participation relations:
+	Equipe:
+		EmployeeRole author (author) 							-> Employee author (author_id)
+		
+		
+		
+		
+		
+		

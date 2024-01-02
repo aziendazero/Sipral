@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkIntervistatoreQuest">
+
+
+	<start-state name="start-state1">
+		<transition to="Set Temporary"></transition>
+	</start-state>
+
+
+	<node name="Set Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('search', true)}"></action>
+		</event>
+		<transition to="Gestion Operatori"></transition>
+	</node>
+
+	<process-state name="Gestion Operatori">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/gestioneOperatori" binding="late"></sub-process>
+		<transition to="Remove Temporary"></transition>
+	</process-state>
+
+	<node name="Remove Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</node>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="set intervistatore" name="BtnSave"></transition>
+	</decision>
+
+	<node name="set intervistatore">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestionarioAction.setAssignments(OperatoreList.list)}"></action>
+			<action name="2" expression="#{QuestIntervistatoreAction.create()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

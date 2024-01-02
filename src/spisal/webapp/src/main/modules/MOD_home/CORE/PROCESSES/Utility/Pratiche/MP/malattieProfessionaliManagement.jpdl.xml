@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="malattieProfessionaleManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<node name="inject attuale">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(MalattiaProfessionale.attualeDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(MalattiaProfessionale.attualeSede)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="malProfLink" name="BtnSearchRichiedenteMal"></transition>
+		<transition to="malProfLink" name="BtnSearchRiferimentoMal"></transition>
+		<transition to="malProfLink" name="BtnSearchAttuale"></transition>
+		<transition to="injectAteco" name="compartoAteco"></transition>
+		<transition to="injectIcd9" name="icd9Popup"></transition>
+		<transition to="injectMpInail" name="mpInailPopup"></transition>
+		<transition to="injectCausa" name="causaPopup"></transition>
+		<transition to="details" name="BtnAttualeDetails"></transition>
+		<transition to="details" name="BtnRichiedenteDetails"></transition>
+		<transition to="details" name="BtnRiferimentoDetails"></transition>
+		<transition to="DittaAttribuita" name="delDittaAttr"></transition>
+		<transition to="DittaAttribuita" name="editDittaAttr"></transition>
+		<transition to="DittaAttribuita" name="newDittaAttr"></transition>
+		<transition to="FattoriRischio" name="delFatt"></transition>
+		<transition to="FattoriRischio" name="editFatt"></transition>
+		<transition to="FattoriRischio" name="newFatt"></transition>
+		<transition to="VisitaMedica" name="delVisita"></transition>
+		<transition to="VisitaMedica" name="editVisita"></transition>
+		<transition to="VisitaMedica" name="newVisita"></transition>
+		<transition to="VisitaMedica" name="clonaVisita"></transition>
+		<transition to="set target source" name="MedicDelete"></transition>
+		<transition to="set target source" name="MedicDetail"></transition>
+		<transition to="set target source" name="MedicAdd"></transition>
+	</decision>
+
+	<process-state name="malProfLink">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/malattieProfessionaliLink" binding="late"></sub-process>
+		<transition to="inject attuale"></transition>
+	</process-state>
+
+	<process-state name="compartoAteco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set ateco"></transition>
+	</process-state>
+
+	<process-state name="icd9Popup">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/filterIcd9" binding="late"></sub-process>
+		<transition to="set diag"></transition>
+	</process-state>
+
+	<process-state name="mpInailPopup">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/filterMpInail" binding="late"></sub-process>
+		<transition to="set mp"></transition>
+	</process-state>
+
+	<process-state name="causaPopup">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/filterIcd9" binding="late"></sub-process>
+		<transition to="set causa"></transition>
+	</process-state>
+
+	<node name="set ateco">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? MalattiaProfessionale.setComparto(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="set diag">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueIcd9 ? MalattiaProfessionale.setDiagCode(CodeValueIcd9) : ''}"></action>
+			<action name="2" expression="#{FattoreRischioAction.manageMalattia(CodeValueIcd9, FattoreRischioList.list, MalattiaProfessionale)}"></action>
+			<action name="3" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="set mp">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValuePhi ? MalattiaProfessionale.setMpInail(CodeValuePhi) : ''}"></action>
+			<action name="2" expression="#{FattoreRischioAction.manageMalattia(CodeValuePhi, FattoreRischioList.list, MalattiaProfessionale)}"></action>
+			<action name="3" expression="#{CodeValuePhiAction.eject()}"></action>
+			<action name="4" expression="#{CodeValueAction.temporary.remove('allowedDomains')}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="set causa">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueIcd9 ? MalattiaProfessionale.setDeathCause(CodeValueIcd9) : ''}"></action>
+			<action name="2" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<process-state name="details">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/detailsPopUp" binding="late"></sub-process>
+		<transition to="inject attuale"></transition>
+	</process-state>
+
+	<process-state name="DittaAttribuita">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/ditteAttribuite" binding="late"></sub-process>
+		<transition to="inject attuale"></transition>
+	</process-state>
+
+	<process-state name="FattoriRischio">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/fattoriRischio" binding="late"></sub-process>
+		<transition to="inject attuale"></transition>
+	</process-state>
+
+	<process-state name="VisitaMedica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/visiteMediche" binding="late"></sub-process>
+		<transition to="inject attuale"></transition>
+	</process-state>
+
+	<process-state name="medici">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/medici" binding="late"></sub-process>
+		<transition to="unset target source"></transition>
+	</process-state>
+
+	<node name="set target source">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.temporary.put('sourceAction',MalattiaProfessionaleAction)}"></action>
+			<action name="2" expression="#{PhysicianAction.temporary.put('targetObj',MalattiaProfessionale.certMed)}"></action>
+			<action name="3" expression="#{PhysicianAction.temporary.put('targetBinding','certMed')}"></action>
+		</event>
+		<transition to="medici"></transition>
+	</node>
+
+	<node name="unset target source">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.temporary.remove('sourceAction')}"></action>
+			<action name="2" expression="#{PhysicianAction.temporary.remove('targetObj')}"></action>
+			<action name="3" expression="#{PhysicianAction.temporary.remove('targetBinding')}"></action>
+		</event>
+		<transition to="end-state3"></transition>
+	</node>
+
+	<node name="injectAteco">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(MalattiaProfessionale.comparto)}"></action>
+		</event>
+		<transition to="compartoAteco"></transition>
+	</node>
+
+	<node name="injectIcd9">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueIcd9Action.inject(MalattiaProfessionale.diagCode)}"></action>
+		</event>
+		<transition to="icd9Popup"></transition>
+	</node>
+
+	<node name="injectMpInail">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValuePhiAction.inject(MalattiaProfessionale.mpInail)}"></action>
+			<action name="2" expression="#{CodeValueAction.temporary.put('allowedDomains',FattoreRischioAction.temporary['allowedDomains'])}"></action>
+		</event>
+		<transition to="mpInailPopup"></transition>
+	</node>
+
+	<node name="injectCausa">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueIcd9Action.inject(MalattiaProfessionale.deathCause)}"></action>
+		</event>
+		<transition to="causaPopup"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state3"></end-state>
+
+
+</process-definition>

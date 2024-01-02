@@ -1,0 +1,25 @@
+<form #form="ngForm" id="history-frm">
+  <div id="history-lty" class="layout vertical">
+    <div class="lbl bold">
+    <span>{{'history-title' | translate}}</span>
+    </div>
+    <div id="history-dg" [phi-datagrid]="PatientEncounterAdditional?.history">
+      <thead class="tableHeader">
+        <tr>
+          <th>{{'history-date' | translate}}</th>
+          <th>{{'history-sdl' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody class="selectable">
+        <tr *ngFor="let History of PatientEncounterAdditional?.history; let i = index" (click)="ie(History, 'History')">
+          <td>
+            <span>{{History.eventdate | dateFormat: 'shortDate'}}</span>
+          </td>
+          <td>
+            <span>{{History.encounter.sdl}}</span>
+          </td>
+      </tr>
+      </tbody>
+    </div>
+  </div>
+</form>

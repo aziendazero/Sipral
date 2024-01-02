@@ -1,0 +1,72 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1476646164072" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot layoutGroupBoxOuter" >
+			<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1476646164072}</legend>
+				<a4j:outputPanel layout="block" id="LayoutFill_1477563039061" styleClass="layoutContainer layoutContainerVertical" >
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1476612490172" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_TextArea_1476612490172}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1476612490172_id" value="#{ProtocolloAction.like['malattiaProfessionale.sedeText']}" styleClass="filter  filterLine" label="${msg.label_TextArea_1476612490172}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1476612490172_id" styleClass="errorMessages TextArea_1476612490172_E" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1476536121505}</span>
+						<h:selectOneMenu id="ComboBox_1476536121505" value="#{ProtocolloAction.equal['malattiaProfessionale.gravita']}" styleClass="filter  filterLine comboBox" label="${msg.label_ComboBox_1476536121505}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsitoItem')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1476253931216" >
+				<label >
+					<span class="label">${msg.label_TextArea_1476253931216}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1476253931216_id" value="#{ProtocolloAction.like['malattiaProfessionale.diagText']}" styleClass="filter  filterLine" label="${msg.label_TextArea_1476253931216}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1476253931216_id" styleClass="errorMessages TextArea_1476253931216_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="rowIcd9" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1476256659203}</span>
+						<h:inputText id="TextBox_1476256659203" value="#{CodeValueIcd9.code}" style="width:100px;min-width:100px;" styleClass="filter  filterLine inputText" disabled="true" label="${msg.label_TextBox_1476256659203}" />
+						<a4j:outputPanel id="TextBox_1476256659203_msg" styleClass="errorContainer" ><h:message for="TextBox_1476256659203" styleClass="errorMessages TextBox_1476256659203_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1473991382480" style="width:150px;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1474561500023_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1474561500023" >
+						<h:inputTextarea id="TextArea_1474561500023_id" value="#{CodeValueIcd9.currentTranslation}" styleClass="filter  filterLine" readonly="true" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						<h:message style="float:left;" for="TextArea_1474561500023_id" styleClass="errorMessages TextArea_1474561500023_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1477629340648;icd9Popup')}" status="ajaxStatus" id="Link_1477629340648" title="${msg.alt_Link_1477629340648}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+					</div>
+
+				</a4j:outputPanel>
+			</fieldset>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

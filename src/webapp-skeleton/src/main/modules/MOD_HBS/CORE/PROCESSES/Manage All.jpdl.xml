@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="Manage All">
+<description>no description</description>
+		
+	<start-state name="start-state1">
+		<transition to="node1"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="manage HBS UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/f_HBS_management')}" name="main"></action>
+		</event>
+		<transition to="sdloc type to save?"></transition>		
+	</task-node>
+
+	
+	<decision name="sdloc type to save?" expression="#{(button.getMnemonic())}">
+	<transition to="super-state4/save SDL" name="saveUP"></transition>
+		<transition to="super-state4/save SDL" name="saveUOF"></transition>
+		<transition to="super-state4/save SDL" name="saveOUP"></transition>
+		<transition to="super-state4/save SDL" name="saveUPR"></transition>
+		<transition to="search Emp" name="ADDEMP"></transition>
+		<transition to="super-state4/save SDL" name="saveROOM"></transition>
+		<transition to="super-state4/save SDL" name="saveBED"></transition>
+		<transition to="super-state2/SDL remove Resp" name="REMOVEEMP"></transition>
+		<transition to="super-state4/save SDL" name="saveDIS"></transition>
+		<transition to="super-state4/save SDL" name="saveUD"></transition>
+		<transition to="super-state4/save SDL" name="saveWARD"></transition>
+		<transition to="Search ASL" name="addASL"></transition>
+		<transition to="super-state5/delASL" name="delASL"></transition>
+		<transition to="manage HBS UI" name="NEXT"></transition>
+		<transition to="ReadLocation" name="ADDLOC"></transition>
+		<transition to="super-state4/save SDL" name="saveORG"></transition>
+		<transition to="eject emp" name="ADDEMPWARDUP"></transition>
+	
+	</decision>
+	 
+	 
+	
+	<super-state name="super-state4">
+		
+		
+	
+	
+	<node name="save SDL">
+		<event type="node-enter">
+		
+		
+			<action expression="#{ServiceDeliveryLocationAction.create()}" name="main"></action>
+		</event>
+			<transition to="../manage HBS UI"></transition>
+	</node>
+			
+		
+	
+		
+	</super-state>
+	
+	
+	
+	<super-state name="super-state1">
+		
+		
+	
+	
+	<node name="addASL"><event type="node-enter">
+				<action name="1" expression="#{ServiceDeliveryLocationAction.link('organization',Organization)}"></action>
+			</event>
+			<transition to="../manage HBS UI"></transition>
+	</node>
+			
+		
+	
+		
+	</super-state>
+
+	<process-state name="search Emp">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/Search" binding="late"></sub-process>
+		<transition to="super-state3/SDL.setResponsible"></transition>
+	</process-state>
+
+	<super-state name="super-state2">
+		<node name="SDL remove Resp">
+			<event type="node-enter">
+				<action expression="#{ServiceDeliveryLocation.setResponsible(null)}" name="1346842355426"></action>
+			</event>
+			<transition to="../manage HBS UI"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state3">
+		<node name="SDL.setResponsible">
+			<event type="node-enter">
+				<action name="1" expression="#{ServiceDeliveryLocation.setResponsible(Employee)}"></action>
+			</event>
+			<transition to="../manage HBS UI"></transition>
+		</node>
+	</super-state>
+
+	<node name="node1">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.temporary.put('singleDianoemaCode',ServiceDeliveryLocation.externalCostCenter.get(0))}"></action>
+		</event>
+		<transition to="manage HBS UI"></transition>
+	</node>
+
+	<process-state name="Search ASL">
+		<sub-process name="MOD_HBS/CORE/PROCESSES/Asl/Search Asl" binding="late"></sub-process>
+		<transition to="super-state1/addASL"></transition>
+	</process-state>
+
+	<super-state name="super-state5">
+		<node name="delASL">
+			<event type="node-enter">
+				<action name="1" expression="#{ServiceDeliveryLocationAction.unLink('organization',Organization)}"></action>
+			</event>
+			<transition to="../manage HBS UI"></transition>
+		</node>
+	</super-state>
+
+	<node name="ReadLocation">
+			<event type="node-enter">
+			<action name="1" expression="#{LocationAction.setFilterBySdl(false)}"></action>
+			<action name="2" expression="#{LocationAction.equal.put('code.code', 'LOC')}"></action>
+			<action name="3" expression="#{LocationAction.read()}"></action>
+		</event>
+		<transition to="Locations List"></transition>
+	</node>
+
+	<task-node name="Locations List">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/f_hospital_complex_management')}"></action>
+		</event>
+		<transition to="getMnemonic"></transition>
+	</task-node>
+
+	<decision name="getMnemonic" expression="#{(button.getMnemonic())}">
+		<transition to="super-state6/LinkSDL" name="ADD"></transition>
+		<transition to="eject Location" name="BACK"></transition>
+	</decision>
+
+	<super-state name="super-state6">
+		<node name="LinkSDL">
+			<event type="node-enter">
+				<action name="1" expression="#{ServiceDeliveryLocationAction.link('serviceDeliveryLocation',Location)}"></action>
+				<action name="2" expression="#{ServiceDeliveryLocationAction.create()}"></action>
+			</event>
+			<transition to="../eject Location"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject Location">
+		<event type="node-enter">
+			<action name="1" expression="#{LocationAction.eject()}"></action>
+			<action name="2" expression="#{LocationAction.ejectList('LocationList')}"></action>
+		</event>
+		<transition to="manage HBS UI"></transition>
+	</node>
+
+	<super-state name="super-state7">
+		<node name="addemplwardUP">
+			<event type="node-enter">
+				<action name="1" expression="#{ServiceDeliveryLocation.setResponsible(Employee)}"></action>
+			</event>
+			<transition to="../manage HBS UI"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="search employee 3">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/Search" binding="late"></sub-process>
+		<transition to="super-state7/addemplwardUP"></transition>
+	</process-state>
+
+	<node name="eject emp">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{EmployeeAction.ejectList('EmployeeList')}"></action>
+			<action name="3" expression="#{EmployeeAction.eject()}"></action>
+		</event>
+		<transition to="search employee 3"></transition>
+	</node>
+	
+<action name="security" expression="admin;direttore;"></action>
+	
+
+</process-definition>
+

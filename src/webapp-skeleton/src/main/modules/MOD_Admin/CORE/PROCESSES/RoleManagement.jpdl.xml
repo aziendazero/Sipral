@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="roleManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="read CodeValueRole"></transition>
+	</start-state>
+
+
+	<task-node name="roleManagement">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/roleManagement')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<node name="read CodeValueRole">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueRoleAction.injectList(ProcSecurityAction.getCurrentRoles())}"></action>
+			<action name="2" expression="#{ProcSecurityAction.temporary.put('macroprocess',true)}"></action>
+		</event>
+		<transition to="roleManagement"></transition>
+	</node>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="HOME"></transition>
+		<transition to="delete" name="DELETE"></transition>
+		<transition to="read ProcSecurity 4 role" name="EDIT"></transition>
+	</decision>
+
+	<task-node name="clone popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Admin/CORE/FORMS/roleManagementPopup')}"></action>
+		</event>
+		<transition to="popup button?"></transition>
+	</task-node>
+
+	<decision name="popup button?" expression="#{button.value}">
+		<transition to="clone" name="LnkRoleMngPopupOk"></transition>
+		<transition to="read ProcSecurity 4 role" name="BtnCancel"></transition>
+		<transition to="read ProcSecurity 4 role" name="LnkRoleMngPopupCancel"></transition>
+	</decision>
+
+	<node name="clone">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueRoleAction.inject(CodeValueRoleAction.coloneRole(CodeValueRole, CodeValueRoleAction.temporary['cloneName']))}"></action>
+		</event>
+		<transition to="read ProcSecurity 4 role"></transition>
+	</node>
+
+	<node name="delete">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueRoleAction.deleteRole(CodeValueRole)}"></action>
+		</event>
+		<transition to="read CodeValueRole"></transition>
+	</node>
+
+	<node name="read ProcSecurity 4 role">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcSecurityAction.orderBy.put('path','ascending')}"></action>
+			<action name="2" expression="#{ProcSecurityAction.temporary['macroprocess'] ? ProcSecurityAction.equal.put('macroprocess',true) : ProcSecurityAction.equal.remove('macroprocess')}"></action>
+			<action name="3" expression="#{ProcSecurityAction.read()}"></action>
+			<action name="4" expression="#{ProcSecurityRoleAction.calculateSecurity4Role(ProcSecurityList.list, CodeValueRole)}"></action>
+		</event>
+		<transition to="roleManagementDetails"></transition>
+	</node>
+
+	<task-node name="roleManagementDetails">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/roleManagementDetails')}"></action>
+		</event>
+		<transition to="button detail?"></transition>
+	</task-node>
+
+	<decision name="button detail?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="HOME"></transition>
+		<transition to="read CodeValueRole" name="BACK"></transition>
+		<transition to="clone popup" name="CLONE"></transition>
+		<transition to="super-state1/Save ProcDef" name="SAVE"></transition>
+		<transition to="read ProcSecurity 4 role" name="RELOAD"></transition>
+		<transition to="find parameters for role" name="EDIT"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="Save ProcDef">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcSecurityRoleAction.updateProcSecurity(ProcSecurityList.list, CodeValueRole)}"></action>
+				<action name="2" expression="#{CodeValueRoleAction.create()}"></action>
+			</event>
+			<transition to="../read CodeValueRole"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="parameter popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Admin/CORE/FORMS/popup/roleManagementParameter')}"></action>
+		</event>
+		<transition to="parameter popup btn?"></transition>
+	</task-node>
+
+	<decision name="parameter popup btn?" expression="#{button.value}">
+		<transition to="save parameter" name="BtnOkRoleMngPar_id"></transition>
+		<transition to="read ProcSecurity 4 role" name="BtnCancel"></transition>
+		<transition to="read ProcSecurity 4 role" name="BtnCancelRoleMngPar_id"></transition>
+		<transition to="add Parameter for role" name="BtnAddRoleMngPar"></transition>
+	</decision>
+
+	<node name="save parameter">
+		<event type="node-enter"></event>
+		<transition to="read ProcSecurity 4 role"></transition>
+	</node>
+
+	<node name="find parameters for role">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueParameterAction.temporary.put('byRole',CodeValueParameterAction.findParametersFor(ProcSecurity.parameter, CodeValueRole.code))}"></action>
+		</event>
+		<transition to="parameter popup"></transition>
+	</node>
+
+	<node name="add Parameter for role">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueParameterAction.inject(CodeValueAction.createNew(CodeValueParameter.id, 'CODE', CodeValueRole.code, null, true, true, CodeValueParameter.codeSystem))}"></action>
+			<action name="2" expression="#{CodeValueParameter.setRole(CodeValueRole)}"></action>
+			<action name="3" expression="#{CodeValueParameterAction.create()}"></action>
+		</event>
+		<transition to="find parameters for role"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+	
+	<action name="security" expression="admin;1"></action>
+
+
+</process-definition>

@@ -1,0 +1,144 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1462594900431}</h1>
+	<div id="search_person" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1461718793053" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1461948280363" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1463736395893" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1462133150085;BtnBack')}" status="ajaxStatus" id="Link_1462133150085" title="${msg.alt_Link_1462133150085}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1463736396596" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TableConversionWidget_1463671436334" >
+						<a4j:htmlCommandLink actionListener="#{excelExport.convertToExcel}" immediate="true" limitToList="true" title="${msg.TableConversionWidget_1463671436334}" target="_blank" rendered="#{PersonList.size()>0}" style="height: 38px;width: 38px;" styleClass="buttonExport  buttonBase" >
+							<f:param name="dataTable" value="DataGrid_1462664144528_table" />
+							<f:param name="tableHeaders" value="${msg.DataGridColumn_1463548818447}-/-${msg.DataGridColumn_1462562020755}-/-${msg.DataGridColumn_1462079463284}-/-${msg.DataGridColumn_1463658163070}-/-${msg.DataGridColumn_1463658161918}-/-${msg.DataGridColumn_1463658162535}-/-${msg.DataGridColumn_1463673570301}" />
+							<f:param name="tableColumns" value="Person.name.fam-/-Person.name.giv-/-Person.birthTime-/-Person.professionalSituation.type.currentTranslation-/-Person.addr.cty-/-Person.addr.str-/-Person.addr.bnr" />
+							<f:param name="listName" value="PersonList" />
+						</a4j:htmlCommandLink>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1462158083667" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1462158083667}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1461901214454" style="width:80%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463657281367}</span>
+							<h:selectOneMenu id="ComboBox_1463657281367" value="#{PersonAction.equal['professionalSituation.type']}" styleClass="comboBox" title="${msg.alt_ComboBox_1463657281367}" label="${msg.label_ComboBox_1463657281367}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkerType')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1463657315360}</span>
+							<h:inputText id="MonthCalendar_1463657315360" value="#{PersonAction.greaterEqual['professionalSituation.validFrom']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1463657315360}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1463657315360" styleClass="errorMessages MonthCalendar_1463657315360_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1463657321521}</span>
+							<h:inputText id="MonthCalendar_1463657321521" value="#{PersonAction.lessEqual['professionalSituation.validTo']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1463657321521}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1463657321521" styleClass="errorMessages MonthCalendar_1463657321521_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463657337337}</span>
+							<h:selectOneMenu id="ComboBox_1463657337337" value="#{PersonAction.temporary['selectedULSS']}" styleClass="comboBox" title="${msg.alt_ComboBox_1463657337337}" label="${msg.label_ComboBox_1463657337337}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getOrganizations()}" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1461774714897" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1464859665903;BtnSearch')}" status="ajaxStatus" id="Link_1464859665903" title="${msg.alt_Link_1464859665903}" reRender="DataGrid_1462664144528,TableConversionWidget_1463671436334" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1464794513045;BtnClean')}" status="ajaxStatus" id="Link_1464794513045" title="${msg.alt_Link_1464794513045}" reRender="DataGrid_1462664144528" styleClass="fa fa-eraser fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1462664144528" layout="block" styleClass="linkUnlink dt layoutTable layoutVertical" style="padding-top: 15px;" >
+					<table id="d1462664144528" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1462664144528} [PersonList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1463548818447" value="${msg.DataGridColumn_1463548818447} &#8593;&#8595;" action="#{PersonList.orderBy('name.fam')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1462562020755" value="${msg.DataGridColumn_1462562020755} &#8593;&#8595;" action="#{PersonList.orderBy('name.giv')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1462079463284" value="${msg.DataGridColumn_1462079463284} &#8593;&#8595;" action="#{PersonList.orderBy('birthTime')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1463658163070" value="${msg.DataGridColumn_1463658163070} &#8593;&#8595;" action="#{PersonList.orderBy(function.getLang('professionalSituation.type.'))}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1463658161918" value="${msg.DataGridColumn_1463658161918} &#8593;&#8595;" action="#{PersonList.orderBy('addr.cty')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1463658162535" value="${msg.DataGridColumn_1463658162535} &#8593;&#8595;" action="#{PersonList.orderBy('addr.str')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1463673570301" value="${msg.DataGridColumn_1463673570301} &#8593;&#8595;" action="#{PersonList.orderBy('addr.bnr')}" reRender="DataGrid_1462664144528" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty PersonList or PersonList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="7">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1462664144528" value="#{PersonList.entities}" var="Person" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1462664144528(this.id);" class="#{PersonAction.getEntity().equals(Person) or Person.internalId != 0 and PersonAction.entity.internalId.equals(Person.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{Person.name.fam}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.name.giv}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="c-text-bold base-label" value="#{Person.birthTime}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.professionalSituation.type.currentTranslation}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.addr.cty}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.addr.str}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.addr.bnr}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1462664144528" name="ie1462664144528" status="ajaxStatus" action="#{PersonList.injectEject}" data="#{PersonList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1462664144528'))" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{PersonList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

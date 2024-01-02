@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fattoriRischio">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{button.mnemonic}">
+		<transition to="preset multi" name="EditFattoreLav"></transition>
+		<transition to="delete" name="DelFattoreLav"></transition>
+		<transition to="new FattoreRischio" name="NewFattoreLav"></transition>
+	</decision>
+
+	<node name="eject and reRead">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.injectList(AnamnesisMdl.fattoreRischio)}"></action>
+			<action name="2" expression="#{FattoreRischioList.orderBy('startValidity','descending')}"></action>
+			<action name="3" expression="#{FattoreRischioAction.temporary.remove('backup')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="edit new fattore">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/popup/fattoreRischioMdl')}"></action>
+		</event>
+		<transition to="next from new?"></transition>
+	</task-node>
+
+	<decision name="next from new?" expression="#{(button.getMnemonic())}">
+		<transition to="evict Fattore" name="BtnBack"></transition>
+		<transition to="link Fattore" name="BtnSave"></transition>
+		<transition to="evict Fattore" name="BtnCancel"></transition>
+		<transition to="L81 popup" name="legge81popup"></transition>
+	</decision>
+
+	<node name="evict Fattore">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<node name="link Fattore">
+		<event type="node-enter">
+			<action name="1" expression="#{AnamnesisMdlAction.link('fattoreRischio',FattoreRischio)}"></action>
+			<action name="2" expression="#{FattoreRischioAction.calculateIntensity()}"></action>
+			<action name="3" expression="#{AnamnesisMdlAction.calculateExpositions()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<task-node name="edit fattore">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/popup/fattoreRischioMdl')}"></action>
+		</event>
+		<transition to="next from edit?"></transition>
+	</task-node>
+
+	<decision name="next from edit?" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="BtnCancel"></transition>
+		<transition to="link Fattore" name="BtnSave"></transition>
+		<transition to="inject L81" name="legge81popup"></transition>
+		<transition to="refresh" name="BtnBack"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.refresh()}"></action>
+			<action name="2" expression="#{FattoreRischio.internalId le 0 ? FattoreRischioAction.writeOver(FattoreRischioAction.temporary['backup']) : ''}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<node name="delete">
+		<event type="node-enter">
+			<action name="1" expression="#{AnamnesisMdlAction.unLink('fattoreRischio',FattoreRischio)}"></action>
+			<action name="2" expression="#{AnamnesisMdlAction.calculateExpositions()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<node name="new FattoreRischio">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.inject(FattoreRischioAction.newEntity())}"></action>
+			<action name="2" expression="#{FattoreRischioAction.setCodeValue('type','PHIDIC','TipiFattoriRischio','LA')}"></action>
+			<action name="3" expression="#{FattoreRischioAction.presetYears()}"></action>
+		</event>
+		<transition to="edit new fattore"></transition>
+	</node>
+
+	<node name="preset multi">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.presetMultiplier()}"></action>
+			<action name="2" expression="#{FattoreRischioAction.temporary.put('backup',FattoreRischioAction.copy(FattoreRischio))}"></action>
+		</event>
+		<transition to="edit fattore"></transition>
+	</node>
+
+	<node name="inject L81">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueLawAction.inject(FattoreRischio.legge81code)}"></action>
+			<action name="2" expression="#{FattoreRischioAction.temporary.put('editMode',true)}"></action>
+		</event>
+		<transition to="L81 popup"></transition>
+	</node>
+
+	<process-state name="L81 popup">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MDL/legge81popup" binding="late"></sub-process>
+		<transition to="link L81"></transition>
+	</process-state>
+
+	<node name="link L81">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueLaw ? FattoreRischio.setLegge81code(CodeValueLaw) : ''}"></action>
+			<action name="2" expression="#{CodeValueLawAction.eject()}"></action>
+		</event>
+		<transition to="is editmode"></transition>
+	</node>
+
+	<decision name="is editmode" expression="#{FattoreRischioAction.temporary['editMode']==true}">
+		<transition to="remove temp" name="true"></transition>
+		<transition to="edit new fattore" name="false"></transition>
+	</decision>
+
+	<node name="remove temp">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.temporary.put('editMode',false)}"></action>
+		</event>
+		<transition to="edit fattore"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

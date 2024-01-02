@@ -1,0 +1,377 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1536037169487}</h1>
+	<div id="vp_impianto_01" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1536267571059" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1533399323034" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1532910398430;BtnBack')}" status="ajaxStatus" id="Link_1532910398430" title="${msg.alt_Link_1532910398430}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1536596691006" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736643400" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536989287990}</span>
+							<h:outputText value="#{Fattura.serviceDeliveryLocation.name.giv}" id="Label_1536989287990" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536736297499}</span>
+							<h:outputText value="#{Fattura.anno}" id="Label_1536736297499" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536736301490}</span>
+							<h:outputText value="#{Fattura.tipologiaFattura}" id="Label_1536736301490" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1538247072867}</span>
+							<h:outputText value="#{Fattura.personaGiuridica.denominazione}" id="Label_1538247072867" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736644052" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1534930868554}</span>
+							<h:outputText value="#{Fattura.creationDate}" id="Label_1534930868554" styleClass="labelContent  base-label" >
+							<s:convertDateTime pattern="${format.dateTimeNormal}" />
+							</h:outputText>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536736298279}</span>
+							<h:outputText value="#{Fattura.meseDal}" id="Label_1536736298279" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536736302026}</span>
+							<h:outputText value="#{Fattura.tipologiaDocumento}" id="Label_1536736302026" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1535102563988}</span>
+							<h:outputText value="#{Fattura.operatore.name}" id="Label_1535102563988" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736644586" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1535930303112}</span>
+							<h:outputText value="#{Fattura.auth.name}" id="Label_1535930303112" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1536736298955}</span>
+							<h:outputText value="#{Fattura.meseAl}" id="Label_1536736298955" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1533642147730" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1533642147730}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736737760" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1534919125071}</span>
+							<h:outputText value="#{Fattura.gruppo}" id="Label_1534919125071" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1535112696275}</span>
+							<h:outputText value="#{FatturaAction.getImporti(Fattura, 'imponibile')}" id="Label_1535112696275" styleClass="labelContent c-text-0080FF c-text-bold base-label" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1535246806214" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1535627863180}</span>
+								<span value="${msg.Label_1535627863180}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1536659777858" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1536659777858')}" status="ajaxStatus" id="Link_1536659777858_id" title="${msg.alt_Link_1536659777858}" style="color: green;" rendered="#{Fattura.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x link readOnly" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1536818031716" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1536818031716')}" status="ajaxStatus" id="Link_1536818031716_id" title="${msg.alt_Link_1536818031716}" style="color: red;" rendered="#{Fattura.statusCode.code=='nullified'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x link readOnly" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736738242" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1534941979126}</span>
+							<h:outputText value="#{FatturaAction.getDocumentiDal(Fattura)}" id="Label_1534941979126" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1535842958850}</span>
+							<h:outputText value="#{FatturaAction.getImporti(Fattura, 'imposta')}" id="Label_1535842958850" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736738753" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1534941981406}</span>
+							<h:outputText value="#{FatturaAction.getDocumentiAl(Fattura)}" id="Label_1534941981406" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1538279171791}</span>
+							<h:outputText value="#{FatturaAction.getImporti(Fattura, 'totale')}" id="Label_1538279171791" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1536736837583" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1668680524585" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1534942599249}</span>
+								<h:outputText value="#{FatturaAction.getDocumentiGenerabili(Fattura)}" id="Label_1534942599249" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1668680539163}</span>
+								<h:outputText value="#{FatturaAction.getTotaleDocumenti(Fattura)}" id="Label_1668680539163" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1533974940844" styleClass="layoutContainer layoutContainerVertical padding-bottom:25px;" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1533286864791}</span>
+								<span value="${msg.Label_1533286864791}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1536137146201" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1536137146201_id" style="height:100%;width:100%;" rendered="#{!FatturaAction.temporary['csv']}" >
+								<!-- <a target="_blank"  download="#{Fattura.filename}"  href="#{function.concat('resource/rest/fatturas/',Fattura.internalId,'/download/content')}"  class="readOnly">
+									<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+								</a> -->
+								
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+										                    <f:param name="path" value="#{function.concat('Fattura.',Fattura.internalId,'.posizionale')}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1568631408254" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1568631408254_id" style="height:100%;width:100%;" rendered="#{FatturaAction.temporary['csv']}" >
+								<!-- <a target="_blank"  download="#{Fattura.filename}"  href="#{function.concat('resource/rest/fatturas/',Fattura.internalId,'/download/csv')}"  class="readOnly">
+									<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+								</a> -->
+								
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{Fattura.filename}</i>
+										                    <f:param name="path" value="#{function.concat('Fattura.',Fattura.internalId)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_CheckBox_1566992090128}</span>
+								<h:selectBooleanCheckbox id="CheckBox_1566992090128" value="#{FatturaAction.temporary['csv']}" style="vertical-align:middle;" styleClass="checkBox readOnly" alt="CHECKBOX" label="${msg.label_CheckBox_1566992090128}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1536736837583" event="onclick" ignoreDupResponses="true" />
+								</h:selectBooleanCheckbox>
+								<h:message for="CheckBox_1566992090128" styleClass="errorMessages CheckBox_1566992090128_E" />
+							</label>
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1566992090128" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1570468295288" >
+						<span value="${msg.Label_1570468295288}" id="Label_1570468295288_id" style="display:#{(FatturaAction.temporary['csv']) ? 'block' : 'none' };" class="labelContent c-text-bold c-text-red base-label" >${msg.Label_1570468295288}</span>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_Label_1533214098862}</span>
+					<h:outputText value="#{Fattura.descr}" id="Label_1533214098862" styleClass="labelContent  base-label" />
+				</label>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1537531529663" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1537531529663}</legend>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1537531601432" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty FileAccDitte}" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1537531620040}</span>
+							<span value="${msg.Label_1537531620040}" class="labelContent  base-label" ></span>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1537531651008" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1537531697483}</span>
+								<span value="${msg.Label_1537531697483}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1537531687753" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1537531687753_id" style="height:100%;width:100%;" rendered="#{!FatturaAction.temporary['csvAcc']}" >
+								<!-- <a target="_blank"  download="#{FileAccDitte.filename}"  href="#{function.concat('resource/rest/fileaccdittes/',FileAccDitte.internalId,'/download/content')}"  class="readOnly">
+									<i class="c-text-red c-text-14 c-text-underline">#{FileAccDitte.filename}</i>
+								</a> -->
+								
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccDitte.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccDitte.',FileAccDitte.internalId,'.posizionale')}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1664871023239" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1664871023239_id" style="height:100%;width:100%;" rendered="#{FatturaAction.temporary['csvAcc']}" >
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccDitte.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccDitte.',FileAccDitte.internalId)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1535701461201" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty FileAccCond}" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1537358879041}</span>
+							<span value="${msg.Label_1537358879041}" class="labelContent  base-label" ></span>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1539015059396" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1539103427886}</span>
+								<span value="${msg.Label_1539103427886}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1539150512864" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1539150512864_id" style="height:100%;width:100%;" rendered="#{!FatturaAction.temporary['csvAcc']}" >
+								<!-- <a target="_blank"  download="#{FileAccCond.filename}"  href="#{function.concat('resource/rest/fileaccconds/',FileAccCond.internalId,'/download/content')}"  class="readOnly">
+									<i class="c-text-red c-text-14 c-text-underline">#{FileAccCond.filename}</i>
+								</a> -->
+								
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccCond.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccCond.',FileAccCond.internalId,'.posizionale')}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1664871024975" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1664871024975_id" style="height:100%;width:100%;" rendered="#{FatturaAction.temporary['csvAcc']}" >
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccCond.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccCond.',FileAccCond.internalId)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1536993771227" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty FileAccEnti}" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1539069063097}</span>
+							<span value="${msg.Label_1539069063097}" class="labelContent  base-label" ></span>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1535926393067" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1538107212837}</span>
+								<span value="${msg.Label_1538107212837}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1538314077828" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1538314077828_id" style="height:100%;width:100%;" rendered="#{!FatturaAction.temporary['csvAcc']}" >
+								<!-- <a target="_blank"  download="#{FileAccEnti.filename}"  href="#{function.concat('resource/rest/fileaccentis/',FileAccEnti.internalId,'/download/content')}"  class="readOnly">
+									<i class="c-text-red c-text-14 c-text-underline">#{FileAccEnti.filename}</i>
+								</a> -->
+								
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccEnti.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccEnti.',FileAccEnti.internalId,'.posizionale')}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1664871027223" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1664871027223_id" style="height:100%;width:100%;" rendered="#{FatturaAction.temporary['csvAcc']}" >
+										                <s:link action="#{downloadAttachment.download}" target="_blank">
+															<i class="c-text-red c-text-14 c-text-underline">#{FileAccEnti.filename}</i>
+										                    <f:param name="path" value="#{function.concat('FileAccEnti.',FileAccEnti.internalId)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CheckBox_1680188780930" >
+					<label style="display:#{(FileAccDitte.csv or FileAccCond.csv or FileAccEnti.csv) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_CheckBox_1680188780930}</span>
+						<h:selectBooleanCheckbox id="CheckBox_1680188780930_id" value="#{FatturaAction.temporary['csvAcc']}" style="vertical-align:middle;" styleClass="checkBox readOnly" alt="CHECKBOX" rendered="#{FileAccDitte.csv or FileAccCond.csv or FileAccEnti.csv}" label="${msg.label_CheckBox_1680188780930}" >
+						<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1535701461201,LayoutRow_1536993771227,LayoutRow_1537531601432" event="onclick" ignoreDupResponses="true" />
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1680188780930_id" styleClass="errorMessages CheckBox_1680188780930_E" />
+					</label>
+					</a4j:outputPanel>
+					<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{FileAccDitte.csv or FileAccCond.csv or FileAccEnti.csv}"  for="CheckBox_1680188780930" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

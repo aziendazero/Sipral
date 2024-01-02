@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>it.insielmercato.phi.solution</groupId>
+        <artifactId>spisal</artifactId>
+        <version>2.5-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>spisal-webapp</artifactId>
+    <packaging>war</packaging>
+    <name>web application</name>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.insielmercato.phi</groupId>
+            <artifactId>webapp-skeleton</artifactId>
+            <type>war</type>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>spisal</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>it.insielmercato.phi</groupId>
+                            <artifactId>webapp-skeleton</artifactId>
+                            <filtered>true</filtered>
+                        </overlay>
+                    </overlays>
+                    <dependentWarExcludes>label/,SKIN/scss/</dependentWarExcludes> <!-- exclude labels and scss from overlay -->
+                    <nonFilteredFileExtensions>
+                    	<nonFilteredFileExtension>class</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>jar</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ico</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>otf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>eot</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>woff2</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>odt</nonFilteredFileExtension>
+		                <nonFilteredFileExtension>odf</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                    <webResources>
+                        <!--resource> Customer stuff
+                            <directory>src/main/webResources/customer_${CUSTOMER}</directory>
+                            <filtering>false</filtering>
+                            <targetPath>.</targetPath>
+                            <excludes>
+                                <exclude>SKIN/css/default.css</exclude>
+                            </excludes>
+                        </resource>-->
+                        <resource><!--Filtered WEB-INF stuff-->
+                            <directory>src/main/webResources/WEB-INF</directory>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>**/*.xml</include>
+                            </includes>
+                        </resource>
+                        <resource><!--Common stuff-->
+                            <directory>src/main/webResources</directory>
+                            <filtering>false</filtering>
+                            <excludes>
+                                <!--exclude>customer_**/</exclude-->
+                                <exclude>SKIN/css/default.css</exclude>
+                                <exclude>SKIN/scss/</exclude>
+                            </excludes>
+                        </resource>
+                        <resource><!--Processes and icons-->
+                            <directory>src/main/modules</directory>
+                            <filtering>false</filtering>
+                            <includes>
+                                <include>**/*.jpdl.xml</include>
+                                <include>**/*.icon.*</include>
+                            </includes>
+                        </resource>
+                        <!--resource>
+                            <directory>src/main/rules</directory>
+                            <filtering>false</filtering>
+                            <targetPath>/WEB-INF/rules</targetPath>
+                        </resource-->
+
+                    </webResources>
+                    <!--<webXml>src/main/webapp/WEB-INF/web.xml</webXml>-->
+                </configuration>
+            </plugin>
+
+            <!-- Concatenate and minify js css 
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <nosuffix>true</nosuffix>
+                    <aggregations>
+                        <aggregation>
+                            <output>${project.build.directory}/${project.build.finalName}/SKIN/css/all.css</output>
+                            <inputDir>src/main/webResources/</inputDir>
+                            <includes>
+                                <include>${project.build.directory}/${project.build.finalName}/SKIN/css/default.css</include>-->
+                                <!--include>customer_${CUSTOMER}/SKIN/css/default.css</include-->
+                            <!-- /includes>
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin-->
+            <!-- extract labels from overlay, to merge with this project and scss to compile css-->
+            <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-dependency-plugin</artifactId>
+		        <executions>
+		            <!-- Extract labels and scss of webapp-skeleton -->
+		            <execution>
+		                <id>unpack-webapp-skeleton</id>
+		                <phase>generate-resources</phase>
+		                <goals>
+		                    <goal>unpack</goal>
+		                </goals>
+		                <configuration>
+		                    <artifactItems>
+		                        <artifactItem>
+						            <groupId>it.insielmercato.phi</groupId>
+						            <artifactId>webapp-skeleton</artifactId>
+		                            <type>war</type>
+		                            <overWrite>true</overWrite>
+		                            <outputDirectory>${project.build.directory}/webapp-skeleton</outputDirectory>
+		                            <includes>
+		                            	label/messages_en.properties,
+		                            	label/messages_it.properties,
+		                            	label/messages_de.properties,
+		                            	SKIN/scss/default.scss
+		                            </includes>
+		                        </artifactItem>
+		                    </artifactItems>
+		                </configuration>
+		            </execution>
+		        </executions>
+		    </plugin>
+            <!-- Compile sass -> css -->
+            <plugin>
+			  <groupId>nl.geodienstencentrum.maven</groupId>
+			  <artifactId>sass-maven-plugin</artifactId>
+			  <executions>
+			    <execution>
+			      <id>generate-css</id>
+			      <phase>generate-resources</phase>
+			      <goals>
+			        <goal>update-stylesheets</goal>
+			      </goals>
+			      <configuration>
+			      	<!--sassOptions>
+			      		<style>:style=:compact</style>
+			      	</sassOptions-->
+			        <sassSourceDirectory>${project.build.directory}/webapp-skeleton/SKIN/scss</sassSourceDirectory>
+			        <destination>${project.build.directory}/${project.build.finalName}/SKIN/css</destination>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>
+			<!-- Merge labels -->
+            <plugin> 
+                <groupId>org.polago.maven.plugins</groupId>
+                <artifactId>merge-properties-maven-plugin</artifactId> <!-- see: http://www.polago.org/merge-properties-maven-plugin/usage.html -->
+                <version>1.0.1</version>
+                <executions>
+                	<execution>	<!-- deploy only it labels for fast development, not part of lifecycle -->
+                        <id>default-cli</id>
+                        <goals><goal>merge</goal></goals>
+                        <phase>none</phase>
+                        <configuration>
+                        	<outputDirectory>${jboss-home}/server/${jboss-configuration}/deploy/CATALOG_SERVER.ear/${project.build.finalName}.war/WEB-INF/classes/bundle/label</outputDirectory>
+                            <outputFile>messages_it.properties</outputFile>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/modules</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_it.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.build.directory}/webapp-skeleton/label</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_it.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-en</id>
+                        <goals><goal>merge</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/bundle/label</outputDirectory>
+                            <outputFile>messages_en.properties</outputFile>
+                            <encoding>UTF-8</encoding>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/modules</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_en.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.build.directory}/webapp-skeleton/label</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_en.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-it</id>
+                        <goals><goal>merge</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/bundle/label</outputDirectory>
+                            <outputFile>messages_it.properties</outputFile>
+                            <encoding>UTF-8</encoding>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/modules</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_it.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.build.directory}/webapp-skeleton/label</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_it.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>merge-de</id>
+                        <goals><goal>merge</goal></goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes/bundle/label</outputDirectory>
+                            <outputFile>messages_de.properties</outputFile>
+                            <encoding>UTF-8</encoding>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/modules</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_de.properties</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${project.build.directory}/webapp-skeleton/label</directory>
+                                    <filtering>false</filtering>
+                                    <includes>
+                                        <include>**/messages_de.properties</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- deploy only war: forms, reports and processes, not part of lifecycle -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>none</phase>	<!-- not part of lifecycle -->
+                        <configuration>
+		                    <outputDirectory>${jboss-home}/server/${jboss-configuration}/deploy/CATALOG_SERVER.ear/${project.build.finalName}.war</outputDirectory>
+		                    <resources>
+		                        <resource><!--Forms and reports-->
+		                            <directory>src/main/webapp</directory>
+		                            <filtering>false</filtering>
+		                            <includes>
+		                                <include>**/*.xhtml</include>
+		                            </includes>
+		                        </resource>
+		                        <resource><!--Processes and icons-->
+		                            <directory>src/main/modules</directory>
+		                            <filtering>false</filtering>
+		                            <includes>
+		                                <include>**/*.jpdl.xml</include>
+		                                <include>**/*.icon.*</include>		                                
+                                
+		                                <!-- process-viewer: -->
+		                                <include>**/*.gpd.xml</include>
+		                                <include>**/*.jpg</include> 
+		                            </includes>
+		                        </resource>
+		                        <resource><!--Forms and reports-->
+		                            <directory>target/spisal</directory>
+		                            <filtering>false</filtering>
+		                            <includes>
+		                                <include>**/SKIN/css/default.css</include>
+		                            </includes>
+		                        </resource>
+		                    </resources>
+		                </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

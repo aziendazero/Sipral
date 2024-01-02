@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="legge81popup">
+
+
+	<start-state name="start-state1">
+		<transition to="inject cs"></transition>
+	</start-state>
+
+
+	<node name="inject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('Legge81FattoriRischio').id)}"></action>
+		</event>
+		<transition to="task-node1"></transition>
+	</node>
+
+	<task-node name="task-node1">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/legge81popup')}"></action>
+		</event>
+		<transition to="button"></transition>
+	</task-node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="button" expression="#{button.value}">
+		<transition to="eject" name="BtnCancel"></transition>
+		<transition to="end-state1" name="BtnOk"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

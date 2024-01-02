@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="mediciEdit">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="inject new" name="messNew"></transition>
+		<transition to="MessaggioPNCEdit" name="messEdit"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject new">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.inject(PNCMessaggiAction.newEntity())}"></action>
+			<action name="2" expression="#{PNCMessaggi.setApplicativo('PNC')}"></action>
+		</event>
+		<transition to="MessaggioPNCEdit"></transition>
+	</node>
+
+	<task-node name="MessaggioPNCEdit">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/messaggiPNCEdit')}"></action>
+		</event>
+		<transition to="next from new?"></transition>
+	</task-node>
+
+	<decision name="next from new?" expression="#{(button.getMnemonic())}">
+		<transition to="new?" name="BtnBack"></transition>
+		<transition to="super-state2/create" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject and evict">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{PNCMessaggiAction.preCreate(PNCMessaggi)}"></action>
+				<action name="2" expression="#{PNCMessaggiAction.create()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<decision name="new?" expression="#{PNCMessaggi.internalId le 0}">
+		<transition to="eject and evict" name="true"></transition>
+		<transition to="refresh" name="false"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.refresh()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

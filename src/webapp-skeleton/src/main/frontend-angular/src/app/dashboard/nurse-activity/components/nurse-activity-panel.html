@@ -1,0 +1,147 @@
+<form #form="ngForm" id="FrmNrsActvtyErgt">
+  <h1>{{'FrmNrsActvtyErgted' | translate}}</h1>
+  <div id="LytNrsActvtyErgt" class="layout vertical">
+    <div id="LytNrsActvtyBtns" class="layout horizontal fill">
+      <div id="LytNrsActvtyErgtDate" class="layout vertical">
+        <div class="lbl">
+          <label class="labelinline">{{'label_MonthCalendar_1498045455679' | translate}}</label>
+          <span>{{planneddate | dateFormat: 'short'}}</span>
+        </div>
+        <div class="lbl">
+          <label class="labelinline">{{'label_MonthCalendar_1498045457639' | translate}}</label>
+          <span>{{erogationdate | dateFormat: 'short'}}</span>
+        </div>
+        <div class="layout horizontal">
+          <div class="lbl">
+            <label class="labelinline">{{'label_TextBox_1504870762877' | translate}}</label>
+            <a class="fa fa-plus-circle" title="" (click)="changeErogationDate(1)" style="margin: 3px;"></a>
+            <a class="fa fa-minus-circle" title="" (click)="changeErogationDate(-1)" style="margin: 3px;"></a>
+            <span>{{difference}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="layout vertical">
+        <div class="lbl">
+          <label class="labelinline">{{'label_LblNrsActvtyDate' | translate}}</label>
+          <span>{{now | dateFormat: 'short'}}</span>
+        </div>
+        <div class="lbl">
+          <label class="labelinline">{{'label_LblNrsActvtyAuthor' | translate}}</label>
+          <span>{{Employee.name.fam + ' ' + Employee.name.giv}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div phi-tabbedpanel #TabPnlNrsActvtyErgt (tabChange)="changeStatus($event)">
+      <ul class="tab-nav">
+        <li>
+          <a class="button" [class.activetab]="TabPnlNrsActvtyErgt.selectedTabIndex == 0" (click)="TabPnlNrsActvtyErgt.ie(null, 0)">{{'PnlTNrsActvtyErgtDetails' | translate}}</a>
+        </li>
+        <li>
+          <a class="button" [class.activetab]="TabPnlNrsActvtyErgt.selectedTabIndex == 1" (click)="TabPnlNrsActvtyErgt.ie(null, 1)">{{'PnlTNrsActvtyErgtErogate' | translate}}</a>
+        </li>
+        <li>
+          <a class="button" [class.activetab]="TabPnlNrsActvtyErgt.selectedTabIndex == 2" (click)="TabPnlNrsActvtyErgt.ie(null, 2)">{{'PnlTNrsActvtyErgtFail' | translate}}</a>
+        </li>
+        <li *ngIf="Prescription">
+          <a class="button" [class.activetab]="TabPnlNrsActvtyErgt.selectedTabIndex == 3" (click)="TabPnlNrsActvtyErgt.ie(null, 3)">{{'PnlTNrsActvtyErgtErr' | translate}}</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+      <div id="PnlTNrsActvtyErgtDetails" class="layout vertical" *ngIf="TabPnlNrsActvtyErgt.selectedTabIndex == 0">
+        
+        <div id="LytNrseActvtyPrscrptn" class="layout vertical" *ngIf="Prescription">
+            <div class="lbl">
+                <span>{{NurseActivity.description}}</span>
+                </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtQty' | translate}}</label>
+          <span>{{NurseActivity.quantity}}</span>
+          </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtRoute' | translate}}</label>
+          <span>{{Prescription.routeCode.currentTranslation}}</span>
+          </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtStart' | translate}}</label>
+          <span>{{Prescription.period.low | dateFormat: 'short'}}</span>
+          </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtEnd' | translate}}</label>
+          <span>{{Prescription.period.high | dateFormat: 'short'}}</span>
+          </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtFrqncy' | translate}}</label>
+          <span></span>
+          </div>
+          <div class="lbl">
+          <label>{{'label_LblNrsActvtyErgtBy' | translate}}</label>
+          <span>{{Prescription.author.name.fam + ' ' + Prescription.author.name.giv}}</span>
+          </div>
+        </div>
+        <div id="LytNrseActvtyLpExctn" class="layout vertical" *ngIf="LEPExecution">
+
+          <div id="LayoutActivities" class="layout vertical row rowbox">
+            <div class="lbl">
+              <span class="bold">{{NurseActivity.description}}</span>
+            </div>
+            <div class="lbl">
+              <span class="small">{{LEPExecution.lepActivity.author.name.fam + ' ' + LEPExecution.lepActivity.author.name.giv}}</span>
+            </div>
+            <div>
+              <div class="layout-40">
+                <div class="lbl smaller">
+                  <label>{{'label_Label_1505223248358' | translate}}</label><span>{{LEPExecution.lepActivity.effectiveDate.low |
+                    dateFormat: 'shortDate'}}</span>
+                </div>
+                <div class="lbl smaller">
+                  <label>{{'label_Label_1505223253310' | translate}}</label><span>{{LEPExecution.lepActivity.effectiveDate.high |
+                    dateFormat: 'shortDate'}}</span>
+                </div>
+              </div>
+
+              <div class="layout-60">
+                <div class="lbl smaller">
+                  <label>{{'label_Label_1505223245446' | translate}}</label><span>{{LEPExecution.lepActivity.responsibleRole?.currentTranslation}}</span>
+                </div>
+                <div class="lbl smaller">
+                  <label>{{'label_LblActivityFrqncy' | translate}}</label>
+                  <span>TODO</span>
+                </div>
+              </div>
+
+              <div class="lbl smaller">
+                <label>{{'label_LblNrsActvtyErgtNote' | translate}}</label>
+                <span>{{NurseActivity.note}}</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div id="PnlTNrsActvtyErgtErogate" class="layout horizontal" *ngIf="TabPnlNrsActvtyErgt.selectedTabIndex == 1">
+        <!--<div id="PnlTNrsActvtyErgtErogateL" class="layout vertical" *ngIf="LEPExecution">
+          <phi-textbox [(ngModel)]="executionTime" name="executionTime" id="TxtNrsActvtyErgtTime" [widgetLabel]="'label_TxtNrsActvtyErgtTime' | translate" converter="Integer Converter" minimum="1"></phi-textbox>
+        </div>-->
+        <div id="PnlTNrsActvtyErgtErogateR" class="layout vertical fillHeight">
+          <phi-textarea [(ngModel)]="note" name="note" id="TxtANrsActvtyErgtNote" [widgetLabel]="'label_TxtANrsActvtyErgtNote' | translate" [required]="true"></phi-textarea>
+        </div>
+      </div>
+      <div id="PnlTNrsActvtyErgtFail" class="layout horizontal fill" *ngIf="TabPnlNrsActvtyErgt.selectedTabIndex == 2">
+        <phi-radiogroup [(ngModel)]="statusDetailsCode" name="statusDetailsCode" id="RadioGroup_1498045741187" [widgetLabel]="'label_RadioGroup_1498045741187' | translate" converter="Code Value Converter" domain="PHIDIC:AdministrationReason" layout="vertical" style="width:400px;"></phi-radiogroup>
+        <phi-textarea [(ngModel)]="note" name="note" id="TextArea_1498045711607" [widgetLabel]="'label_TextArea_1498045711607' | translate" [required]="true"></phi-textarea>
+      </div>
+      <div id="PnlTNrsActvtyErgtErr" class="layout horizontal fill" *ngIf="TabPnlNrsActvtyErgt.selectedTabIndex == 3">
+        <phi-radiogroup [(ngModel)]="statusDetailsCode" name="statusDetailsCode" id="RadioGroup_1498045742902" [widgetLabel]="'label_RadioGroup_1498045742902' | translate" converter="Code Value Converter" domain="PHIDIC:AdministrationReason" layout="vertical" style="width:400px;"></phi-radiogroup>
+        <phi-textarea [(ngModel)]="note" name="note" id="TextArea_1498045712095" [widgetLabel]="'label_TextArea_1498045712095' | translate" [required]="true"></phi-textarea>
+      </div>
+      </div>
+    </div>
+    <div id="LytNrsActvtyBtns2" class="layout horizontal center">
+      <phi-button (binding)="onSave()" id="BtnNrsActvtySave" [form]="form">{{'BtnNrsActvtySave' | translate}}</phi-button>
+      <phi-button (binding)="close()" id="BtnNrsActvtyCancel">{{'BtnNrsActvtyCancel' | translate}}</phi-button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,69 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1558480042638}</h1>
+	<div id="costo_diretto" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1558391874636" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1560763531491" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1559921557321;BtnBack')}" status="ajaxStatus" id="Link_1559921557321" title="${msg.alt_Link_1559921557321}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1560329211040" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1560329211040;BtnSave')}" status="ajaxStatus" id="Link_1560329211040_id" title="${msg.alt_Link_1560329211040}" rendered="#{Progetto.serviceDeliveryLocation ne null}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1558912505617" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1558912505617}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1559889592447" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1559889545959" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1558365150782}</span>
+								<h:outputText value="#{Progetto.serviceDeliveryLocation.name.giv}" id="Label_1558365150782" styleClass="labelContent layoutRequired base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1560015535611;BtnULSS')}" status="ajaxStatus" id="Link_1560015535611" alt="#{LINK}" immediate="true" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1559388824339" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1559388824339}</span>
+							<h:inputText id="TextBox_1559388824339_id" value="#{Progetto.nome}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1559388824339}" />
+							<a4j:outputPanel id="TextBox_1559388824339_msg" styleClass="errorContainer" ><h:message for="TextBox_1559388824339_id" styleClass="errorMessages TextBox_1559388824339_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1559889546527" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="MonthCalendar_1559646008204" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1559646008204}</span>
+							<h:inputText id="MonthCalendar_1559646008204_id" value="#{Progetto.dataDal}" required="true" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1559646008204}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1559646008204_id" styleClass="errorMessages MonthCalendar_1559646008204_E" />
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1559646016268}</span>
+							<h:inputText id="MonthCalendar_1559646016268" value="#{Progetto.dataAl}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1559646016268}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1559646016268" styleClass="errorMessages MonthCalendar_1559646016268_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>
