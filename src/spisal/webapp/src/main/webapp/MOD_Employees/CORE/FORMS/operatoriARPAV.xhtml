@@ -1,0 +1,190 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1510774087747}</h1>
+	<div id="incarichi" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1513472398266" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1511977748988" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1510535907767" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1513593426537;BtnBack')}" status="ajaxStatus" id="Link_1513593426537" title="${msg.alt_Link_1513593426537}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+						</div>
+
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1551187241498" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{OperatoreAction.temporary['search']}" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1512869974261" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1512869974261;BtnSave')}" status="ajaxStatus" id="Link_1512869974261_id" title="${msg.alt_Link_1512869974261}" rendered="#{not empty Operatore}" reRender="phiDesktop" styleClass="fa fa-check fa-3x save link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510575613357" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1513383594486" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1513383594486;BtnOperatoreMng')}" status="ajaxStatus" id="Link_1513383594486_id" title="${msg.alt_Link_1513383594486}" rendered="#{not empty Operatore}" disabled="#{Param['p.employees.operatori.modificaOperatore'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x link readOnly" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1513492809141;BtnOperatoreIn')}" status="ajaxStatus" id="Link_1513492809141" title="${msg.alt_Link_1513492809141}" disabled="#{Param['p.employees.operatori.creaOperatoreInterno'].readOnly}" reRender="phiDesktop" styleClass="fa fa-user-plus fa-3x link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1512636197712;BtnOperatoreOut')}" status="ajaxStatus" id="Link_1512636197712" title="${msg.alt_Link_1512636197712}" disabled="#{Param['p.employees.operatori.creaOperatoreEsterno'].readOnly}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510227935354" style="padding-top: 10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1510227935354}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1512336416060" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1510678456280" style="width: 25.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1510654704336}</span>
+								<h:inputText id="TextBox_1510654704336" value="#{OperatoreAction.like['name.fam']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1510654704336}" />
+								<a4j:outputPanel id="TextBox_1510654704336_msg" styleClass="errorContainer" ><h:message for="TextBox_1510654704336" styleClass="errorMessages TextBox_1510654704336_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:none;" >
+								<span class="label">${msg.label_ComboBox_1510278138588}</span>
+								<h:selectOneMenu id="ComboBox_1510278138588" value="#{OperatoreAction.equal['ente']}" rendered="false" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1510278138588}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Ente')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1512998517623" style="width: 25.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1512653525995}</span>
+								<h:inputText id="TextBox_1512653525995" value="#{OperatoreAction.like['name.giv']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1512653525995}" />
+								<a4j:outputPanel id="TextBox_1512653525995_msg" styleClass="errorContainer" ><h:message for="TextBox_1512653525995" styleClass="errorMessages TextBox_1512653525995_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1510267091452" style="width: 25.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1514075451979}</span>
+								<h:selectOneMenu id="ComboBox_1514075451979" value="#{OperatoreAction.equal['code']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1514075451979}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1512137881212" style="width: 25.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1511154446390}</span>
+								<h:selectOneMenu id="ComboBox_1511154446390" value="#{OperatoreAction.temporary['selectedARPAV']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1511154446390}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{spisalUserAction.getArpav()}" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_CheckBox_1521796903962}</span>
+								<h:selectBooleanCheckbox id="CheckBox_1521796903962" value="#{OperatoreAction.temporary['addNotActive']}" style="vertical-align:middle;" styleClass="checkBox readOnly" alt="CHECKBOX" label="${msg.label_CheckBox_1521796903962}" />
+								<h:message for="CheckBox_1521796903962" styleClass="errorMessages CheckBox_1521796903962_E" />
+							</label>
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1521796903962" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510405171904" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1512272742740;BtnOperatoreSearch')}" status="ajaxStatus" id="Link_1512272742740" title="${msg.alt_Link_1512272742740}" reRender="LayoutRow_1513472398266" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1511779843249;BtnCleanRestrictions')}" status="ajaxStatus" id="Link_1511779843249" title="${msg.alt_Link_1511779843249}" reRender="LayoutRow_1510227935354,phiDesktop" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1510882795079" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not AttivitaAction.temporary['search'] and not ProcpraticheAction.temporary['search']}" >
+					<a4j:outputPanel id="DataGrid_1513606908250" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1513606908250" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1513606908250} [OperatoreList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1521795879330} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1511103464143" value="${msg.DataGridColumn_1511103464143} &#8593;&#8595;" action="#{OperatoreList.orderBy('name.fam')}" reRender="DataGrid_1513606908250" ajaxSingle="true" disabled="#{empty OperatoreList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1513065804772" value="${msg.DataGridColumn_1513065804772} &#8593;&#8595;" action="#{OperatoreList.orderBy('name.giv')}" reRender="DataGrid_1513606908250" ajaxSingle="true" disabled="#{empty OperatoreList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1511285597645" value="${msg.DataGridColumn_1511285597645} &#8593;&#8595;" action="#{OperatoreList.orderBy('code')}" reRender="DataGrid_1513606908250" ajaxSingle="true" disabled="#{empty OperatoreList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1511625584676" value="${msg.DataGridColumn_1511625584676} &#8593;&#8595;" action="#{OperatoreList.orderBy('ente')}" reRender="DataGrid_1513606908250" ajaxSingle="true" disabled="#{empty OperatoreList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1511136543987}</th>
+									<th><a4j:commandLink id="DataGridColumn_1510702679611" value="${msg.DataGridColumn_1510702679611} &#8593;&#8595;" action="#{OperatoreList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1513606908250" ajaxSingle="true" disabled="#{empty OperatoreList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1510695423052}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody selectable">
+								<jstl:if test="#{empty OperatoreList or OperatoreList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="8">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1513606908250" value="#{OperatoreList.entities}" var="Operatore" rowKeyVar="rowIndex" >
+									<tr id="#{rowIndex}" onclick="ie1513606908250(this.id);" class="#{OperatoreAction.getEntity().equals(Operatore) or Operatore.internalId != 0 and OperatoreAction.entity.internalId.equals(Operatore.internalId) ? 'selRow' : ''}" >
+										<td >
+											<a4j:commandLink action="#{OperatoreAction.inject(Operatore)}" status="ajaxStatus" id="Link_1520152941232_id" title="${msg.alt_Link_1520152941232}" style="color: green;" rendered="#{Operatore.isActive}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+											<a4j:commandLink action="#{OperatoreAction.inject(Operatore)}" status="ajaxStatus" id="Link_1523257674018_id" title="${msg.alt_Link_1523257674018}" style="color: red;" rendered="#{not Operatore.isActive}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										</td>
+
+										<td >
+											<span class="base-label" >#{Operatore.name.fam}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Operatore.name.giv}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Operatore.code}</span>
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<span class="c-text-bold base-label" >#{Operatore.ente}</span>
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<a4j:commandLink action="#{OperatoreAction.inject(Operatore)}" status="ajaxStatus" id="Link_1512454806471_id" title="${msg.alt_Link_1512454806471}" rendered="#{Operatore.employee.internalId ne null}" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" onclick="stopPropagation(event);" />
+
+										</td>
+
+										<td >
+											<span style="display:#{(Operatore.serviceDeliveryLocation.internalId ne null) ? 'block' : 'none' };" class="base-label" >#{Operatore.serviceDeliveryLocation.name.giv}</span>
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<a4j:commandLink action="#{OperatoreAction.injectAndProceed(Operatore, 'BtnDelOPARPAV;BtnDel')}" status="ajaxStatus" id="BtnDelOPARPAV" title="${msg.alt_BtnDelOPARPAV}" reRender="phiDesktop,popup" styleClass="fa fa-trash fa-2x tableButton" onclick="stopPropagation(event);" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					<a4j:jsFunction id="ie1513606908250" name="ie1513606908250" status="ajaxStatus" action="#{OperatoreList.injectEject}" data="#{OperatoreList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1513606908250'))" reRender="LayoutRow_1511977748988" limitToList="true" ajaxSingle="true">
+						<a4j:actionparam name="rowIndex" assignTo="#{OperatoreList.selectedIndex}"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

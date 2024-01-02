@@ -1,0 +1,38 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1567249826911" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1568689111607" style="width:33%;padding-borrom:25px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1567918643302;BtnBack')}" status="ajaxStatus" id="Link_1567918643302" title="${msg.alt_Link_1567918643302}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1567259526208;BtnSave')}" status="ajaxStatus" id="Link_1567259526208" title="${msg.alt_Link_1567259526208}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1568194154537" style="padding-borrom:25px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1568194154537}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1567131864648" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1569092963687" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1569092963687}</span>
+							<h:inputText id="TextBox_1569092963687_id" value="#{MonteOre.anno}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1569092963687}" >
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<f:validateLength minimum="4" maximum="4" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1569092963687_msg" styleClass="errorContainer" ><h:message for="TextBox_1569092963687_id" styleClass="errorMessages TextBox_1569092963687_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<span value="${msg.Label_1567772837605}" class="labelContent c-text-bold base-label" >${msg.Label_1567772837605}</span>
+				</div>
+
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

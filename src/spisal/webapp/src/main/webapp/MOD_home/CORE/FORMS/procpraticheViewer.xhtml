@@ -1,0 +1,295 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1688652669021}</h1>
+	<div id="procpraticheViewer" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1688652971442" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1688653091843" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1686871559877" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnRefresh;BtnRefresh')}" status="ajaxStatus" id="BtnRefresh" title="${msg.alt_BtnRefresh}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{ProcpraticheAction.temporary.put('filter',!ProcpraticheAction.temporary.get('filter'))}" status="ajaxStatus" id="BtnFilter" title="${msg.alt_BtnFilter}" reRender="LayoutRow_1688454557301,LayoutRow_1690779614227,LayoutRow_1687974889443" styleClass="fa fa-search fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688454557301" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProcpraticheAction.temporary['filter']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1688454557301}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1688654910582" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1686901687305" styleClass="layoutContainer layoutContainerHorizontal #{true ? 'disableContent' : ''}" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1687047608202" >
+							<h:selectOneMenu id="ComboBox_1687047608202_id" value="#{ProcpraticheAction.equal['serviceDeliveryLocation.area']}" rendered="#{ProcpraticheAction.temporary['showUOS']}" disabled="#{ProcpraticheAction.equal['serviceDeliveryLocation.area'].code!=null}" styleClass="filter comboBox" title="${msg.alt_ComboBox_1687047608202}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkingLine')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="GroupCheckBox_1468310601467,ComboBox_1687047608202,VirtualPage_1473469954433" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1690644719150" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1688973609248}</span>
+								<h:inputText id="TextBox_1688973609248" value="#{ProcpraticheAction.like['numero']}" style="width:190px;" styleClass="filter inputText" label="${msg.label_TextBox_1688973609248}" />
+								<a4j:outputPanel id="TextBox_1688973609248_msg" styleClass="errorContainer" ><h:message for="TextBox_1688973609248" styleClass="errorMessages TextBox_1688973609248_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1690766414509" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1690766414509}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1686659625762" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1686659625762}</legend>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1690143250481" value="#{ProcpraticheAction.temporary['active']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1690143250481}" />
+							<h:outputLabel value="${msg.CheckBox_1690143250481}" for="CheckBox_1690143250481" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1690143250481" styleClass="errorMessages CheckBox_1690143250481_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1690143250481" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1686734924146" value="#{ProcpraticheAction.temporary['verified']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1686734924146}" />
+							<h:outputLabel value="${msg.CheckBox_1686734924146}" for="CheckBox_1686734924146" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1686734924146" styleClass="errorMessages CheckBox_1686734924146_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1686734924146" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1690157535529" value="#{ProcpraticheAction.temporary['suspended']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1690157535529}" />
+							<h:outputLabel value="${msg.CheckBox_1690157535529}" for="CheckBox_1690157535529" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1690157535529" styleClass="errorMessages CheckBox_1690157535529_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1690157535529" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1688519589130" value="#{ProcpraticheAction.temporary['completed']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1688519589130}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="lytPrcPrtchChiu" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1688519589130}" for="CheckBox_1688519589130" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1688519589130" styleClass="errorMessages CheckBox_1688519589130_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688519589130" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1686528553352" value="#{ProcpraticheAction.temporary['nullified']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1686528553352}" />
+							<h:outputLabel value="${msg.CheckBox_1686528553352}" for="CheckBox_1686528553352" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1686528553352" styleClass="errorMessages CheckBox_1686528553352_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1686528553352" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1687212484454" value="#{ProcpraticheAction.temporary['held']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1687212484454}" />
+							<h:outputLabel value="${msg.CheckBox_1687212484454}" for="CheckBox_1687212484454" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1687212484454" styleClass="errorMessages CheckBox_1687212484454_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1687212484454" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1688274053309" value="#{ProcpraticheAction.temporary['allstates']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1688274053309}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1686659625762" event="onclick" action="#{ProcpraticheAction.resetStates()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1688274053309}" for="CheckBox_1688274053309" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1688274053309" styleClass="errorMessages CheckBox_1688274053309_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688274053309" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</fieldset>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="height: auto;padding:0;" id="LayoutRow_1690779614227" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProcpraticheAction.temporary['filter']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1690779614227}</legend>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_CheckBox_1687690159886}</span>
+						<h:selectBooleanCheckbox id="CheckBox_1687690159886" value="#{ProcpraticheAction.temporary['notificaDecesso']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="true" label="${msg.label_CheckBox_1687690159886}" />
+						<h:message for="CheckBox_1687690159886" styleClass="errorMessages CheckBox_1687690159886_E" />
+					</label>
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1687690159886" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1687788928402" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1687788928402}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1689493749067" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1687621298486}</span>
+								<h:inputText id="TextBox_1687621298486" value="#{ProcpraticheAction.like['infortuni.personeGiuridiche.denominazione']}" styleClass="inputText" label="${msg.label_TextBox_1687621298486}" />
+								<a4j:outputPanel id="TextBox_1687621298486_msg" styleClass="errorContainer" ><h:message for="TextBox_1687621298486" styleClass="errorMessages TextBox_1687621298486_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1688650103657}</span>
+								<h:inputText id="TextBox_1688650103657" value="#{ProcpraticheAction.equal['infortuni.personeGiuridiche.codiceFiscale']}" styleClass="inputText" label="${msg.label_TextBox_1688650103657}" />
+								<a4j:outputPanel id="TextBox_1688650103657_msg" styleClass="errorContainer" ><h:message for="TextBox_1688650103657" styleClass="errorMessages TextBox_1688650103657_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1687424654890}</span>
+								<h:inputText id="TextBox_1687424654890" value="#{ProcpraticheAction.equal['infortuni.personeGiuridiche.patritaIva']}" styleClass="inputText" label="${msg.label_TextBox_1687424654890}" />
+								<a4j:outputPanel id="TextBox_1687424654890_msg" styleClass="errorContainer" ><h:message for="TextBox_1687424654890" styleClass="errorMessages TextBox_1687424654890_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688647931683" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1689438830705" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1689438830705}</span>
+								#{ProcpraticheAction.autocomplete['infortuni.infortuniExt.addr'].setContentType('0')}
+								#{ProcpraticheAction.autocomplete['infortuni.infortuniExt.addr'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1689438830705_MAIN" value="#{ProcpraticheAction.equal['infortuni.infortuniExt.addr.cty']}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1689438830705}" />
+								<h:outputLabel for="TextSuggestionBox_1689438830705_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1689438830705_CPA" value="#{ProcpraticheAction.equal['infortuni.infortuniExt.addr.cpa']}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1689438830705_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1689438830705_ZIP" value="#{ProcpraticheAction.equal['infortuni.infortuniExt.addr.zip']}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1689438830705_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1689438830705_CODE" value="#{ProcpraticheAction.equal['infortuni.infortuniExt.addr.code']}" label="${msg.label_TextSuggestionBox_1689438830705}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1689438830705_CODE" styleClass="errorMessages TextSuggestionBox_1689438830705_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1689438830705" action="#{ProcpraticheAction.autocomplete['infortuni.infortuniExt.addr'].autocomplete()}" data="#{ProcpraticheAction.autocomplete['infortuni.infortuniExt.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{ProcpraticheAction.autocomplete['infortuni.infortuniExt.addr'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;text-align:center;" id="LayoutRow_1687974889443" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProcpraticheAction.temporary['filter']}" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnFilterApply;BtnFilterApply')}" status="ajaxStatus" id="BtnFilterApply" title="${msg.alt_BtnFilterApply}" reRender="LayoutRow_1688729171849,LayoutRow_1690451297634" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnFilterCancel" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnFilterCancel;BtnFilterCancel')}" status="ajaxStatus" id="BtnFilterCancel_id" title="${msg.alt_BtnFilterCancel}" rendered="#{not ProtocolloAction.temporary['linkProtocollo']}" reRender="DataGrid_1442486912540,LayoutFill_1443292029983,phiDesktop" styleClass="fa fa-eraser fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1688729171849" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel id="DataGrid_1688729177350" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+						<table id="d1688729177350" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688729177350} [ProcpraticheList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1688729220469} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1688729221854} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1688729223342" value="${msg.DataGridColumn_1688729223342} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('data')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1688729224479" value="${msg.DataGridColumn_1688729224479} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('dataAssegnazione')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th style="#{(ProcpraticheAction.temporary['showUOC'] ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1688729225686" value="${msg.DataGridColumn_1688729225686} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('uoc.name.giv')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1688729228278" value="${msg.DataGridColumn_1688729228278} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('protocolloMasterNumber')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th style="#{(ProcpraticheAction.temporary['workingLine']==null ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1688729231846" value="${msg.DataGridColumn_1688729231846} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('serviceDeliveryLocation.area.langIt')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1688729234076" value="${msg.DataGridColumn_1688729234076} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('numero')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1688729235926" value="${msg.DataGridColumn_1688729235926} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('rfp.name.giv')}" reRender="DataGrid_1688729177350" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1688729239142} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1688729237462} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty ProcpraticheList or ProcpraticheList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="11">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1688729177350" value="#{ProcpraticheList.entities}" var="Procpratiche" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											<a4j:commandLink action="#{ProcpraticheAction.inject(Procpratiche)}" status="ajaxStatus" id="Link_1687414983017_id" title="${msg.alt_Link_1687414983017}" rendered="#{Procpratiche.urgente}" reRender="phiDesktop" styleClass="c-text-red fa fa-exclamation-circle fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1690472131241;BtnManagement')}" status="ajaxStatus" id="Link_1690472131241_id" title="${msg.alt_Link_1690472131241}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='suspended' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="sospendi link fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1689719285973;BtnManagement')}" status="ajaxStatus" id="Link_1689719285973_id" title="${msg.alt_Link_1689719285973}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='completed' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-folder-o fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1689905072756;BtnManagement')}" status="ajaxStatus" id="Link_1689905072756_id" title="${msg.alt_Link_1689905072756}" rendered="#{Procpratiche.statusCode.code=='active' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-folder-open-o fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1688079310312;BtnManagement')}" status="ajaxStatus" id="Link_1688079310312_id" title="${msg.alt_Link_1688079310312}" rendered="#{Procpratiche.statusCode.code=='verified' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-check-square-o fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1686886160969;BtnManagement')}" status="ajaxStatus" id="Link_1686886160969_id" alt="#{LINK}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='held' and Procpratiche.heldReason!=null and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil fa-2x tableButton" title="#{Procpratiche.heldReason}"/>
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1686777176363;BtnManagement')}" status="ajaxStatus" id="Link_1686777176363_id" alt="#{LINK}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='suspended' and Procpratiche.suspendedReason!=null and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil fa-2x tableButton" title="#{Procpratiche.suspendedReason}"/>
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1687805484150;BtnManagement')}" status="ajaxStatus" id="Link_1687805484150_id" title="${msg.alt_Link_1687805484150}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='nullified' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-folder fa-2x tableButton" />
+
+											<a4j:commandLink action="#{ProcpraticheAction.injectAndProceed(Procpratiche, 'Link_1687922121639;BtnManagement')}" status="ajaxStatus" id="Link_1687922121639_id" title="${msg.alt_Link_1687922121639}" style="padding-right:2px;" rendered="#{Procpratiche.statusCode.code=='held' and Param['p.home.procpratiche.gestionePratica'].visible}" disabled="#{Param['p.home.procpratiche.gestionePratica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-archive fa-2x tableButton" />
+
+										</td>
+
+										<td >
+											<a4j:commandLink action="#{ProcpraticheAction.inject(Procpratiche)}" status="ajaxStatus" id="Link_1689885688957_id" title="${msg.alt_Link_1689885688957}" rendered="#{function.hasCodeIn(Procpratiche.statusCode.code,'active','verified') and not ProcpraticheAction.isObservedByCurrentEmployee(Procpratiche)}" disabled="true" reRender="phiDesktop" styleClass="fa fa-star-o fa-2x tableButton" />
+
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Procpratiche.data}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Procpratiche.dataAssegnazione}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="#{(ProcpraticheAction.temporary['showUOC'] ? '' : 'display:none;')} " >
+											#{Procpratiche.uoc.name.giv}
+										</td>
+
+										<td >
+											<span style="display:#{(Procpratiche.protocolloMasterNumber ne '0') ? 'block' : 'none' };" class="base-label" >#{Procpratiche.protocolloMasterNumber}</span>
+											<span style="display:#{(Procpratiche.protocolloMasterNumber eq '0') ? 'block' : 'none' };" class="base-label" >${msg.Label_1687366363386}</span>
+										</td>
+
+										<td style="#{(ProcpraticheAction.temporary['workingLine']==null ? '' : 'display:none;')} " >
+											<span style="display:none;" class="base-label" >#{Procpratiche.serviceDeliveryLocation.area.langIt}</span>
+											<a4j:outputPanel layout="block" id="JollyWidget_1688858816782" style="display:inline-block;" >
+												<div class="WorkinkLine #{Procpratiche.serviceDeliveryLocation.area.code} #{Procpratiche.vigilanza.type.code} type#{Procpratiche.medicinaLavoro.type.code}"/>
+											</a4j:outputPanel>
+
+											<span class="base-label" >#{Procpratiche.serviceDeliveryLocation.area.langIt}</span>
+										</td>
+
+										<td >
+											#{Procpratiche.numero}
+										</td>
+
+										<td >
+											#{function.concat(Procpratiche.rfp.name.giv, ' ', Procpratiche.rfp.name.fam)}
+										</td>
+
+										<td >
+											<span class="base-label" >#{ProcpraticheAction.getFascicoli(Procpratiche.internalId)}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{ProcpraticheAction.getUtenteDitta(Procpratiche)}</span>
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1690451297634" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1689208344208" >
+					<h:outputText rendered="#{ProcpraticheList.size() gt 0}" value="#{function.concat('Righe estratte: ', ProcpraticheAction.temporary['rowCount'])}" id="Label_1689208344208_id" style="display:block;" class="labelContent  base-label" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

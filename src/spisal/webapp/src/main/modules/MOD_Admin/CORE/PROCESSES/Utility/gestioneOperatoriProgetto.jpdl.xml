@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneOperatoriPiano">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<node name="Set Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.temporary.put('search', true)}"></action>
+			<action name="2" expression="#{PianificazioneAction.temporary.put('interni', true)}"></action>
+			<action name="3" expression="#{PianificazioneAction.temporary.put('multi', true)}"></action>
+		</event>
+		<transition to="Gestione operatori"></transition>
+	</node>
+
+	<node name="Remove Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{PianificazioneAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{PianificazioneAction.temporary.remove('interni')}"></action>
+			<action name="3" expression="#{PianificazioneAction.temporary.remove('multi')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</node>
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="Set Temporary" name="MngOp"></transition>
+		<transition to="pre-actions" name="DelOp"></transition>
+	</decision>
+
+	<process-state name="Gestione operatori">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/gestioneOperatori" binding="late"></sub-process>
+		<transition to="Remove Temporary"></transition>
+	</process-state>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="Set Incarichi" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnBack"></transition>
+	</decision>
+
+	<node name="Set Incarichi">
+		<event type="node-enter">
+			<action name="1" expression="#{ProgettoAssociatoAction.setAssignments(OperatoreList.list)}"></action>
+		</event>
+		<transition to="Set carichi"></transition>
+	</node>
+
+	<node name="Set carichi">
+		<event type="node-enter">
+			<action name="1" expression="#{ProgettoAssociatoAction.setCarichi(ProgettoAssociato)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="pre-actions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProgettoAssociato.removePartecipanti(Partecipanti)}"></action>
+			<action name="2" expression="#{PartecipantiAction.unLink('progettoAssociato',ProgettoAssociato)}"></action>
+		</event>
+		<transition to="super-state1/Delete"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Delete">
+			<event type="node-enter">
+				<action name="1" expression="#{PartecipantiAction.delete()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

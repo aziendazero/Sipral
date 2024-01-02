@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="PersoneGiuridiche">
+
+
+	<start-state name="start-state1">
+		<transition to="selected Arpav SDL?"></transition>
+	</start-state>
+
+
+	<process-state name="Anagrafica Persone Giuridiche">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="end-state1"></transition>
+	</process-state>
+
+	<decision name="selected Arpav SDL?" expression="#{PersoneGiuridicheAction.isArpavSelected()}">
+		<transition to="Anagrafica Persone Giuridiche" name="false"></transition>
+		<transition to="Anag Pers Giuridiche ARPAV" name="true"></transition>
+	</decision>
+
+	<process-state name="Anag Pers Giuridiche ARPAV">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companiesArpav" binding="late"></sub-process>
+		<transition to="end-state1"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

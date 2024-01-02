@@ -1,0 +1,97 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1503544376507" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot layoutGroupBoxOuter" >
+			<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1503544376507}</legend>
+				<a4j:outputPanel layout="block" id="LayoutRow_1517928613888" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1503045327146" style="padding-bottom:20px;padding-top:10px;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1506083379400}</span>
+							<h:outputText value="#{AccertSp.riferimentoInterno.name}" id="Label_1506083379400" style="width:200px;" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1503929393978" >
+						<a4j:commandLink action="#{OperationManager.manageDetail(AccertSp,'Riferimento')}" status="ajaxStatus" id="Link_1503929393978_id" title="${msg.alt_Link_1503929393978}" rendered="#{OperationManager.hasDetail(AccertSp, 'Riferimento')}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1504470242528" >
+						<a4j:commandLink action="#{OperationManager.manageEdit(AccertSp,'Riferimento',AccertSp.riferimento.code, null)}" status="ajaxStatus" id="Link_1504470242528_id" title="${msg.alt_Link_1504470242528}" rendered="#{OperationManager.hasDetail(AccertSp, 'Riferimento') and false}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1503228719554" >
+						<a4j:commandLink action="#{OperationManager.manageLink(AccertSp, 'Riferimento', AccertSp.riferimento.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1503228719554_id" title="${msg.alt_Link_1503228719554}" rendered="#{empty AccertSp.data}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1505978706512" >
+						<a4j:commandLink action="#{OperationManager.manageUnlink(AccertSp, 'Riferimento', AccertSp.riferimento.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1505978706512_id" title="${msg.alt_Link_1505978706512}" rendered="#{empty AccertSp.data and AccertSp.riferimentoInterno ne null}" reRender="Label_1506083379400,LayoutRow_1503045327146,LayoutRow_1517928882941" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1506102503877" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1517928882941" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty AccertSp.riferimentoInterno.internalId}" >
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1505132513499" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{AccertSp.data!=null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1504743835207}</span>
+								<h:outputText value="#{AccertSp.data}" id="Label_1504743835207" style="background-color: lightgrey;" styleClass="labelContent  base-label" >
+								<s:convertDateTime pattern="${format.dateTimeNormal}" />
+								</h:outputText>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1505132514054" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1503471977621}" class="labelContent  base-label" >${msg.Label_1503471977621}</span>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnAgendaAccSp" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAgendaAccSp;BtnAgenda')}" status="ajaxStatus" id="BtnAgendaAccSp_id" title="${msg.alt_BtnAgendaAccSp}" rendered="#{empty AccertSp.data}" reRender="phiDesktop" styleClass="fa fa-calendar fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnAgendaAccSp2" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAgendaAccSp2;BtnAgenda')}" status="ajaxStatus" id="BtnAgendaAccSp2_id" title="${msg.alt_BtnAgendaAccSp2}" rendered="#{false and !empty AccertSp.data}" reRender="popup" styleClass="fa fa-calendar fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnAgendaAccRemove" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAgendaAccRemove;BtnAgenda')}" status="ajaxStatus" id="BtnAgendaAccRemove_id" alt="#{LINK}" rendered="#{!empty AccertSp.data}" reRender="popup" styleClass="fa fa-trash fa-2x link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnAgendaView" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAgendaView;BtnAgenda')}" status="ajaxStatus" id="BtnAgendaView_id" alt="#{LINK}" rendered="#{!empty AccertSp.data}" reRender="phiDesktop" styleClass="fa fa-eye fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1503855750123" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1503935752073}</span>
+							<h:selectOneMenu id="ComboBox_1503935752073" value="#{AccertSp.pagamento}" styleClass="comboBox" label="${msg.label_ComboBox_1503935752073}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:payment')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1504191849676}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1504191849676" value="#{AccertSp.pagato}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1504191849676}" />
+							<h:message for="CheckBox_1504191849676" styleClass="errorMessages CheckBox_1504191849676_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1504191849676" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</fieldset>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

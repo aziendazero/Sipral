@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare search"></transition>
+	</start-state>
+
+
+	<task-node name="messaggiPNC">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/messaggiPNCSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="search" name="BtnSearch"></transition>
+		<transition to="MessaggiPNCEdit" name="messEdit"></transition>
+		<transition to="MessaggiPNCEdit" name="messNew"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="clear filters" name="BtnFilterCancel"></transition>
+		<transition to="eject list" name="BtnSave"></transition>
+	</decision>
+
+	<node name="prepare search">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.eject()}"></action>
+			<action name="2" expression="#{PNCMessaggiAction.ejectList()}"></action>
+			<action name="3" expression="#{PNCMessaggiAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{PNCMessaggiAction.setFullLike(true)}"></action>
+			<action name="5" expression="#{PNCMessaggiAction.temporary.put('filter','V')}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.select.add('applicativo')}"></action>
+			<action name="2" expression="#{PNCMessaggiAction.select.add('createdBy')}"></action>
+			<action name="3" expression="#{PNCMessaggiAction.select.add('creationDate')}"></action>
+			<action name="4" expression="#{PNCMessaggiAction.select.add('fineValidita')}"></action>
+			<action name="5" expression="#{PNCMessaggiAction.select.add('inizioValidita')}"></action>
+			<action name="6" expression="#{PNCMessaggiAction.select.add('modifiedBy')}"></action>
+			<action name="7" expression="#{PNCMessaggiAction.select.add('ordine')}"></action>
+			<action name="8" expression="#{PNCMessaggiAction.select.add('testo')}"></action>
+			<action name="9" expression="#{PNCMessaggiAction.select.add('titolo')}"></action>
+			<action name="10" expression="#{PNCMessaggiAction.select.add('modificationDate')}"></action>
+			<action name="11" expression="#{PNCMessaggiAction.filterDates()}"></action>
+			<action name="12" expression="#{PNCMessaggiAction.orderBy.put('inizioValidita','ascending')}"></action>
+			<action name="13" expression="#{PNCMessaggiAction.read()}"></action>
+		</event>
+		<transition to="messaggiPNC"></transition>
+	</node>
+
+	<process-state name="MessaggiPNCEdit">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/MessaggiPNCEdit?stateless=true" binding="late"></sub-process>
+		<transition to="re-read"></transition>
+	</process-state>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.ejectList()}"></action>
+			<action name="2" expression="#{PNCMessaggiAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="clear filters">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PNCMessaggiAction.temporary.clear()}"></action>
+			<action name="3" expression="#{PNCMessaggiAction.eject()}"></action>
+			<action name="4" expression="#{PNCMessaggiAction.ejectList()}"></action>
+		</event>
+		<transition to="prepare search"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<node name="re-read">
+		<event type="node-enter">
+			<action name="1" expression="#{PNCMessaggiAction.filterDates()}"></action>
+			<action name="2" expression="#{PNCMessaggiAction.read()}"></action>
+		</event>
+		<transition to="messaggiPNC"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

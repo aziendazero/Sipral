@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="schedaGeneratori">
+
+
+	<start-state name="start-state1">
+		<transition to="Pre-actions"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="setReadOnly?" name="ispMng"></transition>
+		<transition to="newEntity" name="ispAdd"></transition>
+		<transition to="setReadOnly?" name="ispMng2"></transition>
+		<transition to="prepare and delete" name="ispDel"></transition>
+		<transition to="prepare and delete" name="ispDel2"></transition>
+	</decision>
+
+	<task-node name="Crea Verifica">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/scheda_verifiche')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpCopyAction.eject()}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.eject()}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.ejectList()}"></action>
+			<action name="4" expression="#{OperatoreAction.eject()}"></action>
+			<action name="5" expression="#{ImpSearchCollectorAction.eject()}"></action>
+			<action name="6" expression="#{not VerificaImpAction.isSubProcessReadOnly() ? processManager.setReadOnly(false) : ''}"></action>
+			<action name="7" expression="#{ImpPressAction.eject()}"></action>
+			<action name="8" expression="#{ImpRiscAction.eject()}"></action>
+			<action name="9" expression="#{ImpSollAction.eject()}"></action>
+			<action name="10" expression="#{ImpMontaAction.eject()}"></action>
+			<action name="11" expression="#{ImpTerraAction.eject()}"></action>
+			<action name="12" expression="#{SchedaGeneratoriIndivAction.eject()}"></action>
+			<action name="13" expression="#{SchedaGeneratoriIndivAction.ejectList()}"></action>
+			<action name="14" expression="#{SchedaRecipientiIndivAction.eject()}"></action>
+			<action name="15" expression="#{SchedaRecipientiIndivAction.ejectList()}"></action>
+			<action name="16" expression="#{SchedaTubazioniIndivAction.eject()}"></action>
+			<action name="17" expression="#{SchedaTubazioniIndivAction.ejectList()}"></action>
+			<action name="18" expression="#{SchedaGeneratoriAction.eject()}"></action>
+			<action name="19" expression="#{SchedaGeneratoriAction.ejectList()}"></action>
+			<action name="20" expression="#{SchedaVasiAction.eject()}"></action>
+			<action name="21" expression="#{SchedaVasiAction.ejectList()}"></action>
+			<action name="22" expression="#{VerificaImpAction.temporary.remove('errorMsg')}"></action>
+			<action name="23" expression="#{VerificaImpAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="eject1" name="BtnBack"></transition>
+		<transition to="set search true" name="BtnOpMng"></transition>
+		<transition to="Search ARPAV" name="BtnAddARPAV"></transition>
+		<transition to="eject addebito" name="MngSICpy"></transition>
+		<transition to="eject addebito" name="MngISCpy"></transition>
+		<transition to="eject addebito" name="MngSACpy"></transition>
+		<transition to="check verifica" name="BtnSave"></transition>
+		<transition to="Gestione stati" name="BtnStatesManagement"></transition>
+		<transition to="eject addebito" name="MngSANew"></transition>
+		<transition to="eject addebito" name="MngISNew"></transition>
+		<transition to="selective reset readOnly" name="BtnGestVerAlfrescoDocEdit"></transition>
+		<transition to="gestione cambio data" name="editDate"></transition>
+		<transition to="GestioneSchedeCpy" name="manageIndiv"></transition>
+		<transition to="GestioneGeneratoriCpy" name="BtnSG"></transition>
+		<transition to="GestioneVasiCpy" name="BtnSV"></transition>
+		<transition to="Set Temporary" name="operation"></transition>
+		<transition to="lockUnlock" name="lockImp"></transition>
+		<transition to="lockUnlock" name="unlockImp"></transition>
+		<transition to="eject addebito" name="MngSINew"></transition>
+	</decision>
+
+	<node name="prepare and delete">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.prepareAndDelete()}"></action>
+			<action name="2" expression="#{ImpiantoAction.refresh()}"></action>
+		</event>
+		<transition to="super-state1/update verif indicator"></transition>
+	</node>
+
+	<node name="Pre-actions">
+		<event type="node-enter">
+			<action name="1" expression="#{(VerificaImp.importo ne null)?VerificaImpAction.temporary.put('impTemp', VerificaImp.importo):VerificaImpAction.temporary.put('impTemp', null)}"></action>
+			<action name="2" expression="#{VerificaImpAction.setSubProcessReadOnly(processManager.getReadOnly())}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<node name="Link">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty ImpPress?ImpPress.addVerificaImp(VerificaImp):''}"></action>
+			<action name="2" expression="#{not empty ImpRisc?ImpRisc.addVerificaImp(VerificaImp):''}"></action>
+			<action name="3" expression="#{not empty ImpMonta?ImpMonta.addVerificaImp(VerificaImp):''}"></action>
+			<action name="4" expression="#{not empty ImpSoll?ImpSoll.addVerificaImp(VerificaImp):''}"></action>
+			<action name="5" expression="#{not empty ImpTerra?ImpTerra.addVerificaImp(VerificaImp):''}"></action>
+			<action name="6" expression="#{not empty ImpPress?VerificaImpAction.link('impPress',ImpPress):''}"></action>
+			<action name="7" expression="#{not empty ImpRisc?VerificaImpAction.link('impRisc',ImpRisc):''}"></action>
+			<action name="8" expression="#{not empty ImpMonta?VerificaImpAction.link('impMonta',ImpMonta):''}"></action>
+			<action name="9" expression="#{not empty ImpSoll?VerificaImpAction.link('impSoll',ImpSoll):''}"></action>
+			<action name="10" expression="#{not empty ImpTerra?VerificaImpAction.link('impTerra',ImpTerra):''}"></action>
+		</event>
+		<transition to="Set importo manuale"></transition>
+	</node>
+
+	<process-state name="Gestione operatori">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/gestioneOperatoriARPAV" binding="late"></sub-process>
+		<transition to="remove search"></transition>
+	</process-state>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="Crea Verifica" name="BtnBack"></transition>
+		<transition to="Link Op" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link Op">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.link('operatore',Operatore)}"></action>
+		</event>
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<process-state name="Search ARPAV">
+		<sub-process name="MOD_HBS/CORE/PROCESSES/Search ULSS" binding="late"></sub-process>
+		<transition to="decision4"></transition>
+	</process-state>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="decision3" name="BtnBack"></transition>
+		<transition to="Link ARPAV" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link ARPAV">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+		</event>
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<node name="injectImpCopy">
+		<event type="node-enter">
+			<action name="1" expression="#{Impianto.code.code eq '01'?ImpCopyAction.inject(VerificaImp.impPressCpy):''}"></action>
+			<action name="2" expression="#{Impianto.code.code eq '02'?ImpCopyAction.inject(VerificaImp.impRiscCpy):''}"></action>
+			<action name="3" expression="#{Impianto.code.code eq '03'?ImpCopyAction.inject(VerificaImp.impMontaCpy):''}"></action>
+			<action name="4" expression="#{Impianto.code.code eq '04'?ImpCopyAction.inject(VerificaImp.impSollCpy):''}"></action>
+			<action name="5" expression="#{Impianto.code.code eq '05'?ImpCopyAction.inject(VerificaImp.impTerraCpy):''}"></action>
+			<action name="6" expression="#{Impianto.code.code eq '01'?SchedaGeneratoriIndivAction.injectList(VerificaImp.impPressCpy.schedaGeneratoriIndiv):''}"></action>
+			<action name="7" expression="#{Impianto.code.code eq '01'?SchedaRecipientiIndivAction.injectList(VerificaImp.impPressCpy.schedaRecipientiIndiv):''}"></action>
+			<action name="8" expression="#{Impianto.code.code eq '01'?SchedaTubazioniIndivAction.injectList(VerificaImp.impPressCpy.schedaTubazioniIndiv):''}"></action>
+			<action name="9" expression="#{Impianto.code.code eq '02'?SchedaGeneratoriAction.injectList(VerificaImp.impRiscCpy.schedaGeneratori):''}"></action>
+			<action name="10" expression="#{Impianto.code.code eq '02'?SchedaVasiAction.injectList(VerificaImp.impRiscCpy.schedaVasi):''}"></action>
+		</event>
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<process-state name="GestioneImpiantoCpy">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/manageImpCopy" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpiantoAction.updateImpiantoFromCopy(Impianto, ImpCopy, VerificaImp)}"></action>
+				<action name="2" expression="#{VerificaImpAction.updateCollector(ImpCopy)}"></action>
+				<action name="3" expression="#{VerificaImp.setUtenteUltimaModifica(userBean.getCurrentEmployee())}"></action>
+				<action name="4" expression="#{VerificaImp.setDataUltimaModifica(function.currentDateTime())}"></action>
+				<action name="5" expression="#{VerificaImp.tipoInOut.code=='02'?VerificaImpAction.setCodeValue('statusCode','PHIDIC','Stato','verified'):''}"></action>
+				<action name="6" expression="#{VerificaImp.tipoInOut.code=='02'?VerificaImpAction.updateImpianto(VerificaLast):''}"></action>
+				<action name="7" expression="#{VerificaImp.tipoInOut.code=='02'?VerificaImp.setOperatore(null):''}"></action>
+				<action name="8" expression="#{VerificaImpAction.create()}"></action>
+				<action name="9" expression="#{VerificaImpAction.updateStatoImpianto(VerificaImp, Impianto)}"></action>
+				<action name="10" expression="#{Impianto.setVerificheLong(1)}"></action>
+				<action name="11" expression="#{ImpiantoAction.create()}"></action>
+			</event>
+			<transition to="../refresh"></transition>
+		</node>
+	</super-state>
+
+	<node name="ClonaImp">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpCopyAction.inject(ImpCopyAction.copy(Impianto, VerificaImp.data))}"></action>
+			<action name="2" expression="#{ImpSearchCollectorAction.inject(ImpSearchCollectorAction.copyFrom(ImpCopy))}"></action>
+			<action name="3" expression="#{Impianto.code.code eq '01'?SchedaGeneratoriIndivAction.injectList(ImpCopy.schedaGeneratoriIndiv):''}"></action>
+			<action name="4" expression="#{Impianto.code.code eq '01'?SchedaRecipientiIndivAction.injectList(ImpCopy.schedaRecipientiIndiv):''}"></action>
+			<action name="5" expression="#{Impianto.code.code eq '01'?SchedaTubazioniIndivAction.injectList(ImpCopy.schedaTubazioniIndiv):''}"></action>
+			<action name="6" expression="#{Impianto.code.code eq '02'?SchedaGeneratoriAction.injectList(ImpCopy.schedaGeneratori):''}"></action>
+			<action name="7" expression="#{Impianto.code.code eq '02'?SchedaVasiAction.injectList(ImpCopy.schedaVasi):''}"></action>
+		</event>
+		<transition to="init new entity"></transition>
+	</node>
+
+	<process-state name="Gestione stati">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/statiVerifica" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<decision name="setReadOnly?" expression="#{(VerificaImp.tipoInOut ne null and VerificaImp.tipoInOut.code ne '02' and VerificaImp.statusCode ne null and VerificaImp.statusCode.code ne 'new') or VerificaImpAction.isSubProcessReadOnly()}">
+		<description>
+			VerificaImp.statusCode.code eq 'verified' or VerificaImp.statusCode.code eq 'completed'
+		</description>
+		<transition to="injectImpCopy" name="false"></transition>
+		<transition to="setReadOnly" name="true"></transition>
+	</decision>
+
+	<node name="setReadOnly">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="injectImpCopy"></transition>
+	</node>
+
+	<node name="inject specific">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('entity2Link', VerificaImp)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.injectList(VerificaImp.documenti)}"></action>
+		</event>
+		<transition to="injectList of docs"></transition>
+	</node>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}"></action>
+			<action name="2" expression="#{ImpiantoAction.temporary.put('impOrVer', 'ver')}"></action>
+		</event>
+		<transition to="alfrescoDocuments"></transition>
+	</node>
+
+	<process-state name="alfrescoDocuments">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="was readOnly?"></transition>
+	</process-state>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.refresh()}"></action>
+		</event>
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<task-node name="popUpData">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popup_dataVerifica')}"></action>
+		</event>
+		<transition to="decision5"></transition>
+	</task-node>
+
+	<decision name="decision5" expression="#{button.mnemonic}">
+		<transition to="end-state2" name="BtnCancel"></transition>
+		<transition to="CheckVerifica1" name="BtnSave"></transition>
+	</decision>
+
+	<node name="newEntity">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.eject()}"></action>
+			<action name="2" expression="#{VerificaImpAction.inject(VerificaImpAction.newEntity())}"></action>
+		</event>
+		<transition to="popUpData"></transition>
+	</node>
+
+	<process-state name="init new entity">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/initNewVerifica" binding="late"></sub-process>
+		<transition to="Crea Verifica"></transition>
+	</process-state>
+
+	<process-state name="gestione cambio data">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/changeVerifDate" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<process-state name="GestioneSchedeCpy">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/addSchedaCpy" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<process-state name="GestioneGeneratoriCpy">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/schedaGeneratoriCpy" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<node name="to form">
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<process-state name="GestioneVasiCpy">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/schedaVasiCpy" binding="late"></sub-process>
+		<transition to="to form"></transition>
+	</process-state>
+
+	<node name="set search true">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Gestione operatori"></transition>
+	</node>
+
+	<node name="remove search">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</node>
+
+	<node name="CheckVerifica1">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.checkVerifiche(VerificaImp, VerificaImpList.list)}"></action>
+		</event>
+		<transition to="ClonaImp"></transition>
+	</node>
+
+	<process-state name="pennone">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/pennone" binding="late"></sub-process>
+		<transition to="Remove Temporary"></transition>
+	</process-state>
+
+	<process-state name="lockUnlock">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/lockUnlockImporto" binding="late"></sub-process>
+		<transition to="Crea Verifica"></transition>
+	</process-state>
+
+	<node name="Set Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.put('sediInstVisible',true)}"></action>
+		</event>
+		<transition to="pennone"></transition>
+	</node>
+
+	<node name="Remove Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.remove('sediInstVisible')}"></action>
+		</event>
+		<transition to="Crea Verifica"></transition>
+	</node>
+
+	<node name="eject addebito">
+		<event type="node-enter">
+			<action name="1" expression="#{AddebitoAction.eject()}"></action>
+		</event>
+		<transition to="GestioneImpiantoCpy"></transition>
+	</node>
+
+	<process-state name="check verifica">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/checkVerifica" binding="late"></sub-process>
+		<transition to="verifica ok?"></transition>
+	</process-state>
+
+	<decision name="verifica ok?" expression="#{VerificaImpAction.temporary['statoCheck']}">
+		<transition to="Link" name="true"></transition>
+		<transition to="Crea Verifica" name="false"></transition>
+	</decision>
+
+	<node name="Set importo manuale">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.setImportoManuale(VerificaImp)}"></action>
+		</event>
+		<transition to="super-state2/create"></transition>
+	</node>
+
+	<node name="selective reset readOnly">
+		<event type="node-enter">
+			<action name="1" expression="#{!VerificaImpAction.isSubProcessReadOnly() ? processManager.setReadOnly(false) : ''}"></action>
+		</event>
+		<transition to="inject specific"></transition>
+	</node>
+
+	<decision name="was readOnly?" expression="#{(VerificaImp.tipoInOut ne null and VerificaImp.tipoInOut.code ne '02' and VerificaImp.statusCode ne null and VerificaImp.statusCode.code ne 'new') or VerificaImpAction.isSubProcessReadOnly()}">
+		<transition to="to form 2" name="false"></transition>
+		<transition to="again readOnly" name="true"></transition>
+	</decision>
+
+	<node name="again readOnly">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="to form 2"></transition>
+	</node>
+
+	<node name="to form 2">
+		<transition to="to form"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="update verif indicator">
+			<event type="node-enter">
+				<action name="1" expression="#{not ImpiantoAction.hasVerifiche(Impianto) ? Impianto.setVerificheLong(0) : ''}"></action>
+				<action name="2" expression="#{ImpiantoAction.create()}"></action>
+			</event>
+			<transition to="../eject1"></transition>
+		</node>
+	</super-state>
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="mediciEdit">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="inject new" name="destNew"></transition>
+		<transition to="read comuni" name="destEdit"></transition>
+		<transition to="super-state1/destinatario delete" name="destDel"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="destinatario delete">
+			<event type="node-enter">
+				<action name="1" expression="#{DestinatariNotificheAction.delete()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.eject()}"></action>
+			<action name="2" expression="#{ComuneAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject new">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.inject(DestinatariNotificheAction.newEntity())}"></action>
+			<action name="2" expression="#{DestinatariNotificheAction.setCodeValue('type','PHIDIC','DestinatariNotifica','01')}"></action>
+			<action name="3" expression="#{DestinatariNotificheAction.setCodeValue('tipoInvio','PHIDIC','TipoInvio','01')}"></action>
+		</event>
+		<transition to="destinatario edit"></transition>
+	</node>
+
+	<task-node name="destinatario edit">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/destinatariNotificaEdit')}"></action>
+		</event>
+		<transition to="next from new?"></transition>
+	</task-node>
+
+	<decision name="next from new?" expression="#{(button.getMnemonic())}">
+		<transition to="new?" name="BtnBack"></transition>
+		<transition to="super-state2/create" name="BtnSave"></transition>
+		<transition to="delete comuni" name="BtnDelComuni"></transition>
+		<transition to="expire comuni" name="BtnExpire"></transition>
+		<transition to="exist?" name="BtnAddComune"></transition>
+		<transition to="add provincia" name="BtnAddProvincia"></transition>
+		<transition to="add regione" name="BtnAddRegione"></transition>
+	</decision>
+
+	<node name="eject and evict">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{DestinatariNotificheAction.create()}"></action>
+			</event>
+			<transition to="../read comuni"></transition>
+		</node>
+	</super-state>
+
+	<decision name="new?" expression="#{DestinatariNotifiche.internalId le 0}">
+		<transition to="eject and evict" name="true"></transition>
+		<transition to="refresh" name="false"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.refresh()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="delete comuni">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.deleteComuni(ComuneList.list, DestinatariNotifiche)}"></action>
+		</event>
+		<transition to="read comuni"></transition>
+	</node>
+
+	<node name="expire comuni">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.expireComuni(ComuneList.list)}"></action>
+		</event>
+		<transition to="read comuni"></transition>
+	</node>
+
+	<decision name="exist?" expression="#{ComuneAction.exist(ComuneList.list, Comune)}">
+		<transition to="eject comune" name="true"></transition>
+		<transition to="super-state4/create comune" name="false"></transition>
+	</decision>
+
+	<node name="eject comune">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.eject()}"></action>
+		</event>
+		<transition to="destinatario edit"></transition>
+	</node>
+
+	<node name="add provincia">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.addProvincia(ComuneList.list, DestinatariNotifiche)}"></action>
+		</event>
+		<transition to="read comuni"></transition>
+	</node>
+
+	<super-state name="super-state4">
+		<node name="create comune">
+			<event type="node-enter">
+				<action name="1" expression="#{ComuneAction.link('destinatariNotifiche',DestinatariNotifiche)}"></action>
+				<action name="2" expression="#{ComuneAction.create()}"></action>
+			</event>
+			<transition to="../read comuni"></transition>
+		</node>
+	</super-state>
+
+	<node name="read comuni">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.equal.put('destinatariNotifiche',DestinatariNotifiche)}"></action>
+			<action name="2" expression="#{ComuneAction.orderBy.put('comune.displayName','ascending')}"></action>
+			<action name="3" expression="#{ComuneAction.read()}"></action>
+		</event>
+		<transition to="eject comune"></transition>
+	</node>
+
+	<node name="add regione">
+		<event type="node-enter">
+			<action name="1" expression="#{ComuneAction.addRegione(ComuneList.list, DestinatariNotifiche)}"></action>
+		</event>
+		<transition to="read comuni"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

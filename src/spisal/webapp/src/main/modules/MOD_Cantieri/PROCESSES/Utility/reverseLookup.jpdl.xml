@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="reverseLookup">
+
+
+	<start-state name="start-state1">
+		<transition to="google maps lookup"></transition>
+	</start-state>
+
+
+	<task-node name="reverse geocoding popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Cantieri/FORMS/reverseLookupPopup')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{Cantiere.setAddr(CantiereAction.temporary['reversedAddress'])}"></action>
+				<action name="2" expression="#{Cantiere.setLocalita(CantiereAction.temporary['reversedAddressLocalita'])}"></action>
+				<action name="3" expression="#{(CantiereAction.temporary['reversedLat']!=null) ? Cantiere.setLatitudine(CantiereAction.temporary['reversedLat']) : '' }"></action>
+				<action name="4" expression="#{(CantiereAction.temporary['reversedLng']!=null) ? Cantiere.setLongitudine(CantiereAction.temporary['reversedLng']) : '' }"></action>
+				<action name="5" expression="#{CantiereAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="super-state1/save" name="btnOk"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="google maps lookup">
+		<event type="node-enter">
+			<action name="1" expression="#{geolocation.reverseAddress(Cantiere.latitudine, Cantiere.longitudine, Cantiere.addr.str, Cantiere.addr.bnr, Cantiere.addr.cty, Cantiere.addr.zip, CantiereAction.temporary)}"></action>
+		</event>
+		<transition to="reverse geocoding popup"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

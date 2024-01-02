@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="types">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<node name="add new">
+		<event type="node-enter">
+			<action name="1" expression="#{MonteOreAction.inject(MonteOreAction.newEntity())}"></action>
+			<action name="2" expression="#{MonteOreList.list.add(MonteOre)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<decision name="coming from?" expression="#{button.value}">
+		<transition to="add new" name="moNew"></transition>
+		<transition to="remove" name="moDel"></transition>
+		<transition to="read mo" name="moPopUp1"></transition>
+		<transition to="read mo" name="moPopUp2"></transition>
+		<transition to="read mo" name="moPopUp3"></transition>
+		<transition to="disponibilita" name="oreDisp"></transition>
+	</decision>
+
+	<node name="remove">
+		<event type="node-enter">
+			<action name="1" expression="#{MonteOreList.list.remove(MonteOre)}"></action>
+			<action name="2" expression="#{ToRemoveMonteOreList.list.add(MonteOre)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{MonteOreAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="read mo">
+		<event type="node-enter">
+			<action name="1" expression="#{MonteOreAction.eject()}"></action>
+			<action name="2" expression="#{MonteOreAction.equal.put('operatore',Operatore)}"></action>
+			<action name="3" expression="#{MonteOreAction.orderBy.put('anno','descending')}"></action>
+			<action name="4" expression="#{MonteOreAction.read()}"></action>
+			<action name="5" expression="#{MonteOreAction.temporary.put('currentYear', false)}"></action>
+			<action name="6" expression="#{MonteOreAction.injectCurrentYear()}"></action>
+		</event>
+		<transition to="monte ore operatore"></transition>
+	</node>
+
+	<task-node name="monte ore operatore">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Employees/CORE/FORMS/monteOrePopUp')}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</task-node>
+
+	<process-state name="disponibilita">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/Utility/disponibilita" binding="late"></sub-process>
+		<transition to="eject"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

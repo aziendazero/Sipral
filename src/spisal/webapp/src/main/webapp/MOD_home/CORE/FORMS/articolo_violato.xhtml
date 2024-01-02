@@ -1,0 +1,153 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1471958738655}</h1>
+	<div id="articolo_violato" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1471240349681" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1470263744608" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1473955429677;BtnBack')}" status="ajaxStatus" id="Link_1473955429677" title="${msg.alt_Link_1473955429677}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1473169539955" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1473169539955;BtnArtSave')}" status="ajaxStatus" id="Link_1473169539955_id" title="${msg.alt_Link_1473169539955}" rendered="#{Articoli.code ne null}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1473816113009" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_Label_1472045804701}</span>
+						<span value="${msg.Label_1472045804701}" class="labelContent  base-label" ></span>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469997808811" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1469997808811;BtnArtTree')}" status="ajaxStatus" id="Link_1469997808811_id" alt="#{LINK}" rendered="#{Provvedimenti.type.code ne 'ex14'}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link readOnly" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1660701710537" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1660701710537;BtnFattispecie')}" status="ajaxStatus" id="Link_1660701710537_id" alt="#{LINK}" rendered="#{Provvedimenti.type.code eq 'ex14'}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link readOnly" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1539866519403" >
+					<span value="${msg.Label_1539866519403}" id="Label_1539866519403_id" style="display:#{(ArticoliAction.isDuplicate(Provvedimenti)) ? 'block' : 'none' };" class="labelContent c-text-14 c-text-red base-label" >${msg.Label_1539866519403}</span>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:15px;padding:0;display:#{(Articoli.code ne null) ? 'block' : 'none' };" id="LayoutFill_1478209558886" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" rendered="#{Articoli.code ne null}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1478209558886}</legend>
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1477786002584}</span>
+						<h:outputText value="#{Articoli.code.displayName}" id="Label_1477786002584" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1479588848875}</span>
+						<h:outputText value="#{Articoli.code.description}" id="Label_1479588848875" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1477860166041}</span>
+						<h:outputText value="#{Articoli.code.corpo}" id="Label_1477860166041" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1478340191251}</span>
+						<h:outputText value="#{Articoli.code.classificazione}" id="Label_1478340191251" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1476805385419}</span>
+						<h:outputText value="#{Articoli.code.descrizioneContravventore}" id="Label_1476805385419" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1478739073466}</span>
+						<h:outputText value="#{Articoli.code.sanzionatoDa}" id="Label_1478739073466" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1480462967845" style="width: 100%;height: 12.5%;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1480903622657}</span>
+							<h:outputText value="#{Articoli.code.importoMin}" id="Label_1480903622657" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1478582936160}</span>
+							<h:outputText value="#{Articoli.code.importoMax}" id="Label_1478582936160" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1477031853174}</span>
+							<h:outputText value="#{Articoli.code.sanzione}" id="Label_1477031853174" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1477026942322}</span>
+						<h:outputText value="#{Articoli.code.arresto}" id="Label_1477026942322" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:15px;padding:0;" id="LayoutRow_1472045937333" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Articoli.code ne null and Provvedimenti.type.code ne 'ex14'}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1472045937333}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1470850196435" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1472046301887" >
+						<label >
+							<span class="label">${msg.label_TextArea_1472046301887}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1472046301887_id" value="#{Articoli.violazione}" label="${msg.label_TextArea_1472046301887}" >
+								<f:validateLength minimum="0" maximum="4000"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1472046301887_id" styleClass="errorMessages TextArea_1472046301887_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474042269139" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1472046305798" >
+						<label >
+							<span class="label">${msg.label_TextArea_1472046305798}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1472046305798_id" value="#{Articoli.prescrizione}" label="${msg.label_TextArea_1472046305798}" >
+								<f:validateLength minimum="0" maximum="4000"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1472046305798_id" styleClass="errorMessages TextArea_1472046305798_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:components="http:///components.ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <components:Editor xmi:id="_jViUcL47EeeTCp19w9syDw" formName="Form_1509454864183" formLabel="Normalizzazione indirizzo">
+    <layoutRow xmi:type="components:LayoutRow" xmi:id="_oUY0EL47EeeTCp19w9syDw" name="LayoutRow_1508568013375" expandMode="Full Automatic" orientation="vertical">
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_oUY0Eb47EeeTCp19w9syDw" name="LayoutRow_1510453229358" orientation="vertical">
+        <jollyWidget xmi:type="components:JollyWidget" xmi:id="_yUEfUJaAEeqHkY1u0nRUTQ" name="JollyWidget_1589529046469" customCode="&lt;!-- Riattivazione eventi su tutti i pulsanti-->&#xD;&#xA;&lt;script>&#xD;&#xA;&#x9;jQuery(&quot;a&quot;).removeClass('unclickable');&#xD;&#xA;&lt;/script>"/>
+        <label xmi:type="components:Label" xmi:id="_oUY0Er47EeeTCp19w9syDw" name="Label_1511325979471" binding="Infortuni.infortuniExt.addr" widgetLabel="Indirizzo precedente:" renderedEL="not empty Infortuni.infortuniExt.addr.str and not geolocation.sameAddress(Infortuni.infortuniExt.addr,InfortuniAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_oUY0E747EeeTCp19w9syDw" name="Label_1511246741075" binding="function.concat(InfortuniAction.temporary['reversedAddress'],InfortuniAction.temporary['reversedAddressLocalita'])" widgetLabel="Indirizzo rilevato:" renderedEL="InfortuniAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Infortuni.infortuniExt.addr,InfortuniAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_oUY0FL47EeeTCp19w9syDw" name="Label_1510591766524" value="L’indirizzo rilevato da google è uguale a quello inserito dall'utente, l'aggiornamento non è necessario." renderedEL="geolocation.sameAddress(Infortuni.infortuniExt.addr,InfortuniAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_oUY0Fb47EeeTCp19w9syDw" name="Label_1510310488393" binding="InfortuniAction.temporary['geolocation_error']" style="font-color: red; font-weight: bold;" renderedEL="not empty InfortuniAction.temporary['geolocation_error']" containsHtml="true"/>
+        <label xmi:type="components:Label" xmi:id="_oUY0Fr47EeeTCp19w9syDw" name="Label_1508758726440" value="Impostare l'indirizzo e le coordinate rilevate?" renderedEL="InfortuniAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Infortuni.infortuniExt.addr,InfortuniAction.temporary['reversedAddress']) or InfortuniAction.temporary['reversedLat']!=null)"/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_oUY0F747EeeTCp19w9syDw" name="LayoutRow_1508848719024" alignment="center">
+        <link xmi:type="components:Link" xmi:id="_oUY0GL47EeeTCp19w9syDw" name="Link_1508746054245" tag="" styleClass="fa fa-close fa-3x" mnemonicName="BtnCancel" tooltip="annulla" toReload="onclick(phiDesktop,popup)"/>
+        <link xmi:type="components:Link" xmi:id="_oUY0Gb47EeeTCp19w9syDw" name="Link_1509604682789" styleClass="fa fa-check fa-3x" mnemonicName="btnOk" tooltip="conferma" renderedEL="InfortuniAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Infortuni.infortuniExt.addr,InfortuniAction.temporary['reversedAddress']) or InfortuniAction.temporary['reversedLat']!=null)" toReload="onclick(popup,phiDesktop)"/>
+      </layoutRow>
+    </layoutRow>
+  </components:Editor>
+  <notation:Diagram xmi:id="_jViUcb47EeeTCp19w9syDw" type="components" element="_jViUcL47EeeTCp19w9syDw" name="reverseGeocodingInfortuni.mmgp" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_oUW-4L47EeeTCp19w9syDw" type="2061" element="_oUY0EL47EeeTCp19w9syDw" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_oUW-4b47EeeTCp19w9syDw" type="7010">
+        <children xmi:type="notation:Shape" xmi:id="_oUW-4r47EeeTCp19w9syDw" type="3170" element="_oUY0Eb47EeeTCp19w9syDw" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_oUW-4747EeeTCp19w9syDw" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_oUW-5L47EeeTCp19w9syDw" type="3132" element="_oUY0Er47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-5b47EeeTCp19w9syDw" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-5r47EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_oUW-5747EeeTCp19w9syDw" type="3132" element="_oUY0E747EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-6L47EeeTCp19w9syDw" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-6b47EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_oUW-6r47EeeTCp19w9syDw" type="3132" element="_oUY0FL47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-6747EeeTCp19w9syDw" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-7L47EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_oUW-7b47EeeTCp19w9syDw" type="3132" element="_oUY0Fb47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-7r47EeeTCp19w9syDw" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-7747EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_oUW-8L47EeeTCp19w9syDw" type="3132" element="_oUY0Fr47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-8b47EeeTCp19w9syDw" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-8r47EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_yUHioJaAEeqHkY1u0nRUTQ" type="3154" element="_yUEfUJaAEeqHkY1u0nRUTQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_yUHiopaAEeqHkY1u0nRUTQ" type="8053"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_yUHioZaAEeqHkY1u0nRUTQ"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_oUW-8747EeeTCp19w9syDw"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_oUW-9L47EeeTCp19w9syDw"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-9b47EeeTCp19w9syDw"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_oUW-9r47EeeTCp19w9syDw" type="3170" element="_oUY0F747EeeTCp19w9syDw" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_oUW-9747EeeTCp19w9syDw" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_oUW--L47EeeTCp19w9syDw" type="3155" element="_oUY0GL47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW--b47EeeTCp19w9syDw" type="8054"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW--r47EeeTCp19w9syDw"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_oUW--747EeeTCp19w9syDw" type="3155" element="_oUY0Gb47EeeTCp19w9syDw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_oUW-_L47EeeTCp19w9syDw" type="8054"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW-_b47EeeTCp19w9syDw"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_oUW-_r47EeeTCp19w9syDw"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_oUW-_747EeeTCp19w9syDw"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW_AL47EeeTCp19w9syDw"/>
+        </children>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_oUW_Ab47EeeTCp19w9syDw"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_oUW_Ar47EeeTCp19w9syDw"/>
+      </children>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oUW_A747EeeTCp19w9syDw" x="38" y="26" width="779" height="287"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_jViUcr47EeeTCp19w9syDw"/>
+  </notation:Diagram>
+</xmi:XMI>

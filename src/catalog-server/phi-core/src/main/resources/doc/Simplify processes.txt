@@ -1,0 +1,19 @@
+Simplified Jbpm:
+
+Delete:
+\s*<event type="node-leave">\R\s*<action\s*expression="#\{processManager\.synchronizeWithBannerBean\(\)\}".*\R\s*</event>
+
+\s*<event type="node-enter">\R\s*<action name="end-previous-task-node"\s*expression="#\{processManager\.endTaskInstance\(\)\}"\s*>\s*</action>\R\s*</event>
+
+\s*<event type="node-enter">\R\s*<action name="end-process-execution"\s*expression="#\{processManager\.endProcessExecution\(\)\}".*\R\s*</event>
+
+\s*<event type="node-enter">\R\s*<action\s*expression="#\{processManager\.endProcessExecution\(\)\}"\s*name="end-process-execution"/>\R\s*</event>\R\s*
+
+.*processManager\.endTaskInstance\(\).*\R
+
+\s*<event type="superstate-leave">\R\s*<action expression="#\{processManager\.saveSuperState\(\)\}".*\R\s*</event>
+
+Replace:
+
+actor.id -> userBean.username
+processManager.managePagination -> ViewManager.setViewId

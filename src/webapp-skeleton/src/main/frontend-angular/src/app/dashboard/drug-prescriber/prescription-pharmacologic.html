@@ -1,0 +1,59 @@
+<form #form="ngForm" id="FrmPrscrtn">
+  <h1>{{'FrmPrscrtn' | translate}}</h1>
+  <div id="LayoutPrscrtnPhrm" class="layout vertical">
+    <div id="LayoutPrscrtnPhrmHstry" class="layout horizontal center" *ngIf="!favoriteConfiguration && prescriptionTot>1">
+      <phi-button (binding)="prev()" id="LayoutPrscrtnPhrmBack">{{'LayoutPrscrtnPhrmBack' | translate}}</phi-button>
+      <div class="lbl">
+      <span>{{prescriptionIndex + 1 + ' - ' + prescriptionTot}}</span>
+      </div>
+      <phi-button (binding)="next()" id="LayoutPrscrtnPhrmNext">{{'LayoutPrscrtnPhrmNext' | translate}}</phi-button>
+    </div>
+    <div id="LayoutPrscrtnPhrmProfile" class="layout horizontal" *ngIf="favoriteConfiguration">
+      <phi-textbox [(ngModel)]="FavoriteProfile.title" name="FavoriteProfile.title" id="TxtPrscrtnPhrmProfileName" [widgetLabel]="'label_TxtPrscrtnPhrmProfileName' | translate" [required]="true">{{'TxtPrscrtnPhrmProfileName' | translate}}</phi-textbox>
+      <div class="layout fillHeight">
+      </div>
+      <div id="LayoutPrscrtnPhrmProfileR" class="layout horizontal end" *ngIf="Prescription.code.code == 'PHARMA'">
+        <phi-button (binding)="addMedicine()" id="BtnPrscrtnPhrmAdd" tooltip="{{'alt_BtnPrscrtnPhrmAdd' | translate}}"><i class="fa fa-2x fa-plus"></i></phi-button>
+        <phi-button (binding)="removeMedicine()" id="BtnPrscrtnPhrmRemove" tooltip="{{'alt_BtnPrscrtnPhrmRemove' | translate}}" [disabled]="SelectedPrescriptionList.entities.length == 1"><i class="fa fa-2x fa-minus"></i></phi-button>
+      </div>
+    </div>
+    <div id="LayoutPrscrtnPhrmDtNt" class="layout horizontal" *ngIf="!favoriteConfiguration">
+      <div id="LayoutPrscrtnPhrmData" class="layout vertical" *ngIf="!dischargeMode">
+        <phi-monthcalendar [(ngModel)]="Prescription.period.low" name="Prescription.period.low" id="CalPhrmHstryFrom" [widgetLabel]="'label_CalPhrmHstryFrom' | translate" [required]="true" dateTimeFormat="Date and Time" (change)="startDateChange()"></phi-monthcalendar>
+        <div id="LayoutRow_1495097094191" class="layout horizontal">
+          <phi-monthcalendar [(ngModel)]="Prescription.period.high" name="Prescription.period.high" id="CalPhrmHstryTo" [widgetLabel]="'label_CalPhrmHstryTo' | translate" [required]="true" [disabled]="!enableEndDate" dateTimeFormat="Date and Time"></phi-monthcalendar>
+          <phi-checkbox [(ngModel)]="enableEndDate" name="enableEndDate" id="ChkBxPrscrptnEndDate" (change)="enableEndDateChange()"></phi-checkbox>
+        </div>
+      </div>
+      <div id="LayoutPrscrtnDschrg" class="layout vertical" *ngIf="dischargeMode">
+        <phi-textbox [(ngModel)]="Prescription.duration" name="Prescription.duration" id="TxtPrscrtnDuration" [widgetLabel]="'label_TxtPrscrtnDuration' | translate" [disabled]="noDuration" converter="Integer Converter" minimum="1"></phi-textbox>
+        <phi-checkbox [(ngModel)]="noDuration" name="noDuration" id="ChkPrscrtnInfinite" [widgetLabel]="'label_ChkPrscrtnInfinite' | translate" (change)="indefinitelyChange()"></phi-checkbox>
+      </div>
+      <phi-textarea [(ngModel)]="Prescription.note" name="Prescription.note" id="TxtArPhrmHstryNote" [widgetLabel]="'label_TxtArPhrmHstryNote' | translate"></phi-textarea>
+    </div>
+    <div phi-tabbedpanel #TbbdPnlPrscrtnMdcn [binding]="SelectedPrescriptionList?.entities" conversationName="Prescription" [hideSigleTab]="true">
+      <div class="tab-content">
+        <div id="PnlTbPrscrtnMdcn" class="layout vertical">
+          <phi-prescription-edit *ngIf="Prescription" [(ngModel)]="Prescription" name="Prescription" [favoriteConfiguration]="favoriteConfiguration" [dischargeMode]="dischargeMode"></phi-prescription-edit>
+        </div>
+      </div>
+    </div>
+    <div id="LayoutPrscrtnWarnings" class="layout vertical warning" *ngFor="let Warnings of PrescriptionAction.warnings">
+      <div class="lbl">
+      <span>{{Warnings}}</span>
+      </div>
+    </div>
+    <div id="LayoutPrscrtnErrors" class="layout vertical error" *ngFor="let Errors of PrescriptionAction.errors">
+      <div class="lbl">
+      <span>{{Errors}}</span>
+      </div>
+    </div>
+    <div id="LayoutFill_1495099419363" class="layout horizontal">
+      <phi-button (binding)="close()" id="BtnPrscrtnPhrmClose">{{'BtnPrscrtnPhrmClose' | translate}}</phi-button>
+      <div class="layout horizontal fillHeight">
+      </div>
+      <phi-button (binding)="saveAndValidate()" id="BtnPrscrtnSaveAndValidate" [renderedEl]="!favoriteConfiguration && !Prescription.internalId && !dischargeMode" [disabled]="PrescriptionAction.errors.length > 0" [form]="form">{{'BtnPrscrtnSaveAndValidate' | translate}}</phi-button>
+      <phi-button (binding)="save()" id="BtnPrscrtnSave" [disabled]="PrescriptionAction.errors.length > 0 || prescriptionIndex + 1 !== prescriptionTot" [form]="form">{{'BtnPrscrtnSave' | translate}}</phi-button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,70 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1504599779389}</h1>
+	<div id="agendeList" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1503030143235" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1503703779213" >
+				<a4j:commandLink action="#{processManager.manageTask('Link_1503703779213;NEXT')}" status="ajaxStatus" id="Link_1503703779213_id" alt="#{LINK}" rendered="#{!empty AgendaConf}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel id="DataGrid_1503775953982" layout="block" styleClass="dt layoutTable-caption layoutTable layoutVertical" >
+						<div class="captionPaging">
+							<div class="caption">
+								<label for="f1503775953982">${msg.DataGrid_1503775953982} - ${error.FILTER_TABLE}: </label>
+								<input id="f1503775953982" type="text" onkeyup="filterTbl(jQuery('#d1503775953982'), this.value )" label="${msg.DataGrid_1503775953982} - ${error.FILTER_TABLE}: "/>
+							</div>
+						</div>
+					<table id="d1503775953982" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1503775953982} [AgendaConfList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1505759786987" value="${msg.DataGridColumn_1505759786987} &#8593;&#8595;" action="#{AgendaConfList.orderBy('nome')}" reRender="DataGrid_1503775953982" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1503500452560" value="${msg.DataGridColumn_1503500452560} &#8593;&#8595;" action="#{AgendaConfList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1503775953982" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1504588965111" value="${msg.DataGridColumn_1504588965111} &#8593;&#8595;" action="#{AgendaConfList.orderBy('slotSize')}" reRender="DataGrid_1503775953982" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1506436841161" value="${msg.DataGridColumn_1506436841161} &#8593;&#8595;" action="#{AgendaConfList.orderBy('validyStart')}" reRender="DataGrid_1503775953982" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1506405840768" value="${msg.DataGridColumn_1506405840768} &#8593;&#8595;" action="#{AgendaConfList.orderBy('validityEnd')}" reRender="DataGrid_1503775953982" ajaxSingle="true" disabled="#{empty AgendaConfList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty AgendaConfList or AgendaConfList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1503775953982" value="#{AgendaConfList.entities}" var="AgendaConf" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1503775953982(this.id);" class="#{AgendaConfAction.getEntity().equals(AgendaConf) or AgendaConf.internalId != 0 and AgendaConfAction.entity.internalId.equals(AgendaConf.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{AgendaConf.nome}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{AgendaConf.serviceDeliveryLocation.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{AgendaConf.slotSize}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{AgendaConf.validyStart}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{AgendaConf.validityEnd}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1503775953982" name="ie1503775953982" status="ajaxStatus" action="#{AgendaConfList.injectEject}" data="#{AgendaConfList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1503775953982'))" reRender="Link_1503703779213" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{AgendaConfList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneCostiDiretti">
+
+
+	<start-state name="start-state1">
+		<transition to="Read ULSS"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="preactions" name="CDNew"></transition>
+		<transition to="Inject Articoli" name="CDMng"></transition>
+		<transition to="super-state2/Delete" name="CDDel"></transition>
+	</decision>
+
+	<node name="preactions">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.inject(CostoDirettoAction.newEntity())}"></action>
+			<action name="2" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('Legge81Index').id)}"></action>
+		</event>
+		<transition to="Set ULSS?"></transition>
+	</node>
+
+	<task-node name="CDForm">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/costo_diretto')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="Create">
+			<event type="node-enter">
+				<action name="1" expression="#{CostoDiretto.setArticolo(CodeValueLaw)}"></action>
+				<action name="2" expression="#{CostoDirettoAction.create()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="Select Ulss" name="BtnULSS"></transition>
+		<transition to="Exists?" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.refresh()}"></action>
+			<action name="2" expression="#{CostoDirettoAction.eject()}"></action>
+			<action name="3" expression="#{CostoDirettoAction.ejectList()}"></action>
+			<action name="4" expression="#{CodeValueLawAction.eject()}"></action>
+			<action name="5" expression="#{CostoDirettoAction.temporary.remove('check')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Delete">
+			<event type="node-enter">
+				<action name="1" expression="#{CostoDirettoAction.delete()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="Select Ulss">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/associa_ulss')}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</task-node>
+
+	<node name="Read ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.equal.put('code.code','ulss')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="eject ULSS" name="BtnBack"></transition>
+		<transition to="link ULSS" name="BtnSave"></transition>
+	</decision>
+
+	<node name="link ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.link('serviceDeliveryLocation',ServiceDeliveryLocation)}"></action>
+		</event>
+		<transition to="eject ULSS"></transition>
+	</node>
+
+	<node name="eject ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.eject()}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.ejectList()}"></action>
+		</event>
+		<transition to="CDForm"></transition>
+	</node>
+
+	<node name="Inject Articoli">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueLawAction.inject(CostoDiretto.articolo)}"></action>
+			<action name="2" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('Legge81Index').id)}"></action>
+		</event>
+		<transition to="CDForm"></transition>
+	</node>
+
+	<decision name="Set ULSS?" expression="#{ServiceDeliveryLocationList.size()==1}">
+		<transition to="CDForm" name="false"></transition>
+		<transition to="Set ULSS" name="true"></transition>
+	</decision>
+
+	<node name="Set ULSS">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.link('serviceDeliveryLocation',ServiceDeliveryLocationList.get(0))}"></action>
+		</event>
+		<transition to="CDForm"></transition>
+	</node>
+
+	<decision name="Exists?" expression="#{CostoDirettoAction.check(CostoDiretto)}">
+		<transition to="CDForm" name="true"></transition>
+		<transition to="super-state1/Create" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

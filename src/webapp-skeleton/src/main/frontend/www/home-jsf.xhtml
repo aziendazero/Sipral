@@ -1,0 +1,25 @@
+<div lang="#{localeSelector.language}"  xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<a4j:form id="hf">
+		<a4j:jsFunction id="startProcess" name="startProcess" action="#{processManager.startProcess}" reRender="phiDesktop,popup" ajaxSingle="true" limitToList="true" onbeforedomupdate="animateDashboard()">
+			<a4j:actionparam name="currentProcess" assignTo="#{processManager.currentProcess}"/>
+		</a4j:jsFunction>
+	</a4j:form>
+	<a4j:outputPanel id="phiDesktop" layout="none" >
+		<a4j:form id="f" prependId="false" rendered="#{!ViewManager.isHome()}" >
+			<a4j:region>
+				<a4j:status id="dummyAjaxStatus" onstop="Phi.stopAjaxReq()"/>
+				<a4j:include id="i" layout="block" keepTransient="true" viewId="#{ViewManager.viewId}"  title="#{ViewManager.viewIdWithoutExtension}"/>
+			</a4j:region>
+		</a4j:form>
+	</a4j:outputPanel>
+	<a4j:outputPanel id="popup" layout="none" >
+		<a4j:form id="fPop" prependId="false">
+			<a4j:include id="p" layout="block" keepTransient="true" viewId="#{ViewManager.popupViewId}" title="#{ViewManager.popupViewId}"/>
+			<script>openFormPopup('#fPop');</script>
+			<a4j:jsFunction id="cleanPopup" name="setPopup" action="#{processManager.manageTask('Btn_Cancel')}" reRender="popup" ajaxSingle="true" limitToList="true">
+				<a4j:actionparam name="viewId" assignTo="#{ViewManager.popupViewId}"/>
+			</a4j:jsFunction>
+		</a4j:form>
+	</a4j:outputPanel>
+	<a4j:status id="ajaxStatus" startText="" stopText="" onstart="Phi.startAjaxReq()" onstop="Phi.stopAjaxReq()" />
+</div>

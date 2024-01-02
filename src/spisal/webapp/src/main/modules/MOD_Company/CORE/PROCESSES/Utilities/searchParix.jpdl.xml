@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="searchParix">
+
+
+	<start-state name="start-state1">
+		<transition to="temp values"></transition>
+	</start-state>
+
+
+	<task-node name="search Parix">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/company_search_parix')}"></action>
+		</event>
+		<transition to="button"></transition>
+	</task-node>
+
+	<decision name="button" expression="#{(button.getMnemonic())}">
+		<transition to="search on Parix" name="BtnPGFilterApply"></transition>
+		<transition to="eject stuff" name="BtnBack"></transition>
+		<transition to="hide filters" name="BtnPGFilterCancel"></transition>
+		<transition to="eject stuff" name="goToALI"></transition>
+		<transition to="search Parix" name="connError"></transition>
+		<transition to="clone" name="BtnSave"></transition>
+		<transition to="search Parix" name="BtnPGDetail"></transition>
+		<transition to="search Parix" name="select"></transition>
+		<transition to="clone arpav" name="BtnSaveArpav"></transition>
+	</decision>
+
+	<node name="hide filters">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.clear()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.temporary.put('filter',true)}"></action>
+		</event>
+		<transition to="search Parix"></transition>
+	</node>
+
+	<node name="search on Parix">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.searchCompanyOnParix(PersoneGiuridicheAction.temporary['codiceFiscale'],PersoneGiuridicheAction.temporary['denominazione'],PersoneGiuridicheAction.temporary['nonCessata'])}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.temporary.remove('rea')}"></action>
+		</event>
+		<transition to="search Parix"></transition>
+	</node>
+
+	<node name="temp values">
+		<event type="node-enter">
+			<action name="1" expression="#{!spisalUserAction.isArpav() ? PersoneGiuridicheAction.temporary.remove('denominazione') : ''}"></action>
+			<action name="2" expression="#{!spisalUserAction.isArpav() ? PersoneGiuridicheAction.temporary.remove('partitaIva') : ''}"></action>
+			<action name="3" expression="#{!spisalUserAction.isArpav() ? PersoneGiuridicheAction.temporary.remove('codiceFiscale') : ''}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.temporary.put('nonCessata',false)}"></action>
+			<action name="5" expression="#{SediAction.temporary.remove('selectedSede')}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.ejectList('ParixCompanyList')}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.ejectList('LocalizzazioneList')}"></action>
+		</event>
+		<transition to="search Parix"></transition>
+	</node>
+
+	<node name="eject stuff">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.remove('rea')}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.temporary.remove('cia')}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.ejectList('LocalizzazioneList')}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.ejectList('DatiImpresa')}"></action>
+			<action name="6" expression="#{SediAction.temporary.remove('selectedSede')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="clone">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.copiaDaParix(DatiImpresa,Riga, LocalizzazioneList,Localizzazione.internalId)}"></action>
+			<action name="2" expression="#{SediAction.inject(SediAction.temporary['selectedSede'])}"></action>
+			<action name="3" expression="#{LocalizzazioneAction.eject()}"></action>
+			<action name="4" expression="#{PersoneGiuridicheAction.temporary.remove('rea')}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.temporary.remove('cia')}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="clone arpav">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.temporary.put('isForArpav', true)}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.copiaDaParix(DatiImpresa,Riga, LocalizzazioneList,Localizzazione.internalId)}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.temporary.put('isForArpav', false)}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="already existing?">
+		<transition to="avviso existinting" name="true"></transition>
+		<transition to="end-state2" name="false"></transition>
+	</decision>
+
+	<task-node name="avviso existinting">
+		<transition to="end-state2"></transition>
+	</task-node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,16 @@
+<form #form="ngForm" id="FrmFavoriteSection">
+  <h1>{{'FrmFavoriteSection' | translate}}</h1>
+  <div id="LayoutFavoriteSection" class="layout vertical">
+    <phi-textbox [(ngModel)]="FavoriteSection.title" name="FavoriteSection.title" id="TxtFavoriteSectionTitle" [widgetLabel]="'label_TxtFavoriteSectionTitle' | translate" [required]="true"></phi-textbox>
+    <phi-textbox [(ngModel)]="FavoriteSection.sortOrder" name="FavoriteSection.sortOrder" id="TxtFavoriteSectionPos" [widgetLabel]="'label_TxtFavoriteSectionPos' | translate" [required]="true" converter="Integer Converter" minimum="1" maximum="{{getMaxSortOrder()}}"></phi-textbox>
+    <phi-color-picker [(ngModel)]="FavoriteSection.color" name="FavoriteSection.color" id="TxtFavoriteSectionColor" [widgetLabel]="'label_TxtFavoriteSectionColor' | translate" converter="Integer Converter"></phi-color-picker>
+    <div id="LayoutFavoriteSectionBtn" class="layout horizontal fill">
+      <div id="LayoutFavoriteSectionBtnLft" class="layout horizontal">
+        <phi-button (binding)="close()" id="BtnFavoriteSectClose">{{'BtnFavoriteSectClose' | translate}}</phi-button>
+      </div>
+      <div id="LayoutFavoriteSectionRght" class="layout horizontal">
+        <phi-button (binding)="onSave()" id="BtnFavoriteSectSave" [form]="form">{{'BtnFavoriteSectSave' | translate}}</phi-button>
+      </div>
+    </div>
+  </div>
+</form>

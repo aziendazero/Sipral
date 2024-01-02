@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="ManageControlSubLists">
+
+
+	<start-state name="start-state1">
+		<transition to="comingFrom?"></transition>
+	</start-state>
+
+
+	<decision name="comingFrom?" expression="#{(button.getMnemonic())}">
+		<transition to="empty ControlSubLs?" name="SelSub"></transition>
+		<transition to="NewSub" name="NewSub"></transition>
+		<transition to="requisiti for pdf" name="EditSub"></transition>
+		<transition to="DelSub" name="DelSub"></transition>
+		<transition to="DelReq" name="DelReq"></transition>
+		<transition to="EditReq" name="EditReq"></transition>
+		<transition to="NewReq" name="NewReq"></transition>
+	</decision>
+
+	<node name="inject Requisiti">
+		<event type="node-enter">
+			<action name="1" expression="#{RequisitoAction.setReadPageSize(0)}"></action>
+			<action name="2" expression="#{RequisitoAction.equal.put('controlSubLs',ControlSubLs)}"></action>
+			<action name="3" expression="#{RequisitoAction.equal.put('isActive',true)}"></action>
+			<action name="4" expression="#{RequisitoAction.orderBy.put('ordering','ascending')}"></action>
+			<action name="5" expression="#{RequisitoAction.read()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="NewSub">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.inject(ControlSubLsAction.newEntity())}"></action>
+		</event>
+		<transition to="EditSub"></transition>
+	</node>
+
+	<task-node name="EditSub">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/f_control_sublist_edit')}"></action>
+		</event>
+		<transition to="nextFromSub?"></transition>
+	</task-node>
+
+	<node name="DelSub">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.inject(ControlSubLsAction.temporary['delList'])}"></action>
+			<action name="2" expression="#{ControlSubLsAction.deleteOnCascade(ControlSubLs)}"></action>
+		</event>
+		<transition to="super-state3/unlink SubList"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="link SubList">
+			<event type="node-enter">
+				<action name="1" expression="#{empty ControlSubLs.listid ? ControlSubLs.setListid(SequenceManager.nextOf('cl_sub_seq')) : ''}"></action>
+				<action name="2" expression="#{ControlLsAction.link('controlSubLs',ControlSubLs)}"></action>
+				<action name="3" expression="#{ControlLsAction.create()}"></action>
+			</event>
+			<transition to="../EditSub"></transition>
+		</node>
+	</super-state>
+
+	<decision name="nextFromSub?" expression="#{(button.getMnemonic())}">
+		<transition to="history SubList" name="ViewHistory"></transition>
+		<transition to="super-state1/link SubList" name="OK"></transition>
+		<transition to="eject ControlSubLs" name="BACK"></transition>
+	</decision>
+
+	<node name="DelReq">
+		<event type="node-enter">
+			<action name="1" expression="#{Requisito.setIsActive(false)}"></action>
+		</event>
+		<transition to="super-state4/unlink Requisito"></transition>
+	</node>
+
+	<node name="NewReq">
+		<event type="node-enter">
+			<action name="1" expression="#{RequisitoAction.inject(RequisitoAction.newEntity())}"></action>
+		</event>
+		<transition to="EditReq"></transition>
+	</node>
+
+	<task-node name="EditReq">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/f_requisite_edit')}"></action>
+		</event>
+		<transition to="nextFromReq?"></transition>
+	</task-node>
+
+	<decision name="nextFromReq?" expression="#{(button.getMnemonic())}">
+		<transition to="history Requisito" name="ViewHistory"></transition>
+		<transition to="super-state2/link Requisito" name="OK"></transition>
+		<transition to="eject Requisito" name="BACK"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<node name="link Requisito">
+			<event type="node-enter">
+				<action name="1" expression="#{empty Requisito.reqid ? Requisito.setReqid(SequenceManager.nextOf('cl_req_seq')) : ''}"></action>
+				<action name="2" expression="#{ControlSubLsAction.link('requisito',Requisito)}"></action>
+				<action name="3" expression="#{ControlSubLsAction.create()}"></action>
+			</event>
+			<transition to="../EditReq"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="history SubList">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/Storia Sottolista" binding="late"></sub-process>
+		<transition to="EditSub"></transition>
+	</process-state>
+
+	<process-state name="history Requisito">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/Storia Requisito" binding="late"></sub-process>
+		<transition to="EditReq"></transition>
+	</process-state>
+
+	<super-state name="super-state3">
+		<node name="unlink SubList">
+			<event type="node-enter">
+				<action name="1" expression="#{ControlLsAction.unLink('controlSubLs',ControlSubLs)}"></action>
+				<action name="2" expression="#{ControlLsAction.create()}"></action>
+				<action name="3" expression="#{ControlSubLsAction.temporary.remove('delList')}"></action>
+			</event>
+			<transition to="../eject ControlSubLs"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state4">
+		<node name="unlink Requisito">
+			<event type="node-enter">
+				<action name="1" expression="#{ControlSubLsAction.unLink('requisito',Requisito)}"></action>
+				<action name="2" expression="#{ControlSubLsAction.create()}"></action>
+			</event>
+			<transition to="../eject Requisito"></transition>
+		</node>
+	</super-state>
+
+	<node name="refresh lists">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.equal.put('controlLs',ControlLs)}"></action>
+			<action name="2" expression="#{ControlSubLsAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{ControlSubLsAction.orderBy.put('listid','ascending')}"></action>
+			<action name="4" expression="#{ControlSubLsAction.read()}"></action>
+			<action name="5" expression="#{FunctionGenAction.restoreSelectedIndex(ControlSubLsList, ControlSubLs)}"></action>
+		</event>
+		<transition to="empty ControlSubLs?"></transition>
+	</node>
+
+	<node name="eject ControlSubLs">
+		<event type="node-enter">
+			<action name="1" expression="#{empty ControlSubLs.listid or !ControlSubLs.isActive ? ControlSubLsAction.eject() : ''}"></action>
+		</event>
+		<transition to="refresh lists"></transition>
+	</node>
+
+	<node name="eject Requisito">
+		<event type="node-enter">
+			<action name="1" expression="#{empty Requisito.reqid or !Requisito.isActive ? RequisitoAction.eject() : ''}"></action>
+		</event>
+		<transition to="empty ControlSubLs?"></transition>
+	</node>
+
+	<decision name="empty ControlSubLs?" expression="#{empty ControlSubLs}">
+		<transition to="inject Requisiti" name="false"></transition>
+		<transition to="eject requisiti" name="true"></transition>
+	</decision>
+
+	<node name="eject requisiti">
+		<event type="node-enter">
+			<action name="1" expression="#{RequisitoAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="requisiti for pdf">
+		<event type="node-enter">
+			<action name="1" expression="#{RequisitoAction.equal.put('controlSubLs',ControlSubLs)}"></action>
+			<action name="2" expression="#{RequisitoAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{RequisitoAction.orderBy.put('ordering','ascending')}"></action>
+			<action name="4" expression="#{RequisitoAction.read()}"></action>
+		</event>
+		<transition to="EditSub"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+	
+	<action expression="" name="security"/>
+
+</process-definition>

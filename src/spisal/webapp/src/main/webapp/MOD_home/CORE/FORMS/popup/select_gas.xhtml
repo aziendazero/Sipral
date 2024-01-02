@@ -1,0 +1,25 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1480350760159}</h1>
+	<div id="select_gas" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1480350765480" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1480351166063" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1481997668836" style="float:right;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1481997668836;BtnOk')}" status="ajaxStatus" id="Link_1481997668836_id" title="${msg.alt_Link_1481997668836}" style="float:right;" rendered="#{not empty Patentini.gas}" reRender="popup,LayoutRow_1480503663307,LayoutRow_1480582876894" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1480513424087" style="height:600px;overflow-y:scroll;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<h:selectManyCheckbox id="GroupCheckBox_1480350795205" value="#{Patentini.gas}" layout="pageDirection" style="width:600px;" styleClass="checkGroupTable groupCheckBox" >
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:PatentinoGas')}" />
+
+						<f:converter converterId="CodeValueConverter"/>
+						<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1480351166063" event="onchange" ignoreDupResponses="true" />
+					</h:selectManyCheckbox>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

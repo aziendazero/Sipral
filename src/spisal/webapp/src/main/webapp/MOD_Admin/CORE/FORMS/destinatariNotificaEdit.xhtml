@@ -1,0 +1,262 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1635835138910}</h1>
+	<div id="mediciEditi" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1635093814406" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1635731423042" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1637282870872;BtnBack')}" status="ajaxStatus" id="Link_1637282870872" title="${msg.alt_Link_1637282870872}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1636958514839;BtnSave')}" status="ajaxStatus" id="Link_1636958514839" title="${msg.alt_Link_1636958514839}" reRender="popup,phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1636559266710" style="height:100%;width:100%;" >
+						<script>
+						jQuery('#i\\:TextBox_1635390023748_id, #i\\:TextBox_1634781083209_id').each(function() {
+							jQuery(this).val(jQuery(this).val().toUpperCase());
+						}).on('input',function() {
+						   	jQuery(this).val(jQuery(this).val().toUpperCase());
+						});
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1635434117943" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1636452537152" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1636452537152}</span>
+						<h:selectOneMenu id="ComboBox_1636452537152_id" value="#{DestinatariNotifiche.type}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1636452537152}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:DestinatariNotifica')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+						<h:message style="float:left;" for="ComboBox_1636452537152_id" styleClass="errorMessages ComboBox_1636452537152_E" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1636452646457" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1636452646457}</span>
+						<h:selectOneMenu id="ComboBox_1636452646457_id" value="#{DestinatariNotifiche.tipoInvio}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1636452646457}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoInvio')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+						<h:message style="float:left;" for="ComboBox_1636452646457_id" styleClass="errorMessages ComboBox_1636452646457_E" />
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1635736236379" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1636452701424" style="width: 100%;height: 50.0%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1636452701424}</span>
+						<h:inputText id="TextBox_1636452701424_id" value="#{DestinatariNotifiche.descrizioneSipral}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1636452701424}" />
+						<a4j:outputPanel id="TextBox_1636452701424_msg" styleClass="errorContainer" ><h:message for="TextBox_1636452701424_id" styleClass="errorMessages TextBox_1636452701424_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1636452699297" style="width: 100%;height: 50.0%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1636452699297}</span>
+						<h:inputText id="TextBox_1636452699297_id" value="#{DestinatariNotifiche.descrizione}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1636452699297}" />
+						<a4j:outputPanel id="TextBox_1636452699297_msg" styleClass="errorContainer" ><h:message for="TextBox_1636452699297_id" styleClass="errorMessages TextBox_1636452699297_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1637672268898" styleClass="layoutContainer layoutContainerVertical" style="padding-bottom: 25px;" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1636452747969" style="width: 50.0%;height: 100%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1636452747969}</span>
+						<h:inputText id="TextBox_1636452747969_id" value="#{DestinatariNotifiche.pec}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1636452747969}" >
+						<f:validator validatorId="MailAddressValidator"/>
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1636452747969_msg" styleClass="errorContainer" ><h:message for="TextBox_1636452747969_id" styleClass="errorMessages TextBox_1636452747969_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1636452771065}</span>
+						<h:inputText id="MonthCalendar_1636452771065" value="#{DestinatariNotifiche.fineValidita}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1636452771065}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1636452771065" styleClass="errorMessages MonthCalendar_1636452771065_E" />
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:20px;padding:0;display:#{(DestinatariNotifiche.internalId gt 0) ? 'block' : 'none' };" id="LayoutFill_1637147418200" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" rendered="#{DestinatariNotifiche.internalId gt 0}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1637147418200}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1636535573509" style="padding-bottom: 25px;width: 100%;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1636544996126" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1636534759587" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1636534759587}</span>
+								#{ComuneAction.autocomplete['comune'].setContentType('4')}
+								#{ComuneAction.autocomplete['comune'].setCodeSystem('COMUNIISTAT')}
+								#{ComuneAction.autocomplete['comune'].setDomain('Veneto')}
+								<input type="text" id="TextSuggestionBox_1636534759587_MAIN" class="autocomplete inputText" value="#{Comune.comune.displayName}"  />
+								<h:outputLabel for="TextSuggestionBox_1636534759587_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1636534759587_CODE" value="#{Comune.comune}" label="${msg.label_TextSuggestionBox_1636534759587}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1636532703706" event="onchange" ignoreDupResponses="true" />
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1636534759587_CODE" styleClass="errorMessages TextSuggestionBox_1636534759587_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1636534759587" action="#{ComuneAction.autocomplete['comune'].autocomplete()}" data="#{ComuneAction.autocomplete['comune'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{ComuneAction.autocomplete['comune'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1636532703706" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1636532703706;BtnAddComune')}" status="ajaxStatus" id="Link_1636532703706_id" title="${msg.alt_Link_1636532703706}" rendered="#{Comune.comune ne null}" reRender="LayoutFill_1636529715737,LayoutRow_1636535573509" styleClass="fa fa-plus fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1636617591168" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1636617618688}</span>
+								<h:selectOneMenu id="ComboBox_1636617618688" value="#{ComuneAction.temporary['provincia']}" styleClass="comboBox" label="${msg.label_ComboBox_1636617618688}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.selectCodeValues('COMUNIISTAT','Veneto:025006,028060,029041,026086,027042,024116,023091')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1636618657840" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1636618657840" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1636618657840;BtnAddProvincia')}" status="ajaxStatus" id="Link_1636618657840_id" title="${msg.alt_Link_1636618657840}" rendered="#{ComuneAction.temporary['provincia'] ne null}" reRender="phiDesktop" styleClass="fa fa-plus fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1636617594223" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1636717779714" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1636714961563}" class="labelContent c-text-bold base-label" >${msg.Label_1636714961563}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1636618659329;BtnAddRegione')}" status="ajaxStatus" id="Link_1636618659329" title="${msg.alt_Link_1636618659329}" reRender="phiDesktop" styleClass="fa fa-plus fa-2x link" />
+								</div>
+
+							</a4j:outputPanel>
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1636714531946}" class="labelContent c-text-bold c-text-red base-label" >${msg.Label_1636714531946}</span>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1636716141835" style="width: 100%;height: 33.333332%;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1636721153662" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1636721168270}" class="labelContent c-text-bold base-label" >${msg.Label_1636721168270}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1636721269687" value="#{ComuneAction.temporary['select']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="phiDesktop" event="onclick" action="#{ComuneAction.selectDeselect(ComuneList.list)}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1636721269687" styleClass="errorMessages CheckBox_1636721269687_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1636721269687" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="width:33%;padding:0;" id="LayoutRow_1636542415043" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ComuneAction.checkSelected(ComuneList.list)}" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1636715413516}" class="labelContent c-text-bold base-label" >${msg.Label_1636715413516}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1636542400475;BtnDelComuni')}" status="ajaxStatus" id="Link_1636542400475" title="${msg.alt_Link_1636542400475}" reRender="phiDesktop" styleClass="fa fa-times fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="width:33%;padding:0;" id="LayoutRow_1636552358186" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ComuneAction.checkSelected(ComuneList.list)}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1636552443162}</span>
+								<h:inputText id="MonthCalendar_1636552443162" value="#{ComuneAction.temporary['endValidity']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1636552443162}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1637893537676" event="onchange" ignoreDupResponses="true" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1636552443162" styleClass="errorMessages MonthCalendar_1636552443162_E" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1637893537676" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1637893537676;BtnExpire')}" status="ajaxStatus" id="Link_1637893537676_id" title="${msg.alt_Link_1637893537676}" rendered="#{ComuneAction.temporary['endValidity'] ne null or true}" reRender="LayoutRow_1636716141835,LayoutFill_1636529715737" styleClass="fa fa-check fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1636529715737" styleClass="layoutContainer layoutContainerVertical" style="width: 100%;height: 33.333332%;" >
+						<a4j:outputPanel id="DataGrid_1637377833595" layout="block" styleClass="dt layoutTable layoutHorizontal" style="width: 100.0%;height: 100%;" >
+							<table id="d1637377833595" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1637377833595} [ComuneList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th><a4j:commandLink id="DataGridColumn_1634826646666" value="${msg.DataGridColumn_1634826646666} &#8593;&#8595;" action="#{ComuneList.orderBy('sel')}" reRender="DataGrid_1637377833595" ajaxSingle="true" disabled="#{empty ComuneList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1637981232430" value="${msg.DataGridColumn_1637981232430} &#8593;&#8595;" action="#{ComuneList.orderBy('comune')}" reRender="DataGrid_1637377833595" ajaxSingle="true" disabled="#{empty ComuneList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1636635750271" value="${msg.DataGridColumn_1636635750271} &#8593;&#8595;" action="#{ComuneList.orderBy('comune.province')}" reRender="DataGrid_1637377833595" ajaxSingle="true" disabled="#{empty ComuneList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1636937834035" value="${msg.DataGridColumn_1636937834035} &#8593;&#8595;" action="#{ComuneList.orderBy('fineValidita')}" reRender="DataGrid_1637377833595" ajaxSingle="true" disabled="#{empty ComuneList ? true : false}"/></th>
+									</tr>
+								</thead>
+								<tbody class="tableBody">
+									<jstl:if test="#{empty ComuneList or ComuneList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="4">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1637377833595" value="#{ComuneList.entities}" var="Comune" rowKeyVar="rowIndex" >
+										<tr >
+											<td >
+								<h:selectBooleanCheckbox id="CheckBox_1636529970506" value="#{Comune.sel}" style="vertical-align:middle;" alt="CHECKBOX" >
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1636542415043,LayoutRow_1636552358186" event="onclick" ignoreDupResponses="true" />
+								</h:selectBooleanCheckbox>
+								<h:message for="CheckBox_1636529970506" styleClass="errorMessages CheckBox_1636529970506_E" />
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1636529970506" style="display:none;" value="hiddenLabel"></h:outputLabel>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Comune.comune}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{Comune.comune.province}</span>
+											</td>
+
+											<td >
+												<h:outputText styleClass="base-label" value="#{Comune.fineValidita}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

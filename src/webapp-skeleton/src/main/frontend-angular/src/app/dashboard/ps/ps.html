@@ -1,0 +1,91 @@
+<form #form="ngForm" id="Form_1553845596352">
+  <div id="lyt-ps" class="layout vertical fullHeight">
+    <div id="lyt-ps-btns" class="layout horizontal space-between">
+      <div id="lyt-ps-btns-l" class="layout horizontal">
+        <phi-buttonrefresh (binding)="refresh()" id="btn-refresh"></phi-buttonrefresh>
+        <phi-buttonsearch (binding)="toggleSearch()" id="btn-showfilters"></phi-buttonsearch>
+        <phi-buttonpdf (binding)="report()" id="btn-ps-pdf"></phi-buttonpdf>
+        <phi-button (binding)="newPs()" id="btn-ps-new" styleClass="fa fa-2x fa-plus"><i class="fa fa-ambulance"></i></phi-button>
+      </div>
+      <div id="lyt-ps-btns-r" class="layout horizontal">
+        <phi-button (binding)="showOpen()" id="btn-ps-open"><i class="fa fa-2x fa-hospital-o"></i>{{'btn-ps-open' | translate}}</phi-button>
+        <phi-button (binding)="showWaiting()" id="btn-ps-waiting"><i class="fa fa-2x fa-ambulance"></i>{{'btn-ps-waiting' | translate}}</phi-button>
+        <phi-button (binding)="showIncharge()" id="btn-ps-incharge"><i class="fa fa-2x fa-users"></i>{{'btn-ps-incharge' | translate}}</phi-button>
+        <phi-button (binding)="showRecent()" id="btn-ps-recent"><i class="fa fa-2x fa-sign-out"></i>{{'btn-ps-recent' | translate}}</phi-button>
+      </div>
+    </div>
+    <div id="lyt-ps-filter" class="layout horizontal space-between" *ngIf="searchVisible">
+      <phi-monthcalendar [(ngModel)]="psAction.equal['availabilityTimeStart']" name="psAction.equal['availabilityTimeStart']" id="cal-ps-from" [widgetLabel]="'label_cal-ps-from' | translate"></phi-monthcalendar>
+      <phi-monthcalendar [(ngModel)]="psAction.equal['availabilityTimeEnd']" name="psAction.equal['availabilityTimeEnd']" id="cal-ps-to" [widgetLabel]="'label_cal-ps-to' | translate"></phi-monthcalendar>
+      <phi-textbox [(ngModel)]="psAction.equal['patientSurname']" name="psAction.equal['patientSurname']" id="txt-ps-surname" [widgetLabel]="'label_txt-ps-surname' | translate"></phi-textbox>
+      <phi-combobox [(ngModel)]="psAction.equal['colorCode']" name="psAction.equal['colorCode']" id="cmb-ps-priority" [widgetLabel]="'label_cmb-ps-priority' | translate" converter="Code Value Converter" domain="PHIDIC:Triage"></phi-combobox>
+      <phi-buttonsearch (binding)="refresh()" id="btn-search"></phi-buttonsearch>
+      <phi-buttoncancel (binding)="cleanFilters()" id="btn-cancel"></phi-buttoncancel>
+    </div>
+    <div id="tbl-ps" [phi-datagrid]="PsList" class="scrollX fullWidth">
+      <thead class="tableHeader">
+        <tr>
+          <th style="text-align: center;">{{'col-ps-info' | translate}}</th>
+          <th style="text-align: center;">{{'col-ps-priority' | translate}}</th>
+          <th *ngIf="showingRecent" style="text-align: center;">{{'col-ps-exit-priority' | translate}}</th>
+          <th style="text-align: center;">{{'col-ps-status' | translate}}</th>
+          <th>{{'col-ps-patient' | translate}}</th>
+          <th (click)="PsList.orderBy('availabilitytime')">{{'col-ps-checkin' | translate}} <i *ngIf="PsList?.sortColumn('availabilitytime')" [class]="PsList.sortArrow"></i></th>
+          <th>{{'col-ps-main' | translate}}</th>
+          <th>{{'col-ps-author' | translate}}</th>
+          <th (click)="PsList.orderBy('assignment')">{{'col-ps-opened' | translate}} <i *ngIf="PsList?.sortColumn('assignment')" [class]="PsList.sortArrow"></i></th>
+          <th *ngIf="showingRecent" (click)="PsList.orderBy('dismissiondate')">{{'col-ps-closed' | translate}} <i *ngIf="PsList?.sortColumn('dismissiondate')" [class]="PsList.sortArrow"></i></th>
+          <th>{{'col-ps-id' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody class="selectable">
+        <tr *ngFor="let Ps of PsList?.entities; let i = index" (click)="ie(Ps, 'Ps')" [class.selRow]="selected(Ps, 'Ps')">
+          <td style="text-align: center;">
+            <!--span *ngIf="Ps.confidentialityCode?.code == 'YES'" class="fa fa-ban"></span>
+            <span *ngIf="Ps.independentInd == true" class="fa fa-exclamation-circle"></span-->
+
+            <span *ngIf="Ps.deambulationcode?.code == 'WALK'" class="fa fa-male"></span>
+            <span *ngIf="Ps.deambulationcode?.code == 'STRETCH'" class="fa fa-bed"></span>
+            <span *ngIf="Ps.deambulationcode?.code == 'WHEEL'" class="fa fa-wheelchair"></span>
+          </td>
+          <td style="text-align: center;">
+            <span class="fa fa-circle ps {{Ps.colorcode?.code}}"></span>
+          </td>
+          <td *ngIf="showingRecent" style="text-align: center;">
+            <span class="fa fa-circle ps {{Ps.acuitylevelcode.code}}"></span>
+          </td>
+          <td style="text-align: center;">
+            <span *ngIf="Ps.statuscode?.code == 'new'" class="fa fa-ambulance"></span>
+            <span *ngIf="Ps.statuscode?.code == 'active'" class="fa fa-users"></span>
+            <!--span *ngIf="Ps.statuscode?.code == 'suspended'" class="fa fa-users suspended"></span>
+            <span *ngIf="Ps.statuscode?.code == 'cancelled'" class="fa fa-times"></span>
+            <span *ngIf="Ps.statuscode?.code == 'validated'" class="fa fa-check"></span-->
+            <span *ngIf="Ps.statuscode?.code == 'completed'" class="fa fa-sign-out"></span>
+          </td>
+          <td>
+            <span>{{Ps.patient?.name?.fam + ' ' + Ps.patient?.name?.giv}}</span>
+            <span>{{Ps.patient?.birthtime | dateFormat: 'shortDate'}}</span>
+          </td>
+          <td>
+            <span>{{Ps.availabilitytime | dateFormat: 'short'}}</span>
+          </td>
+          <td>
+            <span>{{Ps.trauma}}</span>
+          </td>
+          <td>
+            <span>{{Ps.admitter}}</span>
+          </td>
+          <td>
+            <span>{{Ps.assignment | dateFormat: 'short'}}</span>
+          </td>
+          <td *ngIf="showingRecent">
+            <span>{{Ps.dismissiondate | dateFormat: 'short'}}</span>
+          </td>
+          <td>
+            <span>{{Ps.internalid}}</span>
+          </td>
+      </tr>
+      </tbody>
+    </div>
+  </div>
+</form>

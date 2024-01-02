@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSegnalazionePratica">
+
+
+	<start-state name="start-state1">
+		<transition to="addTemporaryExisting"></transition>
+	</start-state>
+
+
+	<process-state name="Existing Pratica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/existingPratica" binding="late"></sub-process>
+		<transition to="restore conv"></transition>
+	</process-state>
+
+	<decision name="button value 2" expression="#{!empty Procpratiche and button.mnemonic=='save'}">
+		<transition to="end-state2" name="false"></transition>
+		<transition to="super-state1/Link Segnalazione Pratica" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="Link Segnalazione Pratica">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+				<action name="2" expression="#{ProcpraticheAction.link('protocolloMulti',Protocollo)}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="addTemporaryExisting">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkProtocollo','existing')}"></action>
+		</event>
+		<transition to="eject riferimenti avoid wrong reasearch"></transition>
+	</node>
+
+	<node name="eject riferimenti avoid wrong reasearch">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcPraticheAction.temporary.put('backupPerson', Person)}"></action>
+			<action name="2" expression="#{ProcPraticheAction.temporary.put('backupOp', Operatore)}"></action>
+			<action name="3" expression="#{ProcPraticheAction.temporary.put('backupPersGiu', PersoneGiuridiche)}"></action>
+			<action name="4" expression="#{ProcPraticheAction.temporary.put('backupCantiere', Cantiere)}"></action>
+			<action name="5" expression="#{PersonAction.eject()}"></action>
+			<action name="6" expression="#{OperatoreAction.eject()}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="8" expression="#{CantiereAction.eject()}"></action>
+		</event>
+		<transition to="Existing Pratica"></transition>
+	</node>
+
+	<node name="restore conv">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(ProcPraticheAction.temporary['backupPerson'])}"></action>
+			<action name="2" expression="#{OperatoreAction.inject(ProcPraticheAction.temporary['backupOp'])}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.inject(ProcPraticheAction.temporary['backupPersGiu'])}"></action>
+			<action name="4" expression="#{CantiereAction.inject(CantiereAction.temporary['backupCantiere'])}"></action>
+			<action name="5" expression="#{ProcPraticheAction.temporary.remove('backupPerson')}"></action>
+			<action name="6" expression="#{ProcPraticheAction.temporary.remove('backupOp')}"></action>
+			<action name="7" expression="#{ProcPraticheAction.temporary.remove('backupPersGiu')}"></action>
+			<action name="8" expression="#{ProcPraticheAction.temporary.remove('backupCantiere')}"></action>
+		</event>
+		<transition to="button value 2"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

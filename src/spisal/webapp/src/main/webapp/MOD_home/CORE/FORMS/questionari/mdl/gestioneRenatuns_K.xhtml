@@ -1,0 +1,864 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1686116841889" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1687693848325" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1688094391774;BtnBack')}" status="ajaxStatus" id="Link_1688094391774" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686135172830;BtnSaveQuest')}" status="ajaxStatus" id="Link_1686135172830" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1687137257598" style="height:100%;width:100%;" rendered="false" >
+						<style>
+						.page-next { width: 64px; height: 64px; }
+						.page-prev { width: 64px; height: 64px; }
+						</style>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1688039142664" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1688039142664}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1687098681817" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="VirtualPage_1687939752155" styleClass="virtualPageBox" >
+							<a4j:include id="VPvp_status_quest" layout="block" viewId="/MOD_home/CORE/FORMS/questionari/vp_status_quest.xhtml"  styleClass="virtualPageBox"/>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1689491947327" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1689491947327}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032489796" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextArea_1688632329938_id" value="${msg.Label_1688032637602}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688632329938_id" style="display:none;" value="${msg.Label_1688032637602}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1688632329938" >
+							<h:inputTextarea id="TextArea_1688632329938_id" value="#{QuestParteKRenatuns.k1}" label="${msg.Label_1688032637602}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688632329938_id" styleClass="errorMessages TextArea_1688632329938_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032492815" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688032638124}" class="labelContent c-text-bold base-label" >${msg.Label_1688032638124}</span>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1688119770675" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1688119800960" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('TabellaK2QuestParteKRenatuns;BtnRigaAdd')}" status="ajaxStatus" id="TabellaK2QuestParteKRenatuns" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel id="DataGrid_1688032657286" layout="block" styleClass="dt layoutTable layoutVertical" >
+									<table id="d1688032657286" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688032657286} [TabellaK2List]" >
+										<thead class="tableHeader">
+											<tr>
+												<th></th>
+												<th></th>
+												<th>${msg.DataGridColumn_1688032667450}</th>
+												<th>${msg.DataGridColumn_1688032670114}</th>
+												<th>${msg.DataGridColumn_1688125623095}</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody">
+											<jstl:if test="#{empty TabellaK2List or TabellaK2List.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="5">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1688032657286" value="#{TabellaK2List.entities}" var="TabellaK2" rowKeyVar="rowIndex" >
+												<tr >
+													<td >
+														<span class="base-label" >#{TabellaK2.numProgr}</span>
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688032977214" value="#{TabellaK2.text01}" />
+														<a4j:outputPanel id="TextBox_1688032977214_msg" styleClass="errorContainer" ><h:message for="TextBox_1688032977214" styleClass="errorMessages TextBox_1688032977214_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688032980234" value="#{TabellaK2.text02}" />
+														<a4j:outputPanel id="TextBox_1688032980234_msg" styleClass="errorContainer" ><h:message for="TextBox_1688032980234" styleClass="errorMessages TextBox_1688032980234_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688032981945" value="#{TabellaK2.text03}" />
+														<a4j:outputPanel id="TextBox_1688032981945_msg" styleClass="errorContainer" ><h:message for="TextBox_1688032981945" styleClass="errorMessages TextBox_1688032981945_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<a4j:outputPanel layout="block" id="JollyWidget_1688125629367" >
+															<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaK2, 'Link_1687441448925;BtnRigaDel')}" status="ajaxStatus" id="Link_1687441448925" alt="#{LINK}" reRender="popup, phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+															
+														</a4j:outputPanel>
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032494484" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688032916763}" class="labelContent c-text-bold base-label" >${msg.Label_1688032916763}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688032925598" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688032925598" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688032925598} [TabellaK3List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK3List or TabellaK3List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="3">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688032925598" value="#{TabellaK3List.entities}" var="TabellaK3" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK3.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK3.code01}</span>
+													<h:inputText id="TextBox_1688119262599_id" value="#{TabellaK3.text01}" rendered="#{TabellaK3.code01.code eq 'altro'}" disabled="#{TabellaK3.code02.code eq null}" label="${msg.Label_1688032968730}" />
+													<a4j:outputPanel id="TextBox_1688119262599_msg" styleClass="errorContainer" ><h:message for="TextBox_1688119262599_id" styleClass="errorMessages TextBox_1688119262599_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688032963728" value="#{TabellaK3.code02}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoPosizioneAgrallev')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032925598" event="onselect" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032925598" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK3, 'text01')}" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032495802" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033350806}" class="labelContent c-text-bold base-label" >${msg.Label_1688033350806}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688032989581" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688032989581" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688032989581} [TabellaK4List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th>${msg.DataGridColumn_1688033002683}</th>
+											<th>${msg.DataGridColumn_1688033002986}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK4List or TabellaK4List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="4">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688032989581" value="#{TabellaK4List.entities}" var="TabellaK4" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK4.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK4.code01}</span>
+													<h:inputText id="TextBox_1688136883685_id" value="#{TabellaK4.text01}" rendered="#{TabellaK4.code01.code eq 'altro'}" disabled="#{TabellaK4.code02.code ne 'si' and TabellaK4.code03.code ne 'si'}" label="${msg.Label_1688033171433}" />
+													<a4j:outputPanel id="TextBox_1688136883685_msg" styleClass="errorContainer" ><h:message for="TextBox_1688136883685_id" styleClass="errorMessages TextBox_1688136883685_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688033162796" value="#{TabellaK4.code02}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032989581" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK4, 'text01')}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032989581" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688033164670" value="#{TabellaK4.code03}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032989581" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK4, 'text01')}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688032989581" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032498595" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688032987291}" class="labelContent c-text-bold base-label" >${msg.Label_1688032987291}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688033248581" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688033248581" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688033248581} [TabellaK5List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK5List or TabellaK5List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="3">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688033248581" value="#{TabellaK5List.entities}" var="TabellaK5" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK5.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK5.code01}</span>
+												</td>
+
+												<td >
+									<div style="display:#{(TabellaK5.code01.code ne 'sesi') ? 'block' : 'none' };overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688033379383_id" value="#{TabellaK5.code02}" rendered="#{TabellaK5.code01.code ne 'sesi'}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:YesNo')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneRadio>
+									</div>
+
+													<h:inputText id="TextBox_1688033499674_id" value="#{TabellaK5.text01}" rendered="#{TabellaK5.code01.code eq 'sesi'}" />
+													<a4j:outputPanel id="TextBox_1688033499674_msg" styleClass="errorContainer" ><h:message for="TextBox_1688033499674_id" styleClass="errorMessages TextBox_1688033499674_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032500913" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033440776}" class="labelContent c-text-bold base-label" >${msg.Label_1688033440776}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688033450091" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688033450091" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688033450091} [TabellaK6List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th>${msg.DataGridColumn_1688127585600}</th>
+											<th>${msg.DataGridColumn_1688127588114}</th>
+											<th>${msg.DataGridColumn_1688127592255}</th>
+											<th>${msg.DataGridColumn_1688127592510}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK6List or TabellaK6List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="7">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688033450091" value="#{TabellaK6List.entities}" var="TabellaK6" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK6.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK6.code01}</span>
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688127599344" value="#{TabellaK6.code02}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688033450091" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK6, 'text01', 'text02', 'text03', 'text04',)}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688033450091" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688127596818" value="#{TabellaK6.text01}" disabled="#{TabellaK6.code02.code ne 'si'}" />
+													<a4j:outputPanel id="TextBox_1688127596818_msg" styleClass="errorContainer" ><h:message for="TextBox_1688127596818" styleClass="errorMessages TextBox_1688127596818_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688127596573" value="#{TabellaK6.text02}" disabled="#{TabellaK6.code02.code ne 'si'}" />
+													<a4j:outputPanel id="TextBox_1688127596573_msg" styleClass="errorContainer" ><h:message for="TextBox_1688127596573" styleClass="errorMessages TextBox_1688127596573_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688127594953" value="#{TabellaK6.text03}" disabled="#{TabellaK6.code02.code ne 'si'}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688127594953_msg" styleClass="errorContainer" ><h:message for="TextBox_1688127594953" styleClass="errorMessages TextBox_1688127594953_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688127594706" value="#{TabellaK6.text04}" disabled="#{TabellaK6.code02.code ne 'si'}" />
+													<a4j:outputPanel id="TextBox_1688127594706_msg" styleClass="errorContainer" ><h:message for="TextBox_1688127594706" styleClass="errorMessages TextBox_1688127594706_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032502885" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033466596}" class="labelContent c-text-bold base-label" >${msg.Label_1688033466596}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688033468048" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688033468048" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688033468048} [TabellaK7List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK7List or TabellaK7List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="3">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688033468048" value="#{TabellaK7List.entities}" var="TabellaK7" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK7.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK7.code01}</span>
+													<h:inputText id="TextBox_1688132773629_id" value="#{TabellaK7.text01}" rendered="#{TabellaK7.code01.code eq 'altro'}" label="${msg.Label_1688132763841}" />
+													<a4j:outputPanel id="TextBox_1688132773629_msg" styleClass="errorContainer" ><h:message for="TextBox_1688132773629_id" styleClass="errorMessages TextBox_1688132773629_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="display:#{(TabellaK7.code01.code ne 'altro') ? 'block' : 'none' };overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688033508194_id" value="#{TabellaK7.code02}" rendered="#{TabellaK7.code01.code ne 'altro'}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{QuestionarioAction.reverseSelectItem(vocabularies.selectCodeValues('PHIDIC','YesNo:Yes,No'))}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1688132773629,DataGrid_1688033468048" event="onselect" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1688132773629,DataGrid_1688033468048" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032506686" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688033697616" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1688033690103}" class="labelContent c-text-bold base-label" >${msg.Label_1688033690103}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688033695223" value="#{QuestParteKRenatuns.k8}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688033690103}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688482713031" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688482713031" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688482713031" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteKRenatuns.k8.code eq 'si'}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1688033697617" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('TabellaK9QuestParteKRenatuns;BtnRigaAdd')}" status="ajaxStatus" id="TabellaK9QuestParteKRenatuns" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" onmousedown="#{QuestParteAction.temporary.put('cvTabella',vocabularies.getCodeValueCsDomainCode('PHIDIC', 'AnimaliAgrallev', 'altro'))}"/>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel id="DataGrid_1688033715819" layout="block" styleClass="dt layoutTable layoutVertical" >
+									<table id="d1688033715819" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688033715819} [TabellaK9List]" >
+										<thead class="tableHeader">
+											<tr>
+												<th></th>
+												<th></th>
+												<th>${msg.DataGridColumn_1688033725839}</th>
+												<th>${msg.DataGridColumn_1688137300125}</th>
+												<th>${msg.DataGridColumn_1688033726801}</th>
+												<th>${msg.DataGridColumn_1688033726993}</th>
+												<th>${msg.DataGridColumn_1688137301765}</th>
+												<th class="sortableColumn">${msg.DataGridColumn_1688632035094} &#8593;&#8595;</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody">
+											<jstl:if test="#{empty TabellaK9List or TabellaK9List.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="8">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1688033715819" value="#{TabellaK9List.entities}" var="TabellaK9" rowKeyVar="rowIndex" >
+												<tr >
+													<td >
+														<span class="base-label" >#{TabellaK9.numProgr}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{TabellaK9.code01}</span>
+														<h:inputText id="TextBox_1688133094552_id" value="#{TabellaK9.text04}" rendered="#{TabellaK9.code01.code eq 'altro' or TabellaK9.code01.code eq 'avicolo'}" disabled="#{!TabellaK9.bl01 and !TabellaK9.bl02}" label="${msg.Label_1688033732499}" />
+														<a4j:outputPanel id="TextBox_1688133094552_msg" styleClass="errorContainer" ><h:message for="TextBox_1688133094552_id" styleClass="errorMessages TextBox_1688133094552_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+										<h:selectBooleanCheckbox id="CheckBox_1688137319898" value="#{TabellaK9.bl01}" style="vertical-align:middle;" alt="CHECKBOX" >
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688033715819" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK9, 'text01', 'text02', 'text03', 'text04')}" ignoreDupResponses="true" />
+										</h:selectBooleanCheckbox>
+										<h:message for="CheckBox_1688137319898" styleClass="errorMessages CheckBox_1688137319898_E" />
+										<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688137319898" style="display:none;" value="hiddenLabel"></h:outputLabel>
+													</td>
+
+													<td >
+										<h:selectBooleanCheckbox id="CheckBox_1688137317741" value="#{TabellaK9.bl02}" style="vertical-align:middle;" alt="CHECKBOX" >
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688033715819" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK9, 'text01', 'text02', 'text03', 'text04')}" ignoreDupResponses="true" />
+										</h:selectBooleanCheckbox>
+										<h:message for="CheckBox_1688137317741" styleClass="errorMessages CheckBox_1688137317741_E" />
+										<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688137317741" style="display:none;" value="hiddenLabel"></h:outputLabel>
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688033728637" value="#{TabellaK9.text01}" disabled="#{!(TabellaK9.bl01 or TabellaK9.bl02)}" >
+															<f:validator validatorId="NumbersOnlyValidator"/>
+															<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+														</h:inputText>
+														<a4j:outputPanel id="TextBox_1688033728637_msg" styleClass="errorContainer" ><h:message for="TextBox_1688033728637" styleClass="errorMessages TextBox_1688033728637_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688033729304" value="#{TabellaK9.text02}" disabled="#{!(TabellaK9.bl01 or TabellaK9.bl02)}" />
+														<a4j:outputPanel id="TextBox_1688033729304_msg" styleClass="errorContainer" ><h:message for="TextBox_1688033729304" styleClass="errorMessages TextBox_1688033729304_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688137304885" value="#{TabellaK9.text03}" disabled="#{!(TabellaK9.bl01 or TabellaK9.bl02)}" />
+														<a4j:outputPanel id="TextBox_1688137304885_msg" styleClass="errorContainer" ><h:message for="TextBox_1688137304885" styleClass="errorMessages TextBox_1688137304885_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<a4j:outputPanel layout="block" id="JollyWidget_1688632045968_id" rendered="#{TabellaK9.code01.code eq 'altro'}" >
+															<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaK9, 'Link_1687441448925;BtnRigaDel')}" status="ajaxStatus" id="Link_1687441448925" alt="#{LINK}" reRender="popup, phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+															
+														</a4j:outputPanel>
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032507056" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033786012}" class="labelContent c-text-bold base-label" >${msg.Label_1688033786012}</span>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1688475806954" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688037761945" value="#{QuestParteKRenatuns.k11}" layout="pageDirection" styleClass="radioGroupTable radioGroup" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:AmbientiAgrallev')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1688037764246" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1688037764246" event="onclick" action="#{QuestParteKRenatunsAction.setPropertyNull('k12')}" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1688037764246" value="#{QuestParteKRenatuns.k12}" styleClass="inputText" disabled="#{QuestParteKRenatuns.k11.code ne 'nella'}" />
+								<a4j:outputPanel id="TextBox_1688037764246_msg" styleClass="errorContainer" ><h:message for="TextBox_1688037764246" styleClass="errorMessages TextBox_1688037764246_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032509955" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033786547}" class="labelContent c-text-bold base-label" >${msg.Label_1688033786547}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688134026360" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688134026360" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688134026360} [TabellaK13List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th>${msg.DataGridColumn_1688476767455}</th>
+											<th>${msg.DataGridColumn_1688476767824}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK13List or TabellaK13List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="4">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688134026360" value="#{TabellaK13List.entities}" var="TabellaK13" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK13.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK13.code01}</span>
+													<h:inputText id="TextBox_1688476980542_id" value="#{TabellaK13.text03}" rendered="#{TabellaK13.code01.code eq 'altro'}" disabled="#{TabellaK13.code02.code ne 'si' and TabellaK13.code03.code ne 'si'}" label="${msg.Label_1688476791269}" />
+													<a4j:outputPanel id="TextBox_1688476980542_msg" styleClass="errorContainer" ><h:message for="TextBox_1688476980542_id" styleClass="errorMessages TextBox_1688476980542_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="display:#{(TabellaK13.code01.code ne 'sesi') ? 'block' : 'none' };overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688476794789_id" value="#{TabellaK13.code02}" rendered="#{TabellaK13.code01.code ne 'sesi'}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688134026360" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK13, 'text03',)}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688134026360" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+													<h:inputText id="TextBox_1688476807587_id" value="#{TabellaK13.text01}" rendered="#{TabellaK13.code01.code eq 'sesi'}" />
+													<a4j:outputPanel id="TextBox_1688476807587_msg" styleClass="errorContainer" ><h:message for="TextBox_1688476807587_id" styleClass="errorMessages TextBox_1688476807587_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="display:#{(TabellaK13.code01.code ne 'sesi') ? 'block' : 'none' };overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688476795084_id" value="#{TabellaK13.code03}" rendered="#{TabellaK13.code01.code ne 'sesi'}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688134026360" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK13, 'text03',)}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688134026360" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+													<h:inputText id="TextBox_1688476808010_id" value="#{TabellaK13.text02}" rendered="#{TabellaK13.code01.code eq 'sesi'}" />
+													<a4j:outputPanel id="TextBox_1688476808010_msg" styleClass="errorContainer" ><h:message for="TextBox_1688476808010_id" styleClass="errorMessages TextBox_1688476808010_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032512761" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688033992784" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<span value="${msg.Label_1688033923033}" class="labelContent  base-label" >${msg.Label_1688033923033}</span>
+								</div>
+
+								<div class="layoutVertical" >
+								<h:selectOneRadio id="RadioGroup_1688033989905" value="#{QuestParteKRenatuns.k13}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688033923033}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688133445130" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688133445130" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688133445130" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteKRenatuns.k13.code eq 'si'}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1688134907782" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('TabellaK14QuestParteKRenatuns;BtnRigaAdd')}" status="ajaxStatus" id="TabellaK14QuestParteKRenatuns" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel id="DataGrid_1688134553236" layout="block" styleClass="dt layoutTable layoutVertical" >
+									<table id="d1688134553236" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688134553236} [TabellaK14List]" >
+										<thead class="tableHeader">
+											<tr>
+												<th></th>
+												<th>${msg.DataGridColumn_1688134560405}</th>
+												<th>${msg.DataGridColumn_1688134561439}</th>
+												<th class="sortableColumn">${msg.DataGridColumn_1688632099606} &#8593;&#8595;</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody">
+											<jstl:if test="#{empty TabellaK14List or TabellaK14List.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="4">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1688134553236" value="#{TabellaK14List.entities}" var="TabellaK14" rowKeyVar="rowIndex" >
+												<tr >
+													<td >
+														<span class="base-label" >#{TabellaK14.numProgr}</span>
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688631882001" value="#{TabellaK14.text01}" />
+														<a4j:outputPanel id="TextBox_1688631882001_msg" styleClass="errorContainer" ><h:message for="TextBox_1688631882001" styleClass="errorMessages TextBox_1688631882001_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<h:inputText id="TextBox_1688631882635" value="#{TabellaK14.text02}" />
+														<a4j:outputPanel id="TextBox_1688631882635_msg" styleClass="errorContainer" ><h:message for="TextBox_1688631882635" styleClass="errorMessages TextBox_1688631882635_E" /></a4j:outputPanel>
+
+													</td>
+
+													<td >
+														<a4j:outputPanel layout="block" id="JollyWidget_1688632105641" >
+															<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaK14, 'Link_1687441448925;BtnRigaDel')}" status="ajaxStatus" id="Link_1687441448925" alt="#{LINK}" reRender="popup, phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+															
+														</a4j:outputPanel>
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" id="LayoutRow_1688034004298" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1688034016533" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<h:outputLabel for="TextBox_1688034040464" value="${msg.Label_1688034035941}" class="labelContent  base-label" />
+										</div>
+
+										<div class="layoutHorizontal" >
+										<h:inputText id="TextBox_1688034040464" value="#{QuestParteKRenatuns.k16}" styleClass="inputText" label="${msg.Label_1688034035941}" />
+										<a4j:outputPanel id="TextBox_1688034040464_msg" styleClass="errorContainer" ><h:message for="TextBox_1688034040464" styleClass="errorMessages TextBox_1688034040464_E" /></a4j:outputPanel>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1688034024969" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<span value="${msg.Label_1688034036533}" class="labelContent  base-label" >${msg.Label_1688034036533}</span>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<h:selectOneRadio id="RadioGroup_1688034048033" value="#{QuestParteKRenatuns.k17}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688034036533}" >
+											<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+											<f:converter converterId="CodeValueConverter"/>
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688034026380" event="onselect" ignoreDupResponses="true" />
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688034026380" event="onclick" ignoreDupResponses="true" />
+										</h:selectOneRadio>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688034026380" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteKRenatuns.k17.code eq 'si'}" >
+										<div class="layoutHorizontal" >
+										<h:outputLabel for="TextBox_1688034045249" value="${msg.Label_1688034037037}" class="labelContent  base-label" />
+										</div>
+
+										<div class="layoutHorizontal" >
+										<h:inputText id="TextBox_1688034045249" value="#{QuestParteKRenatuns.k18}" styleClass="inputText" label="${msg.Label_1688034037037}" />
+										<a4j:outputPanel id="TextBox_1688034045249_msg" styleClass="errorContainer" ><h:message for="TextBox_1688034045249" styleClass="errorMessages TextBox_1688034045249_E" /></a4j:outputPanel>
+										</div>
+
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032519038" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688034079073" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1688033939197}" class="labelContent  base-label" >${msg.Label_1688033939197}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688034085247" value="#{QuestParteKRenatuns.k19}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688033939197}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688034079276" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688034079276" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688034079276" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteKRenatuns.k19.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1688034154159" value="${msg.Label_1688034151626}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1688034154159" value="#{QuestParteKRenatuns.k20}" styleClass="inputText" label="${msg.Label_1688034151626}" />
+								<a4j:outputPanel id="TextBox_1688034154159_msg" styleClass="errorContainer" ><h:message for="TextBox_1688034154159" styleClass="errorMessages TextBox_1688034154159_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032513167" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688033955375}" class="labelContent c-text-bold base-label" >${msg.Label_1688033955375}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688034314939" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688034314939" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688034314939} [TabellaK21List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaK21List or TabellaK21List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="3">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688034314939" value="#{TabellaK21List.entities}" var="TabellaK21" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaK21.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaK21.code01}</span>
+													<span style="display:#{(TabellaK21.code01.code eq 'fal') ? 'block' : 'none' };" class="base-label" >${msg.Label_1688480882679}</span>
+													<h:inputText id="TextBox_1688480885232_id" value="#{TabellaK21.text01}" rendered="#{TabellaK21.code01.code eq 'altro' or TabellaK21.code01.code eq 'fal'}" disabled="#{TabellaK21.code02.code ne 'si'}" label="${msg.Label_1688480882679}" />
+													<a4j:outputPanel id="TextBox_1688480885232_msg" styleClass="errorContainer" ><h:message for="TextBox_1688480885232_id" styleClass="errorMessages TextBox_1688480885232_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688034375209" value="#{TabellaK21.code02}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688034314939" event="onselect" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaK21, 'text01')}" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688034314939" event="onclick" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688032515386" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextArea_1688034386842_id" value="${msg.Label_1688033966340}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688034386842_id" style="display:none;" value="${msg.Label_1688033966340}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1688034386842" >
+							<h:inputTextarea id="TextArea_1688034386842_id" value="#{QuestParteKRenatuns.k22}" label="${msg.Label_1688033966340}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688034386842_id" styleClass="errorMessages TextArea_1688034386842_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1686586714009" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1685975255204;BtnSaveDef')}" status="ajaxStatus" id="Link_1685975255204" title="${msg.alt_Link_1685975255204}" reRender="phiDesktop" styleClass="fa fa-floppy-disk-pen fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1687127697105;BtnPrev')}" status="ajaxStatus" id="Link_1687127697105" alt="#{LINK}" reRender="phiDesktop" styleClass="page-prev link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,87 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1475488702939" styleClass="layoutContainer layoutContainerVertical layoutRootHorizontal  layoutRoot layoutGroupBoxOuter" >
+			<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1475488702939}</legend>
+				<a4j:outputPanel layout="block" id="LayoutRow_1453765169040" styleClass="layoutContainer layoutContainerHorizontal" >
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1454164189754}</span>
+						<h:selectOneMenu id="ComboBox_1454164189754" value="#{ProtocolloAction.equal['infortunio.gravita']}" styleClass="filter  filterLine comboBox" title="${msg.alt_ComboBox_1454164189754}" label="${msg.label_ComboBox_1454164189754}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsitoItem')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1455889786243}</span>
+						<h:inputText id="TextBox_1455889786243" value="#{ProtocolloAction.like['infortunio.diagnosips']}" styleClass="filter  filterLine inputText" label="${msg.label_TextBox_1455889786243}" />
+						<a4j:outputPanel id="TextBox_1455889786243_msg" styleClass="errorContainer" ><h:message for="TextBox_1455889786243" styleClass="errorMessages TextBox_1455889786243_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1456878175988" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1457085314281" >
+					<label style="display:#{(not Infortuni.prgr) ? 'block' : 'none' };" >
+						<span class="widget-label">${msg.label_TextBox_1457085314281}</span>
+						<h:inputText id="TextBox_1457085314281_id" value="#{ProtocolloAction.like['infortunio.noteprognosi']}" styleClass="filter  filterLine inputText" rendered="#{not Infortuni.prgr}" label="${msg.label_TextBox_1457085314281}" />
+						<a4j:outputPanel id="TextBox_1457085314281_msg" styleClass="errorContainer" ><h:message for="TextBox_1457085314281_id" styleClass="errorMessages TextBox_1457085314281_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1455619400568}</span>
+						<h:selectOneMenu id="ComboBox_1455619400568" value="#{ProtocolloAction.equal['infortunio.sedeLesione']}" styleClass="filter  filterLine comboBox" title="${msg.alt_ComboBox_1455619400568}" label="${msg.label_ComboBox_1455619400568}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:IdInailSede')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1454841653247" styleClass="layoutContainer layoutContainerHorizontal" >
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1457060587259}</span>
+						<h:inputText id="TextBox_1457060587259" value="#{ProtocolloAction.greaterEqual['infortunio.ggPrognosi1']}" styleClass="filter  filterLine inputText" label="${msg.label_TextBox_1457060587259}" >
+						<f:converter converterId="IntegerConverter"/>
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1457060587259_msg" styleClass="errorContainer" ><h:message for="TextBox_1457060587259" styleClass="errorMessages TextBox_1457060587259_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1455014082775}</span>
+						<h:selectOneMenu id="ComboBox_1455014082775" value="#{ProtocolloAction.equal['infortunio.naturaLesione']}" styleClass="filter  filterLine comboBox" title="${msg.alt_ComboBox_1455014082775}" label="${msg.label_ComboBox_1455014082775}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:IdInailTipo')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1475857486908" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1474318331908;BtnFilterApply')}" status="ajaxStatus" id="Link_1474318331908" title="${msg.alt_Link_1474318331908}" reRender="phiDesktop" styleClass="fa fa-eraser fa-2x link" onclick="jsfunction()"/>
+					</div>
+
+				</a4j:outputPanel>
+			</fieldset>
+			</a4j:outputPanel>
+			<a4j:outputPanel layout="block" id="JollyWidget_1477044607860" style="position: absolute;left: 560px;top: 10px;" >
+				<script type="text/javascript">
+					function jsfunction(){
+						jQuery('.filterLine').val('')
+					}
+				</script>
+			</a4j:outputPanel>
+
+
+	<script>focusFirstElement();</script>
+</div>

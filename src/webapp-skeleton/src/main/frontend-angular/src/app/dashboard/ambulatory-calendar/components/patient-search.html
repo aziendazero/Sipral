@@ -1,0 +1,44 @@
+<form #form="ngForm" id="frm-patient-search">
+  <h1>{{'frm-patient-search' | translate}}</h1>
+  <div id="lyt-patient-search" class="layout vertical">
+    <div id="lyt-patient-search-name" class="layout horizontal">
+      <phi-textbox [(ngModel)]="surname" name="surname" id="txt-patient-search-surname" [widgetLabel]="'label_txt-patient-search-surname' | translate" [autoFocus]="true" (keyup.enter)="onSearch()" (change)="surnameChanged($event.value)"></phi-textbox>
+      <phi-textbox [(ngModel)]="name" name="name" id="txt-patient-search-name" [widgetLabel]="'label_txt-patient-search-name' | translate" (keyup.enter)="onSearch()" (change)="nameChanged($event.value)"></phi-textbox>
+      <phi-buttonsearch (binding)="onSearch()" id="btn-patient-search"></phi-buttonsearch>
+    </div>
+    <div id="lyt-patient-search-birthdate" class="layout horizontal">
+      <phi-monthcalendar [(ngModel)]="birthTimeFrom" name="birthTimeFrom" id="cal-patient-search-birh-from" [widgetLabel]="'label_cal-patient-search-birh-from' | translate" (change)="birthTimeFromChanged($event.value)"></phi-monthcalendar>
+      <phi-monthcalendar [(ngModel)]="birthTimeTo" name="birthTimeTo" id="cal-patient-search-birh-to" [widgetLabel]="'label_cal-patient-search-birh-to' | translate" (change)="birthTimeToChanged($event.value)"></phi-monthcalendar>
+    </div>
+    <div id="dg-patient-search" [phi-datagrid]="PatientList" class="max-height-300">
+      <thead class="tableHeader">
+        <tr>
+          <th>{{'dgc-patient-surname' | translate}}</th>
+          <th>{{'dgc-patient-name' | translate}}</th>
+          <th (click)="PatientList?.orderBy('birthTime')">{{'dgc-patient-birth' | translate}} <i *ngIf="PatientList?.sortColumn('birthTime')" [class]="PatientList.sortArrow"></i></th>
+        </tr>
+      </thead>
+      <tbody class="selectable">
+        <tr *ngFor="let Patient of PatientList?.entities; let i = index" (click)="ie(Patient, 'Patient')" [class.selRow]="selected(Patient, 'Patient')">
+          <td>
+            <span>{{Patient.name.fam}}</span>
+          </td>
+          <td>
+            <span>{{Patient.name.giv}}</span>
+          </td>
+          <td>
+            <span>{{Patient.birthTime | dateFormat: 'shortDate'}}</span>
+          </td>
+      </tr>
+      </tbody>
+    </div>
+    <div class="lbl" *ngIf="sdlId != 'all'">
+    <label>{{'label_lbl-restricted-results' | translate}}</label>
+    <span>{{ServiceDeliveryLocationAction.entity?.name?.giv}}</span>
+    </div>
+    <div id="lyt-patient-search-footer" class="layout horizontal space-between">
+      <phi-buttoncancel (binding)="onCancel()" id="btn-patient-cancel"></phi-buttoncancel>
+      <phi-buttoncheck (binding)="onSelect()" id="btn-patient-select" [disabled]="!Patient"></phi-buttoncheck>
+    </div>
+  </div>
+</form>

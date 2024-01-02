@@ -1,0 +1,82 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1549287604535}</h1>
+	<div id="popupCopySedeToIndSped" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1550464739647" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1547148667753" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1547846444858;agendaIndSped')}" status="ajaxStatus" id="Link_1547846444858" title="${msg.alt_Link_1547846444858}" reRender="phiDesktop,popup" styleClass="fa fa-search fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1551322943266" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1551322943266;COPY')}" status="ajaxStatus" id="Link_1551322943266_id" title="${msg.alt_Link_1551322943266}" rendered="#{!empty SediToIndSped}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x save link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1550224378349" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1550224378349;NEW')}" status="ajaxStatus" id="Link_1550224378349_id" title="${msg.alt_Link_1550224378349}" rendered="#{false and empty SediToIndSped}" reRender="popup,phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1548288509871" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<h:outputText value="#{function.concat('Selezionando una sede, i dati comuni verranno copiati nel', (button.mnemonic eq 'addSedeAddebito'  ?  'la nuova sede di addebito' : ' nuovo indirizzio di spedizione' ))}" id="Label_1547744164593" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1547345888881" layout="block" styleClass="dt layoutTable layoutVertical" >
+					<table id="d1547345888881" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1547345888881} [SediToIndSpedList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th class="sortableColumn">${msg.DataGridColumn_1550568910759} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1548245717070" value="${msg.DataGridColumn_1548245717070} &#8593;&#8595;" action="#{SediToIndSpedList.orderBy('denominazioneUnitaLocale')}" reRender="DataGrid_1547345888881" ajaxSingle="true" disabled="#{empty SediToIndSpedList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1550820389804" value="${msg.DataGridColumn_1550820389804} &#8593;&#8595;" action="#{SediToIndSpedList.orderBy('provinciaCCIAA')}" reRender="DataGrid_1547345888881" ajaxSingle="true" disabled="#{empty SediToIndSpedList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1549904720168" value="${msg.DataGridColumn_1549904720168} &#8593;&#8595;" action="#{SediToIndSpedList.orderBy('addr.cty')}" reRender="DataGrid_1547345888881" ajaxSingle="true" disabled="#{empty SediToIndSpedList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1550558172234" value="${msg.DataGridColumn_1550558172234} &#8593;&#8595;" action="#{SediToIndSpedList.orderBy('addr.str')}" reRender="DataGrid_1547345888881" ajaxSingle="true" disabled="#{empty SediToIndSpedList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1547625056237" value="${msg.DataGridColumn_1547625056237} &#8593;&#8595;" action="#{SediToIndSpedList.orderBy('telecom.as')}" reRender="DataGrid_1547345888881" ajaxSingle="true" disabled="#{empty SediToIndSpedList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty SediToIndSpedList or SediToIndSpedList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="6">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1547345888881" value="#{SediToIndSpedList.entities}" var="SediToIndSped" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1547345888881(this.id);" class="#{SediToIndSpedAction.getEntity().equals(SediToIndSped) or SediToIndSped.internalId != 0 and SediToIndSpedAction.entity.internalId.equals(SediToIndSped.internalId) ? 'selRow' : ''}" >
+									<td style="width:-500%;" >
+										<a4j:commandLink action="#{SediToIndSpedAction.inject(SediToIndSped)}" status="ajaxStatus" id="Link_1549838865149_id" title="${msg.alt_Link_1549838865149}" rendered="#{SediToIndSped.sedePrincipale}" disabled="true" reRender="phiDesktop" styleClass="fa fa-check fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td style="width:-1500%;" >
+										<span class="base-label" >#{SediToIndSped.denominazioneUnitaLocale}</span>
+									</td>
+
+									<td style="width:-1000%;" >
+										<span class="base-label" >#{SediToIndSped.provinciaCCIAA}</span>
+									</td>
+
+									<td style="width:-1000%;" >
+										<span class="base-label" >#{SediToIndSped.addr.cty}</span>
+									</td>
+
+									<td style="width:-2000%;" >
+										<span class="base-label" >#{function.concat(SediToIndSped.addr.str, ' N ', SediToIndSped.addr.bnr)}</span>
+									</td>
+
+									<td style="width:-1000%;" >
+										<span class="base-label" >#{SediToIndSped.telecom.as}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1547345888881" name="ie1547345888881" status="ajaxStatus" action="#{SediToIndSpedList.injectEject}" data="#{SediToIndSpedList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1547345888881'))" reRender="Link_1550224378349,Link_1551322943266,Label_1507292840232,Label_1507292853244,Link_1547846444858" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{SediToIndSpedList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

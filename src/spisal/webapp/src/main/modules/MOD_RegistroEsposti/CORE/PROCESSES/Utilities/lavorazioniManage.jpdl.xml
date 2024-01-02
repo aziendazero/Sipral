@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="lavorazioniManage">
+
+
+<start-state name="start-state1">
+		<transition to="operation"></transition>
+	</start-state>
+
+
+	<decision name="operation" expression="#{(button.getMnemonic())}">
+		<transition to="delLavorazione" name="delLavorazione"></transition>
+		<transition to="addLavorazione" name="addLavorazione"></transition>
+	</decision>
+
+	<node name="addLavorazione">
+		<event type="node-enter">
+			<action name="1" expression="#{LavorazioniCorrelateAction.inject(LavorazioniCorrelateAction.newEntity())}"></action>
+			<action name="2" expression="#{LavorazioniCorrelateList.list.add(LavorazioniCorrelate)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="delLavorazione">
+		<event type="node-enter">
+			<action name="1" expression="#{LavorazioniCorrelateList.list.remove(LavorazioniCorrelate)}"></action>
+			<action name="2" expression="#{ToRemoveLavorazioniList.list.add(LavorazioniCorrelate)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{LavorazioniCorrelateAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

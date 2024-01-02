@@ -1,0 +1,69 @@
+@import 'variables';
+
+$base: 2px;
+$dayBase: 20px;
+$disabledColor: lightgrey;
+
+.month-nav {
+  padding: $base;
+  display: flex;
+}
+
+.month-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .month-name {
+    text-transform: capitalize;
+  }
+  .day-names {
+    display: flex;
+    flex-direction: row;
+  }
+  .weeks {
+    display: flex;
+    flex-direction: column;
+    .week {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .week-date,
+  .day-name {
+    padding: $base;
+    width: $dayBase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .week-date {
+    height: $dayBase;
+
+    &.enabled {
+      cursor: pointer;
+      &:hover {
+          background-color: $primaryColor;
+          border-radius: 50%;
+      }
+    }
+    &.selected {
+      color: white;
+      background-color: $secondaryColor;
+      border-radius: 50%;
+      &:hover {
+        background-color: $primaryColor;
+      }
+    }
+
+    &.disabled {
+      color: $disabledColor;
+      background-color: transparent;
+    }
+  }
+
+  .today {
+    font-weight: bold;
+  }
+}

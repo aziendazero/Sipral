@@ -1,0 +1,41 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1504861186470" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_MonthCalendar_1504702940908}</span>
+					<h:inputText id="MonthCalendar_1504702940908" value="#{AppointmentSp.data}" class="datetimepicker  monthCalendar" style="vertical-align:middle;height: 25px;" label="${msg.label_MonthCalendar_1504702940908}"  autocomplete="off" >
+					<s:convertDateTime pattern="${format.dateTimeNormal}" />
+					</h:inputText>
+					<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+					<h:message style="float:left;" for="MonthCalendar_1504702940908" styleClass="errorMessages MonthCalendar_1504702940908_E" />
+				</label>
+				</div>
+
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_MonthCalendar_1504702943900}</span>
+					<h:inputText id="MonthCalendar_1504702943900" value="#{AppointmentSp.end}" class="datetimepicker  monthCalendar" style="vertical-align:middle;height: 25px;" label="${msg.label_MonthCalendar_1504702943900}"  autocomplete="off" >
+					<s:convertDateTime pattern="${format.dateTimeNormal}" />
+					</h:inputText>
+					<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+					<h:message style="float:left;" for="MonthCalendar_1504702943900" styleClass="errorMessages MonthCalendar_1504702943900_E" />
+				</label>
+				</div>
+
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_Label_1504862049761}</span>
+					<h:outputText value="#{AppointmentSp.agendaConf.serviceDeliveryLocation.name.fam}" id="Label_1504862049761" styleClass="labelContent  base-label" />
+				</label>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1504861195799" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1504861234529;OK')}" status="ajaxStatus" id="Link_1504861234529" alt="#{LINK}" reRender="popup,phiDesktop" styleClass="c-fill-DDDDDD fa fa-check fa-2x link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

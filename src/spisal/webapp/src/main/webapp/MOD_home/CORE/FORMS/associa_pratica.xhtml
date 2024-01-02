@@ -1,0 +1,44 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1447943509521}</h1>
+	<div id="associa_pratica" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1447939159603" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutFill_1472043706411" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="width: 33.333332%;height: 100%;" >
+					<a4j:commandLink action="#{processManager.manageTask('exit;exit')}" status="ajaxStatus" id="exit" title="${msg.alt_exit}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1447841995956" style="width: 33.333332%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<a4j:commandLink action="#{processManager.manageTask('new;New')}" status="ajaxStatus" id="new" title="${msg.alt_new}" reRender="phiDesktop" styleClass="associaapraticanuova link" />
+						</div>
+
+						<div class="layoutVertical" >
+						<span value="${msg.Label_1447945284391}" style="font-weight: bold;" class="labelContent  base-label" >${msg.Label_1447945284391}</span>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1447945120375" style="width: 33.333332%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<a4j:commandLink action="#{processManager.manageTask('existing;Existing')}" status="ajaxStatus" id="existing" title="${msg.alt_existing}" reRender="phiDesktop" styleClass="associaapraticaesistente link" />
+						</div>
+
+						<div class="layoutVertical" >
+						<span value="${msg.Label_1447945286936}" style="font-weight: bold;" class="labelContent  base-label" >${msg.Label_1447945286936}</span>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1449049909057" style="padding: 5px;" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:region>
+					<a4j:status id="LayoutRow_1449049909057Status" onstop="stopAjaxReq()"/>
+
+					<a4j:outputPanel layout="block" id="VirtualPage_1456840331900" styleClass="virtualPageBox" >
+						<a4j:include id="VPvp_dettagli_segnalazione" layout="block" viewId="/MOD_home/CORE/FORMS/vp_dettagli_segnalazione.xhtml"  styleClass="virtualPageBox"/>
+					</a4j:outputPanel>
+
+					</a4j:region>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

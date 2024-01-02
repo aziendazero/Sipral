@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="slinkSegnalazione">
+
+
+	<start-state name="start-state1">
+		<transition to="eject"></transition>
+	</start-state>
+
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="temp richiedente" name="BtnSearchRichiedenteMal"></transition>
+		<transition to="temp riferimento" name="BtnSearchRiferimentoMal"></transition>
+		<transition to="temp dittaAtt" name="BtnSearchAttuale"></transition>
+	</decision>
+
+	<decision name="CvRichiedente?" expression="#{MalattiaProfessionale.richiedente.code}">
+		<transition to="Search Ditta" name="Ditta"></transition>
+		<transition to="Search Interno" name="Interno"></transition>
+		<transition to="Search Utente" name="Utente"></transition>
+		<transition to="Search Medic" name="Medico"></transition>
+	</decision>
+
+	<process-state name="Search Interno">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="Button2"></transition>
+	</process-state>
+
+	<process-state name="Search Ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="Button1"></transition>
+	</process-state>
+
+	<process-state name="Search Utente">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="Button3"></transition>
+	</process-state>
+
+	<node name="Link Ditta Richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('richiedenteDitta',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{empty Sedi ? MalattiaProfessionale.setRichiedenteSede(null) : MalattiaProfessionaleAction.link('richiedenteSede',Sedi)}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.unLink('richiedenteInterno',MalattiaProfessionale.richiedenteInterno)}"></action>
+			<action name="4" expression="#{MalattiaProfessionaleAction.unLink('richiedenteUtente',MalattiaProfessionale.richiedenteUtente)}"></action>
+			<action name="5" expression="#{MalattiaProfessionaleAction.unLink('richiedenteMedico',MalattiaProfessionale.richiedenteMedico)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+	<node name="Link Interno Richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('richiedenteInterno',Employee)}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.unLink('richiedenteDitta',MalattiaProfessionale.richiedenteDitta)}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.unLink('richiedenteSede',MalattiaProfessionale.richiedenteSede)}"></action>
+			<action name="4" expression="#{MalattiaProfessionaleAction.unLink('richiedenteUtente',MalattiaProfessionale.richiedenteUtente)}"></action>
+			<action name="5" expression="#{MalattiaProfessionaleAction.unLink('richiedenteMedico',MalattiaProfessionale.richiedenteMedico)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+	<node name="Link Utente Richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('richiedenteUtente',Person)}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.unLink('richiedenteInterno',MalattiaProfessionale.richiedenteInterno)}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.unLink('richiedenteSede',MalattiaProfessionale.richiedenteSede)}"></action>
+			<action name="4" expression="#{MalattiaProfessionaleAction.unLink('richiedenteDitta',MalattiaProfessionale.richiedenteDitta)}"></action>
+			<action name="5" expression="#{MalattiaProfessionaleAction.unLink('richiedenteMedico',MalattiaProfessionale.richiedenteMedico)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Save Segnalazione">
+			<event type="node-enter">
+				<action name="1" expression="#{MalattiaProfessionaleAction.create()}"></action>
+			</event>
+			<transition to="../clean temporary"></transition>
+		</node>
+	</super-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="set temporary"></transition>
+	</node>
+
+	<node name="temp richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.temporary.put('toLink','richiedente')}"></action>
+		</event>
+		<transition to="CvRichiedente?"></transition>
+	</node>
+
+	<node name="temp riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.temporary.put('toLink','riferimento')}"></action>
+		</event>
+		<transition to="Search Utente"></transition>
+	</node>
+
+	<decision name="toLink1" expression="#{MalattiaProfessionaleAction.temporary.get('toLink')}">
+		<transition to="Link Ditta Richiedente" name="richiedente"></transition>
+		<transition to="Link DittaAttuale" name="dittaAttuale"></transition>
+	</decision>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.temporary.remove('toLink')}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.eject()}"></action>
+			<action name="5" expression="#{EmployeeAction.eject()}"></action>
+			<action name="6" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="Link Utente Riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('riferimentoUtente',Person)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+	<decision name="Button2" expression="#{(button.getMnemonic())}">
+		<transition to="Link Interno Richiedente" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<decision name="Button3" expression="#{(button.getMnemonic())}">
+		<transition to="toLink3" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<decision name="Button1" expression="#{(button.getMnemonic())}">
+		<transition to="toLink1" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<node name="temp dittaAtt">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.temporary.put('toLink','dittaAttuale')}"></action>
+		</event>
+		<transition to="Search Ditta"></transition>
+	</node>
+
+	<node name="Link DittaAttuale">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('attualeDitta',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{empty Sedi ? MalattiaProfessionale.setAttualeSede(null) : MalattiaProfessionaleAction.link('attualeSede',Sedi)}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.copyAteco(PersoneGiuridiche,Sedi)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+	<decision name="toLink3" expression="#{MalattiaProfessionaleAction.temporary.get('toLink')}">
+		<transition to="Link Utente Riferimento" name="riferimento"></transition>
+		<transition to="Link Utente Richiedente" name="richiedente"></transition>
+	</decision>
+
+	<process-state name="Search Medic">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/mediciGestione" binding="late"></sub-process>
+		<transition to="Button4"></transition>
+	</process-state>
+
+	<decision name="Button4" expression="#{(button.getMnemonic())}">
+		<transition to="clean temporary" name="BtnBack"></transition>
+		<transition to="Link Medico Richiedente" name="BtnSave"></transition>
+	</decision>
+
+	<node name="Link Medico Richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.link('richiedenteMedico',Physician)}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.unLink('richiedenteInterno',MalattiaProfessionale.richiedenteInterno)}"></action>
+			<action name="3" expression="#{MalattiaProfessionaleAction.unLink('richiedenteSede',MalattiaProfessionale.richiedenteSede)}"></action>
+			<action name="4" expression="#{MalattiaProfessionaleAction.unLink('richiedenteDitta',MalattiaProfessionale.richiedenteDitta)}"></action>
+			<action name="5" expression="#{MalattiaProfessionaleAction.unLink('richiedenteUtente',MalattiaProfessionale.richiedenteUtente)}"></action>
+		</event>
+		<transition to="super-state1/Save Segnalazione"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="PHI_CI.war/processes/MOD_HBS/CORE/Asl/Search Asl">
+		
+	<start-state name="start-state1">
+		
+		<transition to="ejectASL"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="search asl">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/f_search_asl')}" name="main"></action>
+		</event>
+		<transition to="next?"></transition>		
+	</task-node>
+
+	
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{OrganizationAction.orderBy.put('name.giv','ascending')}"></action>
+			<action name="2" expression="#{OrganizationAction.setReadPageSize(10)}"></action>
+			<action name="3" expression="#{OrganizationAction.read()}"></action>
+		</event>
+		<transition to="search asl"></transition>
+	</node>
+			
+	
+	 
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+	<transition to="search" name="search"></transition>
+		<transition to="end-state1" name="next"></transition>
+		<transition to="search asl" name="DgASL"></transition>
+		<transition to="end-state1" name="back"></transition>
+		<transition to="clean" name="clean"></transition>
+	
+	</decision>
+
+	<node name="ejectASL">
+		<event type="node-enter">
+			<action expression="#{OrganizationAction.eject()}" name="1359551533990"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+
+	<node name="clean">
+		<event type="node-enter">
+			<action name="1" expression="#{OrganizationAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{OrganizationAction.temporary.clear()}"></action>
+			<action name="3" expression="#{OrganizationAction.eject()}"></action>
+			<action name="4" expression="#{OrganizationAction.ejectList()}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+	 
+	 
+	
+	<end-state name="end-state1">
+	</end-state>
+	
+	
+
+ <action name="security" expression=""></action>
+
+</process-definition>
+

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="dictionaryManagerProcess">
+
+
+	<start-state name="start-state1">
+		<transition to="read for combo"></transition>
+	</start-state>
+
+
+	<task-node name="Ore equivalenti form">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/oreEquivalenti')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="super-state1/save" name="SAVE"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{empty CodeValue.code ? CodeValue.setCode('-') : CodeValue.setCode(CodeValue.code)}"></action>
+				<action name="2" expression="#{CodeValueAction.create()}"></action>
+			</event>
+			<transition to="../Inject by id"></transition>
+		</node>
+	</super-state>
+
+	<node name="Inject by id">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAction.setId('p.general.oreEquivalenti')}"></action>
+			<action name="2" expression="#{CodeValueAction.setInjectEntity('CodeValueParameter')}"></action>
+			<action name="3" expression="#{CodeValueAction.setInjectIntoName('CodeValue')}"></action>
+			<action name="4" expression="#{CodeValueAction.injectbyId()}"></action>
+			<action name="5" expression="#{OreEquivalentiAction.injectChildrenList(CodeValue)}"></action>
+		</event>
+		<transition to="Ore equivalenti form"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueParameterAction.eject()}"></action>
+			<action name="2" expression="#{CodeValueParameterAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="read for combo">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.select.add('name.giv')}"></action>
+		</event>
+		<transition to="Inject by id"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;1;"></action>
+
+
+</process-definition>

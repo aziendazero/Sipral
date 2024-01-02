@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<description></description>
+
+
+	<start-state name="start-state1">
+		<description>
+			12
+		</description>
+		<transition to="prepare search"></transition>
+	</start-state>
+
+
+	<task-node name="Verifiche">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Anagrafiche/CORE/FORMS/verificheSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="search" name="BtnSearch"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="prepare search" name="BtnFilterCancel"></transition>
+		<transition to="inject" name="BtnIspAnag"></transition>
+		<transition to="inject specific" name="BtnGestVerAlfrescoDocEdit"></transition>
+		<transition to="read csv" name="VerifPrint"></transition>
+		<transition to="validate multi" name="BtnValidateMulti"></transition>
+	</decision>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{VerificaImpAction.orderBy.put('data','descending')}"></action>
+			<action name="3" expression="#{VerificaImpAction.setArpav()}"></action>
+			<action name="4" expression="#{VerificaImpAction.setTypes()}"></action>
+			<action name="5" expression="#{VerificaImpAction.setSubTypes()}"></action>
+			<action name="6" expression="#{VerificaImpAction.setTestTypes()}"></action>
+			<action name="7" expression="#{VerificaImpAction.setSediFullLike()}"></action>
+			<action name="8" expression="#{VerificaImpAction.setAnnoDoc()}"></action>
+			<action name="9" expression="#{VerificaImpAction.notEqual.put('pre',true)}"></action>
+			<action name="10" expression="#{VerificaImpAction.temporary.put('rowCount',VerificaImpAction.countResults())}"></action>
+			<action name="11" expression="#{VerificaImpAction.read()}"></action>
+			<action name="12" expression="#{VerificheDocumentAction.eject()}"></action>
+			<action name="13" expression="#{VerificheDocumentAction.ejectList()}"></action>
+			<action name="14" expression="#{VerificheTecDocumentAction.eject()}"></action>
+			<action name="15" expression="#{VerificheTecDocumentAction.ejectList()}"></action>
+		</event>
+		<transition to="Verifiche"></transition>
+	</node>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.ejectList()}"></action>
+			<action name="2" expression="#{VerificaImpAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<node name="Set Temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.temporary.put('allTypes', true)}"></action>
+			<action name="2" expression="#{ImpiantoAction.resetTypes()}"></action>
+			<action name="3" expression="#{ImpiantoAction.temporary.put('A', true)}"></action>
+			<action name="4" expression="#{ImpiantoAction.temporary.put('B', true)}"></action>
+			<action name="5" expression="#{ImpiantoAction.temporary.put('C', true)}"></action>
+			<action name="6" expression="#{ImpiantoAction.temporary.put('D', true)}"></action>
+			<action name="7" expression="#{ImpiantoAction.temporary.put('E', true)}"></action>
+			<action name="8" expression="#{ImpiantoAction.temporary.put('F', true)}"></action>
+			<action name="9" expression="#{ImpiantoAction.temporary.put('G', true)}"></action>
+			<action name="10" expression="#{ImpiantoAction.temporary.put('H', true)}"></action>
+			<action name="11" expression="#{ImpiantoAction.temporary.put('I', true)}"></action>
+			<action name="12" expression="#{ImpiantoAction.temporary.put('L', true)}"></action>
+			<action name="13" expression="#{ImpiantoAction.temporary.put('PGSimpleFilter', true)}"></action>
+			<action name="14" expression="#{VerificaImpAction.initSelectedVerifList()}"></action>
+		</event>
+		<transition to="Verifiche"></transition>
+	</node>
+
+	<process-state name="Manage Verifica">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/manageVerifiche" binding="late"></sub-process>
+		<transition to="search"></transition>
+	</process-state>
+
+	<node name="prepare search">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.eject()}"></action>
+			<action name="2" expression="#{VerificaImpAction.ejectList()}"></action>
+			<action name="3" expression="#{VerificaImpAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{VerificaImpAction.temporary.clear()}"></action>
+			<action name="5" expression="#{VerificaImpAction.setReadPageSize(20)}"></action>
+		</event>
+		<transition to="Set Temporary"></transition>
+	</node>
+
+	<process-state name="alfrescoDocuments">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="search"></transition>
+	</process-state>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}"></action>
+			<action name="2" expression="#{ImpiantoAction.temporary.put('impOrVer', 'ver')}"></action>
+		</event>
+		<transition to="alfrescoDocuments"></transition>
+	</node>
+
+	<node name="inject specific">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('entity2Link', VerificaImp)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.injectList(VerificaImp.documenti)}"></action>
+		</event>
+		<transition to="injectList of docs"></transition>
+	</node>
+
+	<node name="inject">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImp.impPress!=null?ImpiantoAction.inject(VerificaImp.impPress):''}"></action>
+			<action name="2" expression="#{VerificaImp.impPress!=null?ImpPressAction.inject(VerificaImp.impPress):''}"></action>
+			<action name="3" expression="#{VerificaImp.impRisc!=null?ImpiantoAction.inject(VerificaImp.impRisc):''}"></action>
+			<action name="4" expression="#{VerificaImp.impRisc!=null?ImpRiscAction.inject(VerificaImp.impRisc):''}"></action>
+			<action name="5" expression="#{VerificaImp.impSoll!=null?ImpiantoAction.inject(VerificaImp.impSoll):''}"></action>
+			<action name="6" expression="#{VerificaImp.impSoll!=null?ImpSollAction.inject(VerificaImp.impSoll):''}"></action>
+			<action name="7" expression="#{VerificaImp.impMonta!=null?ImpiantoAction.inject(VerificaImp.impMonta):''}"></action>
+			<action name="8" expression="#{VerificaImp.impMonta!=null?ImpMontaAction.inject(VerificaImp.impMonta):''}"></action>
+			<action name="9" expression="#{VerificaImp.impTerra!=null?ImpiantoAction.inject(VerificaImp.impTerra):''}"></action>
+			<action name="10" expression="#{VerificaImp.impTerra!=null?ImpTerraAction.inject(VerificaImp.impTerra):''}"></action>
+			<action name="11" expression="#{VerificaLastAction.injectLastSibling(VerificaImp)}"></action>
+		</event>
+		<transition to="Manage Verifica"></transition>
+	</node>
+
+	<process-state name="validate multi">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/validateVerifMulti" binding="late"></sub-process>
+		<transition to="Verifiche"></transition>
+	</process-state>
+
+	<node name="read csv">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificheDocumentAction.eject()}"></action>
+			<action name="2" expression="#{VerificheDocumentAction.ejectList()}"></action>
+			<action name="3" expression="#{VerificheDocumentAction.read()}"></action>
+			<action name="4" expression="#{VerificheDocumentAction.injectFirst()}"></action>
+			<action name="5" expression="#{VerificheTecDocumentAction.eject()}"></action>
+			<action name="6" expression="#{VerificheTecDocumentAction.ejectList()}"></action>
+			<action name="7" expression="#{VerificheTecDocumentAction.read()}"></action>
+			<action name="8" expression="#{VerificheTecDocumentAction.injectFirst()}"></action>
+		</event>
+		<transition to="not exist inail?"></transition>
+	</node>
+
+	<decision name="not exist inail?" expression="#{empty VerificheDocument}">
+		<transition to="new file inail" name="true"></transition>
+		<transition to="not exists tec?" name="false"></transition>
+	</decision>
+
+	<node name="new file inail">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificheDocumentAction.inject(VerificheDocumentAction.newEntity())}"></action>
+			<action name="2" expression="#{VerificheDocument.setContentType('application/vnd.ms-excel')}"></action>
+		</event>
+		<transition to="not exists tec?"></transition>
+	</node>
+
+	<node name="set content">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificheDocument.setDataRif(function.currentDateTime())}"></action>
+			<action name="2" expression="#{VerificheTecDocument.setDataRif(function.currentDateTime())}"></action>
+			<action name="3" expression="#{VerificheDocumentAction.generateMultiFile(VerificheDocument, VerificheTecDocument, VerificaImpList)}"></action>
+		</event>
+		<transition to="super-state1/save"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{VerificheDocument.setFilename(VerificheDocumentAction.generateFileName())}"></action>
+				<action name="2" expression="#{VerificheTecDocument.setFilename('VERIFICHE_TECNICO.xls')}"></action>
+			</event>
+			<transition to="../Verifiche"></transition>
+		</node>
+	</super-state>
+
+	<decision name="not exists tec?" expression="#{empty VerificheTecDocument}">
+		<transition to="new file tec" name="true"></transition>
+		<transition to="set content" name="false"></transition>
+	</decision>
+
+	<node name="new file tec">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificheTecDocumentAction.inject(VerificheTecDocumentAction.newEntity())}"></action>
+			<action name="2" expression="#{VerificheTecDocument.setContentType('application/vnd.ms-excel')}"></action>
+		</event>
+		<transition to="set content"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;"></action>
+
+
+</process-definition>

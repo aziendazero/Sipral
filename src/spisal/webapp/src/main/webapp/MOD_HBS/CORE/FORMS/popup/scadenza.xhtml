@@ -1,0 +1,75 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1499557495264}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1501320815279" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1501246960337" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1500272919128;BtnBack')}" status="ajaxStatus" id="Link_1500272919128" title="${msg.alt_Link_1500272919128}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1500755936841" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1500755936841;BtnSave')}" status="ajaxStatus" id="Link_1500755936841_id" title="${msg.alt_Link_1500755936841}" rendered="#{not empty CodeValuePhi}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1498481835105" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1497788568988}</span>
+						<h:inputText id="TextBox_1497788568988" styleClass="inputText" label="${msg.label_TextBox_1497788568988}" />
+						<a4j:outputPanel id="TextBox_1497788568988_msg" styleClass="errorContainer" ><h:message for="TextBox_1497788568988" styleClass="errorMessages TextBox_1497788568988_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1500673553926" onclick="stopPropagation(event);jQuery('#i\\:JollyWidget_1498909495742').jstree(true).search(jQuery('#i\\:TextBox_1497788568988').val());" title="${msg.alt_Link_1500673553926}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1501278706022" onclick="stopPropagation(event);jQuery('#i\\:JollyWidget_1498909495742').jstree('clear_search');" title="${msg.alt_Link_1501278706022}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1498270401012" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1499866133970" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1498909495742" style="height:100%;width:100%;" >
+							<script type="text/javascript">
+							Tree.initTreeDictionary(jQuery("#i\\:JollyWidget_1498909495742"), 'PHIDIC', 'ComplexType', 'CodeValuePhi', 'translation', 'injectFromTree','CodeValuePhi', false, '','#{CodeValueAction.getCodeAndParents(CodeValuePhi)}','#{CodeValuePhi.id}');
+							</script>
+							<a4j:jsFunction  name="injectFromTree"  action="#{CodeValuePhiAction.injectFromTree}"   reRender="Link_1500755936841,LayoutRow_1499866137061"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+								<a4j:actionparam name="id" assignTo="#{CodeValuePhiAction.id}"/>
+							</a4j:jsFunction>	
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1499866137061" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty CodeValuePhi}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1499866137061}</legend>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1499866205947}</span>
+							<h:outputText value="#{CodeValuePhi.score}" id="Label_1499866205947" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1499866248467}</span>
+							<h:inputText id="TextBox_1499866248467" value="#{ScadenzaTipoCom.score}" styleClass="inputText" label="${msg.label_TextBox_1499866248467}" >
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1499866248467_msg" styleClass="errorContainer" ><h:message for="TextBox_1499866248467" styleClass="errorMessages TextBox_1499866248467_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

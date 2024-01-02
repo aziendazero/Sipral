@@ -1,0 +1,82 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1457081118423}</h1>
+	<div id="roleManagementParameter" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRoleMngParameter" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_Label_1457081236908}</span>
+					<h:outputText value="#{ProcSecurityAction.calculateBreadcrumb(ProcSecurity)}" id="Label_1457081236908" styleClass="labelContent  base-label" />
+				</label>
+				</div>
+
+				<a4j:outputPanel id="DataGridParameters" layout="block" styleClass="dt layoutTable layoutVertical" style="min-width:600px;" >
+					<table id="dDataGridParameters" cellspacing="0" cellpadding="0" summary="${msg.DataGridParameters} [ProcSecurity.parameter]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DgCRoleMngParName" value="${msg.DgCRoleMngParName} &#8593;&#8595;" action="#{ProcSecurity.parameter.orderBy('displayName')}" reRender="DataGridParameters" ajaxSingle="true" disabled="#{empty ProcSecurity.parameter ? true : false}"/></th>
+								<th><a4j:commandLink id="DgCRoleMngParReadOnly" value="${msg.DgCRoleMngParReadOnly} &#8593;&#8595;" action="#{ProcSecurity.parameter.orderBy('readOnly')}" reRender="DataGridParameters" ajaxSingle="true" disabled="#{empty ProcSecurity.parameter ? true : false}"/></th>
+								<th><a4j:commandLink id="DgCRoleMngParVisible" value="${msg.DgCRoleMngParVisible} &#8593;&#8595;" action="#{ProcSecurity.parameter.orderBy('visible')}" reRender="DataGridParameters" ajaxSingle="true" disabled="#{empty ProcSecurity.parameter ? true : false}"/></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty ProcSecurity.parameter or ProcSecurity.parameter.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="4">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="rDataGridParameters" value="#{ProcSecurity.parameter}" var="Parameter" rowKeyVar="rowIndex" >
+								<tr >
+									<td >
+										#{Parameter.displayName}
+									</td>
+
+									<td >
+										<span style="display:#{(CodeValueParameterAction.temporary['byRole'][Parameter.id].type.equals('A')) ? 'block' : 'none' };" class="base-label" >#{Parameter.readOnly}</span>
+						<h:selectOneMenu id="ComboBox_1457081670147_id" value="#{CodeValueParameterAction.temporary['byRole'][Parameter.id].readOnly}" rendered="#{!CodeValueParameterAction.temporary['byRole'][Parameter.id].type.equals('A')}" label="${msg.Label_1457081649491}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{ParameterManager.getBoolean()}" />
+							<f:converter converterId="BooleanConverter"/>
+						</h:selectOneMenu>
+
+									</td>
+
+									<td >
+										<span style="display:#{(CodeValueParameterAction.temporary['byRole'][Parameter.id].type.equals('A')) ? 'block' : 'none' };" class="base-label" >#{Parameter.visible}</span>
+						<h:selectOneMenu id="ComboBox_1457081672396_id" value="#{CodeValueParameterAction.temporary['byRole'][Parameter.id].visible}" rendered="#{!CodeValueParameterAction.temporary['byRole'][Parameter.id].type.equals('A')}" label="${msg.Label_1457081651635}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{ParameterManager.getBoolean()}" />
+							<f:converter converterId="BooleanConverter"/>
+						</h:selectOneMenu>
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{CodeValueParameterAction.injectAndProceed(Parameter, 'BtnAddRoleMngPar;ADD')}" status="ajaxStatus" id="BtnAddRoleMngPar_id" alt="#{LINK}" rendered="#{CodeValueParameterAction.temporary['byRole'][Parameter.id].type.equals('A')}" reRender="DataGridParameters" styleClass="fa fa-plus fa-2x link tableButton" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1457081522598" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="buttonContainer buttonOkContainer layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink id="BtnOkRoleMngPar_id" status="ajaxStatus" title="#{static.button_OK}" reRender="popup, header, errorMenu" limitToList="true" styleClass="buttonOk  buttonBase" action="#{processManager.manageTask('BtnOkRoleMngPar_id;OK')}" >
+						<i/>
+					</a4j:commandLink>
+					</div>
+
+					<div class="buttonContainer buttonCancelContainer layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink id="BtnCancelRoleMngPar_id" status="ajaxStatus" title="#{static.button_CANCEL}" limitToList="true" styleClass="buttonCancel  buttonBase" type="reset" value=" " action="#{processManager.manageTask('BtnCancelRoleMngPar_id;CANCEL')}" reRender="popup, header, errorMenu" >
+						<i/>
+					</a4j:commandLink>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestionePersoneArticoli">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{button.mnemonic}">
+		<transition to="injectt art 6" name="BtnPersNew06"></transition>
+		<transition to="inject art" name="BtnPersMng"></transition>
+		<transition to="PopUpDel" name="BtnPersDel"></transition>
+		<transition to="inject art 3" name="BtnPersNew03"></transition>
+	</decision>
+
+	<node name="new entity">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.inject(PersoneArticoliAction.newEntity())}"></action>
+		</event>
+		<transition to="lavoratore details"></transition>
+	</node>
+
+	<task-node name="lavoratore details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/personeArticoli')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="operations" name="operation"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="deactivate" name="BtnDel"></transition>
+		<transition to="eject" name="BtnCancel"></transition>
+		<transition to="set boolean fields" name="BtnSave"></transition>
+	</decision>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="copy some properties"></transition>
+	</process-state>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{PersoneArticoliAction.link('articoli',Articoli)}"></action>
+				<action name="2" expression="#{PersoneArticoliAction.create()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="PopUpDel">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_Oggetto_alert')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<node name="deactivate">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoli.setIsActive(false)}"></action>
+		</event>
+		<transition to="super-state1/save"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.eject()}"></action>
+			<action name="2" expression="#{PersoneArticoliAction.temporary.remove('tesserino')}"></action>
+			<action name="3" expression="#{PersoneArticoliAction.temporary.remove('docObbligatoria')}"></action>
+			<action name="4" expression="#{PersoneArticoliAction.temporary.remove('altroBl')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="copy some properties">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.copyFromOtherArticolo()}"></action>
+		</event>
+		<transition to="fill temporary"></transition>
+	</node>
+
+	<node name="fill temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.temporary.put('tesserino',PersoneArticoli.tesserino)}"></action>
+			<action name="2" expression="#{PersoneArticoliAction.temporary.put('docObbligatoria',PersoneArticoli.docObbligatoria)}"></action>
+			<action name="3" expression="#{PersoneArticoliAction.temporary.put('altroBl',PersoneArticoli.altroBl)}"></action>
+		</event>
+		<transition to="lavoratore details"></transition>
+	</node>
+
+	<node name="set boolean fields">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoli.setTesserino(PersoneArticoliAction.temporary['tesserino'])}"></action>
+			<action name="2" expression="#{PersoneArticoli.setDocObbligatoria(PersoneArticoliAction.temporary['docObbligatoria'])}"></action>
+			<action name="3" expression="#{PersoneArticoli.setAltroBl(PersoneArticoliAction.temporary['altroBl'])}"></action>
+		</event>
+		<transition to="super-state1/save"></transition>
+	</node>
+
+	<node name="inject art 3">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.injectArticolo(Provvedimenti.articoli, '03')}"></action>
+		</event>
+		<transition to="new entity"></transition>
+	</node>
+
+	<node name="inject art">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliAction.inject(PersoneArticoli.articoli)}"></action>
+		</event>
+		<transition to="fill temporary"></transition>
+	</node>
+
+	<node name="injectt art 6">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneArticoliAction.injectArticolo(Provvedimenti.articoli, '06')}"></action>
+		</event>
+		<transition to="new entity"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

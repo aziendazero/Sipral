@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare search"></transition>
+	</start-state>
+
+
+	<task-node name="mediciSearch">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Anagrafiche/CORE/FORMS/mediciSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="search" name="BtnSearch"></transition>
+		<transition to="mediciEdit" name="medDel"></transition>
+		<transition to="mediciEdit" name="medEdit"></transition>
+		<transition to="mediciEdit" name="medNew"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="clear filters" name="BtnFilterCancel"></transition>
+		<transition to="eject list" name="BtnSave"></transition>
+	</decision>
+
+	<node name="prepare search">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.eject()}"></action>
+			<action name="2" expression="#{PhysicianAction.ejectList()}"></action>
+			<action name="3" expression="#{PhysicianAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{PhysicianAction.setFullLike(true)}"></action>
+			<action name="5" expression="#{PhysicianAction.temporary.put('filterMedici',true)}"></action>
+			<action name="6" expression="#{PhysicianAction.temporary.put('showULSS', spisalUserAction.show('ULSS'))}"></action>
+			<action name="7" expression="#{PhysicianAction.temporary.put('filterExpired',false)}"></action>
+			<action name="8" expression="#{PhysicianAction.temporary.put('orgList',spisalUserAction.getOrganizations())}"></action>
+		</event>
+		<transition to="mediciSearch"></transition>
+	</node>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.setUlss()}"></action>
+			<action name="2" expression="#{PhysicianAction.filterExpired()}"></action>
+			<action name="3" expression="#{PhysicianAction.filterValid()}"></action>
+			<action name="4" expression="#{PhysicianAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{PhysicianAction.select.add('name.fam')}"></action>
+			<action name="6" expression="#{PhysicianAction.select.add('name.giv')}"></action>
+			<action name="7" expression="#{PhysicianAction.select.add('regionalCode')}"></action>
+			<action name="8" expression="#{PhysicianAction.select.add('type')}"></action>
+			<action name="9" expression="#{PhysicianAction.select.add('code')}"></action>
+			<action name="10" expression="#{PhysicianAction.select.add('notes')}"></action>
+			<action name="11" expression="#{PhysicianAction.orderBy.put('name.fam','ascending')}"></action>
+			<action name="12" expression="#{PhysicianAction.orderBy.put('name.giv','ascending')}"></action>
+			<action name="13" expression="#{PhysicianAction.orderBy.put('regionalCode','ascending')}"></action>
+			<action name="14" expression="#{PhysicianAction.read()}"></action>
+		</event>
+		<transition to="mediciSearch"></transition>
+	</node>
+
+	<process-state name="mediciEdit">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/mediciEdit?stateless=true" binding="late"></sub-process>
+		<transition to="re-read"></transition>
+	</process-state>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.ejectList()}"></action>
+			<action name="2" expression="#{PhysicianAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="clear filters">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PhysicianAction.temporary.clear()}"></action>
+			<action name="3" expression="#{PhysicianAction.eject()}"></action>
+			<action name="4" expression="#{PhysicianAction.ejectList()}"></action>
+		</event>
+		<transition to="prepare search"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<node name="re-read">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.read()}"></action>
+		</event>
+		<transition to="mediciSearch"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,26 @@
+<form #form="ngForm" id="proc-lst-frm">
+  <div id="proc-lst-lty" class="layout vertical">
+    <div class="lbl bold">
+    <span>{{'proc-lst-title' | translate}}</span>
+    </div>
+    <div id="proc-lst-dg" [phi-datagrid]="PatientEncounterAdditional?.procedures">
+      <thead class="tableHeader">
+        <tr>
+          <th>{{'proc-lst-status' | translate}}</th>
+          <th>{{'proc-lst-code' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let Procedures of PatientEncounterAdditional?.procedures; let i = index">
+          <td>
+            <span class="fa app {{Procedures.statuscode}}"></span>
+          </td>
+          <td>
+            <span>{{Procedures.description}}</span>
+            <span>{{Procedures.procedurecode}}</span>
+          </td>
+      </tr>
+      </tbody>
+    </div>
+  </div>
+</form>

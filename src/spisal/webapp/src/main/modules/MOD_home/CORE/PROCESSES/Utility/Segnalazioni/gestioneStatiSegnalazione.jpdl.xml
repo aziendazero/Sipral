@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneStatiSegnalazione">
+
+
+	<start-state name="start-state1">
+		<transition to="button?"></transition>
+	</start-state>
+
+
+	<decision name="button?" expression="#{button.value}">
+		<transition to="is valid Asbestos?" name="held"></transition>
+		<transition to="Nullifie Management" name="nullified"></transition>
+		<transition to="setActive" name="active"></transition>
+		<transition to="Cancel Management" name="cancelled"></transition>
+		<transition to="Complete Management" name="completed"></transition>
+		<transition to="setTerminated" name="terminated"></transition>
+		<transition to="setObsolete" name="obsolete"></transition>
+		<transition to="revertStatus" name="back"></transition>
+	</decision>
+
+	<node name="setHeld">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','held')}"></action>
+		</event>
+		<transition to="Save Segnalazione"></transition>
+	</node>
+
+	<node name="setActive">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','active')}"></action>
+		</event>
+		<transition to="Save Segnalazione"></transition>
+	</node>
+
+	<node name="Save Segnalazione">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.create()}"></action>
+		</event>
+		<transition to="set stateMessage"></transition>
+	</node>
+
+	<process-state name="Complete Management">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/linkSegnalazionePratica" binding="late"></sub-process>
+		<transition to="set stateMessage"></transition>
+	</process-state>
+
+	<process-state name="Nullifie Management">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/nullifieManagement" binding="late"></sub-process>
+		<transition to="ButtonSave1?"></transition>
+	</process-state>
+
+	<node name="setTerminated">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','terminated')}"></action>
+		</event>
+		<transition to="Save Segnalazione"></transition>
+	</node>
+
+	<process-state name="Cancel Management">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/cancelManagement" binding="late"></sub-process>
+		<transition to="ButtonSave1?"></transition>
+	</process-state>
+
+	<node name="setObsolete">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','obsolete')}"></action>
+		</event>
+		<transition to="Save Segnalazione"></transition>
+	</node>
+
+	<decision name="ButtonSave1?" expression="#{button.getMnemonic()=='BtnSave'}">
+		<transition to="set stateMessage" name="true"></transition>
+		<transition to="set stateMessage" name="false"></transition>
+	</decision>
+
+	<node name="set stateMessage">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('stateMessage',function.concat('Comunicazione in stato: ',Protocollo.statusCode.currentTranslation))}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="revertStatus">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.revertStatus(Protocollo)}"></action>
+			<action name="2" expression="#{ProtocolloAction.create()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="is valid Asbestos?" expression="#{ProtocolloAction.checkForAsbestos(true,Protocollo)}">
+		<transition to="setHeld" name="true"></transition>
+		<transition to="set stateMessage" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

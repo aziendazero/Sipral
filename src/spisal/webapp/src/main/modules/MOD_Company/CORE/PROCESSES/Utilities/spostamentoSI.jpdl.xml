@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="venditaCessione">
+
+
+	<start-state name="start-state1">
+		<transition to="preserve old SI"></transition>
+	</start-state>
+
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="eject2" name="BtnBack"></transition>
+		<transition to="Impianto?" name="BtnSave"></transition>
+		<transition to="Inject SA da SI" name="MngSA"></transition>
+		<transition to="injectIS" name="MngIS"></transition>
+	</decision>
+
+	<node name="Inject SA da SI">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.injectList(CessioneImp.sediInstallazione.sede.personaGiuridica.sediAddebito)}"></action>
+		</event>
+		<transition to="SelectSAIndSped"></transition>
+	</node>
+
+	<node name="injectIS">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(CessioneImp.sediAddebito.indirizzoSped)}"></action>
+		</event>
+		<transition to="SelectIndSped"></transition>
+	</node>
+
+	<node name="inject SI">
+		<event type="node-enter"></event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<task-node name="Select Sede SI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectSede_SedeInst_Simple')}"></action>
+		</event>
+		<transition to="decision4"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="Save01">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpPressAction.create()}"></action>
+				<action name="2" expression="#{CessioneImpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="inject SI" name="SedeSelected"></transition>
+		<transition to="saved 2?" name="BtnSelect"></transition>
+		<transition to="do nothing" name="BtnBack"></transition>
+	</decision>
+
+	<node name="Link SI to abstract">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.link('sedeInstallazione',SediInstallazione)}"></action>
+		</event>
+		<transition to="auto fill"></transition>
+	</node>
+
+	<node name="Inject Sedi Inst">
+		<event type="node-enter">
+			<action name="1" expression="#{SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(Impianto.sedeInstallazione.sede.personaGiuridica))}"></action>
+		</event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<task-node name="SelectSAIndSped">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectSedeAdd_IndSped')}"></action>
+		</event>
+		<transition to="decision5"></transition>
+	</task-node>
+
+	<decision name="decision5" expression="#{button.mnemonic}">
+		<transition to="InjectIS" name="SASelected"></transition>
+		<transition to="Link SA IS" name="BtnSelect"></transition>
+	</decision>
+
+	<node name="InjectIS">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(SediAddebito.indirizzoSped)}"></action>
+		</event>
+		<transition to="SelectSAIndSped"></transition>
+	</node>
+
+	<node name="Link SA IS">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.link('sediAddebito',SediAddebito)}"></action>
+			<action name="2" expression="#{CessioneImpAction.link('indirizzoSped',IndirizzoSped)}"></action>
+		</event>
+	</node>
+
+	<task-node name="SelectIndSped">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectIndSped')}"></action>
+		</event>
+		<transition to="decision6"></transition>
+	</task-node>
+
+	<decision name="decision6" expression="#{button.mnemonic}">
+		<transition to="Link IS" name="BtnSelect"></transition>
+	</decision>
+
+	<node name="Link IS">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.link('indirizzoSped',IndirizzoSped)}"></action>
+		</event>
+	</node>
+
+	<node name="eject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="3" expression="#{SediAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.ejectList()}"></action>
+			<action name="5" expression="#{SediInstallazioneAction.eject()}"></action>
+			<action name="6" expression="#{SediInstallazioneAction.ejectList()}"></action>
+			<action name="7" expression="#{SediAddebitoAction.eject()}"></action>
+			<action name="8" expression="#{SediAddebitoAction.ejectList()}"></action>
+			<action name="9" expression="#{IndirizzoSpedAction.eject()}"></action>
+			<action name="10" expression="#{IndirizzoSpedAction.ejectList()}"></action>
+			<action name="11" expression="#{CessioneImpAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="Impianto?" expression="#{ImpiantoAction.getSelectedType()}">
+		<transition to="01" name="01"></transition>
+		<transition to="02" name="02"></transition>
+		<transition to="03" name="03"></transition>
+		<transition to="04" name="04"></transition>
+		<transition to="05" name="05"></transition>
+	</decision>
+
+	<node name="05">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpTerra.setSedeInstallazione(CessioneImp.sediInstallazione)}"></action>
+			<action name="2" expression="#{ImpTerra.setSedeAddebito(CessioneImp.sediAddebito)}"></action>
+			<action name="3" expression="#{ImpTerra.setIndirizzoSped(CessioneImp.indirizzoSped)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('impTerra',ImpTerra)}"></action>
+		</event>
+		<transition to="super-state4/Save05"></transition>
+	</node>
+
+	<node name="04">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpSoll.setSedeInstallazione(CessioneImp.sediInstallazione)}"></action>
+			<action name="2" expression="#{ImpSoll.setSedeAddebito(CessioneImp.sediAddebito)}"></action>
+			<action name="3" expression="#{ImpSoll.setIndirizzoSped(CessioneImp.indirizzoSped)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('impSoll',ImpSoll)}"></action>
+		</event>
+		<transition to="super-state3/Save04"></transition>
+	</node>
+
+	<node name="03">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpMonta.setSedeInstallazione(CessioneImp.sediInstallazione)}"></action>
+			<action name="2" expression="#{ImpMonta.setSedeAddebito(CessioneImp.sediAddebito)}"></action>
+			<action name="3" expression="#{ImpMonta.setIndirizzoSped(CessioneImp.indirizzoSped)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('impMonta',ImpMonta)}"></action>
+		</event>
+		<transition to="super-state6/Save03"></transition>
+	</node>
+
+	<node name="02">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpRisc.setSedeInstallazione(CessioneImp.sediInstallazione)}"></action>
+			<action name="2" expression="#{ImpRisc.setSedeAddebito(CessioneImp.sediAddebito)}"></action>
+			<action name="3" expression="#{ImpRisc.setIndirizzoSped(CessioneImp.indirizzoSped)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('impRisc',ImpRisc)}"></action>
+		</event>
+		<transition to="super-state2/Save02"></transition>
+	</node>
+
+	<node name="01">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpPress.setSedeInstallazione(CessioneImp.sediInstallazione)}"></action>
+			<action name="2" expression="#{ImpPress.setSedeAddebito(CessioneImp.sediAddebito)}"></action>
+			<action name="3" expression="#{ImpPress.setIndirizzoSped(CessioneImp.indirizzoSped)}"></action>
+			<action name="4" expression="#{CessioneImpAction.link('impPress',ImpPress)}"></action>
+		</event>
+		<transition to="super-state1/Save01"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Save02">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpRiscAction.create()}"></action>
+				<action name="2" expression="#{CessioneImpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state3">
+		<node name="Save04">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpSollAction.create()}"></action>
+				<action name="2" expression="#{CessioneImpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state4">
+		<node name="Save05">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpTerraAction.create()}"></action>
+				<action name="2" expression="#{CessioneImpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state6">
+		<node name="Save03">
+			<event type="node-enter">
+				<action name="1" expression="#{ImpMontaAction.create()}"></action>
+				<action name="2" expression="#{CessioneImpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="do nothing">
+		<event type="node-enter"></event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="saved?" expression="#{not empty Impianto}">
+		<transition to="Inject Sedi Inst" name="true"></transition>
+		<transition to="inject sed inst from current" name="false"></transition>
+	</decision>
+
+	<node name="inject sed inst from current">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.getSelectedType() eq '01' ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(ImpPress.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+			<action name="2" expression="#{ImpiantoAction.getSelectedType() eq '02' ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(ImpRisc.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+			<action name="3" expression="#{ImpiantoAction.getSelectedType() eq '03' ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(ImpMonta.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+			<action name="4" expression="#{ImpiantoAction.getSelectedType() eq '04' ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(ImpSoll.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+			<action name="5" expression="#{ImpiantoAction.getSelectedType() eq '05' ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(ImpTerra.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+		</event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<decision name="saved 2?" expression="#{not empty Impianto}">
+		<transition to="Link SI to abstract" name="true"></transition>
+		<transition to="link to transient" name="false"></transition>
+	</decision>
+
+	<node name="link to transient">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.getSelectedType() eq '01' ? ImpPressAction.link('sedeInstallazione',SediInstallazione) : ''}"></action>
+			<action name="2" expression="#{ImpiantoAction.getSelectedType() eq '02' ? ImpRiscAction.link('sedeInstallazione',SediInstallazione) : ''}"></action>
+			<action name="3" expression="#{ImpiantoAction.getSelectedType() eq '03' ? ImpMontaAction.link('sedeInstallazione',SediInstallazione) : ''}"></action>
+			<action name="4" expression="#{ImpiantoAction.getSelectedType() eq '04' ? ImpSollAction.link('sedeInstallazione',SediInstallazione) : ''}"></action>
+			<action name="5" expression="#{ImpiantoAction.getSelectedType() eq '05' ? ImpTerraAction.link('sedeInstallazione',SediInstallazione) : ''}"></action>
+		</event>
+		<transition to="auto fill"></transition>
+	</node>
+
+	<node name="auto fill">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.fillOtherFieldsFromSedeInst(SediInstallazione.sede.personaGiuridica, ImpiantoAction.getSelectedType())}"></action>
+		</event>
+		<transition to="do nothing"></transition>
+	</node>
+
+	<node name="preserve old SI">
+		<event type="node-enter">
+			<action name="1" expression="#{org.jboss.seam.core.conversationContext.set('si',SediInstallazione)}"></action>
+		</event>
+		<transition to="saved?"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

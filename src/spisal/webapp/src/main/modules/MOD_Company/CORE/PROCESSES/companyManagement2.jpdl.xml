@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="companyManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="new?"></transition>
+	</start-state>
+
+
+	<task-node name="Gestione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/company_management')}"></action>
+		</event>
+		<transition to="Bottone1?"></transition>
+	</task-node>
+
+	<decision name="Bottone1?" expression="#{button.mnemonic}">
+		<transition to="gestione SEDI" name="BtnSNew"></transition>
+		<transition to="refresh" name="BtnPGBack"></transition>
+		<transition to="gestione SEDI" name="BtnSManagement"></transition>
+		<transition to="types" name="delType"></transition>
+		<transition to="types" name="addType"></transition>
+		<transition to="checkAlreadyPresent1" name="BtnPGSave"></transition>
+		<transition to="attivitaDitta" name="attivita"></transition>
+		<transition to="attivitaDitta" name="delAttivita"></transition>
+		<transition to="attivitaDitta" name="addAttivita"></transition>
+		<transition to="gestione Impianti" name="BtnImp"></transition>
+		<transition to="ImpiantoPerSi" name="ImpiantoPerSi"></transition>
+		<transition to="gestione Impianti" name="BtnImpPerSi"></transition>
+		<transition to="gestione sedi inst" name="editSi"></transition>
+		<transition to="gestione sedi inst" name="addSi"></transition>
+		<transition to="indPerSa" name="IndPerSa"></transition>
+		<transition to="gestione sedi inst" name="delSi"></transition>
+		<transition to="gestione addebiti" name="BtnAddAnag"></transition>
+		<transition to="gestione Impianti" name="BtnImpSellMulti"></transition>
+		<transition to="gestione SEDI" name="BtnSDel"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save persona giuridica">
+			<event type="node-enter">
+				<action name="1" expression="#{PersoneGiuridicheAction.create()}"></action>
+				<action name="2" expression="#{PersoneGiuridicheAction.linkUnlinkTagDitta(TagDittaList.list, ToRemoveTagDittaList.list)}"></action>
+				<action name="3" expression="#{PersoneGiuridicheAction.linkUnlinkAttivita(AttivitaIstatList.list, ToRemoveAttivitaIstatList.list,true)}"></action>
+				<action name="4" expression="#{SediAction.ejectList()}"></action>
+			</event>
+			<transition to="../is for arpav?"></transition>
+		</node>
+	</super-state>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.refresh()}"></action>
+			<action name="2" expression="#{TipologiaDittaAction.like.remove('type')}"></action>
+			<action name="3" expression="#{TagDittaAction.refresh(TagDittaList.list)}"></action>
+			<action name="4" expression="#{TagDittaAction.refresh(ToRemoveTagDittaList.list)}"></action>
+			<action name="5" expression="#{TagDittaAction.ejectList('TagDittaList')}"></action>
+			<action name="6" expression="#{TagDittaAction.ejectList('ToRemoveTagDittaList')}"></action>
+			<action name="7" expression="#{AttivitaIstatAction.refresh(AttivitaIstatList.list)}"></action>
+			<action name="8" expression="#{AttivitaIstatAction.refresh(ToRemoveAttivitaIstatList.list)}"></action>
+			<action name="9" expression="#{AttivitaIstatAction.ejectList('AttivitaIstatList')}"></action>
+			<action name="10" expression="#{AttivitaIstatAction.ejectList('ToRemoveAttivitaIstatList')}"></action>
+			<action name="11" expression="#{AttivitaIstatAction.eject()}"></action>
+			<action name="12" expression="#{AddebitoAction.eject()}"></action>
+			<action name="13" expression="#{AddebitoAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="types">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/types" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="checkAlreadyPresent1" expression="#{PersoneGiuridicheAction.checkAlreadyPresent(PersoneGiuridiche)}">
+		<transition to="alreadyPresentUI1" name="true"></transition>
+		<transition to="super-state1/save persona giuridica" name="false"></transition>
+	</decision>
+
+	<task-node name="alreadyPresentUI1">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/company_already_present')}"></action>
+		</event>
+		<transition to="proceed1?" name=""></transition>
+	</task-node>
+
+	<decision name="proceed1?" expression="#{(button.getMnemonic())}">
+		<transition to="Gestione" name="BACK"></transition>
+		<transition to="Gestione" name="BtnCancel"></transition>
+		<transition to="super-state1/save persona giuridica" name="OK"></transition>
+	</decision>
+
+	<process-state name="attivitaDitta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/attivitaIstatManage" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<node name="inject sedi">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{SediAction.setReadPageSize(0)}"></action>
+			<action name="3" expression="#{SediAction.orderBy.put('sedePrincipale','descending')}"></action>
+			<action name="4" expression="#{SediAction.equal.put('personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="5" expression="#{SediAction.equal.put('isActive',true)}"></action>
+			<action name="6" expression="#{SediAction.notEqual.put('soloInstImp',true)}"></action>
+			<action name="7" expression="#{SediAction.read()}"></action>
+			<action name="8" expression="#{SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(PersoneGiuridiche))}"></action>
+			<action name="9" expression="#{ImpiantoPerSiAction.eject()}"></action>
+			<action name="10" expression="#{ImpiantoPerSiAction.ejectList()}"></action>
+			<action name="11" expression="#{ImpiantoPerSiAction.equal.put('sedeInstallazione.internalId',SediInstallazione.internalId)}"></action>
+			<action name="12" expression="#{ImpiantoPerSiAction.equal.put('isActive',true)}"></action>
+			<action name="13" expression="#{ImpiantoPerSiAction.notEqual.put('copy',true)}"></action>
+			<action name="14" expression="#{SediInstallazione.internalId ne null ? ImpiantoPerSiAction.read() : ImpiantoPerSiAction.ejectList()}"></action>
+			<action name="15" expression="#{ImpiantoAction.cleanRestrictions()}"></action>
+			<action name="16" expression="#{ImpiantoAction.equal.put('sedeInstallazione.sede.personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="17" expression="#{ImpiantoAction.equal.put('isActive',true)}"></action>
+			<action name="18" expression="#{ImpiantoAction.notEqual.put('copy',true)}"></action>
+			<action name="19" expression="#{ImpiantoAction.read()}"></action>
+			<action name="20" expression="#{AddebitoAction.equal.put('personeGiuridiche.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="21" expression="#{AddebitoAction.read()}"></action>
+			<action name="22" expression="#{CessioneImpAction.equal.put('personaGiuridicaFrom',PersoneGiuridiche)}"></action>
+			<action name="23" expression="#{CessioneImpAction.equal.put('isActive',true)}"></action>
+			<action name="24" expression="#{CessioneImpAction.isNull.put('dataCessione',false)}"></action>
+			<action name="25" expression="#{CessioneImpAction.read()}"></action>
+			<action name="26" expression="#{CessioneImpAction.cleanRestrictions()}"></action>
+			<action name="27" expression="#{SediAction.temporary.put('visible', false)}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<node name="read tags and attivita">
+		<event type="node-enter">
+			<action name="1" expression="#{TagDittaAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{TagDittaAction.equal.put('dittaCf',PersoneGiuridiche.codiceFiscale)}"></action>
+			<action name="3" expression="#{not empty PersoneGiuridiche.codiceFiscale ? TagDittaAction.read() : TagDittaAction.injectEmptyList('TagDittaList')}"></action>
+			<action name="4" expression="#{TagDittaAction.injectEmptyList('ToRemoveTagDittaList')}"></action>
+			<action name="5" expression="#{TipologiaDittaAction.like.remove('type')}"></action>
+			<action name="6" expression="#{AttivitaIstatAction.cleanRestrictions()}"></action>
+			<action name="7" expression="#{AttivitaIstatAction.equal.put('isActive',true)}"></action>
+			<action name="8" expression="#{AttivitaIstatAction.equal.put('personeGiuridiche.internalId',PersoneGiuridiche.internalId)}"></action>
+			<action name="9" expression="#{AttivitaIstatAction.read()}"></action>
+			<action name="10" expression="#{AttivitaIstatAction.injectEmptyList('ToRemoveAttivitaIstatList')}"></action>
+		</event>
+		<transition to="inject sedi"></transition>
+	</node>
+
+	<decision name="new?" expression="#{empty PersoneGiuridiche}">
+		<transition to="new ditta" name="true"></transition>
+		<transition to="is for arpav?" name="false"></transition>
+	</decision>
+
+	<node name="new ditta">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(PersoneGiuridicheAction.newEntity())}"></action>
+			<action name="2" expression="#{PersoneGiuridiche.setApp(PersoneGiuridicheAction.temporary['app'])}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<process-state name="gestione Impianti">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/impianti4Ditta" binding="late"></sub-process>
+		<transition to="back to inject"></transition>
+	</process-state>
+
+	<node name="ImpiantoPerSi">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="2" expression="#{ImpiantoPerSiAction.eject()}"></action>
+			<action name="3" expression="#{ImpiantoPerSiAction.ejectList()}"></action>
+			<action name="4" expression="#{ImpiantoPerSiAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{ImpiantoPerSiAction.notEqual.put('copy',true)}"></action>
+			<action name="6" expression="#{ImpiantoPerSiAction.equal.put('sedeInstallazione.internalId',SediInstallazione.internalId)}"></action>
+			<action name="7" expression="#{SediInstallazione.internalId ne null ? ImpiantoPerSiAction.read() : ImpiantoPerSiAction.ejectList()}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<node name="indPerSa">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedPerSAAction.eject()}"></action>
+			<action name="2" expression="#{IndirizzoSpedPerSAAction.ejectList()}"></action>
+			<action name="3" expression="#{IndirizzoSpedPerSAAction.equal.put('isActive',true)}"></action>
+			<action name="4" expression="#{IndirizzoSpedPerSAAction.equal.put('sediAddebito.internalId',SediAddebito.internalId)}"></action>
+			<action name="5" expression="#{IndirizzoSpedPerSAAction.read()}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<process-state name="gestione sedi inst">
+		<sub-process name="MOD_Company/CORE/PROCESSES/manageSedeInstallazione" binding="late"></sub-process>
+		<transition to="back to inject"></transition>
+	</process-state>
+
+	<process-state name="gestione addebiti">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/manageAddebiti" binding="late"></sub-process>
+		<transition to="back to inject"></transition>
+	</process-state>
+
+	<decision name="SediFromBtnExit?" expression="#{button.mnemonic eq 'BtnExit'}">
+		<transition to="back to inject" name="false"></transition>
+		<transition to="refresh" name="true"></transition>
+	</decision>
+
+	<process-state name="gestione SEDI">
+		<sub-process name="MOD_Company/CORE/PROCESSES/Utilities/manageSede" binding="late"></sub-process>
+		<transition to="SediFromBtnExit?"></transition>
+	</process-state>
+
+	<decision name="is for arpav?" expression="#{PersoneGiuridiche.app eq 'ARPAV'}">
+		<transition to="read tags and attivita" name="false"></transition>
+		<transition to="read impianti addebiti cessioni" name="true"></transition>
+	</decision>
+
+	<node name="read impianti addebiti cessioni">
+		<transition to="inject sedi"></transition>
+	</node>
+
+	<node name="back to inject">
+		<transition to="is for arpav?"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="injectCodeValues">
+
+
+	<start-state name="start-state1">
+		<transition to="isVisitaMedica?"></transition>
+	</start-state>
+
+
+	<decision name="isVisitaMedica?" expression="#{Attivita.code.code=='visitaMedica'}">
+		<transition to="injectPrestazioniICD9" name="true"></transition>
+		<transition to="isAcquisizioneInformazioni?" name="false"></transition>
+	</decision>
+
+	<decision name="isAcquisizioneInformazioni?" expression="#{Attivita.code.code=='acquisizionedocumentale'}">
+		<transition to="injectDocumentiVisionati" name="true"></transition>
+		<transition to="end-state1" name="false"></transition>
+	</decision>
+
+	<node name="injectPrestazioniICD9">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueIcd9Action.injectList(Attivita.visitaMedica.prestazioniICD9)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="injectDocumentiVisionati">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValuePhiAction.injectList(Attivita.acquisizioneInformazioni.documentiVisionati)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

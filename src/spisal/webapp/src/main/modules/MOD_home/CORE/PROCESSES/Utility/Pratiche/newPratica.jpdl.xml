@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="newPratica">
+
+
+	<start-state name="start-state1">
+		<transition to="Possibili duplicati?"></transition>
+	</start-state>
+
+
+	<task-node name="nuova pratica">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/associa_pratica_nuova')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="eject pratica" name="exit"></transition>
+		<transition to="save new pratica" name="save"></transition>
+		<transition to="read UOS" name="BtnUos"></transition>
+	</decision>
+
+	<node name="eject pratica">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="save new pratica">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.initOperatori()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.link('operatori',Operatore)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.link('vigilanza',Vigilanza)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.create()}"></action>
+			<action name="5" expression="#{ProcpraticheAction.setCodeValue('statusCode','STATUS','GENERIC','active')}"></action>
+			<action name="6" expression="#{ProcpraticheAction.link('author',userBean.getCurrentEmployee())}"></action>
+			<action name="7" expression="#{ProcpraticheAction.setDataScadenza(Protocollo)}"></action>
+			<action name="8" expression="#{ProcpraticheAction.copyRiferimenti(Protocollo)}"></action>
+			<action name="9" expression="#{Procpratiche.setUrgente(Protocollo.urgente)}"></action>
+			<action name="10" expression="#{DettagliBonificheAction.equal.put('protocollo.internalId',Protocollo.internalId)}"></action>
+			<action name="11" expression="#{DettagliBonificheAction.read()}"></action>
+			<action name="12" expression="#{DettagliBonificheAction.injectFirst()}"></action>
+			<action name="13" expression="#{DettagliBonificheAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="read UOS">
+		<event type="node-enter">
+			<action name="1" expression="#{UOSAction.injectList(UOSAction.filterOnlyActive(Protocollo.serviceDeliveryLocation.children))}"></action>
+		</event>
+		<transition to="select UOS"></transition>
+	</node>
+
+	<node name="new pratica">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.inject(ProcpraticheAction.newEntity())}"></action>
+		</event>
+		<transition to="isUOS selected?"></transition>
+	</node>
+
+	<decision name="isUOS selected?" expression="#{Protocollo.uos != null}">
+		<transition to="set UOC" name="false"></transition>
+		<transition to="new entity" name="true"></transition>
+	</decision>
+
+	<node name="new entity">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.link('serviceDeliveryLocation',Protocollo.uos)}"></action>
+		</event>
+		<transition to="set UOC"></transition>
+	</node>
+
+	<task-node name="select UOS">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/associa_uos')}"></action>
+		</event>
+		<transition to="Button Mnemonic"></transition>
+	</task-node>
+
+	<node name="linkUos">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.link('serviceDeliveryLocation',UOS)}"></action>
+		</event>
+		<transition to="nuova pratica"></transition>
+	</node>
+
+	<decision name="Button Mnemonic" expression="#{(button.getMnemonic())}">
+		<transition to="nuova pratica" name="BtnBack"></transition>
+		<transition to="linkUos" name="BtnSave"></transition>
+	</decision>
+
+	<node name="set UOC">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.link('uoc',Protocollo.serviceDeliveryLocation)}"></action>
+		</event>
+		<transition to="nuova pratica"></transition>
+	</node>
+
+	<decision name="Possibili duplicati?" expression="#{ProcpraticheAction.checkDuplicates(Protocollo)}">
+		<transition to="new pratica" name="false"></transition>
+		<transition to="Mostra possibili duplicati" name="true"></transition>
+	</decision>
+
+	<task-node name="Mostra possibili duplicati">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/pratiche_duplicate')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="new pratica" name="BtnNew"></transition>
+		<transition to="end-state1" name="BtnLink"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

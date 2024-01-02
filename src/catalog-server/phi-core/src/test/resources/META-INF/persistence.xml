@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+
+	<persistence-unit name="mySql">
+	
+		<jar-file>target/classes</jar-file>
+
+		<properties>
+		
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+
+			<!--ENVERS -->
+			<property name="org.hibernate.envers.audit_table_prefix" value="z_" />
+			<property name="org.hibernate.envers.audit_table_suffix" value="" />
+			
+		</properties>
+		
+	</persistence-unit>
+
+
+	<persistence-unit name="oracle">
+	
+		<!--UPDATE WHOLE CS AND SOLUTION-->
+			<jar-file>target/classes</jar-file>
+		<!--END UPDATE WHOLE CS AND SOLUTION-->
+		
+		<!--UPDATE OF SELECTED CLASSES
+			<class>com.phi.entities.baseEntity.Test</class>
+			dependencies:
+			<class>com.phi.entities.dataTypes.CodeSystem</class>
+			<class>com.phi.entities.dataTypes.CodeValuePhi</class>
+			<class>com.phi.entities.dataTypes.CodeValueCity</class>
+			
+			<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		END UPDATE OF SELECTED CLASSES-->
+		
+
+		<properties>
+		
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+			
+			<!--ENVERS -->
+			<property name="org.hibernate.envers.audit_table_prefix" value="z_" />
+			<property name="org.hibernate.envers.audit_table_suffix" value="" />
+
+		</properties>
+		
+	</persistence-unit>
+	
+	
+	<persistence-unit name="postgreSql">
+	
+		<jar-file>target/classes</jar-file>
+
+		<properties>
+		
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			
+			<!--ENVERS -->
+			<property name="org.hibernate.envers.audit_table_prefix" value="z_" />
+			<property name="org.hibernate.envers.audit_table_suffix" value="" />
+
+		</properties>
+		
+	</persistence-unit>
+	
+	<persistence-unit name="sqlServer">
+		
+		<jar-file>target/classes</jar-file>
+
+		<properties>
+		
+			<!-- property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/-->
+			<property name="hibernate.dialect" value="com.phi.cs.catalog.adapter.dialect.SQLServer2012Dialect"/>
+
+			<!--ENVERS -->
+			<property name="org.hibernate.envers.audit_table_prefix" value="z_" />
+			<property name="org.hibernate.envers.audit_table_suffix" value="" />
+
+		</properties>
+		
+	</persistence-unit>
+
+
+
+</persistence>

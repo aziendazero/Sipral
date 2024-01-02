@@ -1,0 +1,507 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1688024222653" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1688826729294" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686438450645;BtnBack')}" status="ajaxStatus" id="Link_1686438450645" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1689519982166;BtnSaveQuest')}" status="ajaxStatus" id="Link_1689519982166" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1689267766289" style="height:100%;width:100%;" rendered="false" >
+						<style>
+						.page-next { width: 64px; height: 64px; }
+						.page-prev { width: 64px; height: 64px; }
+						</style>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1688024469182" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1688024469182}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1688024324721" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="VirtualPage_1688024442991" styleClass="virtualPageBox" >
+							<a4j:include id="VPvp_status_quest" layout="block" viewId="/MOD_home/CORE/FORMS/questionari/vp_status_quest.xhtml"  styleClass="virtualPageBox"/>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1688024327856" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1688024327856}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024743249" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<h:outputLabel for="TextArea_1688024875109_id" value="${msg.Label_1688024853560}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688024875109_id" style="display:none;" value="${msg.Label_1688024853560}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1688024875109" >
+							<h:inputTextarea id="TextArea_1688024875109_id" value="#{QuestParteJRenatuns.j1}" label="${msg.Label_1688024853560}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688024875109_id" styleClass="errorMessages TextArea_1688024875109_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024744683" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<h:outputLabel for="TextArea_1688024875348_id" value="${msg.Label_1688024854470}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688024875348_id" style="display:none;" value="${msg.Label_1688024854470}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1688024875348" >
+							<h:inputTextarea id="TextArea_1688024875348_id" value="#{QuestParteJRenatuns.j2}" label="${msg.Label_1688024854470}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688024875348_id" styleClass="errorMessages TextArea_1688024875348_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024821603" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1688024854011}" class="labelContent c-text-bold base-label" >${msg.Label_1688024854011}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1688024978746" value="#{QuestParteJRenatuns.j3}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688024854011}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:DimensioneAttivitaForestali')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024824941" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688024857131}" class="labelContent c-text-bold base-label" >${msg.Label_1688024857131}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688613718354" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688613718354" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688613718354} [TabellaJ4List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th>${msg.DataGridColumn_1686664024341}</th>
+											<th>${msg.DataGridColumn_1688923091712}</th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaJ4List or TabellaJ4List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="5">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688613718354" value="#{TabellaJ4List.entities}" var="TabellaJ4" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaJ4.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaJ4.code01}</span>
+												</td>
+
+												<td >
+									<h:selectBooleanCheckbox id="CheckBox_1688431526571" value="#{TabellaJ4.bl01}" style="vertical-align:middle;" alt="CHECKBOX" >
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688613718354" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaJ4, 'text01', 'text02', 'text03', 'text04')}" ignoreDupResponses="true" />
+									</h:selectBooleanCheckbox>
+									<h:message for="CheckBox_1688431526571" styleClass="errorMessages CheckBox_1688431526571_E" />
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688431526571" style="display:none;" value="hiddenLabel"></h:outputLabel>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaJ4.text01}</span>
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688457210739_id" value="#{TabellaJ4.text02}" rendered="#{TabellaJ4.code01.code ne 'pieno'}" disabled="#{!TabellaJ4.bl01}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688613718354" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688457210739_msg" styleClass="errorContainer" ><h:message for="TextBox_1688457210739_id" styleClass="errorMessages TextBox_1688457210739_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024825248" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688024857453}" class="labelContent c-text-bold base-label" >${msg.Label_1688024857453}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1687795125366" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1687795125366" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1687795125366} [TabellaJ5List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th>${msg.DataGridColumn_1689867175825}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaJ5List or TabellaJ5List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="4">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1687795125366" value="#{TabellaJ5List.entities}" var="TabellaJ5" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaJ5.numProgr}</span>
+												</td>
+
+												<td >
+													<span class="base-label" >#{TabellaJ5.code01}</span>
+													<h:inputText id="TextBox_1688267400682_id" value="#{TabellaJ5.text02}" rendered="#{TabellaJ5.code01.code eq 'altro'}" disabled="#{!TabellaJ5.bl01}" label="${msg.Label_1688814299892}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1687795125366" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688267400682_msg" styleClass="errorContainer" ><h:message for="TextBox_1688267400682_id" styleClass="errorMessages TextBox_1688267400682_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<h:selectBooleanCheckbox id="CheckBox_1685937033713" value="#{TabellaJ5.bl01}" style="vertical-align:middle;" alt="CHECKBOX" >
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1688267400682,DataGrid_1687795125366" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaJ5, 'text01', 'text02')}" ignoreDupResponses="true" />
+									</h:selectBooleanCheckbox>
+									<h:message for="CheckBox_1685937033713" styleClass="errorMessages CheckBox_1685937033713_E" />
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1685937033713" style="display:none;" value="hiddenLabel"></h:outputLabel>
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1686542310520" value="#{TabellaJ5.text01}" disabled="#{!TabellaJ5.bl01}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1687795125366" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1686542310520_msg" styleClass="errorContainer" ><h:message for="TextBox_1686542310520" styleClass="errorMessages TextBox_1686542310520_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextArea_1688025111918_id" value="${msg.Label_1688025109278}" class="labelContent  base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688025111918_id" style="display:none;" value="${msg.Label_1688025109278}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1688025111918" >
+							<h:inputTextarea id="TextArea_1688025111918_id" value="#{QuestParteJRenatuns.j6}" label="${msg.Label_1688025109278}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688025111918_id" styleClass="errorMessages TextArea_1688025111918_E" />
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688025225857}" class="labelContent  base-label" >${msg.Label_1688025225857}</span>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1688458257083" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('TabellaJ7QuestParteJRenatuns;BtnRigaAdd')}" status="ajaxStatus" id="TabellaJ7QuestParteJRenatuns" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" onmousedown="#{QuestParteAction.temporary.put('cvTabella',vocabularies.getCodeValueCsDomainCode('PHIDIC', 'AttivitàForestali', 'altro'))}"/>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel id="DataGrid_1688025235891" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1688025235891" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688025235891} [TabellaJ7List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th>${msg.DataGridColumn_1688025254904}</th>
+											<th>${msg.DataGridColumn_1688025256487}</th>
+											<th>${msg.DataGridColumn_1688025375680}</th>
+											<th>${msg.DataGridColumn_1688458241971}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaJ7List or TabellaJ7List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="4">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688025235891" value="#{TabellaJ7List.entities}" var="TabellaJ7" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaJ7.code01}</span>
+													<span style="display:#{(TabellaJ7.code01.code eq 'irror') ? 'block' : 'none' };" class="base-label" >${msg.Label_1688118607312}</span>
+									<div style="display:#{(TabellaJ7.code01.code eq 'irror') ? 'block' : 'none' };overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688118612473_id" value="#{TabellaJ7.code03}" rendered="#{TabellaJ7.code01.code eq 'irror'}" disabled="#{TabellaJ7.code02.code eq 'nonso'}" styleClass="radioGroupTable" label="${msg.Label_1688118607312}" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneRadio>
+									</div>
+
+													<h:inputText id="TextBox_1688458232116_id" value="#{TabellaJ7.text02}" rendered="#{TabellaJ7.code01.code eq 'altro'}" disabled="#{(TabellaJ7.code02.code eq 'nonso' or TabellaJ7.code02.code eq 'mai') or TabellaJ7.code02 eq null}" label="${msg.Label_1688118607312}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025235891" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688458232116_msg" styleClass="errorContainer" ><h:message for="TextBox_1688458232116_id" styleClass="errorMessages TextBox_1688458232116_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688025401440" value="#{TabellaJ7.text01}" disabled="#{(TabellaJ7.code02.code eq 'nonso' or TabellaJ7.code02.code eq 'mai') or TabellaJ7.code02 eq null}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025235891" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688025401440_msg" styleClass="errorContainer" ><h:message for="TextBox_1688025401440" styleClass="errorMessages TextBox_1688025401440_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<div style="overflow:auto;white-space:normal;" >
+									<h:selectOneRadio id="RadioGroup_1688025391946" value="#{TabellaJ7.code02}" styleClass="radioGroupTable" >
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:FrequenzaAttività')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025235891" event="onselect" ignoreDupResponses="true" />
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025235891" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaJ7, 'text01')}" ignoreDupResponses="true" />
+									</h:selectOneRadio>
+									</div>
+
+												</td>
+
+												<td >
+													<a4j:outputPanel layout="block" id="JollyWidget_1688458252150_id" rendered="#{TabellaJ7.code01.code eq 'altro'}" >
+														<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaJ7, 'Link_1687441448925;BtnRigaDel')}" status="ajaxStatus" id="Link_1687441448925" alt="#{LINK}" reRender="popup, phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+														
+													</a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024827499" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688025546971" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1688024868609}" class="labelContent c-text-bold base-label" >${msg.Label_1688024868609}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688025543089" value="#{QuestParteJRenatuns.j8}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688024868609}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025571693" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025571693" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688025571693" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteJRenatuns.j8.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextArea_1688025582290_id" value="${msg.Label_1688025580018}" class="labelContent  base-label" />
+								</div>
+
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688025582290_id" style="display:none;" value="${msg.Label_1688025580018}"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1688025582290" >
+								<h:inputTextarea id="TextArea_1688025582290_id" value="#{QuestParteJRenatuns.j9}" label="${msg.Label_1688025580018}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1688025582290_id" styleClass="errorMessages TextArea_1688025582290_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024831759" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1688025613582}" class="labelContent c-text-bold base-label" >${msg.Label_1688025613582}</span>
+							</div>
+
+							<a4j:outputPanel id="DataGrid_1688025629070" layout="block" styleClass="dt layoutTable layoutVertical" style="display:#{(!QuestParteJRenatuns.j11) ? 'block' : 'none' };" >
+								<table id="d1688025629070" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1688025629070} [TabellaJ10List]" >
+									<thead class="tableHeader">
+										<tr>
+											<th></th>
+											<th></th>
+											<th>${msg.DataGridColumn_1688025947878}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaJ10List or TabellaJ10List.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="3">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1688025629070" value="#{TabellaJ10List.entities}" var="TabellaJ10" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaJ10.code01}</span>
+												</td>
+
+												<td >
+									<h:selectBooleanCheckbox id="CheckBox_1688026004232" value="#{TabellaJ10.bl01}" style="vertical-align:middle;" alt="CHECKBOX" >
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025629070,TextBox_1688026012609" event="onclick" action="#{QuestTabellaAction.setPropertyNullRiga(TabellaJ10, 'text01')}" ignoreDupResponses="true" />
+									</h:selectBooleanCheckbox>
+									<h:message for="CheckBox_1688026004232" styleClass="errorMessages CheckBox_1688026004232_E" />
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688026004232" style="display:none;" value="hiddenLabel"></h:outputLabel>
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1688026012609" value="#{TabellaJ10.text01}" disabled="#{!TabellaJ10.bl01}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025629070" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1688026012609_msg" styleClass="errorContainer" ><h:message for="TextBox_1688026012609" styleClass="errorMessages TextBox_1688026012609_E" /></a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<h:selectBooleanCheckbox id="CheckBox_1688026050581" value="#{QuestParteJRenatuns.j11}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1688026050581}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1688025629070" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1688026050581}" for="CheckBox_1688026050581" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1688026050581" styleClass="errorMessages CheckBox_1688026050581_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1688026050581" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688024838189" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1688025678939}" class="labelContent c-text-bold base-label" >${msg.Label_1688025678939}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1688025680377" value="#{QuestParteJRenatuns.j12}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688025678939}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688025713042" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextArea_1688025739794_id" value="${msg.Label_1688025725393}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688025739794_id" style="display:none;" value="${msg.Label_1688025725393}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1688025739794" >
+							<h:inputTextarea id="TextArea_1688025739794_id" value="#{QuestParteJRenatuns.j13}" label="${msg.Label_1688025725393}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688025739794_id" styleClass="errorMessages TextArea_1688025739794_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688025711570" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688025750549" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1688025726383}" class="labelContent c-text-bold base-label" >${msg.Label_1688025726383}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688025745628" value="#{QuestParteJRenatuns.j14}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688025726383}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025755679" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025755679" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688025755679" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteJRenatuns.j14.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1688025815619" value="${msg.Label_1688025807984}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1688025815619" value="#{QuestParteJRenatuns.j15}" styleClass="inputText" label="${msg.Label_1688025807984}" />
+								<a4j:outputPanel id="TextBox_1688025815619_msg" styleClass="errorContainer" ><h:message for="TextBox_1688025815619" styleClass="errorMessages TextBox_1688025815619_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688025710640" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1688025750855" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1688025727374}" class="labelContent c-text-bold base-label" >${msg.Label_1688025727374}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1688025746731" value="#{QuestParteJRenatuns.j16}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1688025727374}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025755926" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1688025755926" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1688025755926" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteJRenatuns.j16.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1688025815133" value="${msg.Label_1688025808584}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1688025815133" value="#{QuestParteJRenatuns.j17}" styleClass="inputText" label="${msg.Label_1688025808584}" />
+								<a4j:outputPanel id="TextBox_1688025815133_msg" styleClass="errorContainer" ><h:message for="TextBox_1688025815133" styleClass="errorMessages TextBox_1688025815133_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1688025709792" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextArea_1688025740468_id" value="${msg.Label_1688025727875}" class="labelContent c-text-bold base-label" />
+							</div>
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1688025740468_id" style="display:none;" value="${msg.Label_1688025727875}"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1688025740468" >
+							<h:inputTextarea id="TextArea_1688025740468_id" value="#{QuestParteJRenatuns.j18}" label="${msg.Label_1688025727875}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1688025740468_id" styleClass="errorMessages TextArea_1688025740468_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1690018171873" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1690053672827;BtnSaveDef')}" status="ajaxStatus" id="Link_1690053672827" title="${msg.alt_Link_1690053672827}" reRender="phiDesktop" styleClass="fa fa-floppy-disk-pen fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686783947210;BtnPrev')}" status="ajaxStatus" id="Link_1686783947210" alt="#{LINK}" reRender="phiDesktop" styleClass="page-prev link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

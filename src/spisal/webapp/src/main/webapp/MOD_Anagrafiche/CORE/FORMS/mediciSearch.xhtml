@@ -1,0 +1,187 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1477004245399}</h1>
+	<div id="mediciSearch" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1476567969627" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1476687423955" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1478394497571;BtnBack')}" status="ajaxStatus" id="Link_1478394497571" title="${msg.alt_Link_1478394497571}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1478664046343" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1478664046343;medNew')}" status="ajaxStatus" id="Link_1478664046343_id" title="${msg.alt_Link_1478664046343}" rendered="#{not Param['p.dictionary.mediciSearch.nuovoMedico'].readOnly}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{PhysicianAction.temporary.put('filterMedici',!PhysicianAction.temporary['filterMedici'])}" status="ajaxStatus" id="Link_1478757260888" title="${msg.alt_Link_1478757260888}" reRender="LayoutRow_1476422337710" styleClass="fa fa-bars fa-3x link readOnly" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1478272943420" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1478272943420;BtnSave')}" status="ajaxStatus" id="Link_1478272943420_id" title="${msg.alt_Link_1478272943420}" rendered="#{not empty Physician and Physician.code.code ne 'mmg' and ProtocolloAction.temporary['search']}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1505749048434" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1505749048434;BtnSave')}" status="ajaxStatus" id="Link_1505749048434_id" title="${msg.alt_Link_1505749048434}" rendered="#{not empty Physician and PersonAction.temporary['search']}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:15px;padding:0;" id="LayoutRow_1476422337710" styleClass="layoutContainer layoutContainerVertical green" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PhysicianAction.temporary['filterMedici']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1476422337710}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1516700010399" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1478398465253}</span>
+							<h:inputText id="TextBox_1478398465253" value="#{PhysicianAction.like['name.fam']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1478398465253}" />
+							<a4j:outputPanel id="TextBox_1478398465253_msg" styleClass="errorContainer" ><h:message for="TextBox_1478398465253" styleClass="errorMessages TextBox_1478398465253_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1476101782629}</span>
+							<h:inputText id="TextBox_1476101782629" value="#{PhysicianAction.like['name.giv']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1476101782629}" />
+							<a4j:outputPanel id="TextBox_1476101782629_msg" styleClass="errorContainer" ><h:message for="TextBox_1476101782629" styleClass="errorMessages TextBox_1476101782629_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1477617674022}</span>
+							<h:selectOneMenu id="ComboBox_1477617674022" value="#{PhysicianAction.equal['type']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1477617674022}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:PhysicianTypes')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1477711556917" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1476253245529}</span>
+							<h:selectOneMenu id="ComboBox_1476253245529" value="#{PhysicianAction.temporary['selectedULSS']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1476253245529}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{PhysicianAction.temporary['orgList']}" />
+								<f:converter converterId="LongConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1475012103847}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1475012103847" value="#{PhysicianAction.temporary['filterValid']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.label_CheckBox_1475012103847}" />
+							<h:message for="CheckBox_1475012103847" styleClass="errorMessages CheckBox_1475012103847_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1475012103847" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1475954946581}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1475954946581" value="#{PhysicianAction.temporary['filterExpired']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.label_CheckBox_1475954946581}" />
+							<h:message for="CheckBox_1475954946581" styleClass="errorMessages CheckBox_1475954946581_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1475954946581" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1476689855146" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1475128198878;BtnSearch')}" status="ajaxStatus" id="Link_1475128198878" title="${msg.alt_Link_1475128198878}" reRender="DataGrid_1475904890530" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1478216406932;BtnFilterCancel')}" status="ajaxStatus" id="Link_1478216406932" title="${msg.alt_Link_1478216406932}" reRender="phiDesktop,LayoutRow_1476422337710,DataGrid_1475904890530" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1475074377575" style="height:100%;width:100%;" >
+							<script>
+							jQuery('input[type=text]:visible, textarea:visible').each(function() {
+								jQuery(this).val(jQuery(this).val().toUpperCase());
+							}).on('input',function() {
+							   	jQuery(this).val(jQuery(this).val().toUpperCase());
+							});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1475904890530" layout="block" styleClass="dt layoutTable layoutVertical" >#{PhysicianAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1475904890530" value="&#8592;" action="#{PhysicianList.prev}" reRender="DataGrid_1475904890530" rendered="#{PhysicianList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1475904890530" value="#{PhysicianList.pageIndexes}" var="pi1475904890530">
+										<li class="#{(PhysicianList.currentPage eq pi1475904890530 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1475904890530" value="#{pi1475904890530}" action="#{PhysicianList.goToPage(pi1475904890530)}" reRender="DataGrid_1475904890530" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1475904890530" value="&#8594;" action="#{PhysicianList.next}" reRender="DataGrid_1475904890530" rendered="#{PhysicianList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1475904890530" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1475904890530} [PhysicianList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1476274920729}</th>
+								<th><a4j:commandLink id="DataGridColumn_1476322552236" value="${msg.DataGridColumn_1476322552236} &#8593;&#8595;" action="#{PhysicianList.orderBy('name.fam')}" reRender="DataGrid_1475904890530" ajaxSingle="true" disabled="#{empty PhysicianList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1476139920705" value="${msg.DataGridColumn_1476139920705} &#8593;&#8595;" action="#{PhysicianList.orderBy('name.giv')}" reRender="DataGrid_1475904890530" ajaxSingle="true" disabled="#{empty PhysicianList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475717269068" value="${msg.DataGridColumn_1475717269068} &#8593;&#8595;" action="#{PhysicianList.orderBy('regionalCode')}" reRender="DataGrid_1475904890530" ajaxSingle="true" disabled="#{empty PhysicianList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1476046841871" value="${msg.DataGridColumn_1476046841871} &#8593;&#8595;" action="#{PhysicianList.orderBy('type')}" reRender="DataGrid_1475904890530" ajaxSingle="true" disabled="#{empty PhysicianList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1478096004439" value="${msg.DataGridColumn_1478096004439} &#8593;&#8595;" action="#{PhysicianList.orderBy('notes')}" reRender="DataGrid_1475904890530" ajaxSingle="true" disabled="#{empty PhysicianList ? true : false}"/></th>
+								<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1477643518663}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty PhysicianList or PhysicianList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="7">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1475904890530" value="#{PhysicianList.entities}" var="Physician" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1475904890530(this.id);" class="#{PhysicianAction.getEntity().equals(Physician) or Physician.internalId != 0 and PhysicianAction.entity.internalId.equals(Physician.internalId) ? 'selRow' : ''}" >
+									<td style="width:5%;" >
+										<a4j:commandLink action="#{PhysicianAction.injectAndProceed(Physician, 'Link_1478450893133;medEdit')}" status="ajaxStatus" id="Link_1478450893133" title="${msg.alt_Link_1478450893133}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										#{Physician.name.fam}
+									</td>
+
+									<td >
+										#{Physician.name.giv}
+									</td>
+
+									<td >
+										#{Physician.regionalCode}
+									</td>
+
+									<td >
+										#{Physician.type}
+									</td>
+
+									<td >
+										#{Physician.notes}
+									</td>
+
+									<td style="#{(false ? '' : 'display:none;')} width:5%;" >
+										<a4j:commandLink action="#{PhysicianAction.injectAndProceed(Physician, 'Link_1477392139633;medDel')}" status="ajaxStatus" id="Link_1477392139633" title="${msg.alt_Link_1477392139633}" disabled="#{Physician.code.code eq 'mmg'}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1475904890530" name="ie1475904890530" status="ajaxStatus" action="#{PhysicianList.injectEject}" data="#{PhysicianList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1475904890530'))" reRender="Link_1478272943420,Link_1505749048434" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{PhysicianList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

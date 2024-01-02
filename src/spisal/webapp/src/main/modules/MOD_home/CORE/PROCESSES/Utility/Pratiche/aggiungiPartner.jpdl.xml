@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="aggiungiPartner">
+
+
+	<start-state name="start-state1">
+		<transition to="pre actions"></transition>
+	</start-state>
+
+
+	<node name="pre actions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="cerca persona" name="AURPartnerAdd"></transition>
+		<transition to="cerca ditta" name="PARIXPartnerAdd"></transition>
+		<transition to="delete" name="BtnDeletePartner"></transition>
+	</decision>
+
+	<process-state name="cerca ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/partnerCompanies" binding="late"></sub-process>
+		<transition to="decision2"></transition>
+	</process-state>
+
+	<process-state name="cerca persona">
+		<sub-process name="MOD_Company/CORE/PROCESSES/partnerPersons" binding="late"></sub-process>
+		<transition to="decision2"></transition>
+	</process-state>
+
+	<decision name="decision2" expression="#{(button.getMnemonic())}">
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="link soggetto" name="BtnSave"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="node1">
+			<event type="node-enter">
+				<action name="1" expression="#{SoggettoAction.create()}"></action>
+				<action name="2" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+				<action name="3" expression="#{LifestyleAction.create()}"></action>
+				<action name="4" expression="#{SoggettoAction.eject()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="delete">
+		<event type="node-enter">
+			<action name="1" expression="#{LifestyleAction.unLink('soggetto',Soggetto)}"></action>
+		</event>
+		<transition to="super-state1/node1"></transition>
+	</node>
+
+	<node name="link soggetto">
+		<event type="node-enter">
+			<action name="1" expression="#{LifestyleAction.link('soggetto',Soggetto)}"></action>
+		</event>
+		<transition to="super-state1/node1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

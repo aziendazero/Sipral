@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="nullifieManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="Nullifie PopUp UI"></transition>
+	</start-state>
+
+
+	<node name="setNullified">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.setCodeValue('statusCode','STATUS','GENERIC','held')}"></action>
+			<action name="2" expression="#{ProcpraticheAction.create()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="Nullifie PopUp UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/held_pratica_alert')}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</task-node>
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="setNullified" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

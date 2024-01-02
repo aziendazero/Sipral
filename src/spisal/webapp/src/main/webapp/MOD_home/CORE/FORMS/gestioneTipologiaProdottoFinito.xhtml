@@ -1,0 +1,50 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1471822881706" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1468647652883" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468428948685;BtnBack')}" status="ajaxStatus" id="Link_1468428948685" title="${msg.alt_Link_1468428948685}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1467967785523;BtnSave')}" status="ajaxStatus" id="Link_1467967785523" title="${msg.alt_Link_1467967785523}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x savePopupButton link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1469082191929" style="padding-top:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1470055175308}</span>
+						<h:selectOneMenu id="ComboBox_1470055175308" value="#{TipoProdFinito.tipologia}" styleClass="comboBox" label="${msg.label_ComboBox_1470055175308}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipologiaProdottoFinito')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1470055237907}</span>
+						<h:inputText id="TextBox_1470055237907" value="#{TipoProdFinito.quantita}" styleClass="inputText" label="${msg.label_TextBox_1470055237907}" />
+						<a4j:outputPanel id="TextBox_1470055237907_msg" styleClass="errorContainer" ><h:message for="TextBox_1470055237907" styleClass="errorMessages TextBox_1470055237907_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1483019754395" >
+					<label >
+						<span class="label">${msg.label_TextArea_1483019754395}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1483019754395_id" value="#{TipoProdFinito.note}" label="${msg.label_TextArea_1483019754395}" >
+							<f:validateLength minimum="0" maximum="2500"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1483019754395_id" styleClass="errorMessages TextArea_1483019754395_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

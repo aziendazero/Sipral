@@ -1,0 +1,207 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1477982883377}</h1>
+	<div id="mediciEditi" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1476797959085" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1475642885574" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1477825690098" style="height:100%;width:100%;" >
+						<script>
+						jQuery('#i\\:TextBox_1475490180818_id, #i\\:TextBox_1476010083807_id').each(function() {
+							jQuery(this).val(jQuery(this).val().toUpperCase());
+						}).on('input',function() {
+						   	jQuery(this).val(jQuery(this).val().toUpperCase());
+						});
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1475241030072" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1475490180818" style="width: 50.0%;height: 100%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1475490180818}</span>
+						<h:inputText id="TextBox_1475490180818_id" value="#{Physician.name.giv}" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1475490180818}" />
+						<a4j:outputPanel id="TextBox_1475490180818_msg" styleClass="errorContainer" ><h:message for="TextBox_1475490180818_id" styleClass="errorMessages TextBox_1475490180818_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1476010083807" style="width: 50.0%;height: 100%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1476010083807}</span>
+						<h:inputText id="TextBox_1476010083807_id" value="#{Physician.name.fam}" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1476010083807}" />
+						<a4j:outputPanel id="TextBox_1476010083807_msg" styleClass="errorContainer" ><h:message for="TextBox_1476010083807_id" styleClass="errorMessages TextBox_1476010083807_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1475990242271" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1474866778555" style="width: 50.0%;height: 100%;" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1474866778555}</span>
+						<h:inputText id="TextBox_1474866778555_id" value="#{Physician.regionalCode}" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1474866778555}" />
+						<a4j:outputPanel id="TextBox_1474866778555_msg" styleClass="errorContainer" ><h:message for="TextBox_1474866778555_id" styleClass="errorMessages TextBox_1474866778555_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1479095980154" style="width: 50.0%;height: 100%;" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1479095980154}</span>
+						<h:selectOneMenu id="ComboBox_1479095980154_id" value="#{Physician.type}" required="true" disabled="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1479095980154}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:PhysicianTypes')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+						<h:message style="float:left;" for="ComboBox_1479095980154_id" styleClass="errorMessages ComboBox_1479095980154_E" />
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1478350890705" >
+				<label >
+					<span class="label">${msg.label_TextArea_1478350890705}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1478350890705_id" value="#{Physician.specialization}" readonly="true" label="${msg.label_TextArea_1478350890705}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1478350890705_id" styleClass="errorMessages TextArea_1478350890705_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1477091744603" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1475418351498" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1475418351498}</span>
+						<h:inputText id="MonthCalendar_1475418351498_id" value="#{Physician.validity.low}" required="true" disabled="true" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1475418351498}" onchange="dateCompare(this,'#'+getIdPrefix(this)+'MonthCalendar_1477656201994')"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1475418351498_id" styleClass="errorMessages MonthCalendar_1475418351498_E" />
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1477656201994}</span>
+						<h:inputText id="MonthCalendar_1477656201994" value="#{Physician.validity.high}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1477656201994}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1475418351498',this)"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1477656201994" styleClass="errorMessages MonthCalendar_1477656201994_E" />
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1474968416424" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1477550845435" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1477550845435}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1478944461313" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1478528657238}</span>
+								<h:inputText id="TextBox_1478528657238" value="#{Physician.organization.name.giv}" style="height: 21px;width: 171px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1478528657238}" />
+								<a4j:outputPanel id="TextBox_1478528657238_msg" styleClass="errorContainer" ><h:message for="TextBox_1478528657238" styleClass="errorMessages TextBox_1478528657238_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1478055596768" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1478055596768;ASL')}" status="ajaxStatus" id="Link_1478055596768_id" title="${msg.alt_Link_1478055596768}" rendered="#{empty Physician.organization.internalId or PhysicianAction.hasOrg(Physician.organization.internalId,PhysicianAction.temporary['orgList'])}" disabled="true" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x popup link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1476317178039" >
+							<span value="${msg.Label_1476317178039}" id="Label_1476317178039_id" style="display:#{(button.mnemonic eq 'BtnSave') ? 'block' : 'none' };" class="labelContent errorMessage base-label" >${msg.Label_1476317178039}</span>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1478744905916}</span>
+							<h:inputText id="TextBox_1478744905916" value="#{Physician.organization.id}" style="height: 19px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1478744905916}" />
+							<a4j:outputPanel id="TextBox_1478744905916_msg" styleClass="errorContainer" ><h:message for="TextBox_1478744905916" styleClass="errorMessages TextBox_1478744905916_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1475218476649" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1475218476649}</legend>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1474982841120" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1474982841120}</span>
+							#{PhysicianAction.autocomplete['addr'].setContentType('0')}
+							#{PhysicianAction.autocomplete['addr'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1474982841120_MAIN" value="#{Physician.addr.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1474982841120}" />
+							<h:outputLabel for="TextSuggestionBox_1474982841120_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1474982841120_CPA" value="#{Physician.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1474982841120_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1474982841120_ZIP" value="#{Physician.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1474982841120_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1474982841120_CODE" disabled="true" value="#{Physician.addr.code}" label="${msg.label_TextSuggestionBox_1474982841120}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1474982841120_CODE" styleClass="errorMessages TextSuggestionBox_1474982841120_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1474982841120" action="#{PhysicianAction.autocomplete['addr'].autocomplete()}" data="#{PhysicianAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{PhysicianAction.autocomplete['addr'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutFill_1476717527777" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1477601480189}</span>
+								<h:inputText id="TextBox_1477601480189" value="#{Physician.addr.str}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1477601480189}" />
+								<a4j:outputPanel id="TextBox_1477601480189_msg" styleClass="errorContainer" ><h:message for="TextBox_1477601480189" styleClass="errorMessages TextBox_1477601480189_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475063189396}</span>
+								<h:inputText id="TextBox_1475063189396" value="#{Physician.addr.bnr}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1475063189396}" />
+								<a4j:outputPanel id="TextBox_1475063189396_msg" styleClass="errorContainer" ><h:message for="TextBox_1475063189396" styleClass="errorMessages TextBox_1475063189396_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutFill_1476343935935" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1476825056338}</span>
+								<h:inputText id="TextBox_1476825056338" value="#{Physician.telecom.hp}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1476825056338}" />
+								<a4j:outputPanel id="TextBox_1476825056338_msg" styleClass="errorContainer" ><h:message for="TextBox_1476825056338" styleClass="errorMessages TextBox_1476825056338_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1476759759570}</span>
+								<h:inputText id="TextBox_1476759759570" value="#{Physician.telecom.mail}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1476759759570}" />
+								<a4j:outputPanel id="TextBox_1476759759570_msg" styleClass="errorContainer" ><h:message for="TextBox_1476759759570" styleClass="errorMessages TextBox_1476759759570_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1477986907081" >
+				<label >
+					<span class="label">${msg.label_TextArea_1477986907081}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1477986907081_id" value="#{Physician.notes}" readonly="true" label="${msg.label_TextArea_1477986907081}" >
+						<f:validateLength minimum="0" maximum="4000"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1477986907081_id" styleClass="errorMessages TextArea_1477986907081_E" />
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

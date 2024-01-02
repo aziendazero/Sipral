@@ -1,0 +1,128 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1510284700224}</h1>
+	<div id="incarichi" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1514034953404" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1510795473743" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1512514482004" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1513833470573;BtnBack')}" status="ajaxStatus" id="Link_1513833470573" title="${msg.alt_Link_1513833470573}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1512049455450;BtnSave')}" status="ajaxStatus" id="Link_1512049455450" title="${msg.alt_Link_1512049455450}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-top:15px;padding:0;" id="LayoutRow_1512340796229" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{OperatoreAction.temporary['existing']}" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1511996270693}" style="color: red;font-weight: bold;" class="labelContent  base-label" >${msg.Label_1511996270693}</span>
+					</div>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1511824046965" style="padding-top:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1511824046965}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510826805568" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1513816078040" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1513995475230" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1513995475230}</span>
+								<h:inputText id="TextBox_1513995475230_id" value="#{Operatore.name.fam}" styleClass="inputText layoutRequired" required="true" disabled="#{Operatore.employee != null}" label="${msg.label_TextBox_1513995475230}" />
+								<a4j:outputPanel id="TextBox_1513995475230_msg" styleClass="errorContainer" ><h:message for="TextBox_1513995475230_id" styleClass="errorMessages TextBox_1513995475230_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1511230715816" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1512306578562" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1512306578562}</span>
+								<h:inputText id="TextBox_1512306578562_id" value="#{Operatore.name.giv}" styleClass="inputText layoutRequired" required="true" disabled="#{Operatore.employee != null}" label="${msg.label_TextBox_1512306578562}" />
+								<a4j:outputPanel id="TextBox_1512306578562_msg" styleClass="errorContainer" ><h:message for="TextBox_1512306578562_id" styleClass="errorMessages TextBox_1512306578562_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1510402481279" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1513337491567" >
+							<label style="display:#{(Operatore.employee != null and Operatore.employee.internalId ne null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_Label_1513337491567}</span>
+								<h:outputText rendered="#{Operatore.employee != null and Operatore.employee.internalId ne null}" value="#{function.concat(' (Username: ',Operatore.employee.username,')' )}" id="Label_1513337491567_id" class="labelContent c-text-bold c-text-red base-label" />
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1513320981636" >
+							<label style="display:#{(Operatore.employee == null or Operatore.employee.internalId eq null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_Label_1513320981636}</span>
+								<span value="${msg.Label_1513320981636}" id="Label_1513320981636_id" style="display:#{(Operatore.employee == null or Operatore.employee.internalId eq null) ? 'block' : 'none' };" class="labelContent c-text-bold c-text-red base-label" ></span>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1521796062896}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1521796062896" value="#{Operatore.isActive}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1521796062896}" />
+							<h:message for="CheckBox_1521796062896" styleClass="errorMessages CheckBox_1521796062896_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1521796062896" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510284985023" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1512435100047" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1511628335991" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1511628335991}</span>
+								<h:selectOneMenu id="ComboBox_1511628335991_id" value="#{Operatore.code}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1511628335991}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+								<h:message style="float:left;" for="ComboBox_1511628335991_id" styleClass="errorMessages ComboBox_1511628335991_E" />
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1510359361391" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1512094350130" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1512094350130}</span>
+								<h:selectOneMenu id="ComboBox_1512094350130_id" value="#{Operatore.ente}" required="true" disabled="#{Operatore.employee != null or true}" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1512094350130}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Ente')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+								<h:message style="float:left;" for="ComboBox_1512094350130_id" styleClass="errorMessages ComboBox_1512094350130_E" />
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1512818126778" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1511907050962" >
+							<label style="display:#{(Operatore.serviceDeliveryLocation != null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_Label_1511907050962}</span>
+								<h:outputText rendered="#{Operatore.serviceDeliveryLocation != null}" value="#{Operatore.serviceDeliveryLocation.name.giv}" id="Label_1511907050962_id" class="labelContent  base-label" />
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1514164108233" >
+							<label style="display:#{(Operatore.serviceDeliveryLocation == null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_Label_1514164108233}</span>
+								<span value="${msg.Label_1514164108233}" id="Label_1514164108233_id" style="display:#{(Operatore.serviceDeliveryLocation == null) ? 'block' : 'none' };" class="labelContent  base-label" ></span>
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1513360463394;BtnAddARPAV')}" status="ajaxStatus" id="Link_1513360463394" title="${msg.alt_Link_1513360463394}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

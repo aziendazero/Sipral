@@ -1,0 +1,329 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1471698448668}</h1>
+	<div id="articolo_violato" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1470070258446" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1473636598858" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1471217938730;BtnBack')}" status="ajaxStatus" id="Link_1471217938730" title="${msg.alt_Link_1471217938730}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1471727696893;BtnSave')}" status="ajaxStatus" id="Link_1471727696893" title="${msg.alt_Link_1471727696893}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1471732706220" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1471732706220}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1470992362616" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1472128802353" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1472128802353}</span>
+							<h:selectOneMenu id="ComboBox_1472128802353_id" value="#{Miglioramenti.miglioramento}" required="true" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1472128802353}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Object')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							<h:message style="float:left;" for="ComboBox_1472128802353_id" styleClass="errorMessages ComboBox_1472128802353_E" />
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1479936190698" style="width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1477021325229" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1476730330524}</span>
+								<h:inputText id="MonthCalendar_1476730330524" value="#{Miglioramenti.dataEmissione}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1476730330524}" onchange="updateCantieriDates(this,'#'+getIdPrefix(this)+'TextBox_1480104606425','#'+getIdPrefix(this)+'MonthCalendar_1476453783797',this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1476730330524" styleClass="errorMessages MonthCalendar_1476730330524_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1479532640622}</span>
+								<h:inputText id="MonthCalendar_1479532640622" value="#{Miglioramenti.dataVerifica}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1479532640622}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1476730330524',this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1479532640622" styleClass="errorMessages MonthCalendar_1479532640622_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1477457157775" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1480104606425}</span>
+								<h:inputText id="TextBox_1480104606425" value="#{Miglioramenti.giorni}" style="min-width:100px;width:100px;margin-right:50px;" styleClass="inputText" label="${msg.label_TextBox_1480104606425}" onkeyup="updateCantieriDates('#'+getIdPrefix(this)+'MonthCalendar_1476730330524',this,'#'+getIdPrefix(this)+'MonthCalendar_1476453783797',this)">
+								<f:converter converterId="IntegerConverter"/>
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1480104606425_msg" styleClass="errorContainer" ><h:message for="TextBox_1480104606425" styleClass="errorMessages TextBox_1480104606425_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1476779601501}</span>
+								<h:selectOneMenu id="ComboBox_1476779601501" value="#{Miglioramenti.esito}" styleClass="comboBox" label="${msg.label_ComboBox_1476779601501}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Result')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1478935947102" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1476453783797}</span>
+								<h:inputText id="MonthCalendar_1476453783797" value="#{Miglioramenti.dataScadenza}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1476453783797}" onchange="updateCantieriDates('#'+getIdPrefix(this)+'MonthCalendar_1476730330524','#'+getIdPrefix(this)+'TextBox_1480104606425',this,this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1476453783797" styleClass="errorMessages MonthCalendar_1476453783797_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1477457510093" style="height:100%;width:100%;" >
+								<script type="text/javascript"><![CDATA[
+								function updateCantieriDates(lowerElement, middleElement, higherElement, changingElement) {
+									dateCompare(lowerElement,higherElement);
+										
+									var lowerWidget = jQuery(lowerElement);
+									if (lowerWidget.length > 0 && lowerWidget.is('div')) {
+										lowerWidget = lowerWidget.children('input:first');
+									}
+									
+									var middleWidget = jQuery(middleElement);
+									if (middleWidget.length > 0 && middleWidget.is('div')) {
+										middleWidget = middleWidget.children('input:first');
+									}
+									
+									var higherWidget = jQuery(higherElement);
+									if (higherWidget.length > 0 && higherWidget.is('div')) {
+										higherWidget = higherWidget.children('input:first');
+									}
+									
+									var jLowerWidget = jQuery(lowerWidget);
+									var lowerValue = jLowerWidget.datepicker('getDate');
+									
+									var jHigherWidget = jQuery(higherWidget);
+									var higherValue = jHigherWidget.datepicker('getDate');
+								
+									var middleValue = middleWidget.val();
+								
+									switch(changingElement){
+										case lowerElement:
+											if(higherValue){
+												middleValue = getWorkingDays(lowerValue,higherValue);
+												middleWidget.val(middleValue);
+											}else if(middleValue) {
+												higherValue = addWorkingDays(lowerValue,middleValue);
+												jHigherWidget.datepicker('setDate', higherValue);
+											}
+										
+											break;
+										case middleElement:
+											if(lowerValue){
+												higherValue = addWorkingDays(lowerValue,middleValue);
+												jHigherWidget.datepicker('setDate', higherValue);
+											}
+										
+											break;
+										case higherElement:
+											if(lowerValue){
+												middleValue = getWorkingDays(lowerValue,higherValue);
+												middleWidget.val(middleValue);
+											}
+										
+											break;
+									}
+								}
+								
+								function addWorkingDays(start, days){
+									if(start && days){
+										var currWeekDay=0;
+										var currMonthDay=0;
+										var currMonth=0;
+										var currYear=0;
+										var easter=[1,2];
+										var stop = new Date(start.getTime());
+										
+										while(days>0){
+											stop.setTime(stop.getTime()+1000*60*60*24);
+											
+											currWeekDay=stop.getDay();
+											currMonthDay=stop.getDate();
+											currMonth=stop.getMonth();
+											if(stop.getFullYear()!=currYear){
+												currYear=stop.getFullYear();
+												easter=getEaster(currYear);
+												if(easter[1]==2 && easter[0]==31){
+													easter[1]=3;
+													easter[0]=1;
+												}else{
+													easter[0]++;
+												}
+											}
+											
+											if(currWeekDay==0 || currWeekDay==6){
+												continue;	//sabato e domenica
+											}else if(currMonth==0){
+												if(currMonthDay==1 || currMonthDay==6)
+													continue;	//capodanno ed epifania
+											}else if(currMonth==3){
+												if(currMonthDay==25)
+													continue;	//liberazione
+											}else if(currMonth==easter[1]){
+												if(currMonthDay==easter[0]){
+													continue;	//lunedi di pasqua
+												}
+											}else if(currMonth==4){
+												if(currMonthDay==1)
+													continue;	//lavoro
+											}else if(currMonth==5){
+												if(currMonthDay==2)
+													continue;	//repubblica
+											}else if(currMonth==7){
+												if(currMonthDay==15)
+													continue;	//assunzione
+											}else if(currMonth==10){
+												if(currMonthDay==1)
+													continue;	//ognissanti
+											}else if(currMonth==11){
+												if(currMonthDay==8 || currMonthDay==25 || currMonthDay==26)
+													continue;	//immacolata, natale, s.stefano
+											}
+								
+											days--;
+										}
+										
+										return stop;
+									}
+								}
+								
+								function getWorkingDays(start, high){
+									if(start && high){
+										var stop = new Date(high.getTime());
+										var currWeekDay=0;
+										var currMonthDay=0;
+										var currMonth=0;
+										var currYear=0;
+										var easter=[1,2];
+										var days = 0;
+										
+										while(stop-start>0){
+											stop.setTime(stop.getTime()-1000*60*60*24);
+											
+											currWeekDay=stop.getDay();
+											currMonthDay=stop.getDate();
+											currMonth=stop.getMonth();
+											if(stop.getFullYear()!=currYear){
+												currYear=stop.getFullYear();
+												easter=getEaster(currYear);
+												if(easter[1]==2 && easter[0]==31){
+													easter[1]=3;
+													easter[0]=1;
+												}else{
+													easter[0]++;
+												}
+											}
+											
+											if(currWeekDay==0 || currWeekDay==6){
+												continue;	//sabato e domenica
+											}else if(currMonth==0){
+												if(currMonthDay==1 || currMonthDay==6)
+													continue;	//capodanno ed epifania
+											}else if(currMonth==3){
+												if(currMonthDay==25)
+													continue;	//liberazione
+											}else if(currMonth==easter[1]){
+												if(currMonthDay==easter[0]){
+													continue;	//lunedi di pasqua
+												}
+											}else if(currMonth==4){
+												if(currMonthDay==1)
+													continue;	//lavoro
+											}else if(currMonth==5){
+												if(currMonthDay==2)
+													continue;	//repubblica
+											}else if(currMonth==7){
+												if(currMonthDay==15)
+													continue;	//assunzione
+											}else if(currMonth==10){
+												if(currMonthDay==1)
+													continue;	//ognissanti
+											}else if(currMonth==11){
+												if(currMonthDay==8 || currMonthDay==25 || currMonthDay==26)
+													continue;	//immacolata, natale, s.stefano
+											}
+								
+											days++;
+										}
+										
+										return days;
+									}
+								}
+								
+								function getEaster(n){
+									easter = [1,2];
+									var x=24;
+									var y=5;
+									
+									var a=n%19;
+									var b=n%4;
+									var c=n%7;
+									var d=(19*a+x)%30;
+									var e=(2*b+4*c+6*d+y)%7;
+									
+									var sum1=22+d+e;
+									var sum2=sum1-31;
+									if(sum1<=31){
+										easter[0]=sum1;
+									}else if(sum1>31){
+										easter[1]=3;
+										if(sum2!=25 && sum2!=26){
+											easter[0]=sum2;
+										}else if(sum2==25 && (d!=28 || a<=10)){
+											easter[0]=sum2;
+										}else if(sum2==25 && d==28 && a>10){
+											easter[0]=18;
+										}else if(sum2==26){
+											easter[0]=19;
+										}
+									}
+									
+									return easter;
+								}
+								]]></script>
+							</a4j:outputPanel>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1472129762807" styleClass="layoutContainer layoutContainerVertical" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1473331142899" >
+						<label >
+							<span class="label">${msg.label_TextArea_1473331142899}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1473331142899_id" value="#{Miglioramenti.note}" label="${msg.label_TextArea_1473331142899}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1473331142899_id" styleClass="errorMessages TextArea_1473331142899_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

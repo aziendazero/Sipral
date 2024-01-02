@@ -1,0 +1,121 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.asl_1268323288246}</h1>
+	<div id="f_search_asl" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1515129250974" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1514878412029" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1452481724123;back')}" status="ajaxStatus" id="Link_1452481724123" title="${msg.alt_Link_1452481724123}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1444691771758" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1444691771758;next')}" status="ajaxStatus" id="Link_1444691771758_id" title="${msg.alt_Link_1444691771758}" rendered="#{!empty Organization}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1518620274104" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1518620274104}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1516705471263" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1266671681756}</span>
+							<h:inputText id="TextBox_1266671681756" value="#{OrganizationAction.like['name.giv']}" style="height: 17px;width: 41px;" styleClass="filter inputText" label="${msg.label_TextBox_1266671681756}" />
+							<a4j:outputPanel id="TextBox_1266671681756_msg" styleClass="errorContainer" ><h:message for="TextBox_1266671681756" styleClass="errorMessages TextBox_1266671681756_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1267915448933}</span>
+							<h:inputText id="TextBox_1267915448933" value="#{OrganizationAction.like['id']}" style="height: 17px;width: 41px;" styleClass="filter inputText" label="${msg.label_TextBox_1267915448933}" />
+							<a4j:outputPanel id="TextBox_1267915448933_msg" styleClass="errorContainer" ><h:message for="TextBox_1267915448933" styleClass="errorMessages TextBox_1267915448933_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1516487274632" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1447475761783;search')}" status="ajaxStatus" id="Link_1447475761783" title="${msg.alt_Link_1447475761783}" reRender="DataGrid_1270430112482" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1517814277779;clean')}" status="ajaxStatus" id="Link_1517814277779" title="${msg.alt_Link_1517814277779}" reRender="phiDesktop,LayoutRow_1518620274104,DataGrid_1518695968734" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1516526849411" style="height:100%;width:100%;" >
+							<script>
+							jQuery('input[type=text]:visible, textarea:visible').each(function() {
+								jQuery(this).val(jQuery(this).val().toUpperCase());
+							}).on('input',function() {
+							   	jQuery(this).val(jQuery(this).val().toUpperCase());
+							});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1270430112482" layout="block" styleClass="dt layoutTable layoutVertical" >#{OrganizationAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1270430112482" value="&#8592;" action="#{OrganizationList.prev}" reRender="DataGrid_1270430112482" rendered="#{OrganizationList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1270430112482" value="#{OrganizationList.pageIndexes}" var="pi1270430112482">
+										<li class="#{(OrganizationList.currentPage eq pi1270430112482 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1270430112482" value="#{pi1270430112482}" action="#{OrganizationList.goToPage(pi1270430112482)}" reRender="DataGrid_1270430112482" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1270430112482" value="&#8594;" action="#{OrganizationList.next}" reRender="DataGrid_1270430112482" rendered="#{OrganizationList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1270430112482" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1270430112482} [OrganizationList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1267068034800" value="${msg.DataGridColumn_1267068034800} &#8593;&#8595;" action="#{OrganizationList.orderBy('name.giv')}" reRender="DataGrid_1270430112482" ajaxSingle="true" disabled="#{empty OrganizationList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1270074590715" value="${msg.DataGridColumn_1270074590715} &#8593;&#8595;" action="#{OrganizationList.orderBy('id')}" reRender="DataGrid_1270430112482" ajaxSingle="true" disabled="#{empty OrganizationList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1446641708927" value="${msg.DataGridColumn_1446641708927} &#8593;&#8595;" action="#{OrganizationList.orderBy('validFrom')}" reRender="DataGrid_1270430112482" ajaxSingle="true" disabled="#{empty OrganizationList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1446641717855" value="${msg.DataGridColumn_1446641717855} &#8593;&#8595;" action="#{OrganizationList.orderBy('validTo')}" reRender="DataGrid_1270430112482" ajaxSingle="true" disabled="#{empty OrganizationList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty OrganizationList or OrganizationList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="4">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1270430112482" value="#{OrganizationList.entities}" var="Organization" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1270430112482('row;DgASL',this.id);" class="#{OrganizationAction.getEntity().equals(Organization) or Organization.internalId != 0 and OrganizationAction.entity.internalId.equals(Organization.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{Organization.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Organization.id}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Organization.validFrom}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Organization.validTo}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1270430112482" name="ie1270430112482" status="ajaxStatus" action="#{OrganizationList.injectEject}" data="#{OrganizationList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1270430112482'))" reRender="Link_1444691771758" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="mnemonicName" assignTo="#{OrganizationList.mnemonicName}"/>
+					<a4j:actionparam name="rowIndex" assignTo="#{OrganizationList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

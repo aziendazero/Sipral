@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="pickLocationFromMapUbicazione">
+
+
+
+<start-state name="start-state1">
+		<transition to="google maps"></transition>
+	</start-state>
+
+
+	<task-node name="google maps">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/pickLocationFromMapUbicazione')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="BtnCancel"></transition>
+		<transition to="super-state1/save" name="btnOk"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{PraticheRiferimenti.setUbicazioneX(PraticheRiferimentiAction.temporary.get('latitude'))}"></action>
+				<action name="2" expression="#{PraticheRiferimenti.setUbicazioneY(PraticheRiferimentiAction.temporary.get('longitude'))}"></action>
+				<action name="3" expression="#{PraticheRiferimentiAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+
+
+
+
+</process-definition>

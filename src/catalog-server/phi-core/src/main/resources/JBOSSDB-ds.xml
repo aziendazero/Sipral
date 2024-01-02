@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+   <local-tx-datasource>
+      <jndi-name>DefaultDS</jndi-name>
+      <connection-url>${connection-url-jbossDb}</connection-url>
+      <driver-class>${driver-class}</driver-class>
+      <user-name>${user-name-jbossDb}</user-name>
+      <password>${password-jbossDb}</password>
+		
+	<!-- The minimum connections in a pool/sub-pool. Pools are lazily constructed on first use -->
+	<min-pool-size>5</min-pool-size>
+	
+	<!-- The maximum connections in a pool/sub-pool -->
+	<max-pool-size>20</max-pool-size>
+	
+	<!-- The maximum time in milliseconds to block while waiting for a connection --> 
+  	<!-- before throwing an exception. Note that this blocks only while waiting -->
+  	<!-- for a permit for a connection, and will never throw an exception if -->
+  	<!-- creating a new connection takes an inordinately long time -->	
+	<blocking-timeout-millis>300000</blocking-timeout-millis>
+    <metadata>
+		<type-mapping>${type-mapping}</type-mapping>
+	</metadata> 
+    
+  </local-tx-datasource>
+</datasources>

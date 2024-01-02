@@ -1,0 +1,574 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1683912691226" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1683074857202" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1683036284679;BtnBack')}" status="ajaxStatus" id="Link_1683036284679" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1683258648051;BtnSaveQuest')}" status="ajaxStatus" id="Link_1683258648051" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1685693433847" style="height:100%;width:100%;" rendered="false" >
+						<style>
+						.page-next { width: 64px; height: 64px; }
+						.page-prev { width: 64px; height: 64px; }
+						</style>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1685366230160" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1685366230160}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1686541179788" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="VirtualPage_1685779121357" styleClass="virtualPageBox" >
+							<a4j:include id="VPvp_status_quest" layout="block" viewId="/MOD_home/CORE/FORMS/questionari/vp_status_quest.xhtml"  styleClass="virtualPageBox"/>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1682610184283" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1682610184283}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684748691888" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684748716735}" class="labelContent c-text-bold base-label" >${msg.Label_1684748716735}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684748748015" value="#{QuestParteBRenatuns.b1a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684748716735}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685439676188" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685439676188" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685439676188" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b1a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684748693888" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684748772814}" class="labelContent  base-label" >${msg.Label_1684748772814}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684748791886" value="#{QuestParteBRenatuns.b1b}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684748772814}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:DiagnosiCome')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684748695824" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684748827606" value="${msg.Label_1684748808951}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684748827606" value="#{QuestParteBRenatuns.b1c}" styleClass="inputText" label="${msg.Label_1684748808951}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<f:validateLength minimum="1" maximum="4" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684748827606_msg" styleClass="errorContainer" ><h:message for="TextBox_1684748827606" styleClass="errorMessages TextBox_1684748827606_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684748698487" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684748849837}" class="labelContent  base-label" >${msg.Label_1684748849837}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684748872045" value="#{QuestParteBRenatuns.b1d}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684748849837}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684748700248" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684748894276}" class="labelContent  base-label" >${msg.Label_1684748894276}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684748916009" value="#{QuestParteBRenatuns.b1e}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684748894276}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684748702024" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684748960356}" class="labelContent c-text-bold base-label" >${msg.Label_1684748960356}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684748980213" value="#{QuestParteBRenatuns.b2a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684748960356}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685439984905" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685439984905" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685439984905" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b2a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684748704000" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749006683}" class="labelContent  base-label" >${msg.Label_1684749006683}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749026381" value="#{QuestParteBRenatuns.b2b}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749006683}" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','DiagnosiCome:visp,nsdiag')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749060643" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749125051" value="${msg.Label_1684749092010}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749125051" value="#{QuestParteBRenatuns.b2c}" styleClass="inputText" label="${msg.Label_1684749092010}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<f:validateLength minimum="1" maximum="4" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684749125051_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749125051" styleClass="errorMessages TextBox_1684749125051_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749063283" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749092691}" class="labelContent  base-label" >${msg.Label_1684749092691}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749157886" value="#{QuestParteBRenatuns.b2d}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749092691}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749065987" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749093364}" class="labelContent  base-label" >${msg.Label_1684749093364}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749186037" value="#{QuestParteBRenatuns.b2e}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749093364}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749068060" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749093979}" class="labelContent  base-label" >${msg.Label_1684749093979}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749214498" value="#{QuestParteBRenatuns.b2f}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749093979}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684749069611" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684749069611" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1684749069611" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b2f.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749265733" value="${msg.Label_1684749094642}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749265733" value="#{QuestParteBRenatuns.b2g}" styleClass="inputText" label="${msg.Label_1684749094642}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684749265733_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749265733" styleClass="errorMessages TextBox_1684749265733_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684749071306" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684749095451}" class="labelContent c-text-bold base-label" >${msg.Label_1684749095451}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684749308721" value="#{QuestParteBRenatuns.b3a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749095451}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440179515" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440179515" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685440179515" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b3a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749073139" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749334018" value="${msg.Label_1684749098619}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749334018" value="#{QuestParteBRenatuns.b3b}" styleClass="inputText" label="${msg.Label_1684749098619}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<f:validateLength minimum="1" maximum="4" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684749334018_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749334018" styleClass="errorMessages TextBox_1684749334018_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749075195" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749099523}" class="labelContent  base-label" >${msg.Label_1684749099523}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749358878" value="#{QuestParteBRenatuns.b3c}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749099523}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684749414930" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684749431457}" class="labelContent c-text-bold base-label" >${msg.Label_1684749431457}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684749453489" value="#{QuestParteBRenatuns.b4a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749431457}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440324853" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440324853" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685440324853" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b4a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749416721" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749479978" value="${msg.Label_1684749432360}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749479978" value="#{QuestParteBRenatuns.b4b}" styleClass="inputText" label="${msg.Label_1684749432360}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<f:validateLength minimum="1" maximum="4" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684749479978_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749479978" styleClass="errorMessages TextBox_1684749479978_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749419802" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684749433057}" class="labelContent  base-label" >${msg.Label_1684749433057}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684749506491" value="#{QuestParteBRenatuns.b4c}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749433057}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684749421609" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684749421609" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1684749421609" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b4c.code eq 'si'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749535398" value="${msg.Label_1684749433761}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749535398" value="#{QuestParteBRenatuns.b4d}" styleClass="inputText" disabled="#{QuestParteBRenatunsAction.temporary['b4e']}" label="${msg.Label_1684749433761}" />
+								<a4j:outputPanel id="TextBox_1684749535398_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749535398" styleClass="errorMessages TextBox_1684749535398_E" /></a4j:outputPanel>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectBooleanCheckbox id="CheckBox_1684749549001" value="#{QuestParteBRenatunsAction.temporary['b4e']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1684749549001}" >
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="TextBox_1684749535398" event="onclick" action="#{QuestParteBRenatunsAction.setPropertyNull('b4d')}" ignoreDupResponses="true" />
+								</h:selectBooleanCheckbox>
+								<h:outputLabel value="${msg.CheckBox_1684749549001}" for="CheckBox_1684749549001" style="vertical-align:middle;margin-left:3px;" />
+								<h:message for="CheckBox_1684749549001" styleClass="errorMessages CheckBox_1684749549001_E" />
+								</div>
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1684749549001" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684749858319" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684749866864}" class="labelContent c-text-bold base-label" >${msg.Label_1684749866864}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684749890887" value="#{QuestParteBRenatuns.b5a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684749866864}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440554956" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440554956" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685440554956" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b5a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749860088" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749922239" value="${msg.Label_1684749867656}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749922239" value="#{QuestParteBRenatuns.b5b}" styleClass="inputText" label="${msg.Label_1684749867656}" />
+								<a4j:outputPanel id="TextBox_1684749922239_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749922239" styleClass="errorMessages TextBox_1684749922239_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749861401" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684749948098" value="${msg.Label_1684749868648}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684749948098" value="#{QuestParteBRenatuns.b5c}" styleClass="inputText" label="${msg.Label_1684749868648}" />
+								<a4j:outputPanel id="TextBox_1684749948098_msg" styleClass="errorContainer" ><h:message for="TextBox_1684749948098" styleClass="errorMessages TextBox_1684749948098_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684749995855" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684750011414}" class="labelContent c-text-bold base-label" >${msg.Label_1684750011414}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684750040612" value="#{QuestParteBRenatuns.b6a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684750011414}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440770851" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685440770851" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685440770851" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b6a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749997624" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750071439" value="${msg.Label_1684750012175}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750071439" value="#{QuestParteBRenatuns.b6b}" styleClass="inputText" label="${msg.Label_1684750012175}" />
+								<a4j:outputPanel id="TextBox_1684750071439_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750071439" styleClass="errorMessages TextBox_1684750071439_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684749998887" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750096014" value="${msg.Label_1684750012832}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750096014" value="#{QuestParteBRenatuns.b6c}" styleClass="inputText" label="${msg.Label_1684750012832}" />
+								<a4j:outputPanel id="TextBox_1684750096014_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750096014" styleClass="errorMessages TextBox_1684750096014_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684750002936" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750122056" value="${msg.Label_1684750014302}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750122056" value="#{QuestParteBRenatuns.b6d}" styleClass="inputText" label="${msg.Label_1684750014302}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<f:validateLength minimum="1" maximum="4" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684750122056_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750122056" styleClass="errorMessages TextBox_1684750122056_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684750146231" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684750151919}" class="labelContent c-text-bold base-label" >${msg.Label_1684750151919}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684750171175" value="#{QuestParteBRenatuns.b7a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684750151919}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoEstrogeni')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684750147663" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684750147663" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1684750147663" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b7a.code != '04' and QuestParteBRenatuns.b7a.code != '05' and QuestParteBRenatuns.b7a ne null}" >
+							<div class="layoutHorizontal" >
+							<h:outputLabel for="TextBox_1684750203063" value="${msg.Label_1684750152711}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:inputText id="TextBox_1684750203063" value="#{QuestParteBRenatuns.b7b}" styleClass="inputText" label="${msg.Label_1684750152711}" />
+							<a4j:outputPanel id="TextBox_1684750203063_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750203063" styleClass="errorMessages TextBox_1684750203063_E" /></a4j:outputPanel>
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684750218407" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684750222583}" class="labelContent c-text-bold base-label" >${msg.Label_1684750222583}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684750245414" value="#{QuestParteBRenatuns.b8}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684750222583}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1684750291023" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1684750298958}" class="labelContent c-text-bold base-label" >${msg.Label_1684750298958}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1684750321747" value="#{QuestParteBRenatuns.b9a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684750298958}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SiNoNonso')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685441909699" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685441909699" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685441909699" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b9a.code eq 'si'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1684750292214" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750350639" value="${msg.Label_1684750299967}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750350639" value="#{QuestParteBRenatuns.b9b}" styleClass="inputText" label="${msg.Label_1684750299967}" />
+								<a4j:outputPanel id="TextBox_1684750350639_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750350639" styleClass="errorMessages TextBox_1684750350639_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1684750293239" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1684750300831}" class="labelContent  base-label" >${msg.Label_1684750300831}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1684750374495" value="#{QuestParteBRenatuns.b9c}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1684750300831}" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','YesNo:Yes,No')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684750294830" event="onselect" ignoreDupResponses="true" />
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1684750294830" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1684750294830" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteBRenatuns.b9c.code eq 'YES'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750403070" value="${msg.Label_1684750301839}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750403070" value="#{QuestParteBRenatuns.b9d}" styleClass="inputText" label="${msg.Label_1684750301839}" />
+								<a4j:outputPanel id="TextBox_1684750403070_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750403070" styleClass="errorMessages TextBox_1684750403070_E" /></a4j:outputPanel>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1684750429001" value="${msg.Label_1684750410190}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1684750429001" value="#{QuestParteBRenatuns.b9e}" styleClass="inputText" label="${msg.Label_1684750410190}" >
+									<f:validator validatorId="NumbersOnlyValidator"/>
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1684750429001_msg" styleClass="errorContainer" ><h:message for="TextBox_1684750429001" styleClass="errorMessages TextBox_1684750429001_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1684375220509" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1682603941635;BtnSaveDef')}" status="ajaxStatus" id="Link_1682603941635" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686396376900;BtnPrev')}" status="ajaxStatus" id="Link_1686396376900" alt="#{LINK}" reRender="phiDesktop" styleClass="page-prev link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1683929235554" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1683929235554;BtnNext')}" status="ajaxStatus" id="Link_1683929235554_id" alt="#{LINK}" rendered="#{QuestParteBRenatuns.confirmed}" reRender="phiDesktop" styleClass="page-next link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="popUpManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="inject cs"></transition>
+	</start-state>
+
+
+	<decision name="Button getMnemonic1" expression="#{(button.getMnemonic())}">
+		<transition to="Rischio" name="BtnRischio"></transition>
+		<transition to="Agente Materiale" name="BtnAgente"></transition>
+		<transition to="Forme" name="BtnForma"></transition>
+		<transition to="Comportamento" name="BtnComportamento"></transition>
+	</decision>
+
+	<task-node name="Rischio">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/select_richio')}"></action>
+		</event>
+		<transition to="eject cs"></transition>
+	</task-node>
+
+	<task-node name="Agente Materiale">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/select_agente_materiale')}"></action>
+		</event>
+		<transition to="eject cs"></transition>
+	</task-node>
+
+	<task-node name="Forme">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/select_forma')}"></action>
+		</event>
+		<transition to="eject cs"></transition>
+	</task-node>
+
+	<task-node name="Comportamento">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/select_comportamento')}"></action>
+		</event>
+		<transition to="eject cs"></transition>
+	</task-node>
+
+	<node name="inject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('PHIDIC').id)}"></action>
+		</event>
+		<transition to="Button getMnemonic1"></transition>
+	</node>
+
+	<decision name="decision1" expression="#{button.value}">
+		<transition to="eject " name="BtnCancel"></transition>
+		<transition to="set rischio" name="BtnRischioOk"></transition>
+		<transition to="set agente" name="BtnAgenteOk"></transition>
+		<transition to="set forme" name="BtnFormeOk"></transition>
+		<transition to="set comportamenti" name="BtnComportamentiOk"></transition>
+	</decision>
+
+	<node name="eject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.eject()}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</node>
+
+	<node name="eject ">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValuePhiAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set rischio">
+		<event type="node-enter">
+			<action name="1" expression="#{Infortuni.setCondizioniDiRischio(CodeValuePhi)}"></action>
+		</event>
+		<transition to="eject "></transition>
+	</node>
+
+	<node name="set forme">
+		<event type="node-enter">
+			<action name="1" expression="#{Infortuni.setForma(CodeValuePhi)}"></action>
+		</event>
+		<transition to="eject "></transition>
+	</node>
+
+	<node name="set comportamenti">
+		<event type="node-enter">
+			<action name="1" expression="#{Infortuni.setComportamento(CodeValuePhi)}"></action>
+		</event>
+		<transition to="eject "></transition>
+	</node>
+
+	<node name="set agente">
+		<event type="node-enter">
+			<action name="1" expression="#{Infortuni.setAgenteMateriale(CodeValuePhi)}"></action>
+		</event>
+		<transition to="eject "></transition>
+	</node>
+
+ <end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression=""></action>
+
+</process-definition>

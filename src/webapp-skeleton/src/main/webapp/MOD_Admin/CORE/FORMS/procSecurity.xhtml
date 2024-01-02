@@ -1,0 +1,81 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1396877903625}</h1>
+	<div id="procSecurity" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutProcSecMain" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutProcSecHeader" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{ViewManager.goHome()}" status="ajaxStatus" id="LnkProcSecurityHome" title="${msg.alt_LnkProcSecurityHome}" immediate="true" reRender="phiDesktop" styleClass="fa fa-home fa-4x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('LnkProcSecurityReload;RELOAD')}" status="ajaxStatus" id="LnkProcSecurityReload" title="${msg.alt_LnkProcSecurityReload}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1398679520755" >
+					<span value="${msg.Label_1398679520755}" id="Label_1398679520755_id" style="display:#{(ProcSecurityAction.temporary['writeAll']) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1398679520755}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="LnkProcSecuritySave" >
+					<a4j:commandLink action="#{processManager.manageTask('LnkProcSecuritySave;SAVE')}" status="ajaxStatus" id="LnkProcSecuritySave_id" title="${msg.alt_LnkProcSecuritySave}" rendered="#{ProcSecurityAction.temporary['writeAll']}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<span value="${msg.Label_1398773623805}" class="labelContent  base-label" >${msg.Label_1398773623805}</span>
+				</div>
+
+				<div class="layoutVertical" >
+				<h:selectBooleanCheckbox id="CbxProcSecurityMacroprocess" value="#{ProcSecurityAction.temporary['macroprocess']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CbxProcSecurityMacroprocess}" />
+				<h:outputLabel value="${msg.CbxProcSecurityMacroprocess}" for="CbxProcSecurityMacroprocess" style="vertical-align:middle;margin-left:3px;" />
+				<h:message for="CbxProcSecurityMacroprocess" styleClass="errorMessages CbxProcSecurityMacroprocess_E" />
+				</div>
+				<h:outputLabel layout="block" styleClass="widgetDiv"  for="CbxProcSecurityMacroprocess" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				<a4j:outputPanel id="DataGrid_1396877911058" layout="block" styleClass="dt layoutTable layoutVertical" >
+					<table id="d1396877911058" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1396877911058} [ProcSecurityList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th style="#{(!ProcSecurityAction.temporary['writeAll'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1396878228276} &#8593;&#8595;</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1396877915450} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1398675823992" value="${msg.DataGridColumn_1398675823992} &#8593;&#8595;" action="#{ProcSecurityList.orderBy('procSecurityRole')}" reRender="DataGrid_1396877911058" ajaxSingle="true" disabled="#{empty ProcSecurityList ? true : false}"/></th>
+								<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1396878204077}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty ProcSecurityList or ProcSecurityList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="4">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1396877911058" value="#{ProcSecurityList.entities}" var="ProcSecurity" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1396877911058(this.id);" class="#{ProcSecurityAction.getEntity().equals(ProcSecurity) or ProcSecurity.internalId != 0 and ProcSecurityAction.entity.internalId.equals(ProcSecurity.internalId) ? 'selRow' : ''}" >
+									<td style="#{(!ProcSecurityAction.temporary['writeAll'] ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{ProcSecurityAction.injectAndProceed(ProcSecurity, 'LnkProcSecurityEdit;EDIT')}" status="ajaxStatus" id="LnkProcSecurityEdit" title="${msg.alt_LnkProcSecurityEdit}" reRender="phiDesktop" styleClass="fa fa-pencil fa-2x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{ProcSecurityAction.calculateBreadcrumb(ProcSecurity)}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{ProcSecurity.procSecurityRole}</span>
+									</td>
+
+									<td style="#{(false ? '' : 'display:none;')} " >
+										<span style="display:none;" class="base-label" >${msg.Label_1396878207205}</span>
+										<span class="base-label" >#{ProcSecurityAction.getCoreAndCustomerRoles(ProcSecurity.securityString,CUSTOMER)}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1396877911058" name="ie1396877911058" status="ajaxStatus" action="#{ProcSecurityList.injectEject}" data="#{ProcSecurityList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1396877911058'))" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{ProcSecurityList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

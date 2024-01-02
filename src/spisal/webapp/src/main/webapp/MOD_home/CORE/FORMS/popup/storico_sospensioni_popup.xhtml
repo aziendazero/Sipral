@@ -1,0 +1,80 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1502100057639}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1502103137290" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1499286947928" styleClass="layoutContainer layoutContainerVertical" >
+				<div class="middleAlignedContent">
+					<a4j:outputPanel id="DataGrid_1500363836951" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1500363836951" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1500363836951} [SospensioneList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1500363963119" value="${msg.DataGridColumn_1500363963119} &#8593;&#8595;" action="#{SospensioneList.orderBy('dataInizio')}" reRender="DataGrid_1500363836951" ajaxSingle="true" disabled="#{empty SospensioneList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1500363964158" value="${msg.DataGridColumn_1500363964158} &#8593;&#8595;" action="#{SospensioneList.orderBy('note')}" reRender="DataGrid_1500363836951" ajaxSingle="true" disabled="#{empty SospensioneList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1500363964815} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1500363965439" value="${msg.DataGridColumn_1500363965439} &#8593;&#8595;" action="#{SospensioneList.orderBy('dataFine')}" reRender="DataGrid_1500363836951" ajaxSingle="true" disabled="#{empty SospensioneList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1500363966094} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody selectable">
+								<jstl:if test="#{empty SospensioneList or SospensioneList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="5">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1500363836951" value="#{SospensioneList.entities}" var="Sospensione" rowKeyVar="rowIndex" >
+									<tr id="#{rowIndex}" onclick="ie1500363836951(this.id);" class="#{SospensioneAction.getEntity().equals(Sospensione) or Sospensione.internalId != 0 and SospensioneAction.entity.internalId.equals(Sospensione.internalId) ? 'selRow' : ''}" >
+										<td >
+											<h:outputText styleClass="base-label" value="#{Sospensione.dataInizio}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											#{function.truncate(Sospensione.note, 25)}
+										</td>
+
+										<td >
+											#{Sospensione.getSuspendedBy().getName()}
+										</td>
+
+										<td >
+											<h:outputText styleClass="base-label" value="#{Sospensione.dataFine}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											#{Sospensione.getReactivatedBy().getName()}
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					<a4j:jsFunction id="ie1500363836951" name="ie1500363836951" status="ajaxStatus" action="#{SospensioneList.injectEject}" data="#{SospensioneList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1500363836951'))" reRender="TextArea_1500364125205" limitToList="true" ajaxSingle="true">
+						<a4j:actionparam name="rowIndex" assignTo="#{SospensioneList.selectedIndex}"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+
+					<div class="sizePlaceholder"></div>
+				</div>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1499138033949" style="padding-top:15px;" styleClass="layoutContainer layoutContainerVertical" >
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1500364125205" >
+					<label >
+						<span class="label">${msg.label_TextArea_1500364125205}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1500364125205_id" value="#{Sospensione.note}" readonly="true" label="${msg.label_TextArea_1500364125205}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1500364125205_id" styleClass="errorMessages TextArea_1500364125205_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

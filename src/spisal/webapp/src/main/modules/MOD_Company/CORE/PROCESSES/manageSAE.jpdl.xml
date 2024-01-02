@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manageSAE">
+
+
+	<start-state name="start-state1">
+		<transition to="button?"></transition>
+	</start-state>
+
+
+	<process-state name="recall companies arpav">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companiesArpav" binding="late"></sub-process>
+		<transition to="restore pg"></transition>
+	</process-state>
+
+	<node name="preserve pg">
+		<event type="node-enter">
+			<action name="1" expression="#{org.jboss.seam.core.conversationContext.set('pg',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.ejectList()}"></action>
+			<action name="4" expression="#{PersonaGiuridicaArpavAction.temporary.put('stopPgChain',true)}"></action>
+			<action name="5" expression="#{PersoneGiuridicheAction.temporary.clear()}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.cleanRestrictions()}"></action>
+			<action name="7" expression="#{AttivitaIstat.setCode(null)}"></action>
+			<action name="8" expression="#{TagDitta.setTipologiaDitta(null)}"></action>
+			<action name="9" expression="#{SediAction.eject()}"></action>
+			<action name="10" expression="#{SediAction.ejectList()}"></action>
+		</event>
+		<transition to="recall companies arpav"></transition>
+	</node>
+
+	<node name="restore pg">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty pg ? PersoneGiuridicheAction.inject(pg):''}"></action>
+			<action name="2" expression="#{org.jboss.seam.core.conversationContext.remove('pg')}"></action>
+			<action name="3" expression="#{PersonaGiuridicaArpavAction.temporary.remove('stopPgChain')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="popup sae" name="linkSAE"></transition>
+		<transition to="preserve pg" name="addSAE"></transition>
+		<transition to="unlink sae" name="delSAE"></transition>
+	</decision>
+
+	<node name="link sae">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.link('pgEsterne',pg)}"></action>
+			<action name="2" expression="#{pg.deletable ? pg.setDeletable(false) : ''}"></action>
+		</event>
+		<transition to="super-state1/save sede"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save sede">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="unlink sae">
+		<event type="node-enter">
+			<action name="1" expression="#{SAEsternaAction.unLink('pgEsterne',PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{PersoneGiuridiche.setDeletable(PersoneGiuridicheAction.isDeletableArpav(PersoneGiuridiche))}"></action>
+		</event>
+		<transition to="super-state1/save sede"></transition>
+	</node>
+
+	<task-node name="popup sae">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupSelectSA')}"></action>
+		</event>
+		<transition to="popup button?"></transition>
+	</task-node>
+
+	<decision name="popup button?" expression="#{button.mnemonic}">
+		<transition to="link sae" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

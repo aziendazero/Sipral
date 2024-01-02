@@ -1,0 +1,250 @@
+<form #form="ngForm" id="frm-amb">
+  <div id="lyt-amb" class="layout vertical fullHeight">
+    <div id="lyt-amb-btns" class="layout horizontal space-between">
+      <phi-buttonsearch (binding)="toggleSearch()" id="btn-refresh" tooltip="{{'label_txt-sdloc-search' | translate}}"></phi-buttonsearch>
+      <div id="lyt-amb-prtl-cals" class="layout horizontal">
+        <phi-buttonback (binding)="prevDay()" id="bck-amb-prtl"></phi-buttonback>
+        <phi-monthcalendar [(ngModel)]="selectedDate" name="selectedDate" id="cal-amb-prtl" (change)="refresh()"></phi-monthcalendar>
+        <phi-monthcalendar [(ngModel)]="selectedDateEnd" name="selectedDateEnd" id="cal-amb-prtl-end" (change)="refresh()" *ngIf="environment.ambulatoryPortal.dateRange"></phi-monthcalendar>
+        <phi-buttonnext (binding)="nextDay()" id="nxt-amb-prtl"></phi-buttonnext>
+      </div>
+      <div id="lyt-amb-prtl-btns" class="layout horizontal">
+        <phi-button (binding)="printReport()" id="ButtonAdtPrint" styleClass="fa fa-print fa-2x" tooltip="{{'alt_ButtonAdtPrint' | translate}}" [renderedEl]="environment.adt.bracialetReport && AppInConv != null"></phi-button>
+        <phi-buttonrefresh (binding)="refresh()" id="btn-amb-refresh"></phi-buttonrefresh>
+        <phi-button (binding)="toggleDetails()" id="btn-hide-all-app" styleClass="fa fa-2x {{detailsVisible ? 'fa-arrow-right' : 'fa-arrow-left'}}" tooltip="{{'alt_btn-hide-all-app' | translate}}"></phi-button>
+      </div>
+    </div>
+    <div id="lyt-amb-filter" class="layout vertical center" *ngIf="searchVisible">
+      <div id="lyt-amb-filter1" class="layout horizontal center">
+        <div id="lyt-amb-filterPatient" class="layout vertical" *ngIf="environment.ambulatoryPortal.useRead">
+          <phi-textbox [(ngModel)]="surname" name="surname" [widgetLabel]="'label_TextBoxPatientSurname' | translate" ></phi-textbox>
+          <phi-textbox [(ngModel)]="name" name="name" [widgetLabel]="'label_TextBoxPatientName' | translate" ></phi-textbox>
+        </div>
+        <phi-tree [(ngModel)]="sdLocs" name="sdLocs" [listElementsExpression]="config.enabledSdlocs" styleClass="sdlocTree" [checkbox]="true" [expand]="2" (change)="sdLocsChanged(sdLocs)"></phi-tree>
+        <phi-groupcheckbox [(ngModel)]="selectedStatuses" name="selectedStatuses" id="grp-amb-state" [listElementsExpression]="appointmentStatuses" converter="Code Value Converter" (change)="statusChanged($event.value)" layout="vertical"></phi-groupcheckbox>
+        <phi-groupcheckbox [(ngModel)]="selectedSentBy" name="selectedSentBy" id="grp-amb-sentby" [listElementsExpression]="sentBy" *ngIf="environment.ambulatoryPortal.sentBy" converter="Code Value Converter" (change)="sentByChanged($event.value)" layout="vertical"></phi-groupcheckbox>
+        <div id="lyt-amb-filterPatient" class="layout vertical" *ngIf="environment.ambulatoryPortal.useRead">
+        	<phi-combobox [(ngModel)]="selectedModality" name="selectedModality" [widgetLabel]="'label_modality' | translate" [listElementsExpression]="dictionaryManager.domains['usedModalities']" converter="Code Value Converter"></phi-combobox>
+        	<phi-combobox [(ngModel)]="selectedEmployee" name="selectedEmployee" [widgetLabel]="'label_author' | translate" [listElementsExpression]="employees" converter="Code Value Converter"></phi-combobox>
+        </div>
+      </div>
+      <div id="lyt-amb-filter2" class="layout horizontal center" *ngIf="!environment.ambulatoryPortal.useRead">
+        <phi-radiogroup [(ngModel)]="type" name="type" id="grp-amb-cc" [widgetLabel]="'label_grp-amb-cc' | translate" [listElementsExpression]="types" (change)="typeChanged($event.value)"></phi-radiogroup>
+        <phi-checkbox [(ngModel)]="previous" name="previous" id="chk-advice" [renderedEl]="type=='consulence'" (change)="previousChanged($event.value)">{{'chk-advice' | translate}}</phi-checkbox>
+      </div>
+    </div>
+    <div id="lyt-amb-results" class="layout horizontal fillHeight">
+      <div id="lyt-amb-results-lft" class="layout vertical">
+        <div class="lbl" *ngIf="environment.ambulatoryPortal.inChargeTable">
+        <span class="bold">{{'lbl-waiting' | translate}}</span>
+        </div>
+        <div id="tbl-amb-appntmnt" [phi-datagrid]="AmbulatoryAppointmentList" class="scrollX fullWidth">
+          <thead class="tableHeader">
+            <tr>
+              <th>{{'dgc-amb-app-state' | translate}}</th>
+              <th (click)="AmbulatoryAppointmentList.orderBy('patient.name.fam')">{{'dgc-amb-app-patient' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('patient.name.fam')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+              <th *ngIf="environment.ambulatoryPortal.inChargeTable  && environment.ambulatoryPortal.priorityShow" (click)="AmbulatoryAppointmentList.orderBy('appointment.defaultdate')">{{'dgc-amb-app-date2' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('appointment.defaultdate')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+              <th *ngIf="environment.ambulatoryPortal.inChargeTable" (click)="AmbulatoryAppointmentList.orderBy('availabilitytime')">{{'dgc-amb-app-arrival-date' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('availabilitytime')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+              <th *ngIf="!environment.ambulatoryPortal.inChargeTable" (click)="AmbulatoryAppointmentList?.orderBy('defaultdate')">{{'dgc-amb-app-date' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('defaultdate')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+              <th *ngIf="environment.ambulatoryPortal.inChargeTable">{{'dgc-amb-app-cod' | translate}}</th>
+              <th *ngIf="!environment.ambulatoryPortal.inChargeTable">{{'dgc-amb-app-proc' | translate}}</th>
+              <th *ngIf="!environment.ambulatoryPortal.inChargeTable">{{'dgc-amb-app-amb-ward' | translate}}</th>
+              <th *ngIf="environment.ambulatoryPortal.inChargeTable" (click)="AmbulatoryAppointmentList.orderBy('sdl.name.giv')">{{'dgc-amb-app-agenda' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('sdl.name.giv')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+              <th *ngIf="!environment.ambulatoryPortal.inChargeTable">{{'dgc-amb-app-req' | translate}}</th>
+              <th *ngIf="environment.ambulatoryPortal.inChargeTable  && !environment.ambulatoryPortal.priorityShow" (click)="AmbulatoryAppointmentList.orderBy('appointment.defaultdate')">{{'dgc-amb-app-date2' | translate}} <i *ngIf="AmbulatoryAppointmentList?.sortColumn('appointment.defaultdate')" [class]="AmbulatoryAppointmentList.sortArrow"></i></th>
+            </tr>
+          </thead>
+          <tbody class="selectable">
+            <tr *ngFor="let Appointment of AmbulatoryAppointmentList?.entities; let i = index" (click)="ie(Appointment, 'Appointment')" (dblclick)="rowDblClick(Appointment, true)" [class.selRow]="selected(Appointment, 'Appointment')">
+              <td>
+                <span class="fa app {{Appointment.statuscode.code}} app-portal" [title]="getStatus(Appointment.statuscode.code)"></span>
+                <span class="fa fa-desktop" *ngIf="Appointment.televisit" [style.color]="AppointmentAction.getColorUrlPath(Appointment.urlpath)"></span>
+              </td>
+
+              <td [class.locked]="Appointment.lockby">
+                <span class="bold">{{Appointment.patient.name.fam + ' ' + Appointment.patient.name.giv}}</span>
+                <span>{{Appointment.patient.birthtime | dateFormat: 'shortDate'}}</span>
+                <span *ngIf="environment.ambulatoryPortal.showFiscalCode">{{Appointment.patient.fiscalcode}}</span>
+                <span *ngIf="config.param['p.dashboard.ambulatoryportal.shownote']?.value">{{Appointment.appointment?.note}}</span>
+                <span *ngIf="config.param['p.dashboard.ambulatoryportal.showdetails']?.value">{{Appointment.details}}</span>
+              </td>
+              <td *ngIf="environment.ambulatoryPortal.inChargeTable && environment.ambulatoryPortal.priorityShow">
+                <span>{{Appointment.appointment.defaultdate | dateFormat: 'shortDate'}}</span>
+                <span class="bold">{{Appointment.appointment.defaultdate | dateFormat: 'shortTime'}}</span>
+              </td>
+              <td class="{{delayClass(Appointment.availabilitytime, Appointment.appointment.defaultdate)}}" *ngIf="environment.ambulatoryPortal.inChargeTable">
+                <span>{{Appointment.availabilitytime | dateFormat: 'shortDate'}}</span>
+                <span class="bold">{{Appointment.availabilitytime | dateFormat: 'shortTime'}}</span>
+              </td>
+              <td class="{{dateClass(Appointment)}}" *ngIf="!environment.ambulatoryPortal.inChargeTable">
+                <span>{{Appointment.defaultdate | dateFormat: 'shortDate'}}</span>
+                <span class="bold">{{Appointment.defaultdate | dateFormat: 'shortTime'}}</span>
+              </td>
+              <td *ngIf="environment.ambulatoryPortal.inChargeTable">
+                <span class="fa priority {{Appointment.appointment?.sourcecode?.code}} {{Appointment.colorcode?.code}}"></span>
+              </td>
+              <td *ngIf="!environment.ambulatoryPortal.inChargeTable">
+                <span *ngFor="let row of AppointmentAction.procedureToArray(Appointment)">
+                <i class="fa app {{row.status}}" [title]="getStatus(row.status)"></i>{{row.title}}
+              </span>
+              </td>
+              <td *ngIf="!environment.ambulatoryPortal.inChargeTable">
+                <span>{{Appointment.sdl.parent?.name?.giv}}</span>
+              </td>
+              <td [style.background-color]="getLocationColor(Appointment)">
+                <span>{{Appointment.sdl.name.giv}}</span>
+              </td>
+              <td *ngIf="!environment.ambulatoryPortal.inChargeTable">
+                <span>{{Appointment.fromsdl?.name}}</span>
+              </td>
+              <td *ngIf="environment.ambulatoryPortal.inChargeTable && !environment.ambulatoryPortal.priorityShow">
+                <span>{{Appointment.appointment.defaultdate | dateFormat: 'shortDate'}}</span>
+                <span class="bold">{{Appointment.appointment.defaultdate | dateFormat: 'shortTime'}}</span>
+              </td>
+          </tr>
+          </tbody>
+        </div>
+      </div>
+      <div id="lyt-amb-results-rght" class="layout vertical" *ngIf="environment.ambulatoryPortal.inChargeTable">
+        <div class="lbl">
+        <span class="bold">{{'lbl-in-charge' | translate}}</span>
+        </div>
+        <div id="tbl-amb-appntmnt-incharge" [phi-datagrid]="AmbulatoryAppointmentInChargeList" class="scrollX fullWidth">
+          <thead class="tableHeader">
+            <tr>
+              <th>{{'dgc-amb-app-state' | translate}}</th>
+              <th (click)="AmbulatoryAppointmentInChargeList.orderBy('patient.name.fam')">{{'dgc-amb-app-patient' | translate}} <i *ngIf="AmbulatoryAppointmentInChargeList?.sortColumn('patient.name.fam')" [class]="AmbulatoryAppointmentInChargeList.sortArrow"></i></th>
+              <th (click)="AmbulatoryAppointmentInChargeList.orderBy('assignment')">{{'dgc-amb-app-date' | translate}} <i *ngIf="AmbulatoryAppointmentInChargeList?.sortColumn('assignment')" [class]="AmbulatoryAppointmentInChargeList.sortArrow"></i></th>
+              <th>{{'dgc-amb-app-cod' | translate}}</th>
+              <th>{{'dgc-amb-app-ref' | translate}}</th>
+              <th (click)="AmbulatoryAppointmentInChargeList.orderBy('sdl.name.giv')">{{'dgc-amb-app-amb-ward' | translate}} <i *ngIf="AmbulatoryAppointmentInChargeList?.sortColumn('sdl.name.giv')" [class]="AmbulatoryAppointmentInChargeList.sortArrow"></i></th>
+              <th (click)="AmbulatoryAppointmentInChargeList.orderBy('appointment.defaultdate')">{{'dgc-amb-app-date2' | translate}} <i *ngIf="AmbulatoryAppointmentInChargeList?.sortColumn('appointment.defaultdate')" [class]="AmbulatoryAppointmentInChargeList.sortArrow"></i></th>
+              <th (click)="AmbulatoryAppointmentInChargeList.orderBy('availabilitytime')">{{'dgc-amb-app-arrival-date' | translate}} <i *ngIf="AmbulatoryAppointmentInChargeList?.sortColumn('availabilitytime')" [class]="AmbulatoryAppointmentInChargeList.sortArrow"></i></th>
+            </tr>
+          </thead>
+          <tbody class="selectable">
+            <tr *ngFor="let Appointment of AmbulatoryAppointmentInChargeList?.entities; let i = index" (click)="ie(Appointment, 'Appointment')" (dblclick)="rowDblClick(Appointment)" [class.selRow]="selected(Appointment, 'Appointment')">
+              <td>
+                <span *ngIf="!environment.ambulatoryPortal.showWaitingProcIcon" class="fa app {{Appointment.statuscode.code}} app-portal"></span>
+                <span *ngIf="environment.ambulatoryPortal.showWaitingProcIcon" class="fa app {{Appointment.waitingproc>0?'waitingproc':Appointment.statuscode.code}} app-portal"></span>
+               </td>
+              <td [class.locked]="Appointment.lockby">
+                <span class="bold">{{Appointment.patient.name.fam + ' ' + Appointment.patient.name.giv}}</span>
+                <span>{{Appointment.patient.birthtime | dateFormat: 'shortDate'}}</span>
+                <span *ngIf="environment.ambulatoryPortal.showFiscalCode">{{Appointment.patient.fiscalcode}}</span>
+                <span *ngIf="config.param['p.dashboard.ambulatoryportal.shownote']?.value">{{Appointment.appointment?.note}}</span>
+                <span *ngIf="config.param['p.dashboard.ambulatoryportal.showdetails']?.value">{{Appointment.details}}</span>
+              </td>
+              <td>
+                <span>{{Appointment.assignment | dateFormat: 'shortDate'}}</span>
+                <span class="bold">{{Appointment.assignment | dateFormat: 'shortTime'}}</span>
+              </td>
+              <td>
+                <span class="fa priority {{Appointment.appointment?.sourcecode?.code}} {{Appointment.colorcode?.code}}"></span>
+              </td>
+              <td>
+                <span class="fa" [class.fa-file-text-o]="Appointment.report.internalid"></span>
+              </td>
+              <td [style.background-color]="getLocationColor(Appointment)">
+                <span>{{Appointment.sdl.name.giv}}</span>
+              </td>
+              <td>
+                <span>{{Appointment.appointment.defaultdate | dateFormat: 'short'}}</span>
+              </td>
+              <td>
+                <span>{{Appointment.availabilitytime | dateFormat: 'short'}}</span>
+              </td>
+          </tr>
+          </tbody>
+        </div>
+      </div>
+      <div id="lyt-amb-results-details" class="layout vertical fullHeight max-width-half-spaced" *ngIf="detailsVisible">
+        <phi-procedure-list *ngIf="!environment.ambulatoryPortal.showAppointmentList"></phi-procedure-list>
+        <hr>
+        <phi-history *ngIf="!environment.ambulatoryPortal.showAppointmentList"></phi-history>
+        <div phi-tabbedpanel #tpanelambdetails *ngIf="environment.ambulatoryPortal.showAppointmentList">
+          <ul class="tab-nav">
+            <li *ngIf="showAmbulatoryReport">
+              <a class="button" [class.activetab]="tpanelambdetails.selectedTabIndex == 0" (click)="tpanelambdetails.ie(null, 0)">{{'tab-amb-report' | translate}}</a>
+            </li>
+            <li>
+              <a class="button" [class.activetab]="tpanelambdetails.selectedTabIndex == 1" (click)="tpanelambdetails.ie(null, 1)">{{'tab-amb-appointments' | translate}}</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+          <div id="tab-amb-report" class="layout vertical" *ngIf="tpanelambdetails.selectedTabIndex == 0 && showAmbulatoryReport">
+            <div id="dg-amb-report" [phi-datagrid]="AmbulatoryReportList">
+              <thead class="tableHeader">
+                <tr>
+                  <th (click)="AmbulatoryReportList.orderBy('availabilityTime')">{{'dgc-amb-report-date' | translate}} <i *ngIf="AmbulatoryReportList?.sortColumn('availabilityTime')" [class]="AmbulatoryReportList.sortArrow"></i></th>
+                  <th>{{'dgc-amb-report-type' | translate}}</th>
+                  <th>{{'dgc-amb-report-ward' | translate}}</th>
+                  <th>{{'dgc-amb-report-author' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let AmbulatoryReport of AmbulatoryReportList?.entities; let i = index">
+                  <td>
+                    <span>{{AmbulatoryReport.availabilitytime | dateFormat: 'shortDate'}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryReport.code.currenttranslation}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryReport.servicedeliverylocation.name.giv}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryReport.author.name.fam}} {{AmbulatoryReport.author.name.giv}}</span>
+                  </td>
+              </tr>
+              </tbody>
+            </div>
+            <phi-button (binding)="startProcess('MOD_Outpatients/CORE/PROCESSES/ReportSummary')" id="btn-amb-report">{{'btn-amb-report' | translate}}</phi-button>
+          </div>
+          <div id="tab-amb-appointments" class="layout horizontal" *ngIf="tpanelambdetails.selectedTabIndex == 1 || !showAmbulatoryReport">
+            <phi-appointment-list [showFooter]="false"></phi-appointment-list>
+          </div>
+          </div>
+        </div>
+        <div phi-tabbedpanel #tpanelambdiary *ngIf="showAmbulatoryDiary">
+          <ul class="tab-nav">
+            <li>
+              <a class="button" [class.activetab]="tpanelambdiary.selectedTabIndex == 0" (click)="tpanelambdiary.ie(null, 0)">{{'tab-amb-diary' | translate}}</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+          <div id="tab-amb-diary" class="layout vertical" *ngIf="tpanelambdiary.selectedTabIndex == 0">
+            <div id="dg-amb-diary" [phi-datagrid]="AmbulatoryDiaryList">
+              <thead class="tableHeader">
+                <tr>
+                  <th (click)="AmbulatoryDiaryList.orderBy('creationDate')">{{'dgc-amb-diary-date' | translate}} <i *ngIf="AmbulatoryDiaryList?.sortColumn('creationDate')" [class]="AmbulatoryDiaryList.sortArrow"></i></th>
+                  <th>{{'dgc-amb-diary-note' | translate}}</th>
+                  <th>{{'dgc-amb-diary-class' | translate}}</th>
+                  <th>{{'dgc-amb-diary-author' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let AmbulatoryDiary of AmbulatoryDiaryList?.entities; let i = index">
+                  <td>
+                    <span>{{AmbulatoryDiary.creationdate | dateFormat: 'shortDate'}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryDiary.noteamb}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryDiary.servicedeliverylocation.classification?.title}}</span>
+                  </td>
+                  <td>
+                    <span>{{AmbulatoryDiary.author.name.fam}} {{AmbulatoryDiary.author.name.giv}}</span>
+                  </td>
+              </tr>
+              </tbody>
+            </div>
+            <phi-button (binding)="startProcess('MOD_Outpatients/CORE/PROCESSES/AmbulatoryDiary')" id="btn-amb-diary">{{'btn-amb-diary' | translate}}</phi-button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

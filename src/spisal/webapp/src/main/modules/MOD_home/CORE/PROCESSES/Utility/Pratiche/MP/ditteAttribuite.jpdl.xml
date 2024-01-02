@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="ditteAttribuite">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="inject Ditta e Sede" name="editDittaAttr"></transition>
+		<transition to="super-state1/delete" name="delDittaAttr"></transition>
+		<transition to="inject new" name="newDittaAttr"></transition>
+	</decision>
+
+	<node name="inject Ditta e Sede">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.inject(DitteMalattie.personeGiuridiche)}"></action>
+			<action name="4" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="5" expression="#{AttivitaIstatAction.cleanRestrictions()}"></action>
+			<action name="6" expression="#{AttivitaIstatAction.equal.put('isActive',true)}"></action>
+			<action name="7" expression="#{AttivitaIstatAction.equal.put('personeGiuridiche.internalId',PersoneGiuridiche.internalId)}"></action>
+			<action name="8" expression="#{AttivitaIstatAction.read()}"></action>
+			<action name="9" expression="#{AttivitaIstatAction.injectEmptyList('ToRemoveAttivitaIstatList')}"></action>
+			<action name="10" expression="#{SediAction.orderBy.put('sedePrincipale','ascending')}"></action>
+			<action name="11" expression="#{SediAction.equal.put('personaGiuridica.internalId', PersoneGiuridiche.internalId)}"></action>
+			<action name="12" expression="#{SediAction.read()}"></action>
+		</event>
+		<transition to="company"></transition>
+	</node>
+
+	<process-state name="company">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companyManagement?stateless=true" binding="late"></sub-process>
+		<transition to="eject and reRead"></transition>
+	</process-state>
+
+	<node name="eject and reRead">
+		<event type="node-enter">
+			<action name="1" expression="#{DitteMalattieAction.ejectListAndEvict()}"></action>
+			<action name="2" expression="#{DitteMalattieAction.equal.put('malattiaProfessionale.internalId', MalattiaProfessionale.internalId)}"></action>
+			<action name="3" expression="#{DitteMalattieAction.equal.put('isActive',true)}"></action>
+			<action name="4" expression="#{DitteMalattieAction.orderBy.put('principale','descending')}"></action>
+			<action name="5" expression="#{DitteMalattieAction.orderBy.put('personeGiuridiche.denominazione','ascending')}"></action>
+			<action name="6" expression="#{DitteMalattieAction.orderBy.put('sedi.denominazioneUnitaLocale','ascending')}"></action>
+			<action name="7" expression="#{DitteMalattieAction.read()}"></action>
+			<action name="8" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="9" expression="#{MalattiaProfessionale.setDitteMalattie(DitteMalattieList.list)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{DitteMalattie.setPersoneGiuridiche(null)}"></action>
+				<action name="2" expression="#{DitteMalattie.setSedi(null)}"></action>
+				<action name="3" expression="#{MalattiaProfessionaleAction.unLink('ditteMalattie',DitteMalattie)}"></action>
+				<action name="4" expression="#{DitteMalattieAction.delete()}"></action>
+			</event>
+			<transition to="../eject and reRead"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject new">
+		<event type="node-enter">
+			<action name="1" expression="#{DitteMalattieAction.inject(DitteMalattieAction.newEntity())}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+			<action name="3" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="4" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="companies"></transition>
+	</node>
+
+	<process-state name="companies">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="next from comp?"></transition>
+	</process-state>
+
+	<decision name="next from comp?" expression="#{(button.getMnemonic())}">
+		<transition to="evict DitteMalattie" name="BtnBack"></transition>
+		<transition to="super-state2/create" name="BtnSave"></transition>
+	</decision>
+
+	<node name="evict DitteMalattie">
+		<event type="node-enter">
+			<action name="1" expression="#{DitteMalattieAction.ejectAndEvict()}"></action>
+		</event>
+		<transition to="eject and reRead"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{DitteMalattie.setPersoneGiuridiche(PersoneGiuridiche)}"></action>
+				<action name="2" expression="#{DitteMalattie.setSedi(Sedi)}"></action>
+				<action name="3" expression="#{MalattiaProfessionaleAction.link('ditteMalattie',DitteMalattie)}"></action>
+				<action name="4" expression="#{DitteMalattieAction.create()}"></action>
+			</event>
+			<transition to="../eject and reRead"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

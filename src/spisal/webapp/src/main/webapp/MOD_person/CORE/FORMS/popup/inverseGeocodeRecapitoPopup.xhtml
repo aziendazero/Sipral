@@ -1,0 +1,46 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1509359668187}</h1>
+	<div id="inverseGeocodeRecapitoPopup" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1510033275695" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1507916407441" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1508508949957" >
+					<label style="display:#{(not empty Person.alternativeAddr.addr.str and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1508508949957}</span>
+						<h:outputText rendered="#{not empty Person.alternativeAddr.addr.str and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])}" value="#{Person.alternativeAddr.addr}" id="Label_1508508949957_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1508942790535" >
+					<label style="display:#{(PersonAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1508942790535}</span>
+						<h:outputText rendered="#{PersonAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])}" value="#{function.concat(PersonAction.temporary['reversedAddress'],PersonAction.temporary['reversedAddressLocalita'])}" id="Label_1508942790535_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1510297738587" >
+					<span value="${msg.Label_1510297738587}" id="Label_1510297738587_id" style="display:#{(geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1510297738587}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509630926449" >
+					<h:outputText rendered="#{not empty PersonAction.temporary['geolocation_error']}" escape="false" value="#{PersonAction.temporary['geolocation_error']}" id="Label_1509630926449_id" style="font-color: red; font-weight: bold;display:block;" class="labelContent  base-label" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509730850526" >
+					<span value="${msg.Label_1509730850526}" id="Label_1509730850526_id" style="display:#{(PersonAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1509730850526}</span>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1509136576939" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510116087887;BtnCancel')}" status="ajaxStatus" id="Link_1510116087887" title="${msg.alt_Link_1510116087887}" reRender="phiDesktop,popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1511305143066" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511305143066;btnOk')}" status="ajaxStatus" id="Link_1511305143066_id" title="${msg.alt_Link_1511305143066}" rendered="#{PersonAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Person.alternativeAddr.addr,PersonAction.temporary['reversedAddress'])}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

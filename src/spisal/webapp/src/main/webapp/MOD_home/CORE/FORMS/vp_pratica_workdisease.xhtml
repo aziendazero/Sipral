@@ -1,0 +1,788 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1471874957594" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1471874911823" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1471874911823}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469706251173" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1469694646020" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1469694677178}</span>
+								<h:inputText id="MonthCalendar_1469694677178" value="#{MalattiaProfessionale.data}" class="datepicker layoutRequired monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469694677178}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1469694677178" styleClass="errorMessages MonthCalendar_1469694677178_E" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1476191294624}</span>
+								<h:outputText value="#{MalattiaProfessionale.code.currentTranslation}" id="Label_1476191294624" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1469694684905}</span>
+							<h:selectOneMenu id="ComboBox_1469694684905" value="#{MalattiaProfessionale.applicant}" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1469694684905}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Applicant')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469705840248" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1469697885925" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1475161180208" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1500620807732" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1470280903817}</span>
+										<h:outputText value="#{MalattiaProfessionaleAction.getRiferimenti('richiedente')}" id="Label_1470280903817" style="display:inline-block;width:200px;" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<div class="layoutVertical" >
+								<h:selectOneRadio id="RadioGroup_1469710566824" value="#{MalattiaProfessionale.richiedente}" disabled="#{MalattiaProfessionaleAction.getRiferimenti('richiedente') ne ''}" style="padding-left:150px;" styleClass="radioGroupTable radioGroup" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Utente,Interno,Medico')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1469697885925" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1472103574219}</span>
+									<h:selectOneMenu id="ComboBox_1472103574219" value="#{MalattiaProfessionale.fonte}" styleClass="comboBox" title="${msg.alt_ComboBox_1472103574219}" label="${msg.label_ComboBox_1472103574219}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:InputSource')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717181755" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(MalattiaProfessionale,'Richiedente')}" status="ajaxStatus" id="Link_1469717181755_id" title="${msg.alt_Link_1469717181755}" rendered="#{OperationManager.hasDetail(MalattiaProfessionale, 'Richiedente')}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1500620825545" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(MalattiaProfessionale,'Richiedente',MalattiaProfessionale.richiedente.code,null)}" status="ajaxStatus" id="Link_1500620825545_id" title="${msg.alt_Link_1500620825545}" rendered="#{not function.hasCodeIn(MalattiaProfessionale.richiedente.code,'NonPrevisto','Anonimo') and OperationManager.hasDetail(MalattiaProfessionale, 'Richiedente')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(MalattiaProfessionale, 'Richiedente', MalattiaProfessionale.richiedente.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1470164783916" title="${msg.alt_Link_1470164783916}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717297876" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(MalattiaProfessionale, 'Richiedente', MalattiaProfessionale.richiedente.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1469717297876_id" title="${msg.alt_Link_1469717297876}" rendered="#{MalattiaProfessionaleAction.getRiferimenti('richiedente') ne ''}" reRender="LayoutRow_1469697885925" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1469697892016" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1469617689608}</span>
+								<h:outputText value="#{MalattiaProfessionaleAction.getRiferimenti('riferimento')}" id="Label_1469617689608" style="width:200px;" styleClass="labelContent layoutRequired base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717182380" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(MalattiaProfessionale,'Riferimento')}" status="ajaxStatus" id="Link_1469717182380_id" title="${msg.alt_Link_1469717182380}" rendered="#{OperationManager.hasDetail(MalattiaProfessionale, 'Riferimento')}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1499247234577" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(MalattiaProfessionale,'Riferimento',MalattiaProfessionale.riferimento.code,null)}" status="ajaxStatus" id="Link_1499247234577_id" title="${msg.alt_Link_1499247234577}" rendered="#{not function.hasCodeIn(MalattiaProfessionale.riferimento.code,'NonPrevisto','Altro') and OperationManager.hasDetail(MalattiaProfessionale, 'Riferimento')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(MalattiaProfessionale, 'Riferimento', MalattiaProfessionale.riferimento.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1468303494710" title="${msg.alt_Link_1468303494710}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717299036" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(MalattiaProfessionale, 'Riferimento', MalattiaProfessionale.riferimento.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1469717299036_id" title="${msg.alt_Link_1469717299036}" rendered="#{MalattiaProfessionaleAction.getRiferimenti('riferimento') ne ''}" reRender="LayoutRow_1469697892016" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1480953483589" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1480953483589;ShowWD&#95;pazienteDiffPopup')}" status="ajaxStatus" id="Link_1480953483589_id" title="${msg.alt_Link_1480953483589}" rendered="#{MalattiaProfessionale.riferimentoUtente ne null and MalattiaProfessionale.riferimentoUtente.toUpdate eq true}" reRender="popup" styleClass="fa fa-bell fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469706114667" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1471455087674" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1469988427405}</span>
+								<h:outputText value="#{empty MalattiaProfessionale.attualeSede ? MalattiaProfessionale.attualeDitta.denominazione : MalattiaProfessionale.attualeSede.denominazioneUnitaLocale}" id="Label_1469988427405" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717183227" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(MalattiaProfessionale.attualeSede)}" status="ajaxStatus" id="Link_1469717183227_id" title="${msg.alt_Link_1469717183227}" rendered="#{not empty MalattiaProfessionale.attualeDitta or not empty MalattiaProfessionale.attualeSede}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1500118865102" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(MalattiaProfessionale,'AttualeSede',null,'AttualeDitta')}" status="ajaxStatus" id="Link_1500118865102_id" title="${msg.alt_Link_1500118865102}" rendered="#{not empty MalattiaProfessionale.attualeDitta or not empty MalattiaProfessionale.attualeSede}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(MalattiaProfessionale, 'AttualeSede', null, null, false, MalattiaProfessionaleAction, 'AttualeDitta', null)}" status="ajaxStatus" id="Link_1471794122819" title="${msg.alt_Link_1471794122819}" immediate="true" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469717298292" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(MalattiaProfessionale, 'AttualeSede', null, null, false, MalattiaProfessionaleAction, 'AttualeDitta', null)}" status="ajaxStatus" id="Link_1469717298292_id" title="${msg.alt_Link_1469717298292}" rendered="#{not empty MalattiaProfessionale.attualeDitta or not empty MalattiaProfessionale.attualeSede}" reRender="LayoutRow_1471455087674" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="TextArea_1468451407346" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1489136049789" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1488290972047}</span>
+									<h:selectOneMenu id="ComboBox_1488290972047" value="#{MalattiaProfessionale.condProf}" styleClass="layoutRequired comboBox" label="${msg.label_ComboBox_1488290972047}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:condizione professionale')}" />
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1656058931137" event="onchange" ignoreDupResponses="true" />
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1656058931137" >
+								<label style="display:#{(MalattiaProfessionale.condProf.code eq 'lav') ? 'block' : 'none' };" >
+									<span class="label">${msg.label_ComboBox_1656058931137}</span>
+									<h:selectOneMenu id="ComboBox_1656058931137_id" value="#{MalattiaProfessionale.tipoLavoratore}" rendered="#{MalattiaProfessionale.condProf.code eq 'lav'}" styleClass="comboBox" label="${msg.label_ComboBox_1656058931137}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:lavoratoreType')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1470887450809" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1478092205763}</span>
+									<h:inputText id="TextBox_1478092205763" value="#{MalattiaProfessionale.comparto.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1478092205763}" />
+									<a4j:outputPanel id="TextBox_1478092205763_msg" styleClass="errorContainer" ><h:message for="TextBox_1478092205763" styleClass="errorMessages TextBox_1478092205763_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" id="LayoutRow_1478093214939" style="width:48%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1478092225907_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1478092225907" >
+									<h:inputTextarea id="TextArea_1478092225907_id" value="#{MalattiaProfessionale.comparto.currentTranslation}" style="height: 55px;" readonly="true" >
+										<f:validateLength minimum="0" maximum="255"/>
+									</h:inputTextarea>
+									<h:message style="float:left;" for="TextArea_1478092225907_id" styleClass="errorMessages TextArea_1478092225907_E" />
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1469261995762;compartoAteco')}" status="ajaxStatus" id="Link_1469261995762" alt="#{LINK}" immediate="true" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{MalattiaProfessionale.setComparto(null)}" status="ajaxStatus" id="Link_1469714317335" title="${msg.alt_Link_1469714317335}" reRender="TextArea_1468451407346" styleClass="fa fa-trash fa-2x linkUnlink link" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1474900712408" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1474898919168}</span>
+									<h:outputText value="#{CompartoAtecoAction.getComparto(MalattiaProfessionale.comparto)}" id="Label_1474898919168" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1474900793760}</span>
+									<h:outputText value="#{CompartoAtecoAction.getSpecificazione(MalattiaProfessionale.comparto)}" id="Label_1474900793760" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1488289410411" style="width:50%;min-width:50%;max-width:50%;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1469698198452}</span>
+							<h:selectOneMenu id="ComboBox_1469698198452" value="#{MalattiaProfessionale.mansioneAttuale}" styleClass="comboBox" style="width:300px;" label="${msg.label_ComboBox_1469698198452}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WDMansioni')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1469698591761}</span>
+							<h:inputText id="MonthCalendar_1469698591761" value="#{MalattiaProfessionale.lastIdonDate}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469698591761}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1469698591761" styleClass="errorMessages MonthCalendar_1469698591761_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1469698674481" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1469698674481}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1488289387731" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1469698157315}</span>
+							<h:selectOneMenu id="ComboBox_1469698157315" value="#{MalattiaProfessionale.mansioneAttribuita}" styleClass="layoutRequired comboBox" style="width:300px;" label="${msg.label_ComboBox_1469698157315}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WDMansioni')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1469698584953" >
+						<label >
+							<span class="label">${msg.label_TextArea_1469698584953}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1469698584953_id" value="#{MalattiaProfessionale.lastIdonText}" style="height: 55px;" label="${msg.label_TextArea_1469698584953}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1469698584953_id" styleClass="errorMessages TextArea_1469698584953_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1470092731888" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1470092731888;newDittaAttr')}" status="ajaxStatus" id="Link_1470092731888_id" title="${msg.alt_Link_1470092731888}" rendered="#{Param['p.home.vp_pratica_workdisease.dittaAttrNew'].visible}" reRender="phiDesktop" styleClass="fa fa-plus fa-2x linkUnlink layoutRequired link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1471500840655" layout="block" styleClass="linkUnlink dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1471500840655" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1471500840655} [DitteMalattieList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1469717105010} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1469699012902" value="${msg.DataGridColumn_1469699012902} &#8593;&#8595;" action="#{DitteMalattieList.orderBy('principale')}" reRender="DataGrid_1471500840655" ajaxSingle="true" disabled="#{empty DitteMalattieList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1468188645017} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1470154787247" value="${msg.DataGridColumn_1470154787247} &#8593;&#8595;" action="#{DitteMalattieList.orderBy('personeGiuridiche.codiceFiscale')}" reRender="DataGrid_1471500840655" ajaxSingle="true" disabled="#{empty DitteMalattieList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1469101273945" value="${msg.DataGridColumn_1469101273945} &#8593;&#8595;" action="#{DitteMalattieList.orderBy('personeGiuridiche.patritaIva')}" reRender="DataGrid_1471500840655" ajaxSingle="true" disabled="#{empty DitteMalattieList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1650642979427" value="${msg.DataGridColumn_1650642979427} &#8593;&#8595;" action="#{DitteMalattieList.orderBy('personeGiuridiche.codiceDitta')}" reRender="DataGrid_1471500840655" ajaxSingle="true" disabled="#{empty DitteMalattieList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1469689915955} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1468956982168} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1470454242338} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1468819953635" value="${msg.DataGridColumn_1468819953635} &#8593;&#8595;" action="#{DitteMalattieList.orderBy('personeGiuridiche.dataTermine')}" reRender="DataGrid_1471500840655" ajaxSingle="true" disabled="#{empty DitteMalattieList ? true : false}"/></th>
+									<th style="#{(Param['p.home.vp_pratica_workdisease.dittaAttrDelete'].visible ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1469717008758} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty DitteMalattieList or DitteMalattieList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="11">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1471500840655" value="#{DitteMalattieList.entities}" var="DitteMalattie" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											<a4j:commandLink action="#{DitteMalattieAction.injectAndProceed(DitteMalattie, 'Link_1469717125594;editDittaAttr')}" status="ajaxStatus" id="Link_1469717125594" title="${msg.alt_Link_1469717125594}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+										</td>
+
+										<td >
+							<h:selectBooleanCheckbox id="CheckBox_1469699017862" value="#{DitteMalattie.principale}" style="vertical-align:middle;" alt="CHECKBOX" disabled="#{not DitteMalattie.principale and DitteMalattieAction.hasPrincipale(DitteMalattieList.list)}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1471500840655" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1469699017862" styleClass="errorMessages CheckBox_1469699017862_E" />
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1469699017862" style="display:none;" value="hiddenLabel"></h:outputLabel>
+										</td>
+
+										<td style="width:-3000%;" >
+											#{empty DitteMalattie.sedi ? DitteMalattie.personeGiuridiche.denominazione : DitteMalattie.sedi.denominazioneUnitaLocale}
+										</td>
+
+										<td style="width:-2000%;" >
+											#{DitteMalattie.personeGiuridiche.codiceFiscale}
+										</td>
+
+										<td style="width:-1000%;" >
+											#{DitteMalattie.personeGiuridiche.patritaIva}
+										</td>
+
+										<td >
+											#{DitteMalattie.personeGiuridiche.codiceDitta}
+										</td>
+
+										<td style="width:-1000%;" >
+											#{DitteMalattieAction.getAttivita(DitteMalattie)}
+										</td>
+
+										<td style="width:-1000%;" >
+											#{DitteMalattieAction.getCompSpec(DitteMalattie)}
+										</td>
+
+										<td style="width:-1000%;" >
+											#{empty DitteMalattie.sedi ? PersoneGiuridicheAction.getAddrSedePrincipale(DitteMalattie.personeGiuridiche) : DitteMalattie.sedi.addr}
+										</td>
+
+										<td style="width:-1000%;" >
+											<h:outputText styleClass="base-label" value="#{DitteMalattie.personeGiuridiche.dataTermine}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="#{(Param['p.home.vp_pratica_workdisease.dittaAttrDelete'].visible ? '' : 'display:none;')} " >
+											<a4j:commandLink action="#{DitteMalattieAction.injectAndProceed(DitteMalattie, 'Link_1469717046985;delDittaAttr')}" status="ajaxStatus" id="Link_1469717046985" title="${msg.alt_Link_1469717046985}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1469699357221" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1469699357221}</legend>
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1469699423210}</span>
+						<h:inputText id="MonthCalendar_1469699423210" value="#{MalattiaProfessionale.certDate}" class="datepicker layoutRequired monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469699423210}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1469699423210" styleClass="errorMessages MonthCalendar_1469699423210_E" />
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1469623234068" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1470280883112}</span>
+							<h:outputText value="#{function.concat(MalattiaProfessionale.certMed.name.giv,' ',MalattiaProfessionale.certMed.name.fam)}" id="Label_1470280883112" styleClass="labelContent layoutRequired base-label" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1471591312530" >
+						<a4j:commandLink action="#{OperationManager.manageDetail(MalattiaProfessionale.certMed)}" status="ajaxStatus" id="Link_1471591312530_id" title="${msg.alt_Link_1471591312530}" rendered="#{not empty MalattiaProfessionale.certMed.internalId}" reRender="popup" styleClass="fa fa-info-circle fa-2x linkUnlink link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1501999076292" >
+						<a4j:commandLink action="#{OperationManager.manageEdit(MalattiaProfessionale,'CertMed',null,null)}" status="ajaxStatus" id="Link_1501999076292_id" title="${msg.alt_Link_1501999076292}" rendered="#{not empty MalattiaProfessionale.certMed.internalId}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{OperationManager.manageLink(MalattiaProfessionale, 'CertMed', null, null, false, null, null, null)}" status="ajaxStatus" id="Link_1469501502881" title="${msg.alt_Link_1469501502881}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1470591723552" >
+						<a4j:commandLink action="#{OperationManager.manageUnlink(MalattiaProfessionale, 'CertMed', null, null, false, null, null, null)}" status="ajaxStatus" id="Link_1470591723552_id" title="${msg.alt_Link_1470591723552}" rendered="#{not empty MalattiaProfessionale.certMed.internalId}" reRender="LayoutRow_1469623234068" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1471875022298" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1471875022298}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469700359182" styleClass="layoutContainer layoutContainerVertical" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1469700284637" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_TextArea_1469700284637}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1469700284637_id" value="#{MalattiaProfessionale.diagText}" style="height:85px;" label="${msg.label_TextArea_1469700284637}" >
+								<f:validateLength minimum="0" maximum="2500"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1469700284637_id" styleClass="errorMessages TextArea_1469700284637_E" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1488295467300" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1469700300213" >
+							<label >
+								<span class="label">${msg.label_TextArea_1469700300213}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1469700300213_id" value="#{MalattiaProfessionale.sedeText}" label="${msg.label_TextArea_1469700300213}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1469700300213_id" styleClass="errorMessages TextArea_1469700300213_E" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1488295488905" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1488295498787" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_RadioGroup_1488296310693}</span>
+										<h:selectOneRadio id="RadioGroup_1488296310693" value="#{MalattiaProfessionale.certezzaDiag}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1488296310693}" >
+										<f:selectItems value="#{function.createYesNoForCombos()}" />
+
+											<f:converter converterId="BooleanConverter"/>
+											<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1488295503361" event="onclick" ignoreDupResponses="true" />
+										</h:selectOneRadio>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_MonthCalendar_1488296385198}</span>
+										<h:inputText id="MonthCalendar_1488296385198" value="#{MalattiaProfessionale.certDiagDate}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1488296385198}"  autocomplete="off" >
+										<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:inputText>
+										<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+										<h:message style="float:left;" for="MonthCalendar_1488296385198" styleClass="errorMessages MonthCalendar_1488296385198_E" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+ 
+								<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1488296394484" >
+								<label >
+									<span class="label">${msg.label_TextArea_1488296394484}</span>
+									<div>
+									<h:inputTextarea id="TextArea_1488296394484_id" value="#{MalattiaProfessionale.certDiagText}" label="${msg.label_TextArea_1488296394484}" >
+										<f:validateLength minimum="0" maximum="255"/>
+									</h:inputTextarea>
+									</div>
+								</label>
+								<h:message style="float:left;" for="TextArea_1488296394484_id" styleClass="errorMessages TextArea_1488296394484_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469700387550" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="rowIcd9" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1470699589592}</span>
+								<h:inputText id="TextBox_1470699589592" value="#{MalattiaProfessionale.diagCode.code}" style="width:60px;min-width:60px;" styleClass="layoutRequired inputText" disabled="true" label="${msg.label_TextBox_1470699589592}" />
+								<a4j:outputPanel id="TextBox_1470699589592_msg" styleClass="errorContainer" ><h:message for="TextBox_1470699589592" styleClass="errorMessages TextBox_1470699589592_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1469924306436" style="width:48%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1468111992017_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1468111992017" >
+								<h:inputTextarea id="TextArea_1468111992017_id" value="#{MalattiaProfessionale.diagCode.currentTranslation}" style="height: 55px;" readonly="true" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1468111992017_id" styleClass="errorMessages TextArea_1468111992017_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1469215564972;icd9Popup')}" status="ajaxStatus" id="Link_1469215564972" title="${msg.alt_Link_1469215564972}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{MalattiaProfessionale.setDiagCode(null)}" status="ajaxStatus" id="Link_1470338250351" title="${msg.alt_Link_1470338250351}" reRender="rowIcd9" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1469524535942" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1470744859592}</span>
+								<h:inputText id="TextBox_1470744859592" value="#{function.concat(MalattiaProfessionale.mpInail.parent.code, '.', MalattiaProfessionale.mpInail.code)}" style="width:100px;min-width:100px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470744859592}" />
+								<a4j:outputPanel id="TextBox_1470744859592_msg" styleClass="errorContainer" ><h:message for="TextBox_1470744859592" styleClass="errorMessages TextBox_1470744859592_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1470657150246" style="width:39%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1471061575725_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1471061575725" >
+								<h:inputTextarea id="TextArea_1471061575725_id" value="#{MalattiaProfessionale.mpInail.currentTranslation}" style="height: 55px;" readonly="true" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1471061575725_id" styleClass="errorMessages TextArea_1471061575725_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1470279756149;mpInailPopup')}" status="ajaxStatus" id="Link_1470279756149" title="${msg.alt_Link_1470279756149}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{MalattiaProfessionale.setMpInail(null)}" status="ajaxStatus" id="Link_1468416931295" title="${msg.alt_Link_1468416931295}" reRender="LayoutRow_1469524535942" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1469706362830" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1469700641434" style="width: 33.333332%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1469700644170}</span>
+								<h:inputText id="MonthCalendar_1469700644170" value="#{MalattiaProfessionale.diagDate}" class="datepicker layoutRequired monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469700644170}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1469700644170" styleClass="errorMessages MonthCalendar_1469700644170_E" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1469700656002}</span>
+								<h:inputText id="MonthCalendar_1469700656002" value="#{MalattiaProfessionale.aggrDate}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469700656002}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1469700656002" styleClass="errorMessages MonthCalendar_1469700656002_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" style="width: 33.333332%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1469700673002}</span>
+							<h:selectOneMenu id="ComboBox_1469700673002" value="#{MalattiaProfessionale.gravita}" styleClass="layoutRequired comboBox" style="width:300px;" label="${msg.label_ComboBox_1469700673002}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsitoItem')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutFill_1469706393823" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 33.333332%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1511455474077}</span>
+							<h:selectOneMenu id="ComboBox_1511455474077" value="#{MalattiaProfessionale.gravitaFinale}" styleClass="layoutRequired comboBox" style="width:300px;" label="${msg.label_ComboBox_1511455474077}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:EsitoItem')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutFill_1469706393823" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:10px;padding:0;display:#{((function.hasCodeIn(MalattiaProfessionale.gravita.code,'01') or function.hasCodeIn(MalattiaProfessionale.gravitaFinale.code,'01'))? true : 'false'.concat(MalattiaProfessionaleAction.clearDecesso())) ? 'block' : 'none' };" id="LayoutFill_1469706393823" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" rendered="#{(function.hasCodeIn(MalattiaProfessionale.gravita.code,'01') or function.hasCodeIn(MalattiaProfessionale.gravitaFinale.code,'01'))? true : 'false'.concat(MalattiaProfessionaleAction.clearDecesso())}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1469706393823}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1469706403559" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1469700732907}</span>
+							<h:inputText id="MonthCalendar_1469700732907" value="#{MalattiaProfessionale.deathDate}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469700732907}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1469700732907" styleClass="errorMessages MonthCalendar_1469700732907_E" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1469783217080" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1471935837979}</span>
+								<h:selectOneMenu id="ComboBox_1471935837979" value="#{MalattiaProfessionale.deathPlace}" styleClass="comboBox" label="${msg.label_ComboBox_1471935837979}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:LuogoMorte')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1469706413120" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1469700836076_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1469700836076" >
+								<h:inputTextarea id="TextArea_1469700836076_id" value="#{MalattiaProfessionale.deathText}" style="height: 55px;" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1469700836076_id" styleClass="errorMessages TextArea_1469700836076_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="rowCausa" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1471562822047}</span>
+							<h:inputText id="TextBox_1471562822047" value="#{MalattiaProfessionale.deathCause.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471562822047}" />
+							<a4j:outputPanel id="TextBox_1471562822047_msg" styleClass="errorContainer" ><h:message for="TextBox_1471562822047" styleClass="errorMessages TextBox_1471562822047_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1471481840070" style="width:48%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1471119952455_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1471119952455" >
+							<h:inputTextarea id="TextArea_1471119952455_id" value="#{MalattiaProfessionale.deathCause.currentTranslation}" style="height: 55px;" readonly="true" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1471119952455_id" styleClass="errorMessages TextArea_1471119952455_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468068370213;causaPopup')}" status="ajaxStatus" id="Link_1468068370213" title="${msg.alt_Link_1468068370213}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{MalattiaProfessionale.setDeathCause(null)}" status="ajaxStatus" id="Link_1468490836165" title="${msg.alt_Link_1468490836165}" reRender="LayoutRow_1470284221112" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1469700514360" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1469700514360}</legend>
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_ComboBox_1469700536056}</span>
+						<h:selectOneMenu id="ComboBox_1469700536056" value="#{MalattiaProfessionale.ricInail}" styleClass="comboBox" label="${msg.label_ComboBox_1469700536056}" >
+							<f:selectItem itemLabel="-" itemValue=""/>
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:RicInail')}" />
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneMenu>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1469700539792}</span>
+						<h:inputText id="MonthCalendar_1469700539792" value="#{MalattiaProfessionale.ricInailData}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469700539792}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1469700539792" styleClass="errorMessages MonthCalendar_1469700539792_E" />
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1469700542304}</span>
+						<h:inputText id="TextBox_1469700542304" value="#{MalattiaProfessionale.ricInailPerc}" styleClass="inputText" label="${msg.label_TextBox_1469700542304}" >
+						<f:converter converterId="IntegerConverter"/>
+					</h:inputText>
+						<a4j:outputPanel id="TextBox_1469700542304_msg" styleClass="errorContainer" ><h:message for="TextBox_1469700542304" styleClass="errorMessages TextBox_1469700542304_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1469703082673" style="padding-bottom:10px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1469703082673}</legend>
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1469787243084" >
+					<label >
+						<span class="label">${msg.label_TextArea_1469787243084}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1469787243084_id" value="#{MalattiaProfessionale.anamnesi}" label="${msg.label_TextArea_1469787243084}" >
+							<f:validateLength minimum="0" maximum="2500"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1469787243084_id" styleClass="errorMessages TextArea_1469787243084_E" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1471006584422" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1471006584422;newFatt')}" status="ajaxStatus" id="Link_1471006584422_id" title="${msg.alt_Link_1471006584422}" rendered="#{Param['p.home.vp_pratica_workdisease.fattoreRischioNew'].visible}" reRender="popup" styleClass="fa fa-plus fa-2x linkUnlink layoutRequired link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1469390827298" layout="block" styleClass="linkUnlink dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1469390827298" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1469390827298} [FattoreRischioList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1468001215155} &#8593;&#8595;</th>
+									<th><a4j:commandLink id="DataGridColumn_1470203904681" value="${msg.DataGridColumn_1470203904681} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('type')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1471702543353" value="${msg.DataGridColumn_1471702543353} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('code')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1469831491935" value="${msg.DataGridColumn_1469831491935} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('yearStart')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1469647959728" value="${msg.DataGridColumn_1469647959728} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('yearStop')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1471061871805" value="${msg.DataGridColumn_1471061871805} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('intensityQual')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1468593104582" value="${msg.DataGridColumn_1468593104582} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('intensityQuant')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1474901680327" value="${msg.DataGridColumn_1474901680327} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('unitaMisura')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1470912640587" value="${msg.DataGridColumn_1470912640587} &#8593;&#8595;" action="#{FattoreRischioList.orderBy('causa')}" reRender="DataGrid_1469390827298" ajaxSingle="true" disabled="#{empty FattoreRischioList ? true : false}"/></th>
+									<th style="#{(Param['p.home.vp_pratica_workdisease.fattoreRischioDelete'].visible ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1469032835929} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty FattoreRischioList or FattoreRischioList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="10">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1469390827298" value="#{FattoreRischioList.entities}" var="FattoreRischio" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{FattoreRischioAction.injectAndProceed(FattoreRischio, 'Link_1468623250374;editFatt')}" status="ajaxStatus" id="Link_1468623250374" title="${msg.alt_Link_1468623250374}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink tableButton" />
+
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.type}
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.code}
+										</td>
+
+										<td style="width:8%;" >
+											#{FattoreRischio.yearStart}
+										</td>
+
+										<td style="width:8%;" >
+											#{FattoreRischio.yearStop}
+										</td>
+
+										<td style="width:14%;" >
+											#{FattoreRischio.intensityQual}
+										</td>
+
+										<td style="width:15%;" >
+											#{FattoreRischio.intensityQuant}
+										</td>
+
+										<td style="width:10%;" >
+											#{FattoreRischio.unitaMisura}
+										</td>
+
+										<td style="width:15%;" >
+											#{FattoreRischio.causa}
+										</td>
+
+										<td style="#{(Param['p.home.vp_pratica_workdisease.fattoreRischioDelete'].visible ? '' : 'display:none;')} width:5%;" >
+											<a4j:commandLink action="#{FattoreRischioAction.injectAndProceed(FattoreRischio, 'Link_1471329617837;delFatt')}" status="ajaxStatus" id="Link_1471329617837" title="${msg.alt_Link_1471329617837}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

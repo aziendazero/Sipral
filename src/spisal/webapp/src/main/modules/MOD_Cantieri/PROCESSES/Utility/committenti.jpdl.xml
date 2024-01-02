@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="committenti">
+
+
+	<start-state name="start-state1">
+		<transition to="comingFrom?"></transition>
+	</start-state>
+
+
+	<decision name="comingFrom?" expression="#{(button.getMnemonic())}">
+		<transition to="inject new" name="addCommittente"></transition>
+		<transition to="unlink" name="delCommittente"></transition>
+	</decision>
+
+	<node name="inject new">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.inject(CommittenteAction.newEntity())}"></action>
+		</event>
+		<transition to="choose ui"></transition>
+	</node>
+
+	<task-node name="choose ui">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Cantieri/FORMS/choose_committente')}"></action>
+		</event>
+		<transition to="choice"></transition>
+	</task-node>
+
+	<decision name="choice" expression="#{(button.getMnemonic())}">
+		<transition to="fisiche" name="fisiche"></transition>
+		<transition to="giuridiche" name="giuridiche"></transition>
+		<transition to="eject and evict" name="BtnBack"></transition>
+	</decision>
+
+	<process-state name="fisiche">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="next from fisiche"></transition>
+	</process-state>
+
+	<process-state name="giuridiche">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="next from giuridiche"></transition>
+	</process-state>
+
+	<node name="link giuridiche">
+		<event type="node-enter">
+			<action name="1" expression="#{Committente.setPersoneGiuridiche(PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="3" expression="#{CommittenteList.list.add(Committente)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="link fisiche">
+		<event type="node-enter">
+			<action name="1" expression="#{Committente.setPerson(Person)}"></action>
+			<action name="2" expression="#{PersonAction.eject()}"></action>
+			<action name="3" expression="#{CommittenteList.list.add(Committente)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="eject persone">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.eject()}"></action>
+		</event>
+		<transition to="choose ui"></transition>
+	</node>
+
+	<decision name="next from giuridiche" expression="#{(button.getMnemonic())}">
+		<transition to="eject persone" name="BtnBack"></transition>
+		<transition to="link giuridiche" name="BtnSave"></transition>
+	</decision>
+
+	<decision name="next from fisiche" expression="#{(button.getMnemonic())}">
+		<transition to="eject persone" name="BtnBack"></transition>
+		<transition to="link fisiche" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject and evict">
+		<event type="node-enter">
+			<action name="1" expression="#{rimPdm2CA.evict(Committente)}"></action>
+			<action name="2" expression="#{CommittenteAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="unlink">
+		<event type="node-enter">
+			<action name="1" expression="#{Committente.setPerson(null)}"></action>
+			<action name="2" expression="#{Committente.setPersoneGiuridiche(null)}"></action>
+			<action name="3" expression="#{CommittenteList.list.remove(Committente)}"></action>
+			<action name="4" expression="#{ToRemoveCommittenteList.list.add(Committente)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

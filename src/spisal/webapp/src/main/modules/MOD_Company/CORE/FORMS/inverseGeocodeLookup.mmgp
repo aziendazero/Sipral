@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:components="http:///components.ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <components:Editor xmi:id="_fPinILsUEeeJZY9mwKVr8g" formName="Form_1509108232850">
+    <layoutRow xmi:type="components:LayoutRow" xmi:id="_gCaOgLsUEeeJZY9mwKVr8g" name="LayoutRow_1507225792778" expandMode="Full Automatic" orientation="vertical">
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_gCaOgbsUEeeJZY9mwKVr8g" name="LayoutRow_1509093706468" orientation="vertical">
+        <jollyWidget xmi:type="components:JollyWidget" xmi:id="_O0qTgJQnEeqDnIcBeuazBw" name="JollyWidget_1589270680760" customCode="&lt;!-- Riattivazione eventi su tutti i pulsanti-->&#xD;&#xA;&lt;script>&#xD;&#xA;&#x9;jQuery(&quot;a&quot;).removeClass('unclickable');&#xD;&#xA;&lt;/script>"/>
+        <label xmi:type="components:Label" xmi:id="_gCaOgrsUEeeJZY9mwKVr8g" name="Label_1506975308623" binding="Sedi.addr" widgetLabel="Indirizzo precedente:" renderedEL="not empty Sedi.addr.str and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_gCaOg7sUEeeJZY9mwKVr8g" name="Label_1511030064075" binding="function.concat(SediAction.temporary['reversedAddress'],SediAction.temporary['reversedAddressLocalita'])" widgetLabel="Indirizzo rilevato:" renderedEL="SediAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_BDjYML1aEeeN6OA3h3gYlQ" name="Label_1509357997363" value="L’indirizzo rilevato da google è uguale a quello inserito dall'utente, l'aggiornamento non è necessario." renderedEL="geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress'])"/>
+        <label xmi:type="components:Label" xmi:id="_gCaOhLsUEeeJZY9mwKVr8g" name="Label_1509951248039" binding="SediAction.temporary['geolocation_error']" style="font-color: red; font-weight: bold;" renderedEL="not empty SediAction.temporary['geolocation_error']" containsHtml="true"/>
+        <label xmi:type="components:Label" xmi:id="_gCaOhbsUEeeJZY9mwKVr8g" name="Label_1509991231160" value="Impostare l'indirizzo e le coordinate rilevate?" renderedEL="SediAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress']) or SediAction.temporary['reversedLat']!=null)"/>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_gCaOhrsUEeeJZY9mwKVr8g" name="LayoutRow_1510577246328" alignment="center">
+        <link xmi:type="components:Link" xmi:id="_gCaOh7sUEeeJZY9mwKVr8g" name="Link_1508044768499" tag="" styleClass="fa fa-close fa-3x" mnemonicName="BtnCancel" tooltip="annulla" toReload="onclick(phiDesktop,popup)"/>
+        <link xmi:type="components:Link" xmi:id="_gCaOiLsUEeeJZY9mwKVr8g" name="Link_1509463249571" styleClass="fa fa-check fa-3x" mnemonicName="btnOk" tooltip="conferma" renderedEL="SediAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(Sedi.addr,SediAction.temporary['reversedAddress']) or SediAction.temporary['reversedLat']!=null)" toReload="onclick(popup,phiDesktop)"/>
+      </layoutRow>
+    </layoutRow>
+  </components:Editor>
+  <notation:Diagram xmi:id="_fPinIbsUEeeJZY9mwKVr8g" type="components" element="_fPinILsUEeeJZY9mwKVr8g" name="inverseGeocodeLookup.mmgp" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_gCXyQLsUEeeJZY9mwKVr8g" type="2061" element="_gCaOgLsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_gCXyQbsUEeeJZY9mwKVr8g" type="7010">
+        <children xmi:type="notation:Shape" xmi:id="_gCXyQrsUEeeJZY9mwKVr8g" type="3170" element="_gCaOgbsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_gCXyQ7sUEeeJZY9mwKVr8g" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_gCXyRLsUEeeJZY9mwKVr8g" type="3132" element="_gCaOgrsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXyRbsUEeeJZY9mwKVr8g" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyRrsUEeeJZY9mwKVr8g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_gCXyR7sUEeeJZY9mwKVr8g" type="3132" element="_gCaOg7sUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXySLsUEeeJZY9mwKVr8g" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXySbsUEeeJZY9mwKVr8g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_BDl0cL1aEeeN6OA3h3gYlQ" type="3132" element="_BDjYML1aEeeN6OA3h3gYlQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_BDl0cr1aEeeN6OA3h3gYlQ" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_BDl0cb1aEeeN6OA3h3gYlQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_gCXySrsUEeeJZY9mwKVr8g" type="3132" element="_gCaOhLsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXyS7sUEeeJZY9mwKVr8g" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyTLsUEeeJZY9mwKVr8g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_gCXyTbsUEeeJZY9mwKVr8g" type="3132" element="_gCaOhbsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXyTrsUEeeJZY9mwKVr8g" type="8041"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyT7sUEeeJZY9mwKVr8g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_O0vzEJQnEeqDnIcBeuazBw" type="3154" element="_O0qTgJQnEeqDnIcBeuazBw" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_O0vzEpQnEeqDnIcBeuazBw" type="8053"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_O0vzEZQnEeqDnIcBeuazBw"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_gCXyULsUEeeJZY9mwKVr8g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_gCXyUbsUEeeJZY9mwKVr8g"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyUrsUEeeJZY9mwKVr8g"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_gCXyU7sUEeeJZY9mwKVr8g" type="3170" element="_gCaOhrsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_gCXyVLsUEeeJZY9mwKVr8g" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_gCXyVbsUEeeJZY9mwKVr8g" type="3155" element="_gCaOh7sUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXyVrsUEeeJZY9mwKVr8g" type="8054"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyV7sUEeeJZY9mwKVr8g"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_gCXyWLsUEeeJZY9mwKVr8g" type="3155" element="_gCaOiLsUEeeJZY9mwKVr8g" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_gCXyWbsUEeeJZY9mwKVr8g" type="8054"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyWrsUEeeJZY9mwKVr8g"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_gCXyW7sUEeeJZY9mwKVr8g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_gCXyXLsUEeeJZY9mwKVr8g"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyXbsUEeeJZY9mwKVr8g"/>
+        </children>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_gCXyXrsUEeeJZY9mwKVr8g"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_gCXyX7sUEeeJZY9mwKVr8g"/>
+      </children>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gCXyYLsUEeeJZY9mwKVr8g" x="38" y="26" width="779" height="287"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_fPinIrsUEeeJZY9mwKVr8g"/>
+  </notation:Diagram>
+</xmi:XMI>

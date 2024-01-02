@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="dipendentiManage">
+
+
+	<start-state name="start-state1">
+		<transition to="backup list"></transition>
+	</start-state>
+
+
+	<decision name="operation?" expression="#{(button.getMnemonic())}">
+		<transition to="search=true" name="dipendentiNew"></transition>
+		<transition to="inject Person" name="dipendentiEdit"></transition>
+		<transition to="super-state1/delete from extern" name="dipendentiDelExt"></transition>
+		<transition to="delete Esposti" name="dipendentiEspostiDel"></transition>
+	</decision>
+
+	<process-state name="search person">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti?stateless=true" binding="late"></sub-process>
+		<transition to="next?"></transition>
+	</process-state>
+
+	<node name="search=true">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="search person"></transition>
+	</node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="inject esposti" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.refresh(EspostiList.list)}"></action>
+			<action name="2" expression="#{PersonAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{PersonAction.eject()}"></action>
+			<action name="4" expression="#{PersonAction.ejectList()}"></action>
+			<action name="5" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="6" expression="#{EspostiAction.setReadPageSize(10)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="delete from extern">
+			<event type="node-enter">
+				<action name="1" expression="#{SchedaEsposti.removeEsposti(Esposti)}"></action>
+				<action name="2" expression="#{Esposti.setSchedaEsposti(null)}"></action>
+				<action name="3" expression="#{Esposti.setPerson(null)}"></action>
+				<action name="4" expression="#{Esposti.setIsActive(false)}"></action>
+				<action name="5" expression="#{EspostiAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="dipendentiEspostiManage">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/dipendentiEspostiManage" binding="late"></sub-process>
+		<transition to="dipendentiEdit"></transition>
+	</process-state>
+
+	<node name="inject esposti">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.backupRestrictions()}"></action>
+			<action name="2" expression="#{EspostiAction.setReadPageSize(0)}"></action>
+			<action name="3" expression="#{EspostiAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{EspostiAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{EspostiAction.equal.put('person',Person)}"></action>
+			<action name="6" expression="#{EspostiAction.equal.put('schedaEsposti',SchedaEsposti)}"></action>
+			<action name="7" expression="#{EspostiAction.read()}"></action>
+			<action name="8" expression="#{EspostiAction.restoreRestrictions()}"></action>
+			<action name="9" expression="#{EventoAccidentaleAction.cleanRestrictions()}"></action>
+			<action name="10" expression="#{EventoAccidentaleAction.equal.put('isActive',true)}"></action>
+			<action name="11" expression="#{EventoAccidentaleAction.equal.put('person',Person)})}"></action>
+			<action name="12" expression="#{EventoAccidentaleAction.equal.put('schedaEsposti',SchedaEsposti)}"></action>
+			<action name="13" expression="#{EventoAccidentaleAction.read()}"></action>
+		</event>
+		<transition to="dipendentiEdit"></transition>
+	</node>
+
+	<task-node name="dipendentiEdit">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_RegistroEsposti/CORE/FORMS/dipendentiEdit')}"></action>
+		</event>
+		<transition to="next2?"></transition>
+	</task-node>
+
+	<decision name="next2?" expression="#{button.mnemonic}">
+		<transition to="eject" name="dipendentiBack"></transition>
+		<transition to="dipendentiEspostiManage" name="dipendentiEspostiDel"></transition>
+		<transition to="dipendentiEspostiManage" name="dipendentiEspostiEdit"></transition>
+		<transition to="dipendentiEspostiManage" name="dipendentiEspostiNew"></transition>
+		<transition to="super-state2/save" name="dipendentiSave"></transition>
+		<transition to="dipendentiEventiManage" name="dipendentiEventiNew"></transition>
+		<transition to="dipendentiEventiManage" name="dipendentiEventiEdit"></transition>
+		<transition to="dipendentiEventiManage" name="dipendentiEventiDel"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{SchedaEspostiAction.create()}"></action>
+				<action name="2" expression="#{SchedaEspostiAction.linkUnlinkEsposti(EspostiList.list,ToRemoveEspostiList.list,Person)}"></action>
+				<action name="3" expression="#{SchedaEspostiAction.linkUnlinkEventi(EventoAccidentaleList.list,ToRemoveEventiList.list,Person)}"></action>
+				<action name="4" expression="#{EspostiAction.eject()}"></action>
+				<action name="5" expression="#{EventoAccidentaleAction.eject()}"></action>
+				<action name="6" expression="#{EspostiAction.setSelectedEntitiesList(ToRemoveEspostiList.list)}"></action>
+				<action name="7" expression="#{EspostiAction.injectEmptyList('ToRemoveEspostiList')}"></action>
+				<action name="8" expression="#{EspostiAction.create()}"></action>
+				<action name="9" expression="#{EventoAccidentaleAction.setSelectedEntitiesList(ToRemoveEventiList.list)}"></action>
+				<action name="10" expression="#{EventoAccidentaleAction.injectEmptyList('ToRemoveEventiList')}"></action>
+				<action name="11" expression="#{EventoAccidentaleAction.create()}"></action>
+			</event>
+			<transition to="../dipendentiEdit"></transition>
+		</node>
+	</super-state>
+
+	<node name="delete Esposti">
+		<event type="node-enter">
+			<action name="1" expression="#{Esposti.setIsActive(false)}"></action>
+			<action name="2" expression="#{EspostiList.list.remove(Esposti)}"></action>
+			<action name="3" expression="#{ToRemoveEspostiList.list.add(Esposti)}"></action>
+			<action name="4" expression="#{EspostiAction.temporary.remove('backupList')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject Person">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Esposti.person)}"></action>
+		</event>
+		<transition to="inject esposti"></transition>
+	</node>
+
+	<node name="backup list">
+		<event type="node-enter">
+			<action name="1" expression="#{EventoAccidentaleAction.injectEmptyList('ToRemoveEventiList')}"></action>
+			<action name="2" expression="#{EventoAccidentaleAction.injectEmptyList('EventoAccidentaleList')}"></action>
+		</event>
+		<transition to="operation?"></transition>
+	</node>
+
+	<process-state name="dipendentiEventiManage">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/dipendentiEventiManage" binding="late"></sub-process>
+		<transition to="dipendentiEdit"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

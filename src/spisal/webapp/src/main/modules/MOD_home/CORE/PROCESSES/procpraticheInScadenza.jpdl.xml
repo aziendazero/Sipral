@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="procpratiche">
+
+
+	<start-state name="start">
+		<transition to="set temporary"></transition>
+	</start-state>
+
+
+	<task-node name="home">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/procpraticheInScadenza')}"></action>
+		</event>
+		<transition to="button?"></transition>
+	</task-node>
+
+	<decision name="button?" expression="#{(button.getMnemonic())}">
+		<transition to="query" name="BtnRefresh"></transition>
+		<transition to="query" name="BtnFilterApply"></transition>
+		<transition to="clean restrictions" name="BtnFilterCancel"></transition>
+		<transition to="home" name="row"></transition>
+		<transition to="end-state1" name="exit"></transition>
+		<transition to="super-state1/Gestione pratica" name="BtnManagement"></transition>
+	</decision>
+
+	<node name="clean restrictions">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.eject()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.ejectList()}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.clear()}"></action>
+			<action name="4" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="5" expression="#{ProcpraticheAction.temporary.put('suspended', true)}"></action>
+			<action name="6" expression="#{ProcpraticheAction.temporary.put('searchByDate', false)}"></action>
+			<action name="7" expression="#{OperatoreAction.eject()}"></action>
+			<action name="8" expression="#{PersonAction.eject()}"></action>
+			<action name="9" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="10" expression="#{EmployeeAction.eject()}"></action>
+			<action name="11" expression="#{CantiereAction.eject()}"></action>
+		</event>
+		<transition to="set temporary"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<process-state name="Gestione pratica">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestionePratiche" binding="late"></sub-process>
+			<transition to="../set temporary"></transition>
+		</process-state>
+	</super-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('showUOS', spisalUserAction.show('UOS'))}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('terminiDiRisposta', true)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('miglioramenti', true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('provvedimenti', true)}"></action>
+			<action name="5" expression="#{ProcpraticheAction.temporary.put('filter',true)}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<node name="query">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.readPraticheInScadenza()}"></action>
+		</event>
+		<transition to="home"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;direttore;"></action>
+
+</process-definition>

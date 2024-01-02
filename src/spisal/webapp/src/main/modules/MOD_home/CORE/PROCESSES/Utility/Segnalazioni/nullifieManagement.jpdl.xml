@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="nullifieManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="Nullifie PopUp UI"></transition>
+	</start-state>
+
+
+	<node name="setNullified">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setCodeValue('statusCode','STATUS','GENERIC','nullified')}"></action>
+			<action name="2" expression="#{ProtocolloAction.create()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="Nullifie PopUp UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/nullifie_segnalazione_alert')}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</task-node>
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="setNullified" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

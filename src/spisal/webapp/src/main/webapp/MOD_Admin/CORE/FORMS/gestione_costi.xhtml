@@ -1,0 +1,438 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1558687920902}</h1>
+	<div id="gestione_costi" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1558688043403" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1558688115434" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1559431597627;BtnBack')}" status="ajaxStatus" id="Link_1559431597627" title="${msg.alt_Link_1559431597627}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1558688117138" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<a4j:outputPanel id="TabbedPane_1558688183345" layout="block" styleClass="tabset tabbedPanel" >
+						<ul class="tabs">
+							<li><a href="#tab-1">${msg.LayoutFillPanelTab_1558688239240}</a></li>
+							<li><a href="#tab-2">${msg.LayoutFillPanelTab_1558688241720}</a></li>
+						</ul>
+						<div class="tab-1 tab-content" id="LayoutFillPanelTab_1558688239240" label="${msg.LayoutFillPanelTab_1558688239240}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1559637126314" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1556627337718" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+								<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1556627337718}</legend>
+									<a4j:outputPanel layout="block" id="LayoutRow_1558001035383" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1558689651103}</span>
+											<h:selectOneMenu id="ComboBox_1558689651103" value="#{CostoDirettoAction.temporary['selectedULSS']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1558689651103}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{spisalUserAction.getUlss()}" />
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1559569280568}</span>
+											<h:inputText id="TextBox_1559569280568" value="#{CostoDirettoAction.greaterEqual['anno']}" styleClass="inputText" label="${msg.label_TextBox_1559569280568}" >
+											<f:converter converterId="IntegerConverter"/>
+										</h:inputText>
+											<a4j:outputPanel id="TextBox_1559569280568_msg" styleClass="errorContainer" ><h:message for="TextBox_1559569280568" styleClass="errorMessages TextBox_1559569280568_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1568013210858}</span>
+											<h:inputText id="TextBox_1568013210858" value="#{CostoDirettoAction.lessEqual['annoAl']}" styleClass="inputText" label="${msg.label_TextBox_1568013210858}" >
+											<f:converter converterId="IntegerConverter"/>
+										</h:inputText>
+											<a4j:outputPanel id="TextBox_1568013210858_msg" styleClass="errorContainer" ><h:message for="TextBox_1568013210858" styleClass="errorMessages TextBox_1568013210858_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1558689485217}</span>
+											<h:selectOneMenu id="ComboBox_1558689485217" value="#{CostoDirettoAction.equal['tipologia']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1558689485217}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipologia')}" />
+												<f:converter converterId="CodeValueConverter"/>
+												<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1558690128033" event="onchange" ignoreDupResponses="true" />
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1558689533577}</span>
+											<h:selectOneMenu id="ComboBox_1558689533577" value="#{CostoDirettoAction.equal['qualifica']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1558689533577}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+												<f:converter converterId="CodeValueConverter"/>
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1558690128033" styleClass="layoutContainer layoutContainerVertical" >
+										<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1559548834239" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipologia'].code,'A')}" >
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_ComboBox_1558689532545}</span>
+												<h:selectOneMenu id="ComboBox_1558689532545" value="#{CostoDirettoAction.equal['tipoAtt']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1558689532545}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:ActivityTypes')}" />
+													<f:converter converterId="CodeValueConverter"/>
+													<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1560740450408" event="onchange" ignoreDupResponses="true" />
+												</h:selectOneMenu>
+											</label>
+											</div>
+
+										</a4j:outputPanel>
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1560740450408" styleClass="layoutContainer layoutContainerHorizontal" >
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1560415834870" >
+											<label style="display:#{(function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'sopralluogo')) ? 'block' : 'none' };" >
+												<span class="label">${msg.label_ComboBox_1560415834870}</span>
+												<h:selectOneMenu id="ComboBox_1560415834870_id" value="#{CostoDirettoAction.equal['sottotipoAtt']}" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'sopralluogo')}" styleClass="filter comboBox" label="${msg.label_ComboBox_1560415834870}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:InspectionType')}" />
+													<f:converter converterId="CodeValueConverter"/>
+												</h:selectOneMenu>
+											</label>
+											</a4j:outputPanel>
+
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1560013635446" >
+											<label style="display:#{(function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'sequestro')) ? 'block' : 'none' };" >
+												<span class="label">${msg.label_ComboBox_1560013635446}</span>
+												<h:selectOneMenu id="ComboBox_1560013635446_id" value="#{CostoDirettoAction.equal['sottotipoAtt']}" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'sequestro')}" styleClass="comboBox" label="${msg.label_ComboBox_1560013635446}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SeizureType')}" />
+													<f:converter converterId="CodeValueConverter"/>
+												</h:selectOneMenu>
+											</label>
+											</a4j:outputPanel>
+
+											<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1557528609891" >
+											<label style="display:#{(function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'commissione')) ? 'block' : 'none' };" >
+												<span class="label">${msg.label_ComboBox_1557528609891}</span>
+												<h:selectOneMenu id="ComboBox_1557528609891_id" value="#{CostoDirettoAction.equal['sottotipoAtt']}" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipoAtt'].code,'commissione')}" styleClass="comboBox" label="${msg.label_ComboBox_1557528609891}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:CommissionType')}" />
+													<f:converter converterId="CodeValueConverter"/>
+												</h:selectOneMenu>
+											</label>
+											</a4j:outputPanel>
+
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1559549566338" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipologia'].code,'P')}" >
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_ComboBox_1559548500529}</span>
+												<h:selectOneMenu id="ComboBox_1559548500529" value="#{CostoDirettoAction.equal['tipoProvv']}" styleClass="comboBox" label="${msg.label_ComboBox_1559548500529}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:PevType')}" />
+													<f:converter converterId="CodeValueConverter"/>
+												</h:selectOneMenu>
+											</label>
+											</div>
+
+										</a4j:outputPanel>
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1559549557418" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{function.hasCodeIn(CostoDirettoAction.equal['tipologia'].code,'M') and false}" >
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_Label_1558689621906}</span>
+												<span value="${msg.Label_1558689621906}" class="labelContent  base-label" ></span>
+											</label>
+											</div>
+
+										</a4j:outputPanel>
+										</a4j:outputPanel>
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1560230804634" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+										<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1558110516455;BtnCDSearch')}" status="ajaxStatus" id="Link_1558110516455" title="${msg.alt_Link_1558110516455}" reRender="phiDesktop" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+										</div>
+
+										<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1559688559254;BtnFilterCDCancel')}" status="ajaxStatus" id="Link_1559688559254" title="${msg.alt_Link_1559688559254}" reRender="phiDesktop,LayoutRow_1556627337718,DataGrid_1559537613682" styleClass="fa fa-eraser fa-3x link readOnly" />
+										</div>
+
+									</a4j:outputPanel>
+								</fieldset>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1559637469879" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('CDNewMulti;BtnCDMulti')}" status="ajaxStatus" id="CDNewMulti" title="${msg.alt_CDNewMulti}" reRender="phiDesktop" styleClass="fa fa-th-list fa-3x link" />
+									</div>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('CDNew;BtnCD')}" status="ajaxStatus" id="CDNew" title="${msg.alt_CDNew}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel id="DataGrid_1559537613682" layout="block" styleClass="dt layoutTable layoutVertical" >#{CostoDirettoAction.setReadPageSize(20)}
+											<div class="paging">
+												<ul>
+													<li class="bk"><a4j:commandLink id="prev1559537613682" value="&#8592;" action="#{CostoDirettoList.prev}" reRender="DataGrid_1559537613682" rendered="#{CostoDirettoList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+													<a4j:repeat id="pr1559537613682" value="#{CostoDirettoList.pageIndexes}" var="pi1559537613682">
+														<li class="#{(CostoDirettoList.currentPage eq pi1559537613682 ? 'active' : '')}">
+															<a4j:commandLink id="goTo1559537613682" value="#{pi1559537613682}" action="#{CostoDirettoList.goToPage(pi1559537613682)}" reRender="DataGrid_1559537613682" ajaxSingle="true" status="ajaxStatus" />
+														</li>
+													</a4j:repeat>
+													<li class="fw"><a4j:commandLink id="next1559537613682" value="&#8594;" action="#{CostoDirettoList.next}" reRender="DataGrid_1559537613682" rendered="#{CostoDirettoList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+												</ul>
+											</div>
+									<table id="d1559537613682" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1559537613682} [CostoDirettoList]" >
+										<thead class="tableHeader">
+											<tr>
+												<th>${msg.DataGridColumn_1559131841445}</th>
+												<th><a4j:commandLink id="DataGridColumn_1556803543824" value="${msg.DataGridColumn_1556803543824} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1559569137066" value="${msg.DataGridColumn_1559569137066} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('anno')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1568013093652" value="${msg.DataGridColumn_1568013093652} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('annoAl')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1560084157946" value="${msg.DataGridColumn_1560084157946} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('tipologia.displayName')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1556574438666} &#8593;&#8595;</th>
+												<th><a4j:commandLink id="DataGridColumn_1560703053257" value="${msg.DataGridColumn_1560703053257} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('qualifica.displayName')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1560805563814" value="${msg.DataGridColumn_1560805563814} &#8593;&#8595;" action="#{CostoDirettoList.orderBy('peso')}" reRender="DataGrid_1559537613682" ajaxSingle="true" disabled="#{empty CostoDirettoList ? true : false}"/></th>
+												<th>${msg.DataGridColumn_1560192613501}</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody selectable">
+											<jstl:if test="#{empty CostoDirettoList or CostoDirettoList.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="9">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1559537613682" value="#{CostoDirettoList.entities}" var="CostoDiretto" rowKeyVar="rowIndex" >
+												<tr id="#{rowIndex}" onclick="ie1559537613682(this.id);" class="#{CostoDirettoAction.getEntity().equals(CostoDiretto) or CostoDiretto.internalId != 0 and CostoDirettoAction.entity.internalId.equals(CostoDiretto.internalId) ? 'selRow' : ''}" >
+													<td >
+														<a4j:commandLink action="#{CostoDirettoAction.injectAndProceed(CostoDiretto, 'CDMng;BtnCD')}" status="ajaxStatus" id="CDMng" title="${msg.alt_CDMng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+													<td >
+														<h:outputText styleClass="base-label" value="#{CostoDiretto.serviceDeliveryLocation.name.giv}" >
+															<s:convertDateTime pattern="${format.dateNormal}" />
+														</h:outputText>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoDiretto.anno}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoDiretto.annoAl}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoDiretto.tipologia.displayName}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoDirettoAction.getTipoStr(CostoDiretto)}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoDiretto.qualifica.displayName}</span>
+													</td>
+
+													<td >
+														<span class="c-text-bold base-label" >#{CostoDiretto.peso}</span>
+													</td>
+
+													<td >
+														<a4j:commandLink action="#{CostoDirettoAction.injectAndProceed(CostoDiretto, 'CDDel;BtnCD')}" status="ajaxStatus" id="CDDel" title="${msg.alt_CDDel}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								<a4j:jsFunction id="ie1559537613682" name="ie1559537613682" status="ajaxStatus" action="#{CostoDirettoList.injectEject}" data="#{CostoDirettoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1559537613682'))" limitToList="true" ajaxSingle="true">
+									<a4j:actionparam name="rowIndex" assignTo="#{CostoDirettoList.selectedIndex}"/>
+								</a4j:jsFunction>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+						<div class="tab-2 tab-content hidden" id="LayoutFillPanelTab_1558688241720" label="${msg.LayoutFillPanelTab_1558688241720}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1558168777164" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1558455936404" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+								<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1558455936404}</legend>
+									<a4j:outputPanel layout="block" id="LayoutRow_1561443901656" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1559307506478}</span>
+											<h:selectOneMenu id="ComboBox_1559307506478" value="#{CostoIndirettoAction.temporary['selectedULSS']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1559307506478}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{spisalUserAction.getUlss()}" />
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1559507171123}</span>
+											<h:inputText id="TextBox_1559507171123" value="#{CostoIndirettoAction.greaterEqual['anno']}" styleClass="inputText" label="${msg.label_TextBox_1559507171123}" >
+											<f:converter converterId="IntegerConverter"/>
+										</h:inputText>
+											<a4j:outputPanel id="TextBox_1559507171123_msg" styleClass="errorContainer" ><h:message for="TextBox_1559507171123" styleClass="errorMessages TextBox_1559507171123_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1568013213395}</span>
+											<h:inputText id="TextBox_1568013213395" value="#{CostoIndirettoAction.lessEqual['annoAl']}" styleClass="inputText" label="${msg.label_TextBox_1568013213395}" >
+											<f:converter converterId="IntegerConverter"/>
+										</h:inputText>
+											<a4j:outputPanel id="TextBox_1568013213395_msg" styleClass="errorContainer" ><h:message for="TextBox_1568013213395" styleClass="errorMessages TextBox_1568013213395_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1557867085739}</span>
+											<h:selectOneMenu id="ComboBox_1557867085739" value="#{CostoIndirettoAction.equal['tipologia']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1557867085739}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoInd')}" />
+												<f:converter converterId="CodeValueConverter"/>
+												<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1559648311491" event="onchange" ignoreDupResponses="true" />
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_ComboBox_1560587132352}</span>
+											<h:selectOneMenu id="ComboBox_1560587132352" value="#{CostoIndirettoAction.equal['qualifica']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1560587132352}" >
+												<f:selectItem itemLabel="-" itemValue=""/>
+												<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+												<f:converter converterId="CodeValueConverter"/>
+											</h:selectOneMenu>
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1559751504604" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+										<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1559083208376;BtnCINDSearch')}" status="ajaxStatus" id="Link_1559083208376" title="${msg.alt_Link_1559083208376}" reRender="phiDesktop" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+										</div>
+
+										<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1561559026359;BtnFilterCINDCancel')}" status="ajaxStatus" id="Link_1561559026359" title="${msg.alt_Link_1561559026359}" reRender="phiDesktop,LayoutRow_1558455936404,DataGrid_1561759893987" styleClass="fa fa-eraser fa-3x link readOnly" />
+										</div>
+
+									</a4j:outputPanel>
+								</fieldset>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1559637472008" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('CINDNew;BtnCIND')}" status="ajaxStatus" id="CINDNew" title="${msg.alt_CINDNew}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel id="DataGrid_1561759893987" layout="block" styleClass="dt layoutTable layoutVertical" >#{CostoIndirettoAction.setReadPageSize(20)}
+											<div class="paging">
+												<ul>
+													<li class="bk"><a4j:commandLink id="prev1561759893987" value="&#8592;" action="#{CostoIndirettoList.prev}" reRender="DataGrid_1561759893987" rendered="#{CostoIndirettoList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+													<a4j:repeat id="pr1561759893987" value="#{CostoIndirettoList.pageIndexes}" var="pi1561759893987">
+														<li class="#{(CostoIndirettoList.currentPage eq pi1561759893987 ? 'active' : '')}">
+															<a4j:commandLink id="goTo1561759893987" value="#{pi1561759893987}" action="#{CostoIndirettoList.goToPage(pi1561759893987)}" reRender="DataGrid_1561759893987" ajaxSingle="true" status="ajaxStatus" />
+														</li>
+													</a4j:repeat>
+													<li class="fw"><a4j:commandLink id="next1561759893987" value="&#8594;" action="#{CostoIndirettoList.next}" reRender="DataGrid_1561759893987" rendered="#{CostoIndirettoList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+												</ul>
+											</div>
+									<table id="d1561759893987" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1561759893987} [CostoIndirettoList]" >
+										<thead class="tableHeader">
+											<tr>
+												<th>${msg.DataGridColumn_1561447885616}</th>
+												<th><a4j:commandLink id="DataGridColumn_1560832822224" value="${msg.DataGridColumn_1560832822224} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1560159443552" value="${msg.DataGridColumn_1560159443552} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy('anno')}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1568013149084" value="${msg.DataGridColumn_1568013149084} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy('annoAl')}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th class="sortableColumn">${msg.DataGridColumn_1559741715587} &#8593;&#8595;</th>
+												<th><a4j:commandLink id="DataGridColumn_1557722009489" value="${msg.DataGridColumn_1557722009489} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy('tipologia.displayName')}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1557739211418" value="${msg.DataGridColumn_1557739211418} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy(function.getLang('qualifica.'))}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th><a4j:commandLink id="DataGridColumn_1559195195803" value="${msg.DataGridColumn_1559195195803} &#8593;&#8595;" action="#{CostoIndirettoList.orderBy('peso')}" reRender="DataGrid_1561759893987" ajaxSingle="true" disabled="#{empty CostoIndirettoList ? true : false}"/></th>
+												<th>${msg.DataGridColumn_1560523746211}</th>
+											</tr>
+										</thead>
+										<tbody class="tableBody selectable">
+											<jstl:if test="#{empty CostoIndirettoList or CostoIndirettoList.isEmpty()}">
+												<tr class="noresults">
+													<td colspan="9">${error.emtpy_search_for_table}</td>
+												</tr>
+											</jstl:if>
+											<a4j:repeat id="r1561759893987" value="#{CostoIndirettoList.entities}" var="CostoIndiretto" rowKeyVar="rowIndex" >
+												<tr id="#{rowIndex}" onclick="ie1561759893987(this.id);" class="#{CostoIndirettoAction.getEntity().equals(CostoIndiretto) or CostoIndiretto.internalId != 0 and CostoIndirettoAction.entity.internalId.equals(CostoIndiretto.internalId) ? 'selRow' : ''}" >
+													<td >
+														<a4j:commandLink action="#{CostoIndirettoAction.injectAndProceed(CostoIndiretto, 'CINDMng;BtnCIND')}" status="ajaxStatus" id="CINDMng" title="${msg.alt_CINDMng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+													<td >
+														<h:outputText styleClass="base-label" value="#{CostoIndiretto.serviceDeliveryLocation.name.giv}" >
+															<s:convertDateTime pattern="${format.dateNormal}" />
+														</h:outputText>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoIndiretto.anno}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoIndiretto.annoAl}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoIndirettoAction.getTipoStr(CostoIndiretto)}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoIndiretto.tipologia.displayName}</span>
+													</td>
+
+													<td >
+														<span class="base-label" >#{CostoIndiretto.qualifica.currentTranslation}</span>
+													</td>
+
+													<td >
+														<span class="c-text-bold base-label" >#{CostoIndiretto.peso}</span>
+													</td>
+
+													<td >
+														<a4j:commandLink action="#{CostoIndirettoAction.injectAndProceed(CostoIndiretto, 'CINDDel;BtnCIND')}" status="ajaxStatus" id="CINDDel" title="${msg.alt_CINDDel}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+													</td>
+
+												</tr>
+											</a4j:repeat>
+										</tbody>
+									</table>
+								<a4j:jsFunction id="ie1561759893987" name="ie1561759893987" status="ajaxStatus" action="#{CostoIndirettoList.injectEject}" data="#{CostoIndirettoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1561759893987'))" limitToList="true" ajaxSingle="true">
+									<a4j:actionparam name="rowIndex" assignTo="#{CostoIndirettoList.selectedIndex}"/>
+								</a4j:jsFunction>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

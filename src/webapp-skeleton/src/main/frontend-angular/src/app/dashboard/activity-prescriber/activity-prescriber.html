@@ -1,0 +1,296 @@
+<form #form="ngForm" id="Form_1496142039842">
+  <div id="LayoutActvtyPrscrbr" class="layout vertical fill fullHeight">
+    <div phi-tabbedpanel #TabbedPane_1496142163217 (tabChange)="onTypeChange($event)">
+      <ul class="tab-nav">
+        <li>
+          <a class="button" [class.activetab]="TabbedPane_1496142163217.selectedTabIndex == 0" (click)="TabbedPane_1496142163217.ie(null, 0)">{{'PanelCarePlan'
+            | translate}}</a>
+        </li>
+        <li>
+          <a class="button" [class.activetab]="TabbedPane_1496142163217.selectedTabIndex == 1" (click)="TabbedPane_1496142163217.ie(null, 1)">{{'PanelAllActivity'
+            | translate}}</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div id="PanelCarePlan" class="layout vertical" *ngIf="TabbedPane_1496142163217.selectedTabIndex == 0">
+          <div id="LayoutCarePlanBtnBar" class="layout horizontal fill">
+            <div id="LayoutCarePlanBtnBarLft" class="layout horizontal">
+              <phi-buttonrefresh (binding)="refresh()" id="ButtonCrPlnRefresh"></phi-buttonrefresh>
+              <phi-buttonpdf (binding)="reportCarePlan()" id="ButtonCrPlnReport"></phi-buttonpdf>
+              <phi-checkbox [(ngModel)]="CarePlanAction.equal['showNotActive']" name="CarePlanAction.equal['showNotActive']"
+                id="ChkBxCrPlnNotActive" [widgetLabel]="'label_ChkBxCrPlnNotActive' | translate" (change)="refresh()"></phi-checkbox>
+            </div>
+            <phi-button (binding)="config()" id="ButtonCrPlnConfig" styleClass="fa fa-cog fa-2x" tooltip="{{'alt_ButtonCrPlnConfig' | translate}}"></phi-button>
+          </div>
+          <div id="LayoutFill_1496142607569" class="layout horizontal fill tableHeader">
+            <div id="LayoutDiagnosisHeader" class="layout horizontal center">
+              <div class="lbl" style="padding-right:5px;">
+                    <span>{{'LabelDiagnosis' | translate}}</span>
+              </div>
+              <phi-buttonadd (binding)="addCodedDiag()" id="BtnAddCodedDiag" styleClass="nanda"></phi-buttonadd>
+              <phi-buttonadd (binding)="addNotCodedDiag()" id="BtnAddNotCodedDiag"></phi-buttonadd>      
+            </div>
+            <div id="LayoutObjectivesHeader" class="layout horizontal center">
+              <div class="lbl">
+                <span>{{'LabelObjective' | translate}}</span>
+              </div>
+            </div>
+            <div id="LayoutActivitiesHeader" class="layout horizontal center">
+              <div class="lbl">
+                <span>{{'LabelActivities' | translate}}</span>
+              </div>
+            </div>
+          </div>
+          <div id="LytCarePlanListContainer" class="layout vertical">
+            <div id="LytCarePlanList" class="layout horizontal fill row rowbox" *ngFor="let CarePlan of CarePlanList?.entities">
+              <div id="LayoutDiagnosisRow" class="layout vertical">
+                <div id="LayoutDiagnosisRowTop" class="layout horizontal fill">
+                  <div id="LayoutDiagnosisRowTopLft" class="layout vertical">
+                    <div class="lbl">
+                      <span class="bold">{{CarePlan.title}}</span>
+                    </div>
+                    <div class="lbl">
+                      <span class="small">{{CarePlan.creationdetails}}</span>
+                    </div>
+                  </div>
+                  <phi-button (binding)="delete(CarePlan)" id="BtnDeleteDiagnosis" [renderedEl]="CarePlan.cancellationdate == undefined"><i
+                      class="fa fa-remove fa-2x"></i></phi-button>
+                  <phi-button (binding)="deleteInfo(CarePlan)" id="BtnDeleteInfoDiagnosis" [renderedEl]="CarePlan.cancellationdate != undefined"><i
+                      class="fa fa-info fa-2x"></i></phi-button>
+                </div>
+                <div phi-datagrid id="DgDiagnosis">
+                  <thead class="tableHeaderMini">
+                    <tr>
+                      <th class="smaller">{{'DgcDiagnosisStart' | translate}}</th>
+                      <th class="smaller">{{'DgcDiagnosisRisk' | translate}}</th>
+                      <th class="smaller">{{'DgcDiagnosisType' | translate}}</th>
+                      <th class="smaller">{{'DgcDiagnosisActive' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="smaller">{{CarePlan.startdate | dateFormat: 'shortDate'}}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="CarePlan.riskcode == 'ATRISK'" class="smaller">{{'LblRiskYes' | translate}}</span>
+                        <span *ngIf="CarePlan.riskcode != 'ATRISK'" class="smaller">{{'LblRiskNo' | translate}}</span>
+                      </td>
+                      <td>
+                        <span class="smaller">{{CarePlan.pcpcode}}</span>
+                      </td>
+                      <td>
+                        <span class="fa {{CarePlan.cancellationdate ? 'fa-times cancelled':'fa-check active'}}"></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </div>
+                <div class="lbl smaller" *ngIf="CarePlan.etiologicfactors">
+                  <label>{{'label_LblDiagnosisE' | translate}}</label>
+                  <span>{{CarePlan.etiologicfactors}}</span>
+                </div>
+                <div class="lbl smaller" *ngIf="CarePlan.symptoms">
+                  <label>{{'label_LblDiagnosisS' | translate}}</label>
+                  <span>{{CarePlan.symptoms}}</span>
+                </div>
+                <div class="lbl smaller" *ngIf="CarePlan.riskfactors">
+                  <label>{{'label_LblDiagnosisRF' | translate}}</label>
+                  <span>{{CarePlan.riskfactors}}</span>
+                </div>
+                <div class="lbl smaller" *ngIf="CarePlan.resources">
+                  <label>{{'label_LblDiagnosisR' | translate}}</label>
+                  <span>{{CarePlan.resources}}</span>
+                </div>
+                <div class="lbl smaller" *ngIf="CarePlan.consequences">
+                  <label>{{'label_LblDiagnosisC' | translate}}</label>
+                  <span>{{CarePlan.consequences}}</span>
+                </div>
+              </div>
+              <div id="LayoutObjectivesRow" class="layout vertical">
+                <div id="LytAddObjective" class="layout horizontal center">
+                  <phi-buttonadd (binding)="addObjective(CarePlan)" id="BtnAddObjective" [disabled]="CarePlan.cancellationdate"></phi-buttonadd>
+                </div>
+                <div id="LayoutObjectives" class="layout vertical row" *ngFor="let Objectives of CarePlan.objectives">
+                  <div class="lbl">
+                    <span class="bold">{{Objectives.title}}</span>
+                  </div>
+                  <div class="lbl">
+                    <span class="smaller">{{Objectives.creationdetails}}</span>
+                  </div>
+                  <div phi-datagrid id="DgObjectives">
+                    <thead class="tableHeaderMini">
+                      <tr>
+                        <th class="smaller">{{'DgcObjectivesStart' | translate}}</th>
+                        <th class="smaller">{{'DgcObjectivesEnd' | translate}}</th>
+                        <th class="smaller">{{'DgcObjectivesReached' | translate}}</th>
+                        <th class="smaller">{{'DgcObjectivesActive' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span>{{Objectives.startdate | dateFormat: 'shortDate'}}</span>
+                        </td>
+                        <td>
+                          <span>{{Objectives.enddate | dateFormat: 'shortDate'}}</span>
+                        </td>
+                        <td>
+                          <span *ngIf="Objectives.status == 'OBJECTIVEREACHED'" class="smaller">{{'LblReachedYes' |
+                            translate}}</span>
+                          <span *ngIf="Objectives.status != 'OBJECTIVEREACHED'" class="smaller">{{'LblReachedNo' |
+                            translate}}</span>
+                        </td>
+                        <td>
+                          <span class="{{getObjectiveClass(Objectives)}}"></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </div>
+                  <div class="lbl smaller">
+                    <label>{{'label_LblObjectivesInvlvdRl' | translate}}</label>
+                    <span>{{Objectives.involvedroles}}</span>
+                  </div>
+                  <div class="lbl smaller">
+                    <label>{{'label_LblObjectivesFrqncy' | translate}}</label>
+                    <span>{{Objectives.frequency}}</span>
+                  </div>
+                  <div class="lbl smaller">
+                    <label>{{'label_LblObjectivesNote' | translate}}</label>
+                    <span>{{Objectives.note}}</span>
+                  </div>
+                </div>
+              </div>
+              <div id="LayoutActivitiesRow" class="layout vertical">
+                <div id="LytAddActivity" class="layout horizontal center">
+                  <phi-buttonadd (binding)="addActivity(CarePlan)" id="BtnAddActivityCare" [disabled]="CarePlan.cancellationdate"></phi-buttonadd>
+                </div>
+                <div id="LayoutActivities" class="layout vertical row rowbox" *ngFor="let Activities of CarePlan.activities">
+                  <div class="lbl">
+                    <span class="bold">{{Activities.title}}</span>
+                  </div>
+                  <div class="lbl">
+                    <span class="small">{{Activities.creationdetails}}</span>
+                  </div>
+                  <!--
+                <div phi-datagrid id="DgActivities">
+                  <thead class="tableHeader">
+                    <tr>
+                      <th class="small">{{'DgcActivitiesStart' | translate}}</th>
+                      <th class="small">{{'DgcActivitiesEnd' | translate}}</th>
+                      <th class="small">{{'DgcActivitiesActive' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <span class="small">{{Activities.startdate | dateFormat: 'shortDate'}}</span>
+                      </td>
+                      <td>
+                        <span class="small">{{Activities.enddate | dateFormat: 'shortDate'}}</span>
+                      </td>
+                      <td>
+                        <span class="{{getActivityClass(Activities)}}"></span>
+                      </td>
+                  </tr>
+                  </tbody>
+                </div>
+                -->
+                  <div>
+                    <div class="layout-40">
+                      <div class="lbl smaller">
+                        <label>{{'DgcActivitiesStart' | translate}}</label><span>{{Activities.startdate |
+                          dateFormat: 'shortDate'}}</span>
+                      </div>
+                      <div class="lbl smaller">
+                        <label>{{'DgcActivitiesEnd' | translate}}</label><span>{{Activities.enddate |
+                          dateFormat: 'shortDate'}}</span>
+                      </div>
+                      <div class="lbl smaller">
+                        <label>{{'DgcActivitiesActive' | translate}}</label><span class="{{getActivityClass(Activities)}}"></span>
+                      </div>
+                    </div>
+
+                    <div class="layout-60">
+                      <div class="lbl smaller">
+                        <label>{{'label_LblActivityInvlvdRl' | translate}}</label><span>{{Activities.involvedroles}}</span>
+                      </div>
+                      <div class="lbl smaller">
+                        <label>{{'label_LblActivityFrqncy' | translate}}</label>
+                        <span>{{Activities.frequency}}</span>
+                      </div>
+                      <div class="lbl smaller">
+                        <label>{{'label_LblActivityNote' | translate}}</label>
+                        <span>{{Activities.note}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="PanelAllActivity" class="layout vertical" *ngIf="TabbedPane_1496142163217.selectedTabIndex == 1">
+          <div id="LayoutAllActvtsBtnBar" class="layout horizontal fill">
+            <div id="LayoutAllActvtsBtnBarLft" class="layout horizontal">
+              <phi-buttonrefresh (binding)="refresh('activities')" id="BtnRefreshActivities"></phi-buttonrefresh>
+              <phi-buttonadd (binding)="addActivity()" id="BtnAddActivity"></phi-buttonadd>
+            </div>
+            <div id="LayoutAllActvtsBtnBarRght" class="layout horizontal end">
+              <phi-button (binding)="config()" id="BtnActivityConfig" styleClass="fa fa-cog fa-2x" tooltip="{{'alt_BtnActivityConfig' | translate}}"></phi-button>
+            </div>
+          </div>
+          <div id="LayoutAllActivity" class="layout horizontal row" *ngFor="let CarePlan of CarePlanList?.entities">
+            <div id="LytActivityStatus" class="layout horizontal {{getStatusClass(CarePlan)}}">
+            </div>
+            <div id="LytActivityLft" class="layout vertical">
+              <div class="lbl">
+                <span class="bold">{{CarePlan.title}}</span>
+              </div>
+              <div class="lbl">
+                <span>{{CarePlan.subtitle}}</span>
+              </div>
+              <div class="lbl">
+                <label>{{'label_LblActivityFrqncy' | translate}}</label>
+                <span>{{CarePlan.frequency}}</span>
+              </div>
+            </div>
+            <div id="LytActivityRght" class="layout horizontal fill">
+              <div id="LytActivityCntr" class="layout vertical">
+                <div class="lbl smaller">
+                  <label>{{'label_LblActivityAuthor' | translate}}</label>
+                  <span>{{CarePlan.author}}</span>
+                </div>
+                <div class="lbl smaller">
+                  <label>{{'label_LblActivityStart' | translate}}</label>
+                  <span>{{CarePlan.startdate | dateFormat: 'short'}}</span>
+                </div>
+                <div class="lbl smaller">
+                  <label>{{'label_LblActivityEnd' | translate}}</label>
+                  <span>{{CarePlan.enddate | dateFormat: 'short'}}</span>
+                </div>
+                <div id="LytActivityCanc" class="layout vertical {{CarePlan.modified ? 'modified' : 'cancelled'}}"
+                  *ngIf="CarePlan.status == 'cancelled'">
+                  <div class="lbl smaller" *ngIf="CarePlan.modified != true">
+                    <label>{{'label_LytActivityCnclBy' | translate}}</label>
+                    <span>{{CarePlan.cancelledby}}</span>
+                  </div>
+                  <div class="lbl smaller" *ngIf="CarePlan.modified == true">
+                    <label>{{'label_LytActivityMdfdBy' | translate}}</label>
+                    <span>{{CarePlan.cancelledby}}</span>
+                  </div>
+                  <div class="lbl smaller">
+                    <label>{{'label_LytActivityCnclOn' | translate}}</label>
+                    <span>{{CarePlan.invalidationdate | dateFormat: 'short'}}</span>
+                  </div>
+                </div>
+              </div>
+              <phi-buttoncheck (binding)="closeActivity(CarePlan)" id="BtnCheckActivity" [renderedEl]="CarePlan.status == 'active' && CarePlan.objectiveid != null"></phi-buttoncheck>
+              <phi-buttonedit (binding)="editActivity(CarePlan)" id="BtnEditActivity" [renderedEl]="CarePlan.status == 'active'"></phi-buttonedit>
+              <phi-buttoncancel (binding)="deleteActivity(CarePlan)" id="BtnCancelActivity" [renderedEl]="CarePlan.status == 'active'"></phi-buttoncancel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

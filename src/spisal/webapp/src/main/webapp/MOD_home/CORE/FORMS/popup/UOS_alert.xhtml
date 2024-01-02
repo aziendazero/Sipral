@@ -1,0 +1,84 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1455198330370}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1455143144194" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" style="padding:0;text-align:center;" id="LayoutRow_1455541849274" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty Protocollo and Protocollo.uos.area.code ne UOS.area.code}" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<span value="${msg.Label_1457643076982}" class="labelContent  base-label" >${msg.Label_1457643076982}</span>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<h:outputText value="#{Protocollo.uos.area.currentTranslation}" id="Label_1456828672720" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<span value="${msg.Label_1457613221454}" class="labelContent  base-label" >${msg.Label_1457613221454}</span>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<h:outputText value="#{UOS.area.currentTranslation}" id="Label_1456828673488" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;text-align:center;" id="LayoutRow_1457591382823" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty Procpratiche and Procpratiche.serviceDeliveryLocation.area.code ne UOS.area.code}" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<span value="${msg.Label_1457397239246}" class="labelContent  base-label" >${msg.Label_1457397239246}</span>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<h:outputText value="#{Procpratiche.serviceDeliveryLocation.area.currentTranslation}" id="Label_1458373510142" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<span value="${msg.Label_1457202928988}" class="labelContent  base-label" >${msg.Label_1457202928988}</span>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<h:outputText value="#{UOS.area.currentTranslation}" id="Label_1457180111808" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1456828738480" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<span value="${msg.Label_1456828748807}" class="labelContent  base-label" >${msg.Label_1456828748807}</span>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<h:outputText value="#{Protocollo.uos.area.currentTranslation}" id="Label_1456828749584" style="display:block;" styleClass="labelContent c-text-bold base-label" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;text-align:center;" id="LayoutRow_1498489166674" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{UOS.area.code=='SUPERVISION'}" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="RadioGroup_1498503583742" style="display:inline-block;float:none;vertical-align:top;" >
+					<label >
+						<span class="label">${msg.label_RadioGroup_1498503583742}</span>
+						<h:selectOneRadio id="RadioGroup_1498503583742_id" value="#{Vigilanza.type}" required="true" styleClass="radioGroupTable radioGroup layoutRequired" label="${msg.label_RadioGroup_1498503583742}" >
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:types')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneRadio>
+					</label>
+					<h:message for="RadioGroup_1498503583742_id" styleClass="errorMessages RadioGroup_1498503583742_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1457062821074" style="padding-top:15px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1455585300997;BtnCancel')}" value="#{msg.Button_1455585300997}" id="Button_1455585300997_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" immediate="true" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1455829561924;BtnSave')}" value="#{msg.Button_1455829561924}" id="Button_1455829561924_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

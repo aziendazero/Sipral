@@ -1,0 +1,259 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1686112762668" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1683245754149" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1683718439298;BtnBack')}" status="ajaxStatus" id="Link_1683718439298" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686433197162;BtnSaveQuest')}" status="ajaxStatus" id="Link_1686433197162" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1684580467978" style="height:100%;width:100%;" rendered="false" >
+						<style>
+						.page-next { width: 64px; height: 64px; }
+						.page-prev { width: 64px; height: 64px; }
+						</style>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1683903206459" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1683903206459}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1684335430994" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="VirtualPage_1685178884482" styleClass="virtualPageBox" >
+							<a4j:include id="VPvp_status_quest" layout="block" viewId="/MOD_home/CORE/FORMS/questionari/vp_status_quest.xhtml"  styleClass="virtualPageBox"/>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1683177058309" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1683177058309}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1685025670877" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1685025657868}" class="labelContent c-text-bold base-label" >${msg.Label_1685025657868}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1685025703820" value="#{QuestParteCtoERenatuns.c1a}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1685025657868}" >
+								<f:selectItems value="#{QuestionarioAction.reverseSelectItem(vocabularies.selectCodeValues('PHIDIC','YesNo:Yes,No'))}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685442370340" event="onselect" ignoreDupResponses="true" />
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1685442370340" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</div>
+
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1685442370340" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{QuestParteCtoERenatuns.c1a.code eq 'NO'}" >
+								<div class="layoutHorizontal" >
+								<h:outputLabel for="TextBox_1685025781452" value="${msg.Label_1685025755570}" class="labelContent  base-label" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:inputText id="TextBox_1685025781452" value="#{QuestParteCtoERenatuns.c1b}" styleClass="inputText" label="${msg.Label_1685025755570}" />
+								<a4j:outputPanel id="TextBox_1685025781452_msg" styleClass="errorContainer" ><h:message for="TextBox_1685025781452" styleClass="errorMessages TextBox_1685025781452_E" /></a4j:outputPanel>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1685025672444" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1685085794716}" class="labelContent c-text-bold base-label" >${msg.Label_1685085794716}</span>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1685087982347" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('TabellaCQuestParteCtoERenatuns;BtnRigaAdd')}" status="ajaxStatus" id="TabellaCQuestParteCtoERenatuns" title="${msg.alt_TabellaCQuestParteCtoERenatuns}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel id="DataGrid_1685085828932" layout="block" styleClass="dt layoutTable layoutVertical" >
+								<table id="d1685085828932" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1685085828932} [TabellaCList]" >
+									<thead class="tableHeader">
+										<tr>
+											<th><a4j:commandLink id="DataGridColumn_1685085837604" value="${msg.DataGridColumn_1685085837604} &#8593;&#8595;" action="#{TabellaCList.orderBy('numProgr')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085839212" value="${msg.DataGridColumn_1685085839212} &#8593;&#8595;" action="#{TabellaCList.orderBy('text01')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085840092" value="${msg.DataGridColumn_1685085840092} &#8593;&#8595;" action="#{TabellaCList.orderBy('text02')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085842140" value="${msg.DataGridColumn_1685085842140} &#8593;&#8595;" action="#{TabellaCList.orderBy('text03')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085843196" value="${msg.DataGridColumn_1685085843196} &#8593;&#8595;" action="#{TabellaCList.orderBy('text04')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085844108" value="${msg.DataGridColumn_1685085844108} &#8593;&#8595;" action="#{TabellaCList.orderBy('text05')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085845736" value="${msg.DataGridColumn_1685085845736} &#8593;&#8595;" action="#{TabellaCList.orderBy('text06')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085846757" value="${msg.DataGridColumn_1685085846757} &#8593;&#8595;" action="#{TabellaCList.orderBy('text07')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085847875" value="${msg.DataGridColumn_1685085847875} &#8593;&#8595;" action="#{TabellaCList.orderBy('text08')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1685085848924" value="${msg.DataGridColumn_1685085848924} &#8593;&#8595;" action="#{TabellaCList.orderBy('text09')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th><a4j:commandLink id="DataGridColumn_1686751796781" value="${msg.DataGridColumn_1686751796781} &#8593;&#8595;" action="#{TabellaCList.orderBy('code01')}" reRender="DataGrid_1685085828932" ajaxSingle="true" disabled="#{empty TabellaCList ? true : false}"/></th>
+											<th>${msg.DataGridColumn_1686902038777}</th>
+											<th>${msg.DataGridColumn_1687953392565}</th>
+										</tr>
+									</thead>
+									<tbody class="tableBody">
+										<jstl:if test="#{empty TabellaCList or TabellaCList.isEmpty()}">
+											<tr class="noresults">
+												<td colspan="13">${error.emtpy_search_for_table}</td>
+											</tr>
+										</jstl:if>
+										<a4j:repeat id="r1685085828932" value="#{TabellaCList.entities}" var="TabellaC" rowKeyVar="rowIndex" >
+											<tr >
+												<td >
+													<span class="base-label" >#{TabellaC.numProgr}</span>
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085891243" value="#{TabellaC.text01}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085891243_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085891243" styleClass="errorMessages TextBox_1685085891243_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085891971" value="#{TabellaC.text02}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<f:validateLength minimum="1" maximum="4" />
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085891971_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085891971" styleClass="errorMessages TextBox_1685085891971_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085892651" value="#{TabellaC.text03}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085892651_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085892651" styleClass="errorMessages TextBox_1685085892651_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085893331" value="#{TabellaC.text04}" >
+														<f:validator validatorId="NumbersOnlyValidator"/>
+														<f:validateLength minimum="1" maximum="4" />
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085893331_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085893331" styleClass="errorMessages TextBox_1685085893331_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085894227" value="#{TabellaC.text05}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085894227_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085894227" styleClass="errorMessages TextBox_1685085894227_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085894819" value="#{TabellaC.text06}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085894819_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085894819" styleClass="errorMessages TextBox_1685085894819_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085895499" value="#{TabellaC.text07}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085895499_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085895499" styleClass="errorMessages TextBox_1685085895499_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085896156" value="#{TabellaC.text08}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085896156_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085896156" styleClass="errorMessages TextBox_1685085896156_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<h:inputText id="TextBox_1685085896763" value="#{TabellaC.text09}" >
+														<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+													</h:inputText>
+													<a4j:outputPanel id="TextBox_1685085896763_msg" styleClass="errorContainer" ><h:message for="TextBox_1685085896763" styleClass="errorMessages TextBox_1685085896763_E" /></a4j:outputPanel>
+
+												</td>
+
+												<td >
+									<h:selectOneMenu id="ComboBox_1686751825607" value="#{TabellaC.code01}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Settore1')}" />
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_1685085828932" event="onchange" ignoreDupResponses="true" />
+									</h:selectOneMenu>
+
+												</td>
+
+												<td >
+													<a4j:outputPanel layout="block" id="JollyWidget_1686902149539_id" rendered="#{TabellaC.code01 ne null}" >
+														<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaC, 'Link_1686902045085;fillScheda')}" status="ajaxStatus" id="Link_1686902045085" alt="#{LINK}" reRender="phiDesktop" styleClass="#{TabellaC.bl01?'fa fa-pencil-square-green fa-2x':'fa fa-pencil-square-o fa-2x'} tableButton"  />
+														
+													</a4j:outputPanel>
+
+												</td>
+
+												<td >
+													<a4j:outputPanel layout="block" id="JollyWidget_1687953407418" >
+														<a4j:commandLink action="#{QuestTabellaAction.injectAndProceed(TabellaC, 'Link_1687441448925;BtnRigaDel')}" status="ajaxStatus" id="Link_1687441448925" alt="#{LINK}" reRender="popup, phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+														
+													</a4j:outputPanel>
+
+												</td>
+
+											</tr>
+										</a4j:repeat>
+									</tbody>
+								</table>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1685280061292" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1685280086393}" class="labelContent c-text-bold base-label" >${msg.Label_1685280086393}</span>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectOneRadio id="RadioGroup_1685280091137" value="#{QuestParteCtoERenatuns.c3}" styleClass="radioGroupTable radioGroup" label="${msg.Label_1685280086393}" >
+								<f:selectItems value="#{QuestionarioAction.reverseSelectItem(vocabularies.selectCodeValues('PHIDIC','YesNo:Yes,No'))}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneRadio>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1685280161650}" class="labelContent  base-label" >${msg.Label_1685280161650}</span>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1685280195169" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<span value="${msg.Label_1685280201473}" class="labelContent  base-label" >${msg.Label_1685280201473}</span>
+							</div>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1683974683288" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686034255734;BtnSaveDef')}" status="ajaxStatus" id="Link_1686034255734" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1686183959245;BtnPrev')}" status="ajaxStatus" id="Link_1686183959245" alt="#{LINK}" reRender="phiDesktop" styleClass="page-prev link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1684151943717" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1684151943717;BtnNext')}" status="ajaxStatus" id="Link_1684151943717_id" alt="#{LINK}" rendered="#{QuestParteCtoERenatuns.confirmedC}" reRender="phiDesktop" styleClass="page-next link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

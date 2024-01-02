@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:components="http:///components.ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <components:Editor xmi:id="_xoopkNTXEeekN9fexnEgVw" formName="Form_1511940887208">
+    <abstractControl xmi:type="components:JollyValidator" xmi:id="_pkdngPSDEeeI94PGXMWC0w" name="JollyValidator_1515423192568" textBoxValidator="_bzXcFubEEemdE5O9e90NSg" validatorType="Numbers Only Validator"/>
+    <abstractControl xmi:type="components:ValidateLongRange" xmi:id="_3IKLIPSFEeeI94PGXMWC0w" name="ValidateLongRange_1514748723647" maximum="59"/>
+    <abstractControl xmi:type="components:JollyValidator" xmi:id="_xHyfAEKlEeqyWYq8IceD5g" name="JollyValidator_1580309032176" validatorType="Date Minor Equal Of Today"/>
+    <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4fd8NtLEee2OOeXuFq77w" name="LayoutRow_1512422986442" expandMode="Full Automatic" orientation="vertical">
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4fd9dtLEee2OOeXuFq77w" name="LayoutRow_1514325262944">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4fd9ttLEee2OOeXuFq77w" name="LayoutRow_1510917152223" orientation="vertical" asGroupBox="true" boxLabel="Ascensore/montacarichi">
+          <label xmi:type="components:Label" xmi:id="_0Qws8tTYEeekN9fexnEgVw" name="Label_1512581027756" value="Montacarichi" render="no"/>
+          <textBox xmi:type="components:TextBox" xmi:id="_o4fd99tLEee2OOeXuFq77w" name="TextBox_1510864933305" binding="ImpMonta.sigla" widgetLabel="Sigla" disabled="true"/>
+          <textBox xmi:type="components:TextBox" xmi:id="_o4fd-NtLEee2OOeXuFq77w" name="TextBox_1513959937449" binding="ImpMonta.matricola" widgetLabel="Matricola" disabled="true"/>
+          <textBox xmi:type="components:TextBox" xmi:id="_o4fd-dtLEee2OOeXuFq77w" name="TextBox_1512105544543" binding="ImpMonta.anno" widgetLabel="Anno" disabled="true"/>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4fd-ttLEee2OOeXuFq77w" name="LayoutRow_1512213724155" orientation="vertical" asGroupBox="true" boxLabel="Dati verifica">
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_m1g1IN5iEee2OOeXuFq77w" name="LayoutRow_1512643105958">
+            <label xmi:type="components:Label" xmi:id="_m1g1It5iEee2OOeXuFq77w" name="Label_1511433576709" binding="VerificaImp.statusCode.currentTranslation" widgetLabel="Stato" styleClass="c-text-bold"/>
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_e_lgkLH3EemJzolYJTGl8A" name="LayoutRow_1564401210649" renderedEL="rimPdm2CA.contains(VerificaImp)">
+              <link xmi:type="components:Link" xmi:id="_m1g1JN5iEee2OOeXuFq77w" name="toVerified3" parameter="p.company.scheda_verifiche_01.valida" styleClass="fa fa-check-square-o fa-2x save" disabled="Param['p.company.scheda_verifiche_01.valida'].readOnly" mnemonicName="BtnStatesManagement" tooltip="Valida" renderedEL="VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'" toReload="onclick(LayoutRow_1569608984426,LayoutRow_1512643105958,LayoutRowPanelTab_1516614284760)"/>
+              <link xmi:type="components:Link" xmi:id="_m1g1Jd5iEee2OOeXuFq77w" name="toNew3" parameter="p.company.scheda_verifiche_01.svalida" styleClass="fa fa-reply fa-2x save" disabled="Param['p.company.scheda_verifiche_01.svalida'].readOnly" readOnly="true" mnemonicName="BtnStatesManagement" tooltip="Annulla validazione" immediate="true" renderedEL="VerificaImp.statusCode.code=='verified'" toReload="onclick(LayoutRow_1569608984426,LayoutRow_1512643105958,popup)"/>
+              <link xmi:type="components:Link" xmi:id="_m1g1Jt5iEee2OOeXuFq77w" name="toCompleted3" parameter="p.company.scheda_verifiche_01.fattura" tag="" styleClass="fa fa-check-square fa-2x save" disabled="Param['p.company.scheda_verifiche_01.fattura'].readOnly" readOnly="true" mnemonicName="BtnStatesManagement" tooltip="Fattura" renderedEL="VerificaImp.statusCode.code=='verified' and false" toReload="onclick(LayoutRow_1569608984426,LayoutRow_1512643105958)"/>
+            </layoutRow>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_jNTRgLWsEeiVlcne3nD_sg" name="LayoutRow_1536661333656">
+            <label xmi:type="components:Label" xmi:id="_o4fd_NtLEee2OOeXuFq77w" name="Label_1511486696748" binding="VerificaImp.serviceDeliveryLocation.name.giv" widgetLabel="Sede ARPAV"/>
+            <link xmi:type="components:Link" xmi:id="_o4fd_dtLEee2OOeXuFq77w" name="Link_1511584515838" tag="" styleClass="fa fa-pencil-square-o fa-2x" mnemonicName="BtnAddARPAV" tooltip="Modifica" immediate="true" render="yes" renderedEL="not empty VerificaImp.serviceDeliveryLocation" toReload=""/>
+            <link xmi:type="components:Link" xmi:id="_cauaINE6EeiZAvSxbrA0og" name="Link_1538471995140" tag="" style="border-left-color: orange;border-left-style: solid;border-left-width: 5px;border-radius: 4px;" styleClass="fa fa-pencil-square-o fa-2x" mnemonicName="BtnAddARPAV" tooltip="Modifica" immediate="true" render="yes" renderedEL="empty VerificaImp.serviceDeliveryLocation" toReload=""/>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_n6_2gN5iEee2OOeXuFq77w" name="LayoutRow_1512990082536" orientation="vertical">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_YpOzoPn5EeieuvK-YvcuMw" name="LayoutRow_1544171013082">
+              <link xmi:type="components:Link" xmi:id="_aWF-Gfn5EeieuvK-YvcuMw" name="Link_1543296881461" styleClass="fa fa-pencil-square-o fa-2x" mnemonicName="editDate" toReload="onclick(popup)"/>
+              <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_o4fd_ttLEee2OOeXuFq77w" name="MonthCalendar_1514167702496" binding="VerificaImp.data" widgetLabel="Data della verifica" required="yes" disabled="true"/>
+            </layoutRow>
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_YUaaMPn5EeieuvK-YvcuMw" name="LayoutRow_1544171010899">
+              <textBox xmi:type="components:TextBox" xmi:id="_o4fd_9tLEee2OOeXuFq77w" name="TextBox_1511288078216" binding="VerificaImp.luogo" widgetLabel="Luogo della verifica" style="width:600px;"/>
+            </layoutRow>
+          </layoutRow>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_nLRUALWNEeiVlcne3nD_sg" name="LayoutRow_1536397643902" orientation="vertical" boxLabel="">
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_bzXcEObEEemdE5O9e90NSg" name="LayoutRow_1569608984426" renderedEL="" orientation="vertical" asGroupBox="true" boxLabel="Dati verifica">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_bzXcEebEEemdE5O9e90NSg" name="LayoutRow_1571786241616" renderedEL="" boxLabel="">
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_bzXcE-bEEemdE5O9e90NSg" name="LayoutRow_1570007881483" style="width:290px;">
+                <jollyWidget xmi:type="components:JollyWidget" xmi:id="_UVMk4ObFEemdE5O9e90NSg" name="JollyWidget_1570207075886" customCode="&lt;script type=&quot;text/javascript&quot;>&lt;![CDATA[&#xD;&#xA;jQuery('#i\\:VPscheda_verifiche_03\\:TextBox_1568838300204_id').keydown(function(e){&#xD;&#xA;&#x9;if((e.keyCode>=48 &amp;&amp; e.keyCode&lt;=110) || e.keyCode==188 || e.keyCode==190){&#xD;&#xA;&#x9;&#x9;if(e.keyCode == 188 &amp;&amp; jQuery(this).val().match(/^\d/)){&#xD;&#xA;&#x9;&#x9;&#x9;e.preventDefault();&#xD;&#xA;&#x9;&#x9;&#x9;if(!jQuery(this).val().match(/\d+\.\d{0,}/)){&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;jQuery(this).val(jQuery(this).val() + '.');&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;}else if((e.keyCode == 190 || e.keyCode == 110)&amp;&amp; jQuery(this).val().match(/^\d/)){&#xD;&#xA;&#x9;&#x9;&#x9;if(jQuery(this).val().match(/\d+\.\d{0,}/)){&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;e.preventDefault();&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;}else if((e.keyCode>=48 &amp;&amp; e.keyCode&lt;=57) || (e.keyCode>=96 &amp;&amp; e.keyCode&lt;=105)){&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;}else{&#xD;&#xA;&#x9;&#x9;&#x9;e.preventDefault();&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;})&#xD;&#xA;]]>&lt;/script>"/>
+                <link xmi:type="components:Link" xmi:id="_bzXcFObEEemdE5O9e90NSg" name="Link_1569439423245" styleClass="fa fa-lock-o fa-2x linkUnlink" mnemonicName="lockImp" immediate="true" renderedEL="not empty VerificaImp.impManuale and VerificaImp.impManuale eq 'true'" toReload="onclick(LayoutRow_1569608984426)"/>
+                <link xmi:type="components:Link" xmi:id="_bzXcFebEEemdE5O9e90NSg" name="Link_1572001762969" style="margin-left:-5px;" styleClass="fa fa-lock fa-2x linkUnlink" mnemonicName="unlockImp" immediate="true" renderedEL="empty VerificaImp.impManuale or VerificaImp.impManuale eq 'false'" toReload="onclick(LayoutRow_1569608984426)"/>
+                <textBox xmi:type="components:TextBox" xmi:id="_bzXcFubEEemdE5O9e90NSg" name="TextBox_1568838300204" binding="VerificaImpAction.temporary['impTemp']" widgetLabel="Importo" converter="" style="min-width:100px;width:100px;" styleClass="c-text-bold c-text-red" required="yes" disabled="empty VerificaImp.impManuale or VerificaImp.impManuale eq 'false'" toReload="" validator="_pkdngPSDEeeI94PGXMWC0w"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_AhXs4NirEeq4-qdPcgbDxg" name="LayoutRow_1598262422386" orientation="vertical">
+                <label xmi:type="components:Label" xmi:id="_AhXs4dirEeq4-qdPcgbDxg" name="Label_1597840926470" binding="VerificaImp.codiceConto" widgetLabel="Codice conto" styleClass="c-text-bold c-text-red" renderedEL=""/>
+                <label xmi:type="components:Label" xmi:id="_AhXs4tirEeq4-qdPcgbDxg" name="Label_1596956119135" binding="VerificaImp.causale.code" widgetLabel="Causale" styleClass="c-text-bold c-text-red"/>
+              </layoutRow>
+            </layoutRow>
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_bzXcF-bEEemdE5O9e90NSg" name="LayoutRow_1569032186450">
+              <textArea xmi:type="components:TextArea" xmi:id="_bzXcGObEEemdE5O9e90NSg" name="TextArea_1571429377515" binding="VerificaImp.noteImporto" widgetLabel="Note importo" renderedEL="not empty VerificaImp.impManuale and VerificaImp.impManuale eq 'true'" required="yes" requiredEL="" maximumLength="2500"/>
+            </layoutRow>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_nLRUBLWNEeiVlcne3nD_sg" name="LayoutRow_1537600695352" renderedEL="VerificaImp.statusCode.code=='completed' and not empty VerificaImp.fattura" orientation="vertical" asGroupBox="true" boxLabel="Dati fattura">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_nLRUBbWNEeiVlcne3nD_sg" name="LayoutRow_1535021601069" renderedEL="">
+              <label xmi:type="components:Label" xmi:id="_nLRUBrWNEeiVlcne3nD_sg" name="Label_1536766071633" binding="function.formatDate(VerificaImp.fattura.creationDate, 'yyyy')" widgetLabel="Anno"/>
+              <label xmi:type="components:Label" xmi:id="_nLRUB7WNEeiVlcne3nD_sg" name="Label_1538736572154" binding="VerificaImp.fattura.gruppo" widgetLabel="Gruppo"/>
+            </layoutRow>
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_nLRUCLWNEeiVlcne3nD_sg" name="LayoutRow_1538385242162" renderedEL="" boxLabel="">
+              <label xmi:type="components:Label" xmi:id="_nLRUCbWNEeiVlcne3nD_sg" name="Label_1537042869739" binding="VerificaImp.numeroDoc" widgetLabel="Numero documento"/>
+              <label xmi:type="components:Label" xmi:id="_nLRUCrWNEeiVlcne3nD_sg" name="Label_1538251473704" binding="VerificaImp.fattura.tipologiaDocumento" widgetLabel="Tipo documento"/>
+              <label xmi:type="components:Label" xmi:id="_nLRUC7WNEeiVlcne3nD_sg" name="Label_1537413413178" binding="VerificaImp.fattura.creationDate" widgetLabel="Data elaborazione" dateTimePatternLength="2. Normal - 03/15/2005 05:12 AM"/>
+            </layoutRow>
+          </layoutRow>
+        </layoutRow>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feANtLEee2OOeXuFq77w" name="LayoutRow_1512021511180" expandMode="Full Automatic" orientation="vertical" asGroupBox="true" boxLabel="Dettagli verifica">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feAdtLEee2OOeXuFq77w" name="LayoutRow_1514089676426" style="padding-bottom:15px;">
+          <jollyWidget xmi:type="components:JollyWidget" xmi:id="_jB6EYNqlEemHZe5EqJ3uwQ" name="JollyWidget_1568874016678" customCode="&lt;a4j:outputPanel layout=&quot;block&quot; id=&quot;LayoutRow_1513243713846&quot; styleClass=&quot;layoutContainer layoutContainerHorizontal&quot; >&#xD;&#xA;&lt;div class=&quot;layoutHorizontal&quot; >&#xD;&#xA;&lt;label style=&quot;display:block;&quot; >&#xD;&#xA;&#x9;&lt;span class=&quot;widget-label&quot;>${msg.label_TextBox_1515422706169}&lt;/span>&#xD;&#xA;&#x9;&lt;h:inputText id=&quot;TextBox_1515422706169&quot; value=&quot;#{VerificaImp.hhServizio}&quot; style=&quot;width: 40px;min-width: 40px;&quot; styleClass=&quot;inputText#{(VerificaImpAction.oreMinutiServizioRequired(Impianto.code.code, VerificaImp)) ? ' layoutRequired' : ''}&quot; label=&quot;${msg.label_TextBox_1515422706169}&quot; >&#xD;&#xA;&#x9;&lt;f:validator validatorId=&quot;NumbersOnlyValidator&quot;/>&#xD;&#xA;&#x9;&lt;a4j:support limitToList=&quot;true&quot; ajaxSingle=&quot;true&quot; reRender=&quot;LayoutRow_1513243713846&quot; event=&quot;onchange&quot; ignoreDupResponses=&quot;true&quot; />&#xD;&#xA;&lt;/h:inputText>&#xD;&#xA;&#x9;&lt;a4j:outputPanel id=&quot;TextBox_1515422706169_msg&quot; styleClass=&quot;errorContainer&quot; >&lt;h:message for=&quot;TextBox_1515422706169&quot; styleClass=&quot;errorMessages TextBox_1515422706169_E&quot; />&lt;/a4j:outputPanel>&#xD;&#xA;&lt;/label>&#xD;&#xA;&lt;/div>&#xD;&#xA;&#xD;&#xA;&lt;div class=&quot;layoutHorizontal&quot; >&#xD;&#xA;&lt;h:outputLabel for=&quot;TextBox_1515422709035&quot; value=&quot;${msg.Label_1568817479841}&quot; class=&quot;labelContent c-text-16 c-text-bold base-label&quot; />&#xD;&#xA;&lt;/div>&#xD;&#xA;&#xD;&#xA;&lt;div class=&quot;layoutHorizontal&quot; >&#xD;&#xA;&lt;h:inputText id=&quot;TextBox_1515422709035&quot; value=&quot;#{VerificaImp.mmServizio}&quot; style=&quot;width: 40px;min-width: 40px;&quot; styleClass=&quot;inputText&quot; label=&quot;${msg.Label_1568817479841}&quot; >&#xD;&#xA;&#x9;&lt;f:validator validatorId=&quot;NumbersOnlyValidator&quot;/>&#xD;&#xA;&#x9;&lt;f:validateLongRange minimum=&quot;0&quot; maximum=&quot;59&quot; />&#xD;&#xA;&#x9;&lt;a4j:support limitToList=&quot;true&quot; ajaxSingle=&quot;true&quot; reRender=&quot;LayoutRow_1513243713846&quot; event=&quot;onchange&quot; ignoreDupResponses=&quot;true&quot; />&#xD;&#xA;&lt;/h:inputText>&#xD;&#xA;&lt;a4j:outputPanel id=&quot;TextBox_1515422709035_msg&quot; styleClass=&quot;errorContainer&quot; >&lt;h:message for=&quot;TextBox_1515422709035&quot; styleClass=&quot;errorMessages TextBox_1515422709035_E&quot; />&lt;/a4j:outputPanel>&#xD;&#xA;&lt;/div>&#xD;&#xA;&#xD;&#xA;&lt;/a4j:outputPanel>"/>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_9K-6wOCxEeep2JfJDwu_Qw" name="LayoutRow_1513244057708" style="width:50%;">
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feAttLEee2OOeXuFq77w" name="ComboBox_1513770731947" binding="VerificaImp.tipo" widgetLabel="Tipo verifica" listElementsExpression="vocabularies.getIdValues('PHIDIC:TipoVerifica')" toReload="onchange(LayoutRow_1514089676426)" emptyFieldActive="false"/>
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_PWLQUNCDEemFsNBlVmNFwQ" name="LayoutRow_1567759770069" orientation="vertical">
+              <comboBox xmi:type="components:ComboBox" xmi:id="_P9DqINCDEemFsNBlVmNFwQ" name="ComboBox_1567759774145" binding="VerificaImp.sopralluogo" widgetLabel="Tipologia sopralluogo" renderedEL="VerificaImp.tipo.code=='05'" toReload="onchange(LayoutRow_1514089676426)"/>
+              <comboBox xmi:type="components:ComboBox" xmi:id="_o4feA9tLEee2OOeXuFq77w" name="ComboBox_1513171429662" binding="VerificaImp.tipoStr" widgetLabel="Verifica straordinaria" listElementsExpression="vocabularies.getIdValues('PHIDIC:VerificaStraordinaria03')" render="no" renderedEL="VerificaImp.tipo.code=='02' and false" required="yes" toReload="onchange(LayoutRow_1542653531412,LayoutRow_1514089676426)"/>
+            </layoutRow>
+          </layoutRow>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feBttLEee2OOeXuFq77w" name="LayoutRow_1514353588989" style="padding-bottom:25px;">
+          <checkBox xmi:type="components:CheckBox" xmi:id="_o4feB9tLEee2OOeXuFq77w" name="CheckBox_1511933765103" binding="VerificaImp.prima" widgetLabel="Prima verifica"/>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_LXeGZPX1Eeew-qJy53hynA" name="LayoutRow_1517566145767">
+          <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_LXeGZfX1Eeew-qJy53hynA" name="MonthCalendar_1514562012087" binding="VerificaImp.nextVerifDate1" widgetLabel="Data prossima verifica" styleClass="layoutRequired"/>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feCttLEee2OOeXuFq77w" name="LayoutRow_1513063024694" style="padding-bottom:25px;">
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feDdtLEee2OOeXuFq77w" name="LayoutRow_1510800117966">
+            <checkBox xmi:type="components:CheckBox" xmi:id="_6CyTwPSGEeeI94PGXMWC0w" name="CheckBox_1516368283795" binding="VerificaImp.tecnicoOut" widgetLabel="Attività intramenia" renderedEL="VerificaImp.operatore ne null"/>
+            <label xmi:type="components:Label" xmi:id="_o4feDttLEee2OOeXuFq77w" name="Label_1511585674239" binding="VerificaImp.operatore.name" widgetLabel="Tecnico della verifica"/>
+            <link xmi:type="components:Link" xmi:id="_o4feD9tLEee2OOeXuFq77w" name="Link_1511786265826" tag="" styleClass="fa fa-search fa-2x" mnemonicName="BtnOpMng" tooltip="Cerca" render="yes" renderedEL="not empty VerificaImp.operatore" toReload=""/>
+            <link xmi:type="components:Link" xmi:id="_f3ol4NE6EeiZAvSxbrA0og" name="Link_1538234781403" tag="" style="border-left-color: orange;border-left-style: solid;border-left-width: 5px;border-radius: 4px;" styleClass="fa fa-search fa-2x" mnemonicName="BtnOpMng" tooltip="Cerca" render="yes" renderedEL="empty VerificaImp.operatore" toReload=""/>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feEdtLEee2OOeXuFq77w" name="LayoutRow_1512337578797">
+            <comboBox xmi:type="components:ComboBox" xmi:id="_roQ0wLsUEei3O5XDIbKXcg" name="ComboBox_1539055831792" binding="Impianto.enteVerificatore" widgetLabel="Ente verificatore" render="no" disabled="true"/>
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feC9tLEee2OOeXuFq77w" name="ComboBox_1512387576611" binding="VerificaImp.esito" widgetLabel="Esito verifica"/>
+          </layoutRow>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feE9tLEee2OOeXuFq77w" name="LayoutRow_1510660255938">
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_B0rmwPbMEeew-qJy53hynA" name="LayoutRow_1515674181420">
+            <checkBox xmi:type="components:CheckBox" xmi:id="_Dtil0PbMEeew-qJy53hynA" name="CheckBox_1515674194093" binding="VerificaImp.prescrizioneBl" widgetLabel="Prescrizione" toReload="onclick(ComboBox_1513713551970)"/>
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feFNtLEee2OOeXuFq77w" name="ComboBox_1513713551970" binding="VerificaImp.prescrizione" widgetLabel="" listElementsExpression="" renderedEL="VerificaImp.prescrizioneBl"/>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_B5ywQPbMEeew-qJy53hynA" name="LayoutRow_1515674181956">
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feFdtLEee2OOeXuFq77w" name="ComboBox_1513486489542" binding="VerificaImp.esente" widgetLabel="Esente fattura" toReload="onchange(ComboBox_1513236582446)"/>
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feFttLEee2OOeXuFq77w" name="ComboBox_1513236582446" binding="VerificaImp.regimeFiscale" widgetLabel="Regime fiscale" listElementsExpression="(empty VerificaImp.esente or VerificaImp.esente.code=='01') or ImpCopy.sedi.esenzione.code eq '04'?vocabularies.getIdValues('PHIDIC:Regime'):function.createOptions('-')" disabled="ImpCopy.sedi.esenzione.code eq '04'" toReload="onchange(LayoutRow_1510660255938)"/>
+            <comboBox xmi:type="components:ComboBox" xmi:id="_o4feF9tLEee2OOeXuFq77w" name="ComboBox_1510989230438" binding="VerificaImp.aliquota" widgetLabel="Aliquota" listElementsExpression="(VerificaImp.regimeFiscale eq null or VerificaImp.regimeFiscale.code=='01')?vocabularies.selectCodeValues('PHIDIC','Aliquota:01'):vocabularies.selectCodeValues('PHIDIC','Aliquota:02,03')" renderedEL="" defaultValue=""/>
+            <label xmi:type="components:Label" xmi:id="_VYk2sNtNEee2OOeXuFq77w" name="Label_1512651085211" binding="ImpMonta.manutentore.currentTranslation" widgetLabel="Manutentore"/>
+          </layoutRow>
+        </layoutRow>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feGNtLEee2OOeXuFq77w" name="LayoutRow_1511140736900" orientation="vertical" asGroupBox="true" boxLabel="Variazione stato impianto">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feGdtLEee2OOeXuFq77w" name="LayoutRow_1514472886319">
+          <comboBox xmi:type="components:ComboBox" xmi:id="_o4feGttLEee2OOeXuFq77w" name="ComboBox_1511645106026" binding="VerificaImp.statoImp" widgetLabel="Stato impianto" listElementsExpression=""/>
+          <monthCalendar xmi:type="components:MonthCalendar" xmi:id="_o4feG9tLEee2OOeXuFq77w" name="MonthCalendar_1514408125761" binding="VerificaImp.dataVar" widgetLabel="Data" styleClass="todayIsHigherBound" validator="_xHyfAEKlEeqyWYq8IceD5g"/>
+        </layoutRow>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="__-v98M-_EemFsNBlVmNFwQ" name="LayoutRow_1567675915087" style="margin-top: 50px;" orientation="vertical">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_9opCMM-_EemFsNBlVmNFwQ" name="LayoutRow_1569396575989" renderedEL="not empty Impianto.sedeInstallazione and not empty Impianto.sedeInstallazione.sede and not empty Impianto.sedeInstallazione.sede.personaGiuridica and false">
+          <label xmi:type="components:Label" xmi:id="_9opCMc-_EemFsNBlVmNFwQ" name="Label_1566569613781" value="Dati Persona Giuridica"/>
+          <link xmi:type="components:Link" xmi:id="_9opCMs-_EemFsNBlVmNFwQ" name="Link_1566266036977" binding="OperationManager.manageEdit(Impianto.sedeInstallazione,'Sede',null, null)" tag="" styleClass="circle-pencil link" mnemonicName="operation" tooltip="Dati Persona Giuridica" toReload=""/>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feHNtLEee2OOeXuFq77w" name="LayoutRow_1511103489141">
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feHdtLEee2OOeXuFq77w" name="LayoutRow_1511268267775" style="width:33%;" orientation="vertical" asGroupBox="true" boxLabel="Sede di installazione">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feHttLEee2OOeXuFq77w" name="LayoutRow_1513163252471" renderedEL="VerificaImp.impMontaCpy ne null" orientation="vertical">
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feH9tLEee2OOeXuFq77w" name="LayoutRow_1512132448036">
+                <label xmi:type="components:Label" xmi:id="_o4feINtLEee2OOeXuFq77w" name="Label_1512353581323" binding="ImpCopy.sedeInstallazione.denominazione" widgetLabel="Denominazione"/>
+                <link xmi:type="components:Link" xmi:id="_o4feIdtLEee2OOeXuFq77w" name="Link_1514485020372" tag="" styleClass="fa fa-pencil-square-o fa-2x" readOnly="true" mnemonicName="MngSICpy" tooltip="Modifica" render="no" renderedEL="" toReload=""/>
+                <link xmi:type="components:Link" xmi:id="_lE8bwEy3Eeq9_J84EuCtQg" name="Link_1582869459552" styleClass="fa fa-search fa-2x" mnemonicName="MngSINew" tooltip="Seleziona nuova sede di installazione"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feIttLEee2OOeXuFq77w" name="LayoutRow_1513114503900">
+                <label xmi:type="components:Label" xmi:id="_o4feI9tLEee2OOeXuFq77w" name="Label_1513162719542" binding="ImpMonta.sedi.personaGiuridica.codiceFiscale" widgetLabel="Codice Fiscale" disabled="true"/>
+                <label xmi:type="components:Label" xmi:id="_o4feJNtLEee2OOeXuFq77w" name="Label_1513897339047" binding="ImpMonta.sedi.personaGiuridica.patritaIva" widgetLabel="Partita IVA" disabled="true"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feJdtLEee2OOeXuFq77w" name="LayoutRow_1513550051718">
+                <label xmi:type="components:Label" xmi:id="_o4feJttLEee2OOeXuFq77w" name="Label_1510945936709" binding="ImpCopy.sedeInstallazione.addr" widgetLabel="Indirizzo"/>
+              </layoutRow>
+            </layoutRow>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feJ9tLEee2OOeXuFq77w" name="LayoutRow_1511987255249" style="width:33%;" asGroupBox="true" boxLabel="Sede di addebito">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feKNtLEee2OOeXuFq77w" name="LayoutRow_1512891159872" renderedEL="VerificaImp.impMontaCpy ne null" orientation="vertical">
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_v9hD1PO9EeiiBJ0S0uZcJw" name="LayoutRow_1542009659750">
+                <label xmi:type="components:Label" xmi:id="_v9hD1fO9EeiiBJ0S0uZcJw" name="Label_1545609908492" binding="ImpCopy.sedi.denominazioneUnitaLocale" widgetLabel="Denominazione"/>
+                <link xmi:type="components:Link" xmi:id="_v9hD1vO9EeiiBJ0S0uZcJw" name="Link_1543108374595" tag="" styleClass="fa fa-pencil-square-o fa-2x" readOnly="true" mnemonicName="MngSACpy" tooltip="Modifica" render="yes" renderedEL="" toReload=""/>
+                <link xmi:type="components:Link" xmi:id="_v9hD1_O9EeiiBJ0S0uZcJw" name="Link_1543876983539" tag="" styleClass="fa fa-search fa-2x" mnemonicName="MngSANew" tooltip="Seleziona nuova sede di addebito" render="yes" renderedEL="" toReload="onclick(popup)"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_v9hD2PO9EeiiBJ0S0uZcJw" name="LayoutRow_1543772954935">
+                <label xmi:type="components:Label" xmi:id="_v9hD2fO9EeiiBJ0S0uZcJw" name="Label_1545465678041" binding="ImpCopy.sedi.addr" widgetLabel="Indirizzo"/>
+                <label xmi:type="components:Label" xmi:id="_v9hD2vO9EeiiBJ0S0uZcJw" name="Label_1542651578101" binding="ImpCopy.sedi.impSpesa" widgetLabel="Impegno di spesa"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_v9hD2_O9EeiiBJ0S0uZcJw" name="LayoutRow_1544279792398">
+                <label xmi:type="components:Label" xmi:id="_v9hD3PO9EeiiBJ0S0uZcJw" name="Label_1543674678732" binding="ImpCopy.sedi.telecom.mc" widgetLabel="PEC"/>
+                <label xmi:type="components:Label" xmi:id="_v9hD3fO9EeiiBJ0S0uZcJw" name="Label_1544048197644" binding="ImpCopy.sedi.telecom.mail" widgetLabel="Mail"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_4O-toM5FEemDE9ZQQ8z6Dw" name="LayoutRow_1567513513338">
+                <label xmi:type="components:Label" xmi:id="_5iot4M5FEemDE9ZQQ8z6Dw" name="Label_1567513522110" binding="ImpCopy.sedi.codContabilita" widgetLabel="Codice contabilità"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_3sRpMM5FEemDE9ZQQ8z6Dw" name="LayoutRow_1567513509699">
+                <label xmi:type="components:Label" xmi:id="_5rlOgM5FEemDE9ZQQ8z6Dw" name="Label_1567513523048" binding="ImpCopy.sedi.codiceUnivoco" widgetLabel="Codice univoco"/>
+              </layoutRow>
+            </layoutRow>
+          </layoutRow>
+          <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feMttLEee2OOeXuFq77w" name="LayoutRow_1514563831727" style="width:33%;" asGroupBox="true" boxLabel="Indirizzo di spedizione">
+            <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feM9tLEee2OOeXuFq77w" name="LayoutRow_1513389195099" renderedEL="VerificaImp.impMontaCpy ne null" orientation="vertical">
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feNNtLEee2OOeXuFq77w" name="LayoutRow_1511806503756">
+                <label xmi:type="components:Label" xmi:id="_o4feNdtLEee2OOeXuFq77w" name="Label_1514156787440" binding="ImpCopy.indirizzoSped.denominazione" widgetLabel="Denominazione"/>
+                <link xmi:type="components:Link" xmi:id="_o4feNttLEee2OOeXuFq77w" name="Link_1512755290457" tag="" styleClass="fa fa-pencil-square-o fa-2x" readOnly="true" mnemonicName="MngISCpy" tooltip="Modifica" render="yes" renderedEL="" toReload=""/>
+                <link xmi:type="components:Link" xmi:id="_CPLZIPUZEeeI94PGXMWC0w" name="Link_1517467883426" tag="" styleClass="fa fa-search fa-2x" mnemonicName="MngISNew" tooltip="Seleziona nuovo indirizzo di spedizione" render="yes" renderedEL="" toReload="onclick(popup)"/>
+              </layoutRow>
+              <layoutRow xmi:type="components:LayoutRow" xmi:id="_o4feN9tLEee2OOeXuFq77w" name="LayoutRow_1510631754527">
+                <label xmi:type="components:Label" xmi:id="_o4feONtLEee2OOeXuFq77w" name="Label_1510867049793" binding="ImpCopy.indirizzoSped.addr" widgetLabel="Indirizzo"/>
+              </layoutRow>
+            </layoutRow>
+          </layoutRow>
+        </layoutRow>
+      </layoutRow>
+      <layoutRow xmi:type="components:LayoutRow" xmi:id="_7d9jkHPCEeif8P1XrIhF4Q" name="LayoutRow_1529414168649">
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_3tf0kHPAEeif8P1XrIhF4Q" name="LayoutRow_1531181906362" style="width:60%" asGroupBox="true" boxLabel="Note">
+          <textArea xmi:type="components:TextArea" xmi:id="_3tf0lHPAEeif8P1XrIhF4Q" name="TextArea_1527683678146" binding="VerificaImp.note" maximumLength="2500"/>
+        </layoutRow>
+        <layoutRow xmi:type="components:LayoutRow" xmi:id="_3tf0kXPAEeif8P1XrIhF4Q" name="LayoutRow_1530952111096" style="width:40%" asGroupBox="true" boxLabel="Ultima modifica">
+          <label xmi:type="components:Label" xmi:id="_3tf0knPAEeif8P1XrIhF4Q" name="Label_1531279527395" binding="VerificaImp.utenteUltimaModifica.name" widgetLabel="Utente"/>
+          <label xmi:type="components:Label" xmi:id="_3tf0k3PAEeif8P1XrIhF4Q" name="Label_1528780195885" binding="VerificaImp.dataUltimaModifica" widgetLabel="In data" dateTimeFormat="Date and Time" dateTimePatternLength="2. Normal - 03/15/2005 05:12 AM"/>
+        </layoutRow>
+      </layoutRow>
+    </layoutRow>
+  </components:Editor>
+  <notation:Diagram xmi:id="_xoopkdTXEeekN9fexnEgVw" type="components" element="_xoopkNTXEeekN9fexnEgVw" name="scheda_verifiche_03.mmgp" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_o4YwQNtLEee2OOeXuFq77w" type="2061" element="_o4fd8NtLEee2OOeXuFq77w" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_o4YwQdtLEee2OOeXuFq77w" type="7010">
+        <children xmi:type="notation:Shape" xmi:id="_o4ZXVNtLEee2OOeXuFq77w" type="3170" element="_o4fd9dtLEee2OOeXuFq77w" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXVdtLEee2OOeXuFq77w" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXVttLEee2OOeXuFq77w" type="3170" element="_o4fd9ttLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXV9tLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXWNtLEee2OOeXuFq77w" type="3144" element="_o4fd99tLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXWdtLEee2OOeXuFq77w" type="8043"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXWttLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXW9tLEee2OOeXuFq77w" type="3144" element="_o4fd-NtLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXXNtLEee2OOeXuFq77w" type="8043"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXXdtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXXttLEee2OOeXuFq77w" type="3144" element="_o4fd-dtLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXX9tLEee2OOeXuFq77w" type="8043"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXYNtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_0QuQutTYEeekN9fexnEgVw" type="3132" element="_0Qws8tTYEeekN9fexnEgVw" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_0QuQu9TYEeekN9fexnEgVw" type="8041"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0QuQvNTYEeekN9fexnEgVw"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXYdtLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXYttLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXY9tLEee2OOeXuFq77w"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXZNtLEee2OOeXuFq77w" type="3170" element="_o4fd-ttLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXZdtLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_m1gOEN5iEee2OOeXuFq77w" type="2061" element="_m1g1IN5iEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_m1gOEd5iEee2OOeXuFq77w" type="7010">
+                    <children xmi:type="notation:Shape" xmi:id="_m1gOFN5iEee2OOeXuFq77w" type="3132" element="_m1g1It5iEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_m1gOFd5iEee2OOeXuFq77w" type="8041"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m1gOFt5iEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_e_pK8LH3EemJzolYJTGl8A" type="3170" element="_e_lgkLH3EemJzolYJTGl8A" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_e_pK8rH3EemJzolYJTGl8A" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_m1gOHN5iEee2OOeXuFq77w" type="3155" element="_m1g1JN5iEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_m1gOHd5iEee2OOeXuFq77w" type="8054"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m1gOHt5iEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_m1gOH95iEee2OOeXuFq77w" type="3155" element="_m1g1Jd5iEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_m1gOIN5iEee2OOeXuFq77w" type="8054"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m1gOId5iEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_m1gOIt5iEee2OOeXuFq77w" type="3155" element="_m1g1Jt5iEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_m1gOI95iEee2OOeXuFq77w" type="8054"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m1gOJN5iEee2OOeXuFq77w"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_e_pK87H3EemJzolYJTGl8A"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_e_pK9LH3EemJzolYJTGl8A"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_e_pK8bH3EemJzolYJTGl8A"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_m1gOKN5iEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_m1gOKd5iEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m1gOKt5iEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_jNT4kLWsEeiVlcne3nD_sg" type="3170" element="_jNTRgLWsEeiVlcne3nD_sg" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_jNUfoLWsEeiVlcne3nD_sg" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXaNtLEee2OOeXuFq77w" type="3132" element="_o4fd_NtLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXadtLEee2OOeXuFq77w" type="8041"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXattLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXa9tLEee2OOeXuFq77w" type="2018" element="_o4fd_dtLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXbNtLEee2OOeXuFq77w" type="5048"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXbdtLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_catMANE6EeiZAvSxbrA0og" type="2018" element="_cauaINE6EeiZAvSxbrA0og" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_catMAdE6EeiZAvSxbrA0og" type="5048"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_catMAtE6EeiZAvSxbrA0og"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_jNUfobWsEeiVlcne3nD_sg"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_jNUforWsEeiVlcne3nD_sg"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jNT4kbWsEeiVlcne3nD_sg"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_n7AdkN5iEee2OOeXuFq77w" type="3170" element="_n6_2gN5iEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_n7Adkt5iEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_YpPasPn5EeieuvK-YvcuMw" type="3170" element="_YpOzoPn5EeieuvK-YvcuMw" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_YpPasvn5EeieuvK-YvcuMw" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZXcdtLEee2OOeXuFq77w" type="3157" element="_o4fd_ttLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXcttLEee2OOeXuFq77w" type="8056"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXc9tLEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_aWF-Fvn5EeieuvK-YvcuMw" type="2018" element="_aWF-Gfn5EeieuvK-YvcuMw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_aWF-F_n5EeieuvK-YvcuMw" type="5048"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aWF-GPn5EeieuvK-YvcuMw"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_YpPas_n5EeieuvK-YvcuMw"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_YpPatPn5EeieuvK-YvcuMw"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YpPasfn5EeieuvK-YvcuMw"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_YUaaMfn5EeieuvK-YvcuMw" type="3170" element="_YUaaMPn5EeieuvK-YvcuMw" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_YUaaM_n5EeieuvK-YvcuMw" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZXdNtLEee2OOeXuFq77w" type="3144" element="_o4fd_9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXddtLEee2OOeXuFq77w" type="8043"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXdttLEee2OOeXuFq77w"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_YUaaNPn5EeieuvK-YvcuMw"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_YUaaNfn5EeieuvK-YvcuMw"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YUaaMvn5EeieuvK-YvcuMw"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_n7Adk95iEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_n7BEoN5iEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_n7Adkd5iEee2OOeXuFq77w"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXd9tLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXeNtLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXedtLEee2OOeXuFq77w"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_nLMbgLWNEeiVlcne3nD_sg" type="2061" element="_nLRUALWNEeiVlcne3nD_sg" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_nLMbgbWNEeiVlcne3nD_sg" type="7010">
+                <children xmi:type="notation:Shape" xmi:id="_bzNrPubEEemdE5O9e90NSg" type="2061" element="_bzXcEObEEemdE5O9e90NSg" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_bzNrP-bEEemdE5O9e90NSg" type="7010">
+                    <children xmi:type="notation:Shape" xmi:id="_bzNrQObEEemdE5O9e90NSg" type="3170" element="_bzXcEebEEemdE5O9e90NSg" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_bzNrQebEEemdE5O9e90NSg" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_bzNrQubEEemdE5O9e90NSg" type="3170" element="_bzXcE-bEEemdE5O9e90NSg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_bzNrQ-bEEemdE5O9e90NSg" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_bzNrRObEEemdE5O9e90NSg" type="3144" element="_bzXcFubEEemdE5O9e90NSg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_bzNrRebEEemdE5O9e90NSg" type="8043"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrRubEEemdE5O9e90NSg"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_bzNrR-bEEemdE5O9e90NSg" type="3155" element="_bzXcFObEEemdE5O9e90NSg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_bzNrSObEEemdE5O9e90NSg" type="8054"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrSebEEemdE5O9e90NSg"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_bzNrSubEEemdE5O9e90NSg" type="3155" element="_bzXcFebEEemdE5O9e90NSg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_bzNrS-bEEemdE5O9e90NSg" type="8054"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrTObEEemdE5O9e90NSg"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_UVWV4ObFEemdE5O9e90NSg" type="3154" element="_UVMk4ObFEemdE5O9e90NSg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_UVWV4ubFEemdE5O9e90NSg" type="8053"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UVWV4ebFEemdE5O9e90NSg"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_bzNrTebEEemdE5O9e90NSg"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_bzNrTubEEemdE5O9e90NSg"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrT-bEEemdE5O9e90NSg"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_AhXF0NirEeq4-qdPcgbDxg" type="2061" element="_AhXs4NirEeq4-qdPcgbDxg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_AhXF0dirEeq4-qdPcgbDxg" type="7010">
+                            <children xmi:type="notation:Shape" xmi:id="_AhXF0tirEeq4-qdPcgbDxg" type="2001" element="_AhXs4dirEeq4-qdPcgbDxg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_AhXF09irEeq4-qdPcgbDxg" type="5001"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AhXF1NirEeq4-qdPcgbDxg"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_AhXF1dirEeq4-qdPcgbDxg" type="3132" element="_AhXs4tirEeq4-qdPcgbDxg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_AhXF1tirEeq4-qdPcgbDxg" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AhXF19irEeq4-qdPcgbDxg"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_AhXF2NirEeq4-qdPcgbDxg"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_AhXF2dirEeq4-qdPcgbDxg"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AhXF2tirEeq4-qdPcgbDxg"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_bzNrU-bEEemdE5O9e90NSg"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_bzNrVObEEemdE5O9e90NSg"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrVebEEemdE5O9e90NSg"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_bzNrVubEEemdE5O9e90NSg" type="3170" element="_bzXcF-bEEemdE5O9e90NSg" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_bzNrV-bEEemdE5O9e90NSg" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_bzNrWObEEemdE5O9e90NSg" type="3165" element="_bzXcGObEEemdE5O9e90NSg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_bzNrWebEEemdE5O9e90NSg" type="8063"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrWubEEemdE5O9e90NSg"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_bzNrW-bEEemdE5O9e90NSg"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_bzNrXObEEemdE5O9e90NSg"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrXebEEemdE5O9e90NSg"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_bzNrXubEEemdE5O9e90NSg"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_bzNrX-bEEemdE5O9e90NSg"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bzNrYObEEemdE5O9e90NSg"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_nLNCl7WNEeiVlcne3nD_sg" type="3170" element="_nLRUBLWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_nLNCmLWNEeiVlcne3nD_sg" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_nLNCmbWNEeiVlcne3nD_sg" type="3170" element="_nLRUBbWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_nLNCmrWNEeiVlcne3nD_sg" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_nLNCm7WNEeiVlcne3nD_sg" type="3132" element="_nLRUBrWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_nLNCnLWNEeiVlcne3nD_sg" type="8041"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCnbWNEeiVlcne3nD_sg"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_nLNCnrWNEeiVlcne3nD_sg" type="3132" element="_nLRUB7WNEeiVlcne3nD_sg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_nLNCn7WNEeiVlcne3nD_sg" type="8041"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCoLWNEeiVlcne3nD_sg"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_nLNCobWNEeiVlcne3nD_sg"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_nLNCorWNEeiVlcne3nD_sg"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCo7WNEeiVlcne3nD_sg"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_nLNCpLWNEeiVlcne3nD_sg" type="3170" element="_nLRUCLWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_nLNCpbWNEeiVlcne3nD_sg" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_nLNCprWNEeiVlcne3nD_sg" type="3132" element="_nLRUCbWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_nLNCp7WNEeiVlcne3nD_sg" type="8041"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCqLWNEeiVlcne3nD_sg"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_nLNCqbWNEeiVlcne3nD_sg" type="3132" element="_nLRUCrWNEeiVlcne3nD_sg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_nLNCqrWNEeiVlcne3nD_sg" type="8041"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCq7WNEeiVlcne3nD_sg"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_nLNCrLWNEeiVlcne3nD_sg" type="3132" element="_nLRUC7WNEeiVlcne3nD_sg" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_nLNCrbWNEeiVlcne3nD_sg" type="8041"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCrrWNEeiVlcne3nD_sg"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_nLNCr7WNEeiVlcne3nD_sg"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_nLNCsLWNEeiVlcne3nD_sg"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCsbWNEeiVlcne3nD_sg"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_nLNCsrWNEeiVlcne3nD_sg"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_nLNCs7WNEeiVlcne3nD_sg"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCtLWNEeiVlcne3nD_sg"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_nLNCtbWNEeiVlcne3nD_sg"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_nLNCtrWNEeiVlcne3nD_sg"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nLNCt7WNEeiVlcne3nD_sg"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXettLEee2OOeXuFq77w"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXe9tLEee2OOeXuFq77w"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXfNtLEee2OOeXuFq77w"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_o4ZXfdtLEee2OOeXuFq77w" type="3170" element="_o4feANtLEee2OOeXuFq77w" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXfttLEee2OOeXuFq77w" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXf9tLEee2OOeXuFq77w" type="3170" element="_o4feAdtLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXgNtLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_9LB-EOCxEeep2JfJDwu_Qw" type="3170" element="_9K-6wOCxEeep2JfJDwu_Qw" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_9LB-EuCxEeep2JfJDwu_Qw" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXgdtLEee2OOeXuFq77w" type="3146" element="_o4feAttLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXgttLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXg9tLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_PWLQUdCDEemFsNBlVmNFwQ" type="3170" element="_PWLQUNCDEemFsNBlVmNFwQ" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_PWLQU9CDEemFsNBlVmNFwQ" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_P9DqIdCDEemFsNBlVmNFwQ" type="3146" element="_P9DqINCDEemFsNBlVmNFwQ" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_P9DqI9CDEemFsNBlVmNFwQ" type="8045"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_P9DqItCDEemFsNBlVmNFwQ"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZXhNtLEee2OOeXuFq77w" type="3146" element="_o4feA9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXhdtLEee2OOeXuFq77w" type="8045"/>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXhttLEee2OOeXuFq77w"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_PWL3YNCDEemFsNBlVmNFwQ"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_PWL3YdCDEemFsNBlVmNFwQ"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PWLQUtCDEemFsNBlVmNFwQ"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_9LB-E-CxEeep2JfJDwu_Qw"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_9LB-FOCxEeep2JfJDwu_Qw"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9LB-EeCxEeep2JfJDwu_Qw"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_jB9uwNqlEemHZe5EqJ3uwQ" type="3154" element="_jB6EYNqlEemHZe5EqJ3uwQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_jB-V0NqlEemHZe5EqJ3uwQ" type="8053"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jB9uwdqlEemHZe5EqJ3uwQ"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXjdtLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXjttLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXj9tLEee2OOeXuFq77w"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXkNtLEee2OOeXuFq77w" type="3170" element="_o4feBttLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXkdtLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXkttLEee2OOeXuFq77w" type="3145" element="_o4feB9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXk9tLEee2OOeXuFq77w" type="8044"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXlNtLEee2OOeXuFq77w"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXm9tLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXnNtLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXndtLEee2OOeXuFq77w"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_LXeGXPX1Eeew-qJy53hynA" type="2061" element="_LXeGZPX1Eeew-qJy53hynA" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_LXeGXfX1Eeew-qJy53hynA" type="7010">
+                <children xmi:type="notation:Shape" xmi:id="_LXeGXvX1Eeew-qJy53hynA" type="3157" element="_LXeGZfX1Eeew-qJy53hynA" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_LXeGX_X1Eeew-qJy53hynA" type="8056"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_LXeGYPX1Eeew-qJy53hynA"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_LXeGYfX1Eeew-qJy53hynA"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_LXeGYvX1Eeew-qJy53hynA"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_LXeGY_X1Eeew-qJy53hynA"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXnttLEee2OOeXuFq77w" type="3170" element="_o4feCttLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXn9tLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXoNtLEee2OOeXuFq77w" type="3170" element="_o4feDdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXodtLEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXottLEee2OOeXuFq77w" type="3132" element="_o4feDttLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXo9tLEee2OOeXuFq77w" type="8041"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXpNtLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXqNtLEee2OOeXuFq77w" type="2018" element="_o4feD9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXqdtLEee2OOeXuFq77w" type="5048"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXqttLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_f3n-0NE6EeiZAvSxbrA0og" type="2018" element="_f3ol4NE6EeiZAvSxbrA0og" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_f3n-0dE6EeiZAvSxbrA0og" type="5048"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_f3n-0tE6EeiZAvSxbrA0og"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_6CwekPSGEeeI94PGXMWC0w" type="2004" element="_6CyTwPSGEeeI94PGXMWC0w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_6CwekfSGEeeI94PGXMWC0w" type="5004"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_6CwekvSGEeeI94PGXMWC0w" x="1220" y="420"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXq9tLEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXrNtLEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXrdtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4ZXrttLEee2OOeXuFq77w" type="3170" element="_o4feEdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXr9tLEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_roOYgLsUEei3O5XDIbKXcg" type="2009" element="_roQ0wLsUEei3O5XDIbKXcg" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_roOYgbsUEei3O5XDIbKXcg" type="5039"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_roOYgrsUEei3O5XDIbKXcg"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXtttLEee2OOeXuFq77w" type="3146" element="_o4feC9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXt9tLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXuNtLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXs9tLEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXtNtLEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXtdtLEee2OOeXuFq77w"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXvNtLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXvdtLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXvttLEee2OOeXuFq77w"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_o4ZXv9tLEee2OOeXuFq77w" type="3170" element="_o4feE9tLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXwNtLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_B0uqEPbMEeew-qJy53hynA" type="3170" element="_B0rmwPbMEeew-qJy53hynA" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_B0uqEvbMEeew-qJy53hynA" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_Dtil0fbMEeew-qJy53hynA" type="3145" element="_Dtil0PbMEeew-qJy53hynA" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_DtjM4PbMEeew-qJy53hynA" type="8044"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Dtil0vbMEeew-qJy53hynA"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXwdtLEee2OOeXuFq77w" type="3146" element="_o4feFNtLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXwttLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXw9tLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_B0uqE_bMEeew-qJy53hynA"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_B0uqFPbMEeew-qJy53hynA"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_B0uqEfbMEeew-qJy53hynA"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_B5zXUPbMEeew-qJy53hynA" type="3170" element="_B5ywQPbMEeew-qJy53hynA" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_B5zXUvbMEeew-qJy53hynA" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_VYldwNtNEee2OOeXuFq77w" type="3132" element="_VYk2sNtNEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_VYldwttNEee2OOeXuFq77w" type="8041"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_VYldwdtNEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXxNtLEee2OOeXuFq77w" type="3146" element="_o4feFdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXxdtLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXxttLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXx9tLEee2OOeXuFq77w" type="3146" element="_o4feFttLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXyNtLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXydtLEee2OOeXuFq77w"/>
+                    </children>
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZXyttLEee2OOeXuFq77w" type="3146" element="_o4feF9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZXy9tLEee2OOeXuFq77w" type="8045"/>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXzNtLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_B5zXU_bMEeew-qJy53hynA"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_B5zXVPbMEeew-qJy53hynA"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_B5zXUfbMEeew-qJy53hynA"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZXzdtLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZXzttLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZXz9tLEee2OOeXuFq77w"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZX0NtLEee2OOeXuFq77w"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZX0dtLEee2OOeXuFq77w"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX0ttLEee2OOeXuFq77w" x="25" y="25"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_o4ZX09tLEee2OOeXuFq77w" type="3170" element="_o4feGNtLEee2OOeXuFq77w" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX1NtLEee2OOeXuFq77w" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_o4ZX1dtLEee2OOeXuFq77w" type="3170" element="_o4feGdtLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX1ttLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_o4ZX19tLEee2OOeXuFq77w" type="3146" element="_o4feGttLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX2NtLEee2OOeXuFq77w" type="8045"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX2dtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4ZX2ttLEee2OOeXuFq77w" type="3157" element="_o4feG9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX29tLEee2OOeXuFq77w" type="8056"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX3NtLEee2OOeXuFq77w"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZX3dtLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZX3ttLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX39tLEee2OOeXuFq77w"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZX4NtLEee2OOeXuFq77w"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZX4dtLEee2OOeXuFq77w"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX4ttLEee2OOeXuFq77w"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="__-wlAM-_EemFsNBlVmNFwQ" type="3170" element="__-v98M-_EemFsNBlVmNFwQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="__-wlAs-_EemFsNBlVmNFwQ" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_9onNAM-_EemFsNBlVmNFwQ" type="2061" element="_9opCMM-_EemFsNBlVmNFwQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_9onNAc-_EemFsNBlVmNFwQ" type="7010">
+                <children xmi:type="notation:Shape" xmi:id="_9onNAs-_EemFsNBlVmNFwQ" type="3155" element="_9opCMs-_EemFsNBlVmNFwQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_9onNA8-_EemFsNBlVmNFwQ" type="8054"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9onNBM-_EemFsNBlVmNFwQ"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_9onNBc-_EemFsNBlVmNFwQ" type="3132" element="_9opCMc-_EemFsNBlVmNFwQ" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_9onNBs-_EemFsNBlVmNFwQ" type="8041"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9onNB8-_EemFsNBlVmNFwQ"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_9onNCM-_EemFsNBlVmNFwQ"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_9onNCc-_EemFsNBlVmNFwQ"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9onNCs-_EemFsNBlVmNFwQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_o4ZX49tLEee2OOeXuFq77w" type="3170" element="_o4feHNtLEee2OOeXuFq77w" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX5NtLEee2OOeXuFq77w" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_o4ZX5dtLEee2OOeXuFq77w" type="3170" element="_o4feHdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX5ttLEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZX59tLEee2OOeXuFq77w" type="3170" element="_o4feHttLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX6NtLEee2OOeXuFq77w" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZX6dtLEee2OOeXuFq77w" type="3170" element="_o4feH9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX6ttLEee2OOeXuFq77w" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_o4ZX69tLEee2OOeXuFq77w" type="3132" element="_o4feINtLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX7NtLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX7dtLEee2OOeXuFq77w"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_o4ZX7ttLEee2OOeXuFq77w" type="2018" element="_o4feIdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX79tLEee2OOeXuFq77w" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX8NtLEee2OOeXuFq77w"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_lE5_gEy3Eeq9_J84EuCtQg" type="2018" element="_lE8bwEy3Eeq9_J84EuCtQg" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_lE5_gUy3Eeq9_J84EuCtQg" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lE5_gky3Eeq9_J84EuCtQg"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZX8dtLEee2OOeXuFq77w"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZX8ttLEee2OOeXuFq77w"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX89tLEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZX9NtLEee2OOeXuFq77w" type="3170" element="_o4feIttLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX9dtLEee2OOeXuFq77w" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_o4ZX9ttLEee2OOeXuFq77w" type="3132" element="_o4feI9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX99tLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX-NtLEee2OOeXuFq77w"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_o4ZX-dtLEee2OOeXuFq77w" type="3132" element="_o4feJNtLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZX-ttLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX-9tLEee2OOeXuFq77w"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZX_NtLEee2OOeXuFq77w"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZX_dtLEee2OOeXuFq77w"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZX_ttLEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_o4ZX_9tLEee2OOeXuFq77w" type="3170" element="_o4feJdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4ZYANtLEee2OOeXuFq77w" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_o4ZYAdtLEee2OOeXuFq77w" type="3132" element="_o4feJttLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4ZYAttLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZYA9tLEee2OOeXuFq77w"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZYBNtLEee2OOeXuFq77w"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZYBdtLEee2OOeXuFq77w"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZYBttLEee2OOeXuFq77w" x="1275" y="290"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZYB9tLEee2OOeXuFq77w"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZYCNtLEee2OOeXuFq77w"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZYCdtLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_o4ZYCttLEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_o4ZYC9tLEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4ZYDNtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4ZYDdtLEee2OOeXuFq77w" type="3170" element="_o4feJ9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4ZYDttLEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4ZYD9tLEee2OOeXuFq77w" type="3170" element="_o4feKNtLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4ZYENtLEee2OOeXuFq77w" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_v9hDsPO9EeiiBJ0S0uZcJw" type="2061" element="_v9hD1PO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_v9hDsfO9EeiiBJ0S0uZcJw" type="7010">
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDsvO9EeiiBJ0S0uZcJw" type="3132" element="_v9hD1fO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDs_O9EeiiBJ0S0uZcJw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDtPO9EeiiBJ0S0uZcJw"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDtfO9EeiiBJ0S0uZcJw" type="2018" element="_v9hD1vO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDtvO9EeiiBJ0S0uZcJw" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDt_O9EeiiBJ0S0uZcJw" x="1205" y="620"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDuPO9EeiiBJ0S0uZcJw" type="2018" element="_v9hD1_O9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDufO9EeiiBJ0S0uZcJw" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDuvO9EeiiBJ0S0uZcJw" x="1190" y="535"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_v9hDu_O9EeiiBJ0S0uZcJw"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_v9hDvPO9EeiiBJ0S0uZcJw"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDvfO9EeiiBJ0S0uZcJw" x="1280" y="560"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_v9hDvvO9EeiiBJ0S0uZcJw" type="2061" element="_v9hD2PO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_v9hDv_O9EeiiBJ0S0uZcJw" type="7010">
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDwPO9EeiiBJ0S0uZcJw" type="3132" element="_v9hD2fO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDwfO9EeiiBJ0S0uZcJw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDwvO9EeiiBJ0S0uZcJw"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDw_O9EeiiBJ0S0uZcJw" type="3132" element="_v9hD2vO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDxPO9EeiiBJ0S0uZcJw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDxfO9EeiiBJ0S0uZcJw"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_v9hDxvO9EeiiBJ0S0uZcJw"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_v9hDx_O9EeiiBJ0S0uZcJw"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDyPO9EeiiBJ0S0uZcJw" x="1255" y="390"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_v9hDyfO9EeiiBJ0S0uZcJw" type="2061" element="_v9hD2_O9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_v9hDyvO9EeiiBJ0S0uZcJw" type="7010">
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDy_O9EeiiBJ0S0uZcJw" type="3132" element="_v9hD3PO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDzPO9EeiiBJ0S0uZcJw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hDzfO9EeiiBJ0S0uZcJw"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_v9hDzvO9EeiiBJ0S0uZcJw" type="3132" element="_v9hD3fO9EeiiBJ0S0uZcJw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_v9hDz_O9EeiiBJ0S0uZcJw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hD0PO9EeiiBJ0S0uZcJw"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_v9hD0fO9EeiiBJ0S0uZcJw"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_v9hD0vO9EeiiBJ0S0uZcJw"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_v9hD0_O9EeiiBJ0S0uZcJw" x="1270" y="470"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_4O_UsM5FEemDE9ZQQ8z6Dw" type="3170" element="_4O-toM5FEemDE9ZQQ8z6Dw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_4O_Uss5FEemDE9ZQQ8z6Dw" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_5ipU8M5FEemDE9ZQQ8z6Dw" type="3132" element="_5iot4M5FEemDE9ZQQ8z6Dw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_5ipU8s5FEemDE9ZQQ8z6Dw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5ipU8c5FEemDE9ZQQ8z6Dw"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_4O_Us85FEemDE9ZQQ8z6Dw"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_4O_UtM5FEemDE9ZQQ8z6Dw"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4O_Usc5FEemDE9ZQQ8z6Dw"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_3sTeYM5FEemDE9ZQQ8z6Dw" type="3170" element="_3sRpMM5FEemDE9ZQQ8z6Dw" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_3sUFcM5FEemDE9ZQQ8z6Dw" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_5rl1kM5FEemDE9ZQQ8z6Dw" type="3132" element="_5rlOgM5FEemDE9ZQQ8z6Dw" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_5rl1ks5FEemDE9ZQQ8z6Dw" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5rl1kc5FEemDE9ZQQ8z6Dw"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_3sUFcc5FEemDE9ZQQ8z6Dw"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_3sUFcs5FEemDE9ZQQ8z6Dw"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3sTeYc5FEemDE9ZQQ8z6Dw"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-eNtLEee2OOeXuFq77w"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-edtLEee2OOeXuFq77w"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-ettLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-e9tLEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-fNtLEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-fdtLEee2OOeXuFq77w"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_o4Z-fttLEee2OOeXuFq77w" type="3170" element="_o4feMttLEee2OOeXuFq77w" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-f9tLEee2OOeXuFq77w" type="7011">
+                    <children xmi:type="notation:Shape" xmi:id="_o4Z-gNtLEee2OOeXuFq77w" type="3170" element="_o4feM9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                      <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-gdtLEee2OOeXuFq77w" type="7011">
+                        <children xmi:type="notation:Shape" xmi:id="_o4Z-gttLEee2OOeXuFq77w" type="3170" element="_o4feNNtLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-g9tLEee2OOeXuFq77w" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_o4Z-hNtLEee2OOeXuFq77w" type="3132" element="_o4feNdtLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-hdtLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-httLEee2OOeXuFq77w"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_o4Z-h9tLEee2OOeXuFq77w" type="2018" element="_o4feNttLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-iNtLEee2OOeXuFq77w" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-idtLEee2OOeXuFq77w" x="1190" y="535"/>
+                            </children>
+                            <children xmi:type="notation:Shape" xmi:id="_CPLZGvUZEeeI94PGXMWC0w" type="2018" element="_CPLZIPUZEeeI94PGXMWC0w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_CPLZG_UZEeeI94PGXMWC0w" type="5048"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CPLZHPUZEeeI94PGXMWC0w" x="575" y="795"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-ittLEee2OOeXuFq77w"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-i9tLEee2OOeXuFq77w"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-jNtLEee2OOeXuFq77w"/>
+                        </children>
+                        <children xmi:type="notation:Shape" xmi:id="_o4Z-jdtLEee2OOeXuFq77w" type="3170" element="_o4feN9tLEee2OOeXuFq77w" fontName="Segoe UI">
+                          <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-jttLEee2OOeXuFq77w" type="7011">
+                            <children xmi:type="notation:Shape" xmi:id="_o4Z-j9tLEee2OOeXuFq77w" type="3132" element="_o4feONtLEee2OOeXuFq77w" fontName="Segoe UI">
+                              <children xmi:type="notation:DecorationNode" xmi:id="_o4Z-kNtLEee2OOeXuFq77w" type="8041"/>
+                              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-kdtLEee2OOeXuFq77w"/>
+                            </children>
+                            <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-kttLEee2OOeXuFq77w"/>
+                            <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-k9tLEee2OOeXuFq77w"/>
+                          </children>
+                          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-lNtLEee2OOeXuFq77w"/>
+                        </children>
+                        <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-ldtLEee2OOeXuFq77w"/>
+                        <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-lttLEee2OOeXuFq77w"/>
+                      </children>
+                      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-l9tLEee2OOeXuFq77w"/>
+                    </children>
+                    <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-mNtLEee2OOeXuFq77w"/>
+                    <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-mdtLEee2OOeXuFq77w"/>
+                  </children>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-mttLEee2OOeXuFq77w"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-m9tLEee2OOeXuFq77w"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-nNtLEee2OOeXuFq77w"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-ndtLEee2OOeXuFq77w"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="__-wlA8-_EemFsNBlVmNFwQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="__-wlBM-_EemFsNBlVmNFwQ"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="__-wlAc-_EemFsNBlVmNFwQ"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_7eB1AHPCEeif8P1XrIhF4Q" type="3170" element="_7d9jkHPCEeif8P1XrIhF4Q" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_7eCcEHPCEeif8P1XrIhF4Q" type="7011">
+            <children xmi:type="notation:Shape" xmi:id="_3tbjIHPAEeif8P1XrIhF4Q" type="2061" element="_3tf0kHPAEeif8P1XrIhF4Q" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_3tbjIXPAEeif8P1XrIhF4Q" type="7010">
+                <children xmi:type="notation:Shape" xmi:id="_3tbjInPAEeif8P1XrIhF4Q" type="3165" element="_3tf0lHPAEeif8P1XrIhF4Q" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_3tbjI3PAEeif8P1XrIhF4Q" type="8063"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3tbjJHPAEeif8P1XrIhF4Q"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_3tbjMHPAEeif8P1XrIhF4Q"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_3tbjMXPAEeif8P1XrIhF4Q"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3tbjMnPAEeif8P1XrIhF4Q" x="135" y="820"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_3tbjJXPAEeif8P1XrIhF4Q" type="3170" element="_3tf0kXPAEeif8P1XrIhF4Q" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_3tbjJnPAEeif8P1XrIhF4Q" type="7011">
+                <children xmi:type="notation:Shape" xmi:id="_3tbjJ3PAEeif8P1XrIhF4Q" type="3132" element="_3tf0knPAEeif8P1XrIhF4Q" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_3tbjKHPAEeif8P1XrIhF4Q" type="8041"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3tbjKXPAEeif8P1XrIhF4Q"/>
+                </children>
+                <children xmi:type="notation:Shape" xmi:id="_3tbjKnPAEeif8P1XrIhF4Q" type="3132" element="_3tf0k3PAEeif8P1XrIhF4Q" fontName="Segoe UI">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_3tbjK3PAEeif8P1XrIhF4Q" type="8041"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3tbjLHPAEeif8P1XrIhF4Q"/>
+                </children>
+                <styles xmi:type="notation:SortingStyle" xmi:id="_3tbjLXPAEeif8P1XrIhF4Q"/>
+                <styles xmi:type="notation:FilteringStyle" xmi:id="_3tbjLnPAEeif8P1XrIhF4Q"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3tbjL3PAEeif8P1XrIhF4Q"/>
+            </children>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_7eCcEXPCEeif8P1XrIhF4Q"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_7eCcEnPCEeif8P1XrIhF4Q"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_7eB1AXPCEeif8P1XrIhF4Q"/>
+        </children>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_o4Z-pttLEee2OOeXuFq77w"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_o4Z-p9tLEee2OOeXuFq77w"/>
+      </children>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_o4Z-qNtLEee2OOeXuFq77w" x="15" y="15"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_pkmxcPSDEeeI94PGXMWC0w" type="2038" element="_pkdngPSDEeeI94PGXMWC0w" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_pkmxcvSDEeeI94PGXMWC0w" type="4093"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pkmxcfSDEeeI94PGXMWC0w" x="1195" y="15"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_3II9APSFEeeI94PGXMWC0w" type="2022" element="_3IKLIPSFEeeI94PGXMWC0w" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_3II9AfSFEeeI94PGXMWC0w" type="5053"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3II9AvSFEeeI94PGXMWC0w" x="1255" y="15"/>
+    </children>
+    <children xmi:type="notation:Shape" xmi:id="_xHyfAUKlEeqyWYq8IceD5g" type="2038" element="_xHyfAEKlEeqyWYq8IceD5g" fontName="Segoe UI">
+      <children xmi:type="notation:DecorationNode" xmi:id="_xHyfA0KlEeqyWYq8IceD5g" type="4093"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xHyfAkKlEeqyWYq8IceD5g" x="795" y="15"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_xoopktTXEeekN9fexnEgVw"/>
+  </notation:Diagram>
+</xmi:XMI>

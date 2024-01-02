@@ -1,0 +1,23 @@
+<form #form="ngForm" id="FrmActivityDlt">
+  <h1>{{'FrmActivityDlt' | translate}}</h1>
+  <div id="LytLepActvtyDlt" class="layout vertical">
+    <div id="LytLepActvtyDltHdr" class="layout horizontal fill">
+      <div id="LytLepActvtyDltHdrL" class="layout horizontal">
+        <div class="lbl">
+        <label>{{'label_LblLepActvtyDltDate' | translate}}</label>
+        <span>{{LEPActivity.cancellationDate | dateFormat: 'short'}}</span>
+        </div>
+      </div>
+      <div id="LytLepActvtyDltHdtR" class="layout horizontal end">
+        <div class="lbl">
+        <label>{{'label_LblLepActvtyDltAuthor' | translate}}</label>
+        <span>{{LEPActivity.cancelledBy?.name?.fam + ' ' +LEPActivity.cancelledBy?.name?.giv}}</span>
+        </div>
+      </div>
+    </div>
+    <phi-textarea [(ngModel)]="LEPActivity.cancellationNote" name="LEPActivity.cancellationNote" id="TxtaLepActvtyDlt" [widgetLabel]="'label_TxtaLepActvtyDlt' | translate" [required]="true" [disabled]="LEPActivity.cancelledByRole"></phi-textarea>
+    <div id="LytLepActvtyDltFtr" class="layout horizontal center">
+      <phi-buttonsave (binding)="onDelete()" id="BtnSaveLepActvty" [renderedEl]="LEPActivity.cancelledByRole == undefined" [form]="form"></phi-buttonsave>
+    </div>
+  </div>
+</form>

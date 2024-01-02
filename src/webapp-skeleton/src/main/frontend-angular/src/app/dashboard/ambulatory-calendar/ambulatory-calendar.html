@@ -1,0 +1,415 @@
+<form #form="ngForm" id="frm-amb-cal">
+  <div id="lyt-amb-cal" class="layout vertical fullHeight">
+    <div id="lyt-amb-cal-hdr" class="layout horizontal space-between">
+      <div id="lyt-amb-cal-hdr-l" class="layout vertical">
+        <div id="lyt-amb-cal-hdr-lt" class="layout horizontal">
+          <phi-button
+            (binding)="wardFilter()"
+            id="btn-amb-cal-filter"
+            styleClass="fa fa-2x fa-hospital-o hiddenForMobile"
+            tooltip="{{'alt_btn-amb-cal-filter' | translate}}"
+            *ngIf="!ambulatoryCalendarAction.weekViewOfSdl"
+          ></phi-button>
+          <phi-button
+            (binding)="exitWeekView()"
+            id="btn-amb-cal-back"
+            styleClass="fa fa-arrow-left fa-2x"
+            tooltip="{{'alt_btn-amb-cal-back' | translate}}"
+            *ngIf="ambulatoryCalendarAction.weekViewOfSdl"
+          ></phi-button>
+          <phi-buttonrefresh
+            (binding)="refresh(true)"
+            id="btn-amb-cal-refresh"
+            styleClass="hiddenForMobile"
+            tooltip="{{'alt_btn-amb-cal-refresh' | translate}}"
+          ></phi-buttonrefresh>
+        </div>
+        <div id="lyt-amb-cal-hdr-lb" class="layout horizontal">
+          <phi-button
+            (binding)="toggleInlineCalendar()"
+            id="btn-amb-cal-inlinecalendar"
+            styleClass="fa fa-2x fa-calendar hiddenForMobile"
+            *ngIf="!editOnlyPatientId"
+          ></phi-button>
+          <phi-buttonpdf
+            (binding)="printWorkList()"
+            id="btn-amb-cal-print-worklist"
+            styleClass="hiddenForMobile"
+            tooltip="{{'btn-amb-cal-print-worklist' | translate}}"
+            *ngIf="environment.ambulatoryCalendar.report"
+          ></phi-buttonpdf>
+          <button
+            class="btn btn-primary hiddenForMobile fa fa-print fa-2x"
+            onclick="window.print()"
+          ></button>
+        </div>
+      </div>
+      <div id="lyt-amb-cal-hdr-c" class="layout vertical center">
+        <div id="lyt-amb-cals" class="layout horizontal center">
+          <phi-buttonback
+            (binding)="prevDay()"
+            id="btn-amb-cal-prev"
+            styleClass="hiddenNavigation"
+          ></phi-buttonback>
+          <phi-monthcalendar
+            [(ngModel)]="ambulatoryCalendarAction.selectedDate"
+            name="ambulatoryCalendarAction.selectedDate"
+            id="cal-amb-cal"
+            (change)="currDay()"
+          ></phi-monthcalendar>
+          <phi-button
+            (binding)="today()"
+            id="btn-amb-cal-today"
+            styleClass="fa fa-flag fa-2x hiddenForMobile hiddenToday"
+            tooltip="{{'btn-amb-cal-today' | translate}}"
+          ></phi-button>
+          <phi-buttonnext
+            (binding)="nextDay()"
+            id="btn-amb-cal-next"
+            styleClass="hiddenNavigation"
+          ></phi-buttonnext>
+        </div>
+        <div
+          id="lyt-amb-cal-agendas"
+          class="layout horizontal center hiddenForMobile"
+          *ngIf="!ambulatoryCalendarAction.weekViewOfSdl"
+        >
+          <phi-buttonback
+            (binding)="prevAgenda()"
+            id="btn-amb-cal-agendas-prev"
+          ></phi-buttonback>
+          <span>{{'lcl-amb-cal-from' | translate}}</span>
+          <span>{{ambulatoryCalendarAction.agendaFrom + 1}}</span>
+          <span>{{'lcl-amb-cal-to' | translate}}</span>
+          <span>{{ambulatoryCalendarAction.agendaTo + 1}}</span>
+          <span>{{'lcl-amb-cal-of' | translate}}</span>
+          <span>{{ambulatoryCalendarAction.agendaTot}}</span>
+          <phi-buttonnext
+            (binding)="nextAgenda()"
+            id="btn-amb-cal-agendas-next"
+          ></phi-buttonnext>
+        </div>
+        <div
+          class="layout horizontal center"
+          *ngIf="ambulatoryCalendarAction.selectedDateHolidayName"
+        >
+          <span>{{ambulatoryCalendarAction.selectedDateHolidayName}}</span>
+        </div>
+        <div id="lyt-selected-ud" class="layout horizontal center">
+          <div
+            class="lbl"
+            *ngFor="let sdl of ambulatoryCalendarAction.weekViewOfSdl"
+          >
+            <span class="sdloc-name">{{sdl.text}}</span>
+          </div>
+        </div>
+      </div>
+      <div id="lyt-amb-cal-hdr-r" class="layout vertical">
+        <div id="lyt-amb-cal-hdr-rt" class="layout horizontal end">
+          <phi-textbox
+            [(ngModel)]="highLightPatient"
+            name="highLightPatient"
+            id="txt-amb-cal-search"
+            styleClass="hiddenForMobile"
+            [disabled]="editOnlyPatientId"
+          ></phi-textbox>
+          <phi-button
+            (binding)="refresh()"
+            id="btn-amb-cal-highlight"
+            styleClass="fa fa-2x fa-i-cursor hiddenForMobile"
+            tooltip="{{'alt_btn-amb-cal-highlight' | translate}}"
+          ></phi-button>
+        </div>
+        <div id="lyt-amb-cal-hdr-rb" class="layout horizontal end">
+          <phi-button
+            (binding)="printReport()"
+            id="ButtonAdtPrint"
+            styleClass="fa fa-print fa-2x"
+            tooltip="{{'alt_ButtonAdtPrint' | translate}}"
+            [renderedEl]="environment.adt.bracialetReport && AppInConv != null"
+          ></phi-button>
+          <phi-combobox
+            [(ngModel)]="ambulatoryCalendarAction.physiotherapist"
+            name="ambulatoryCalendarAction.physiotherapist"
+            id="cmb-physiotherapists"
+            styleClass="hiddenForMobile"
+            [listElementsExpression]="ambulatoryCalendarAction.physiotherapists"
+            *ngIf="environment.ambulatoryCalendar.viewTherapist && (!environment.ambulatoryCalendar.useRead && !ambulatoryCalendarAction.weekViewOfSdl)"
+            converter="Code Value Converter"
+            [emptyField]="'alt_cmb-physiotherapists' | translate"
+            (change)="refresh(true)"
+          ></phi-combobox>
+          <phi-button
+            (binding)="showCancelled()"
+            id="btn-amb-cal-showCancel"
+            styleClass="fa fa-2x fa-trash hiddenForMobile"
+            tooltip="{{'alt_btn-amb-cal-showCancel' | translate}}"
+          ></phi-button>
+          <phi-buttonsearch
+            (binding)="search()"
+            id="btn-amb-cal-search"
+            styleClass="hiddenForMobile"
+            tooltip="{{'alt_btn-amb-cal-searchApps' | translate}}"
+            *ngIf="!editOnlyPatientId"
+          ></phi-buttonsearch>
+        </div>
+      </div>
+    </div>
+    <div id="lyt-amb-cal-main" class="layout horizontal fillHeight">
+      <div
+        id="lyt-amb-cal-3months"
+        class="layout vertical"
+        [ngClass]="{hidden: hiddenInlineCalendar}"
+      >
+        <phi-inlinecalendar
+          [(ngModel)]="ambulatoryCalendarAction.selectedDate"
+          name="inlineSelectedDate"
+          (change)="currDay()"
+          [numberOfMonths]="3"
+        ></phi-inlinecalendar>
+      </div>
+      <div
+        #calendar
+        id="dg-amb-cal"
+        phi-datagrid
+        class="scrollX"
+        (touchstart)="touchstart($event)"
+        (touchend)="touchend($event)"
+        (window:resize)="resize($event)"
+      >
+        <thead class="tableHeader">
+          <tr>
+            <th>
+              <i
+                class="fa fa-search-plus clickable"
+                (click)="showWeek(selectedSdl)"
+                *ngIf="!ambulatoryCalendarAction.weekViewOfSdl && selectedSdl.length > 0"
+                title="{{'dgc-amb-cal' | translate}}"
+              ></i>
+            </th>
+            <th
+              *ngFor="let hdr of ambulatoryCalendarAction.list?.headersFiltered"
+              [class.clickable]="!ambulatoryCalendarAction.weekViewOfSdl"
+              [style.width.%]="100 / ambulatoryCalendarAction.list?.headersFiltered.length"
+              [attr.colspan]="ambulatoryCalendarAction.weekViewOfSdl?.length"
+            >
+              <i
+                class="fa fa-chevron-left move-left"
+                (click)="moveSdlLeft(hdr.id)"
+                *ngIf="environment.ambulatoryCalendar.moveSdl && !ambulatoryCalendarAction.weekViewOfSdl"
+              ></i>
+              <i class="fa fa-lock" *ngIf="hdr.lock"></i>
+              <i class="fa fa-file-text-o" *ngIf="hdr.waitingList"></i>
+              <input
+                type="checkbox"
+                [value]="hdr.id"
+                class="hiddenForMobile"
+                [checked]="selectedSdlIds.indexOf(hdr.id) !== -1"
+                (change)="onChangeSdl($event)"
+                *ngIf="!ambulatoryCalendarAction.weekViewOfSdl"
+              />
+              <span [title]="getColumnTitle(hdr)" (click)="showWeek([hdr])"
+                >{{hdr.text}}</span
+              >
+              <div *ngIf="hdr.dayName">{{hdr.dayName}}</div>
+              <i
+                class="fa fa-chevron-right move-right"
+                (click)="moveSdlRight(hdr.id)"
+                *ngIf="environment.ambulatoryCalendar.moveSdl && !ambulatoryCalendarAction.weekViewOfSdl"
+              ></i>
+            </th>
+          </tr>
+          <tr *ngIf="environment.ambulatoryCalendar.useRead">
+            <th></th>
+            <th
+              *ngFor="let hdr of ambulatoryCalendarAction.list?.headers"
+              class="clickable"
+              (click)="editNote(hdr)"
+            >
+              <span>{{hdr.note?.text?.string}}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody #calendarElement>
+          <tr
+            *ngFor="let Hour of ambulatoryCalendarAction.list?.entities; let i = index"
+            [class.not-working]="Hour[0].getHours() < startWorkHour || Hour[0].getHours() >= endWorkHour"
+            [class.nth-child]="environment.ambulatoryCalendar.alterColor"
+          >
+            <td>
+              <span>{{Hour[0] | dateFormat: 'hourOrMinute'}}</span>
+            </td>
+            <td
+              *ngFor="let hdr of ambulatoryCalendarAction.list?.headers; let sdlIdx = index"
+              (mouseup)="calendarClick($event, hdr, Hour[0].getHours(), Hour[0].getMinutes())"
+              (drop)="drop($event)"
+              (dragover)="dragover($event)"
+              [attr.data-sdl]="hdr.id"
+              [attr.data-time]="hdr.date?.getTime()"
+              [style.height.px]="rowHeight"
+              [class.weekViewMultiSdl]="hdr.weekViewMultiSdl"
+              [class.holiday]="ambulatoryCalendarAction.isHoliday(hdr)"
+              [style.background-color]="Hour[sdlIdx + 1].color"
+            >
+              <div
+                *ngIf="Hour[sdlIdx + 1].enabled > 0 && Hour[sdlIdx + 1].enabled < 100"
+                class="overlay before"
+                [style.height.%]="Hour[sdlIdx + 1].enabled"
+                [style.background-color]="'white'"
+              ></div>
+              <div
+                *ngIf="Hour[sdlIdx + 1].enabled > -100 && Hour[sdlIdx + 1].enabled < 0"
+                class="overlay after"
+                [style.height.%]="Hour[sdlIdx + 1].enabled + 100"
+                [style.background-color]="'white'"
+              ></div>
+
+              <div
+                *ngFor="let calItem of Hour[sdlIdx + 1].items; let appIdx = index"
+                id="{{calItem.internalId}}"
+                class="layout vertical appointment calItemType{{calItem.type}}"
+                [style.top.px]="getTop(Hour[sdlIdx + 1].offset, calItem.offset)"
+                [style.height.px]="getHeight(calItem.duration)"
+                [style.left.%]="getLeft(Hour[sdlIdx + 1].items.max, appIdx)"
+                [style.width.%]="getWidth(Hour[sdlIdx + 1].items.max)"
+                [style.background-color]="getColor(calItem)"
+                [class.trasparent]="!isHighlighted(calItem)"
+                [title]="getTitle(calItem)"
+              >
+                <div
+                  class="layout vertical fillHeight"
+                  (mouseup)="appointmentClick($event, calItem)"
+                  (dblclick)="appointmentDblClick(calItem)"
+                  [draggable]="isDraggable(calItem)"
+                  (dragstart)="dragstart($event, calItem)"
+                >
+                  <div *ngIf="calItem.type==='Note'" class="fullHeight">
+                    <div class="layout header bold">
+                      <div class="layout">NOTA: {{getHeader(calItem)}}</div>
+                      <div class="layout fillHeight"></div>
+                      <div class="fa fa-comment-o icon"></div>
+                      <div *ngIf="calItem.note" title="{{calItem.note}}"></div>
+                    </div>
+                    <div class="layout">{{getTitle(calItem)}}</div>
+                  </div>
+
+                  <div *ngIf="calItem.type==='Appointment'" class="fullHeight">
+                    <div class="layout header">
+                      <div class="layout">{{getHeader(calItem)}}</div>
+                      <div class="layout fillHeight"></div>
+                      <div
+                        class="fa fa-comment-o icon"
+                        *ngIf="calItem.note"
+                        title="{{calItem.note}}"
+                      ></div>
+                      <div
+                        class="fa icon visit {{calItem.visitType}}"
+                        *ngIf="calItem.visitType"
+                        [title]="getTranslation('visit-' + calItem.visitType)"
+                      ></div>
+                      <div
+                        class="fa icon app {{calItem.statusCode}}"
+                        [title]="getTranslation('app-' + calItem.statusCode)"
+                      ></div>
+                      <div
+                        class="fa fa-desktop"
+                        *ngIf="calItem.televisit"
+                        [style.color]="AppointmentAction.getColorUrlPath(calItem.urlPath)"
+                      ></div>
+                    </div>
+
+                    <div
+                      class="c-display-inline-box bold italic"
+                      *ngIf=" calItem.physiotherapist?.internalId != undefined"
+                    >
+                      {{'label_lbl-app-Therapist' | translate}}
+                      {{calItem.physiotherapist?.name?.fam + ' '
+                      +calItem.physiotherapist?.name?.giv}}
+                    </div>
+                    <div
+                      class="c-display-inline-box bold italic"
+                      *ngIf=" calItem.surgeon?.internalId != undefined"
+                    >
+                      {{'label_lbl-app-Surgeon' | translate}}
+                      {{calItem.surgeon?.name?.fam + ' '
+                      +calItem.surgeon?.name?.giv}}
+                    </div>
+                    <div *ngIf="calItem.patient.internalId">
+                      <span class="bold"
+                        >{{calItem.patient.name.fam + ' ' +
+                        calItem.patient.name.giv}}</span
+                      >
+                      {{calItem.patient.birthTime | dateFormat: 'shortDate'}}
+                    </div>
+                    <div
+                      class="c-display-inline-box bold italic"
+                      *ngIf="calItem.diagnosis"
+                    >
+                      {{'label_lbl-app-Diagnosis' | translate}}
+                      {{calItem.diagnosis}}
+                    </div>
+                    <ng-container
+                      *ngIf="environment.ambulatoryCalendar.showPerformedProcedure"
+                    >
+                      <div
+                        *ngFor="let pp of calItem.performedProcedure"
+                        class="italic"
+                      >
+                        {{pp.text}}
+                      </div>
+                    </ng-container>
+                    <div
+                      class="c-display-inline-box bold italic"
+                      *ngIf="calItem.anesthesia"
+                    >
+                      {{'label_lbl-app-Anesthesia' | translate}}
+                      {{calItem.anesthesia}}
+                    </div>
+                    <div style="white-space: pre-line">{{calItem.note}}</div>
+                    <div>{{calItem.procedure?.code?.currentTranslation}}</div>
+                  </div>
+                </div>
+                <div
+                  *ngIf="(!isCupCtrl(calItem.externalId) && (!calItem.statusCode || calItem.statusCode ==='awaiting' || calItem.statusCode ==='planned' || calItem.statusCode ==='arrived'))"
+                  class="resize"
+                  (mousedown)="initialiseResize($event)"
+                ></div>
+              </div>
+              <!-- rinomina app in calendar item
+  aggiungi [class.note]="app.type==='note'"-->
+            </td>
+          </tr>
+        </tbody>
+      </div>
+    </div>
+  </div>
+  <div
+    #appointmentElement
+    class="layout vertical appointment"
+    style="position: fixed; font-size: 12px"
+    [style.display]="movingAppointment?'inherit':'none'"
+    [style.background-color]="getColor(movingAppointment)"
+  >
+    <div class="layout vertical fullHeight">
+      <div class="layout header">
+        <div class="bold" *ngIf="movingAppointment?.type === 'Note'">NOTA</div>
+        <div class="layout fillHeight"></div>
+        <div class="fa icon app {{movingAppointment?.statusCode}}"></div>
+      </div>
+      <div class="layout vertical fillHeight">
+        <div
+          *ngIf="movingAppointment?.type === 'Note' && movingAppointment?.note"
+        >
+          {{movingAppointment?.note}}
+        </div>
+        <div class="bold" *ngIf="movingAppointment?.patient?.internalId">
+          {{movingAppointment?.patient?.name?.fam + ' ' +
+          movingAppointment?.patient?.name?.giv}}
+        </div>
+        <div>
+          {{movingAppointment?.patient?.birthTime | dateFormat: 'shortDate'}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

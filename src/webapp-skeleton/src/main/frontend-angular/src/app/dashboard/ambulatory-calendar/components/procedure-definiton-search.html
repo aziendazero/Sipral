@@ -1,0 +1,34 @@
+<form #form="ngForm" id="frm-proc-def-search">
+  <h1>{{'frm-proc-def-search' | translate}}</h1>
+  <div id="lyt-proc-def-search" class="layout vertical">
+    <div id="dg-proc-def-search" [phi-datagrid]="ProcedureDefinitionList" class="max-height-300">
+      <thead class="tableHeader">
+        <tr>
+          <th>{{'dgc-proc-def-code' | translate}}</th>
+          <th>{{'dgc-proc-def-proc' | translate}}</th>
+          <th>{{'dgc-proc-def-desc' | translate}}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="selectable">
+        <tr *ngFor="let ProcedureDefinition of ProcedureDefinitionList?.entities; let i = index" (click)="ie(ProcedureDefinition, 'ProcedureDefinition')" [class.selRow]="selected(ProcedureDefinition, 'ProcedureDefinition')">
+          <td>
+            <span>{{ProcedureDefinition.codeIcd9?.code}}</span>
+          </td>
+          <td>
+            <span>{{ProcedureDefinition.codeIcd9?.currentTranslation}}</span>
+          </td>
+          <td>
+            <span>{{ProcedureDefinition.text}}</span>
+          </td>
+          <td [style.background-color]="color2hex(ProcedureDefinition.color)" style="width:30px">
+          </td>
+      </tr>
+      </tbody>
+    </div>
+    <div id="lyt-proc-def-search-btn" class="layout horizontal space-between">
+      <phi-buttoncancel (binding)="onCancel()" id="btn-proc-def-cancel"></phi-buttoncancel>
+      <phi-buttoncheck (binding)="onSelect()" id="btn-proc-def-select" [disabled]="!ProcedureDefinition"></phi-buttoncheck>
+    </div>
+  </div>
+</form>

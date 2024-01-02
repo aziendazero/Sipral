@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="schedeRenam">
+
+
+	<start-state name="start-state1">
+		<transition to="node1"></transition>
+	</start-state>
+
+
+	<decision name="settore?" expression="#{QuestTabella.code01.code}">
+		<transition to="search cheda Artigianato" name="art"></transition>
+		<transition to="search scheda Agricoltura" name="agr"></transition>
+		<transition to="search scheda Militare" name="militare"></transition>
+	</decision>
+
+	<node name="search cheda Artigianato">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteFaRenamAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{QuestParteFaRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="3" expression="#{QuestParteFaRenamAction.read()}"></action>
+			<action name="4" expression="#{QuestParteFaRenamAction.injectFirst()}"></action>
+			<action name="5" expression="#{QuestParteFaRenamAction.ejectList()}"></action>
+			<action name="6" expression="#{QuestParteFbRenamAction.equal.put('isActive',true)}"></action>
+			<action name="7" expression="#{QuestParteFbRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="8" expression="#{QuestParteFbRenamAction.read()}"></action>
+			<action name="9" expression="#{QuestParteFbRenamAction.injectFirst()}"></action>
+			<action name="10" expression="#{QuestParteFbRenamAction.ejectList()}"></action>
+		</event>
+		<transition to="exist scheda artigianato?"></transition>
+	</node>
+
+	<node name="search scheda Agricoltura">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteGaRenamAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{QuestParteGaRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="3" expression="#{QuestParteGaRenamAction.read()}"></action>
+			<action name="4" expression="#{QuestParteGaRenamAction.injectFirst()}"></action>
+			<action name="5" expression="#{QuestParteGaRenamAction.ejectList()}"></action>
+			<action name="6" expression="#{QuestParteGbRenamAction.equal.put('isActive',true)}"></action>
+			<action name="7" expression="#{QuestParteGbRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="8" expression="#{QuestParteGbRenamAction.read()}"></action>
+			<action name="9" expression="#{QuestParteGbRenamAction.injectFirst()}"></action>
+			<action name="10" expression="#{QuestParteGbRenamAction.ejectList()}"></action>
+		</event>
+		<transition to="exist scheda agricoltura?"></transition>
+	</node>
+
+	<node name="search scheda Militare">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteHRenamAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{QuestParteHRenamAction.equal.put('questTabella',QuestTabella)}"></action>
+			<action name="3" expression="#{QuestParteHRenamAction.read()}"></action>
+			<action name="4" expression="#{QuestParteHRenamAction.injectFirst()}"></action>
+			<action name="5" expression="#{QuestParteHRenamAction.ejectList()}"></action>
+		</event>
+		<transition to="exist scheda militare?"></transition>
+	</node>
+
+	<decision name="exist scheda artigianato?" expression="#{not empty QuestParteFaRenam and not empty QuestParteFbRenam}">
+		<transition to="new scheda artigianato" name="false"></transition>
+		<transition to="inject artigianato stuff" name="true"></transition>
+	</decision>
+
+	<node name="new scheda artigianato">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteFaRenamAction.inject(QuestParteFaRenamAction.newEntity())}"></action>
+			<action name="2" expression="#{QuestionarioAction.link('questParteFaRenam',QuestParteFaRenam)}"></action>
+			<action name="3" expression="#{QuestParteFaRenam.setQuestTabella(QuestTabella)}"></action>
+			<action name="4" expression="#{QuestParteFbRenamAction.inject(QuestParteFbRenamAction.newEntity())}"></action>
+			<action name="5" expression="#{QuestionarioAction.link('questParteFbRenam',QuestParteFbRenam)}"></action>
+			<action name="6" expression="#{QuestTabellaAction.injectList(QuestParteFaRenamAction.initTabellaF2(), 'TabellaF2List')}"></action>
+			<action name="7" expression="#{QuestTabellaAction.injectList(QuestParteFbRenamAction.initTabellaF10(), 'TabellaF10List')}"></action>
+			<action name="8" expression="#{QuestTabellaAction.injectList(QuestParteFbRenamAction.initTabellaF11(), 'TabellaF11List')}"></action>
+			<action name="9" expression="#{QuestParteFbRenam.setQuestTabella(QuestTabella)}"></action>
+		</event>
+		<transition to="scheda artigianato"></transition>
+	</node>
+
+	<node name="inject artigianato stuff">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabellaAction.injectList(QuestParteFaRenamAction.loadTabella('F2'), 'TabellaF2List')}"></action>
+			<action name="2" expression="#{QuestTabellaAction.injectList(QuestParteFbRenamAction.loadTabella('F10'), 'TabellaF10List')}"></action>
+			<action name="3" expression="#{QuestTabellaAction.injectList(QuestParteFbRenamAction.loadTabella('F11'), 'TabellaF11List')}"></action>
+		</event>
+		<transition to="scheda artigianato"></transition>
+	</node>
+
+	<task-node name="scheda artigianato">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_F')}"></action>
+		</event>
+		<transition to="artigianato button?"></transition>
+	</task-node>
+
+	<decision name="artigianato button?" expression="#{button.mnemonic}">
+		<transition to="artigianato valid?" name="BtnSaveDef"></transition>
+		<transition to="eject artigianato" name="BtnPrev"></transition>
+		<transition to="eject artigianato" name="BtnBack"></transition>
+		<transition to="super-state2/save quest art" name="BtnSaveQuest"></transition>
+	</decision>
+
+	<decision name="artigianato valid?" expression="#{QuestParteFaRenamAction.checkParteFa(TabellaF2List.list) and QuestParteFbRenamAction.checkParteFb(TabellaF10List.list, TabellaF11List.list)}">
+		<transition to="riga artigianato not valid" name="false"></transition>
+		<transition to="super-state1/save scheda artigianato" name="true"></transition>
+	</decision>
+
+	<node name="riga artigianato not valid">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabella.setBl01(false)}"></action>
+		</event>
+		<transition to="scheda artigianato"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="save scheda artigianato">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteFaRenam.setConfirmedF(true)}"></action>
+				<action name="2" expression="#{QuestParteFaRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteFbRenamAction.create()}"></action>
+				<action name="4" expression="#{QuestParteFaRenamAction.persistTabella(TabellaF2List.list)}"></action>
+				<action name="5" expression="#{QuestParteFbRenamAction.persistTabella(TabellaF10List.list)}"></action>
+				<action name="6" expression="#{QuestParteFbRenamAction.persistTabella(TabellaF11List.list)}"></action>
+				<action name="7" expression="#{QuestTabella.setBl01(true)}"></action>
+			</event>
+			<transition to="../scheda artigianato"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject artigianato">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteFaRenamAction.eject()}"></action>
+			<action name="2" expression="#{QuestParteFbRenamAction.eject()}"></action>
+			<action name="3" expression="#{QuestTabellaAction.ejectList('TabellaF2List')}"></action>
+			<action name="4" expression="#{QuestTabellaAction.ejectList('TabellaF10List')}"></action>
+			<action name="5" expression="#{QuestTabellaAction.ejectList('TabellaF11List')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="save quest art">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestionarioAction.create()}"></action>
+				<action name="2" expression="#{QuestParteFaRenamAction.persistTabella(TabellaF2List.list)}"></action>
+				<action name="3" expression="#{QuestParteFaRenamAction.persistTabella(TabellaF10List.list)}"></action>
+				<action name="4" expression="#{QuestParteFaRenamAction.persistTabella(TabellaF11List.list)}"></action>
+			</event>
+			<transition to="../eject artigianato"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject agricoltura stuff">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabellaAction.injectList(QuestParteGaRenamAction.loadTabella('G2'), 'TabellaG2List')}"></action>
+		</event>
+		<transition to="scheda agricoltura"></transition>
+	</node>
+
+	<node name="riga agricoltura not valid">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabella.setBl01(false)}"></action>
+		</event>
+		<transition to="scheda agricoltura"></transition>
+	</node>
+
+	<task-node name="scheda agricoltura">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_G')}"></action>
+		</event>
+		<transition to="agricoltura button?"></transition>
+	</task-node>
+
+	<decision name="exist scheda agricoltura?" expression="#{not empty QuestParteGaRenam and not empty QuestParteGbRenam}">
+		<transition to="new scheda agricoltura" name="false"></transition>
+		<transition to="inject agricoltura stuff" name="true"></transition>
+	</decision>
+
+	<decision name="agricoltura button?" expression="#{button.mnemonic}">
+		<transition to="agricoltura valid?" name="BtnSaveDef"></transition>
+		<transition to="eject agricoltura" name="BtnBack"></transition>
+		<transition to="super-state3/save quest agr" name="BtnSaveQuest"></transition>
+		<transition to="eject agricoltura" name="BtnPrev"></transition>
+	</decision>
+
+	<decision name="agricoltura valid?" expression="#{QuestParteGaRenamAction.checkParteGa() and QuestParteGbRenamAction.checkParteGb()}">
+		<transition to="super-state4/save scheda agricoltura" name="true"></transition>
+		<transition to="riga agricoltura not valid" name="false"></transition>
+	</decision>
+
+	<node name="new scheda agricoltura">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteGaRenamAction.inject(QuestParteGaRenamAction.newEntity())}"></action>
+			<action name="2" expression="#{QuestionarioAction.link('questParteGaRenam',QuestParteGaRenam)}"></action>
+			<action name="3" expression="#{QuestParteGaRenam.setQuestTabella(QuestTabella)}"></action>
+			<action name="4" expression="#{QuestParteGbRenamAction.inject(QuestParteGbRenamAction.newEntity())}"></action>
+			<action name="5" expression="#{QuestionarioAction.link('questParteGbRenam',QuestParteGbRenam)}"></action>
+			<action name="6" expression="#{QuestTabellaAction.injectList(QuestParteGaRenamAction.initTabellaG2(),  'TabellaG2List')}"></action>
+			<action name="7" expression="#{QuestParteGbRenam.setQuestTabella(QuestTabella)}"></action>
+		</event>
+		<transition to="scheda agricoltura"></transition>
+	</node>
+
+	<super-state name="super-state3">
+		<node name="save quest agr">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestionarioAction.create()}"></action>
+				<action name="2" expression="#{QuestParteGaRenamAction.persistTabella(TabellaG2List.list)}"></action>
+			</event>
+			<transition to="../eject agricoltura"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state4">
+		<node name="save scheda agricoltura">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteGaRenam.setConfirmedG(true)}"></action>
+				<action name="2" expression="#{QuestParteGaRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestParteGbRenamAction.create()}"></action>
+				<action name="4" expression="#{QuestParteGaRenamAction.persistTabella(TabellaG2List.list)}"></action>
+				<action name="5" expression="#{QuestTabella.setBl01(true)}"></action>
+			</event>
+			<transition to="../scheda agricoltura"></transition>
+		</node>
+	</super-state>
+
+	<node name="new scheda militare">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteHRenamAction.inject(QuestParteHRenamAction.newEntity())}"></action>
+			<action name="2" expression="#{QuestionarioAction.link('questParteHRenam',QuestParteHRenam)}"></action>
+			<action name="3" expression="#{QuestParteHRenam.setQuestTabella(QuestTabella)}"></action>
+		</event>
+		<transition to="scheda militare"></transition>
+	</node>
+
+	<node name="inject militare stuff">
+		<transition to="scheda militare"></transition>
+	</node>
+
+	<task-node name="scheda militare">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/questionari/mdl/gestioneRenam_H')}"></action>
+		</event>
+		<transition to="militare button?"></transition>
+	</task-node>
+
+	<decision name="militare button?" expression="#{button.mnemonic}">
+		<transition to="militare valid?" name="BtnSaveDef"></transition>
+		<transition to="eject militare" name="BtnPrev"></transition>
+		<transition to="eject militare" name="BtnBack"></transition>
+		<transition to="super-state6/save quest mil" name="BtnSaveQuest"></transition>
+	</decision>
+
+	<decision name="militare valid?" expression="#{QuestParteHRenamAction.checkParteH()}">
+		<transition to="riga militare not valid" name="false"></transition>
+		<transition to="super-state5/save scheda Militare" name="true"></transition>
+	</decision>
+
+	<super-state name="super-state5">
+		<node name="save scheda Militare">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestParteHRenam.setConfirmedH(true)}"></action>
+				<action name="2" expression="#{QuestParteHRenamAction.create()}"></action>
+				<action name="3" expression="#{QuestTabella.setBl01(true)}"></action>
+			</event>
+			<transition to="../scheda militare"></transition>
+		</node>
+	</super-state>
+
+	<node name="riga militare not valid">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabella.setBl01(false)}"></action>
+		</event>
+		<transition to="scheda militare"></transition>
+	</node>
+
+	<super-state name="super-state6">
+		<node name="save quest mil">
+			<event type="node-enter">
+				<action name="1" expression="#{QuestionarioAction.create()}"></action>
+			</event>
+			<transition to="../eject militare"></transition>
+		</node>
+	</super-state>
+
+	<node name="eject militare">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteHRenamAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="exist scheda militare?" expression="#{not empty QuestParteHRenam}">
+		<transition to="new scheda militare" name="false"></transition>
+		<transition to="inject militare stuff" name="true"></transition>
+	</decision>
+
+	<node name="eject agricoltura">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestParteGaRenamAction.eject()}"></action>
+			<action name="2" expression="#{QuestParteGbRenamAction.eject()}"></action>
+			<action name="3" expression="#{QuestTabellaAction.ejectList('TabellaG2List')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="node1">
+		<event type="node-enter">
+			<action name="1" expression="#{QuestTabellaAction.create()}"></action>
+		</event>
+		<transition to="settore?"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

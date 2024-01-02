@@ -1,0 +1,260 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1475671714748}</h1>
+	<div id="aur_search_person" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1475859369434" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1476804253042" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1477618696568;BtnBack')}" status="ajaxStatus" id="Link_1477618696568" title="${msg.alt_Link_1477618696568}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1474088285203" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1474088285203;BtnSave')}" status="ajaxStatus" id="Link_1474088285203_id" title="${msg.alt_Link_1474088285203}" rendered="#{not empty Person and not PersonAction.temporary['giaInAnagrafica']}" reRender="phiDesktop" styleClass="fa fa-check fa-3x linkUnlink link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1485273894575" >
+					<span value="${msg.Label_1485273894575}" id="Label_1485273894575_id" style="display:#{(not empty Person and PersonAction.temporary['giaInAnagrafica']) ? 'block' : 'none' };" class="labelContent c-text-0080FF c-text-bold base-label" >${msg.Label_1485273894575}</span>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1477287455107" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1477287455107}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1475201929659" style="width:80%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478309370" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1473733725864}</span>
+								<h:inputText id="TextBox_1473733725864" value="#{PersonAction.temporary['nameFam']}" style="height: 20px;" styleClass="filter inputText" label="${msg.label_TextBox_1473733725864}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="Label_1479478638954" event="onmouseup" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1473733725864_msg" styleClass="errorContainer" ><h:message for="TextBox_1473733725864" styleClass="errorMessages TextBox_1473733725864_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475951934559}</span>
+								<h:inputText id="TextBox_1475951934559" value="#{PersonAction.temporary['nameGiv']}" style="height: 20px;" styleClass="filter inputText" label="${msg.label_TextBox_1475951934559}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="Label_1479478638954" event="onmouseup" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1475951934559_msg" styleClass="errorContainer" ><h:message for="TextBox_1475951934559" styleClass="errorMessages TextBox_1475951934559_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478345757" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1475758415701}</span>
+								<h:inputText id="MonthCalendar_1475758415701" value="#{PersonAction.temporary['dob']}" class="datepicker  monthCalendar" style="width:148px;vertical-align:middle;" label="${msg.label_MonthCalendar_1475758415701}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1475758415701" styleClass="errorMessages MonthCalendar_1475758415701_E" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1479478880712" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1479478880712}</span>
+								#{PersonAction.autocomplete['birthPlace'].setContentType('0')}
+								#{PersonAction.autocomplete['birthPlace'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1479478880712_MAIN" value="#{PersonAction.equal['birthPlace.cty']}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1479478880712}" />
+								<h:outputLabel for="TextSuggestionBox_1479478880712_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1479478880712_CPA" value="#{PersonAction.equal['birthPlace.cpa']}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1479478880712_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1479478880712_ZIP" value="#{PersonAction.equal['birthPlace.zip']}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1479478880712_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1479478880712_CODE" value="#{PersonAction.equal['birthPlace.code']}" label="${msg.label_TextSuggestionBox_1479478880712}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1479478880712_CODE" styleClass="errorMessages TextSuggestionBox_1479478880712_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1479478880712" action="#{PersonAction.autocomplete['birthPlace'].autocomplete()}" data="#{PersonAction.autocomplete['birthPlace'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{PersonAction.autocomplete['birthPlace'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478355365" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1479478638954" >
+							<span value="${msg.Label_1479478638954}" id="Label_1479478638954_id" style="color:#FF0000;display:#{((!(PersonAction.temporary['nameFam'] == null or PersonAction.temporary['nameFam'].isEmpty()) and (PersonAction.temporary['nameGiv'].length() lt 2 or PersonAction.temporary['nameGiv'] == null)) or (!(PersonAction.temporary['nameGiv'] == null or PersonAction.temporary['nameGiv'].isEmpty()) and (PersonAction.temporary['nameFam'].length() lt 2 or PersonAction.temporary['nameFam'] == null))) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1479478638954}</span>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478361741" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1474098303203}</span>
+								<h:inputText id="TextBox_1474098303203" value="#{PersonAction.temporary['fiscalCode']}" style="height: 21px;" styleClass="filter inputText" label="${msg.label_TextBox_1474098303203}" />
+								<a4j:outputPanel id="TextBox_1474098303203_msg" styleClass="errorContainer" ><h:message for="TextBox_1474098303203" styleClass="errorMessages TextBox_1474098303203_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475758296269}</span>
+								<h:inputText id="TextBox_1475758296269" value="#{PersonAction.temporary['team']}" styleClass="inputText" label="${msg.label_TextBox_1475758296269}" />
+								<a4j:outputPanel id="TextBox_1475758296269_msg" styleClass="errorContainer" ><h:message for="TextBox_1475758296269" styleClass="errorMessages TextBox_1475758296269_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478372397" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475742136148}</span>
+								<h:inputText id="TextBox_1475742136148" value="#{PersonAction.temporary['mpi']}" styleClass="inputText" label="${msg.label_TextBox_1475742136148}" />
+								<a4j:outputPanel id="TextBox_1475742136148_msg" styleClass="errorContainer" ><h:message for="TextBox_1475742136148" styleClass="errorMessages TextBox_1475742136148_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475757687419}</span>
+								<h:inputText id="TextBox_1475757687419" value="#{PersonAction.temporary['cs']}" styleClass="inputText" label="${msg.label_TextBox_1475757687419}" />
+								<a4j:outputPanel id="TextBox_1475757687419_msg" styleClass="errorContainer" ><h:message for="TextBox_1475757687419" styleClass="errorMessages TextBox_1475757687419_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1479478380284" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475758261690}</span>
+								<h:inputText id="TextBox_1475758261690" value="#{PersonAction.temporary['stp']}" styleClass="inputText" label="${msg.label_TextBox_1475758261690}" />
+								<a4j:outputPanel id="TextBox_1475758261690_msg" styleClass="errorContainer" ><h:message for="TextBox_1475758261690" styleClass="errorMessages TextBox_1475758261690_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1475758287826}</span>
+								<h:inputText id="TextBox_1475758287826" value="#{PersonAction.temporary['eni']}" styleClass="inputText" label="${msg.label_TextBox_1475758287826}" />
+								<a4j:outputPanel id="TextBox_1475758287826_msg" styleClass="errorContainer" ><h:message for="TextBox_1475758287826" styleClass="errorMessages TextBox_1475758287826_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutVertical" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1479724822073" style="height:100%;width:100%;" >
+							<script>
+							jQuery('input[type=text]:visible, textarea:visible').each(function() {
+								jQuery(this).val(jQuery(this).val().toUpperCase());
+							}).on('input',function() {
+							   	jQuery(this).val(jQuery(this).val().toUpperCase());
+							});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474988749279" style="width:20%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1473654484173;Search')}" status="ajaxStatus" id="Link_1473654484173" title="${msg.alt_Link_1473654484173}" reRender="DataGrid_1477300213608,LayoutRow_1475827417547,LayoutRow_1477287455107" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1479722245727;cleanForm')}" status="ajaxStatus" id="Link_1479722245727" title="${msg.alt_Link_1479722245727}" reRender="LayoutRow_1475859369434" styleClass="fa fa-eraser fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1475827417547" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<h:outputText value="#{PersonAction.temporary['exception']}" id="Label_1475827423270" style="display:block;" styleClass="labelContent c-text-14 c-text-red base-label" />
+					</div>
+
+					<div class="layoutVertical" >
+					<h:outputText value="#{PersonAction.temporary['duplicateFound']}" id="Label_1475847329022" style="display:block;" styleClass="labelContent c-text-0080FF c-text-14 base-label" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1477300213608" layout="block" styleClass="dt layoutTable layoutVertical" style="padding-top: 15px;" >#{PersonAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1477300213608" value="&#8592;" action="#{PersonList.prev}" reRender="DataGrid_1477300213608" rendered="#{PersonList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1477300213608" value="#{PersonList.pageIndexes}" var="pi1477300213608">
+										<li class="#{(PersonList.currentPage eq pi1477300213608 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1477300213608" value="#{pi1477300213608}" action="#{PersonList.goToPage(pi1477300213608)}" reRender="DataGrid_1477300213608" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1477300213608" value="&#8594;" action="#{PersonList.next}" reRender="DataGrid_1477300213608" rendered="#{PersonList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1477300213608" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1477300213608} [PersonList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_1476822167002" value="${msg.DataGridColumn_1476822167002} &#8593;&#8595;" action="#{PersonList.orderBy('name.fam')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1477722362083" value="${msg.DataGridColumn_1477722362083} &#8593;&#8595;" action="#{PersonList.orderBy('name.giv')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475960900475" value="${msg.DataGridColumn_1475960900475} &#8593;&#8595;" action="#{PersonList.orderBy('fiscalCode')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475677046267" value="${msg.DataGridColumn_1475677046267} &#8593;&#8595;" action="#{PersonList.orderBy('genderCode')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475447826499" value="${msg.DataGridColumn_1475447826499} &#8593;&#8595;" action="#{PersonList.orderBy('birthTime')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1484056598359" value="${msg.DataGridColumn_1484056598359} &#8593;&#8595;" action="#{PersonList.orderBy('birthPlace.cty')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1476844328894" value="${msg.DataGridColumn_1476844328894} &#8593;&#8595;" action="#{PersonList.orderBy('addr.cty')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475599790746" value="${msg.DataGridColumn_1475599790746} &#8593;&#8595;" action="#{PersonList.orderBy('addr.str')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475189988952" value="${msg.DataGridColumn_1475189988952} &#8593;&#8595;" action="#{PersonList.orderBy('alternativeAddr.telecom.hp')}" reRender="DataGrid_1477300213608" ajaxSingle="true" disabled="#{empty PersonList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty PersonList or PersonList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="9">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1477300213608" value="#{PersonList.entities}" var="Person" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1477300213608('row;rowSelected',this.id);" class="#{PersonAction.getEntity().equals(Person) or Person.internalId != 0 and PersonAction.entity.internalId.equals(Person.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{Person.name.fam}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="c-text-bold base-label" >#{Person.fiscalCode}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.genderCode}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Person.birthTime}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.birthPlace.cty}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Person.addr.cty}</span>
+									</td>
+
+									<td >
+										<span style="display:#{(Person.addr.str!=null and Person.addr.str!='') ? 'block' : 'none' };" class="base-label" >#{function.concat(Person.addr.str, ' N. ', Person.addr.bnr)}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{function.concat(Person.alternativeAddr.telecom.hp, ' ', Person.alternativeAddr.telecom.mc, ' ',Person.telecom.hp, ' ',Person.telecom.mc,' ', Person.telecom.ec,' ',Person.telecom.sip)}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1477300213608" name="ie1477300213608" status="ajaxStatus" action="#{PersonList.injectEject}" data="#{PersonList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1477300213608'))" reRender="LayoutRow_1476804253042,LayoutRow_1475827417547" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="mnemonicName" assignTo="#{PersonList.mnemonicName}"/>
+					<a4j:actionparam name="rowIndex" assignTo="#{PersonList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

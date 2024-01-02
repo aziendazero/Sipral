@@ -1,0 +1,45 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1469526235416}</h1>
+	<div id="icd9_popup" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1469048228026" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1468617487664" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1470469316905}</span>
+						<h:inputText id="TextBox_1470469316905" styleClass="inputText" label="${msg.label_TextBox_1470469316905}" />
+						<a4j:outputPanel id="TextBox_1470469316905_msg" styleClass="errorContainer" ><h:message for="TextBox_1470469316905" styleClass="errorMessages TextBox_1470469316905_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1468905856149" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1467721837862').jstree(true).search(jQuery('#p\\:TextBox_1470469316905').val());" title="${msg.alt_Link_1468905856149}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1468905856149Clean" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1467721837862').jstree('clear_search');" title="${msg.alt_Link_1468905856149Clean}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1471464788168" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1471464788168;BtnOk')}" status="ajaxStatus" id="Link_1471464788168_id" title="${msg.alt_Link_1471464788168}" style="float:right;" rendered="#{not empty CodeValueIcd9}" reRender="popup,rowIcd9,rowCausa,LayoutRow_1504832057294,LayoutRow_1504511637016,LayoutRow_1694312859805" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1470744255021" style="overflow:auto;height:95%;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1467721837862" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						var popupWidth = 0.8;
+						var popupHeight = 0.8;
+						Tree.initTreeDictionary(jQuery("#p\\:JollyWidget_1467721837862"), 'ICD9DIAG', null, 'CodeValueIcd9', '[code] translation', 'injectbyId','CodeValueIcd9', false, '','#{CodeValueAction.getCodeAndParents(CodeValueIcd9)}','#{CodeValueIcd9.id}');
+						</script>
+						<a4j:jsFunction  name="injectbyId"  action="#{CodeValueIcd9Action.injectbyId}" reRender="Link_1471464788168"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+							<a4j:actionparam name="id" assignTo="#{CodeValueIcd9Action.id}"/>
+						</a4j:jsFunction>	
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

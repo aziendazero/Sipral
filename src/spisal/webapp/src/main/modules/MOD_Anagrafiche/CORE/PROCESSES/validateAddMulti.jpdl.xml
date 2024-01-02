@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="validateAddMulti">
+
+
+	<start-state name="start-state1">
+		<transition to="checkMulti"></transition>
+	</start-state>
+
+
+	<node name="checkMulti">
+		<event type="node-enter">
+			<action name="1" expression="#{AddebitoAction.checkAddebitoMulti(AddebitoAction.temporary['selectedAdds'])}"></action>
+		</event>
+		<transition to="addebiti ok?"></transition>
+	</node>
+
+	<decision name="addebiti ok?" expression="#{AddebitoAction.temporary['addebitiOk'] ne null}">
+		<transition to="super-state1/validateMulti" name="true"></transition>
+		<transition to="addebiti ko?" name="false"></transition>
+	</decision>
+
+	<decision name="addebiti ko?" expression="#{AddebitoAction.temporary['selectedAdds'] ne null and not empty AddebitoAction.temporary['selectedAdds']}">
+		<transition to="poup msg" name="true"></transition>
+		<transition to="remove temporary" name="false"></transition>
+	</decision>
+
+	<task-node name="poup msg">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Anagrafiche/CORE/FORMS/popupCheckVerifMulti')}"></action>
+		</event>
+		<transition to="remove temporary"></transition>
+	</task-node>
+
+	<node name="remove temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{AddebitoAction.temporary.remove('addebitiOk')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="validateMulti">
+			<event type="node-enter">
+				<action name="1" expression="#{AddebitoAction.validateMulti(AddebitoAction.temporary.get('addebitiOk'))}"></action>
+			</event>
+			<transition to="../addebiti ko?"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="manageSedeAddebito">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<task-node name="copiaSedeEsistente?">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupCopySedeAddr')}"></action>
+		</event>
+		<transition to="decision3"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="existing sedi Ditta?" name="addSedeAddebito"></transition>
+		<transition to="inject sediSped" name="editSedeAddebito"></transition>
+		<transition to="injectSped" name="editSped"></transition>
+		<transition to="super-state6/set PrincipalePerSa" name="setPrimary"></transition>
+		<transition to="super-state7/Del Sa" name="delSedeAddebito"></transition>
+		<transition to="super-state8/Delete Sped" name="delSped"></transition>
+	</decision>
+
+	<node name="injectFromExisting and reinject">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.injectFromExisting(Sedi)}"></action>
+			<action name="2" expression="#{SediAction.inject(SediAddebitoAction.temporary['SedeSelezionata'])}"></action>
+		</event>
+		<transition to="create sede addebito"></transition>
+	</node>
+
+	<task-node name="create sede addebito">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/create_sede_addebito')}"></action>
+		</event>
+		<transition to="decision2" name=""></transition>
+	</task-node>
+
+	<decision name="decision3" expression="#{button.mnemonic}">
+		<transition to="injectFromExisting and reinject" name="COPY"></transition>
+		<transition to="reinjectSedeSel" name="BtnCancel"></transition>
+		<transition to="indirizzoSpedGestione2" name="agendaIndSped"></transition>
+	</decision>
+
+	<decision name="existing sedi Ditta?" expression="#{!empty SediList and SediList.size() gt 0}">
+		<transition to="injectNew Sa" name="false"></transition>
+		<transition to="save temporary SedeSelezionata" name="true"></transition>
+	</decision>
+
+	<node name="injectNew Sa">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.inject(SediAddebitoAction.newEntity())}"></action>
+		</event>
+		<transition to="create sede addebito"></transition>
+	</node>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="eject" name="BACK"></transition>
+		<transition to="super-state1/saveSedeAddebito" name="SAVE"></transition>
+		<transition to="edit IndirizzoSped" name="editSped"></transition>
+		<transition to="backup sede Sel" name="addSped"></transition>
+		<transition to="conferma disAssocia" name="unlink"></transition>
+		<transition to="super-state5/setPrincipale" name="SetPrimary"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="saveSedeAddebito">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAddebito.setPersonaGiuridica(PersoneGiuridiche)}"></action>
+				<action name="2" expression="#{SediAddebitoAction.create()}"></action>
+				<action name="3" expression="#{PersoneGiuridicheAction.create()}"></action>
+			</event>
+			<transition to="../inject list SediAdd"></transition>
+		</node>
+	</super-state>
+
+	<node name="save temporary SedeSelezionata">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.temporary.put('SedeSelezionata',Sedi)}"></action>
+		</event>
+		<transition to="copiaSedeEsistente?"></transition>
+	</node>
+
+	<node name="inject list SediAdd">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.equal.put('personaGiuridica.internalId',PersoneGiuridiche.internalId)}"></action>
+			<action name="2" expression="#{SediAddebitoAction.read()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="edit IndirizzoSped">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/createIndirizzoSped')}"></action>
+		</event>
+		<transition to="decision4"></transition>
+	</task-node>
+
+	<node name="injectnew IndSped">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.inject(IndirizzoSpedAction.newEntity())}"></action>
+		</event>
+		<transition to="edit IndirizzoSped"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="create IndirizzoSped">
+			<event type="node-enter">
+				<action name="1" expression="#{IndirizzoSpedAction.create()}"></action>
+				<action name="2" expression="#{IndirizzoSped.addSediAddebito(SediAddebito)}"></action>
+			</event>
+			<transition to="../DoNothng"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject sediSped">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectList(SediAddebito.indirizzoSped)}"></action>
+		</event>
+		<transition to="create sede addebito"></transition>
+	</node>
+
+	<node name="injectNew IndirizzoSped">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.inject(IndirizzoSpedAction.injectFromExistingSa(SediAddebito))}"></action>
+			<action name="2" expression="#{IndirizzoSped.addSediAddebito(SediAddebito)}"></action>
+			<action name="3" expression="#{IndirizzoSped.setPrincipale(true)}"></action>
+			<action name="4" expression="#{IndirizzoSpedAction.injectNewList(IndirizzoSped)}"></action>
+		</event>
+		<transition to="create sede addebito"></transition>
+	</node>
+
+	<node name="DoNothng">
+		<event type="node-enter"></event>
+		<transition to="inject sediSped"></transition>
+	</node>
+
+	<task-node name="scegli sede ditta">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupCopySedeAddr')}"></action>
+		</event>
+		<transition to="decision5"></transition>
+	</task-node>
+
+	<node name="backup sede Sel">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.temporary.put('SedeSelezionata',Sedi)}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="scegli sede ditta"></transition>
+	</node>
+
+	<node name="Inject IndSped from Sede">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.injectFromExistingSede(Sedi)}"></action>
+			<action name="2" expression="#{SediAction.inject(SediAddebitoAction.temporary['SedeSelezionata'])}"></action>
+		</event>
+		<transition to="edit IndirizzoSped"></transition>
+	</node>
+
+	<decision name="decision5" expression="#{button.mnemonic}">
+		<transition to="injectnew IndSped" name="NEW"></transition>
+		<transition to="Inject IndSped from Sede" name="COPY"></transition>
+		<transition to="restore backup sede Sel" name="BtnCancel"></transition>
+		<transition to="scegli sede ditta" name="SiPerSedi"></transition>
+		<transition to="indirizzoSpedGestione" name="agendaIndSped"></transition>
+	</decision>
+
+	<node name="reinjectSedeSel">
+		<transition to="eject" name=""></transition>
+	</node>
+
+	<node name="restore backup sede Sel">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAction.inject(SediAddebitoAction.temporary['SedeSelezionata'])}"></action>
+		</event>
+		<transition to="DoNothng"></transition>
+	</node>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="super-state2/create IndirizzoSped" name="SAVE"></transition>
+		<transition to="create sede addebito" name="BACK"></transition>
+	</decision>
+
+	<node name="injectSped">
+		<event type="node-enter">
+			<action name="1" expression="#{IndirizzoSpedAction.inject(IndirizzoSpedPerSA)}"></action>
+		</event>
+		<transition to="edit IndirizzoSped"></transition>
+	</node>
+
+	<node name="sa refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.refresh()}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<process-state name="indirizzoSpedGestione">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/indirizzoSpedGestione" binding="late"></sub-process>
+		<transition to="decision7"></transition>
+	</process-state>
+
+	<task-node name="PopConferma">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupConfermaAssociazione')}"></action>
+		</event>
+		<transition to="decision6"></transition>
+	</task-node>
+
+	<decision name="decision6" expression="#{button.mnemonic}">
+		<transition to="super-state2/create IndirizzoSped" name="OK"></transition>
+		<transition to="restore backup sede Sel" name="BtnCancel"></transition>
+	</decision>
+
+	<super-state name="super-state4">
+		<node name="unlink">
+			<event type="node-enter">
+				<action name="1" expression="#{IndirizzoSped.removeSediAddebito(SediAddebito)}"></action>
+				<action name="2" expression="#{SediAddebito.removeIndirizzoSped(IndirizzoSped)}"></action>
+				<action name="3" expression="#{SediAddebitoAction.updatePrincipaleIfRemoved()}"></action>
+				<action name="4" expression="#{SediAddebitoAction.create()}"></action>
+				<action name="5" expression="#{IndirizzoSpedAction.create()}"></action>
+			</event>
+			<transition to="../DoNothng"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision7" expression="#{button.mnemonic}">
+		<transition to="restore backup sede Sel" name="BtnBack"></transition>
+		<transition to="PopConferma" name="SELECT"></transition>
+	</decision>
+
+	<task-node name="conferma disAssocia">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupConfermaDisAssociazione')}"></action>
+		</event>
+		<transition to="decision8"></transition>
+	</task-node>
+
+	<decision name="decision8" expression="#{button.mnemonic}">
+		<transition to="create sede addebito" name="BtnCancel"></transition>
+		<transition to="super-state4/unlink" name="OK"></transition>
+	</decision>
+
+	<super-state name="super-state5">
+		<node name="setPrincipale">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAddebito.setIndirizzoSpedPrinc(IndirizzoSped)}"></action>
+				<action name="2" expression="#{SediAddebitoAction.create()}"></action>
+			</event>
+			<transition to="../DoNothng"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state6">
+		<node name="set PrincipalePerSa">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAddebito.setIndirizzoSpedPrinc(IndirizzoSpedPerSA)}"></action>
+				<action name="2" expression="#{SediAddebitoAction.create()}"></action>
+			</event>
+			<transition to="../sa refresh"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state7">
+		<node name="Del Sa">
+			<event type="node-enter">
+				<action name="1" expression="#{SediAddebitoAction.create()}"></action>
+				<action name="2" expression="#{SediAddebito.setIsActive(false)}"></action>
+				<action name="3" expression="#{SediAddebitoAction.unLink('personaGiuridica',PersoneGiuridiche)}"></action>
+			</event>
+			<transition to="../inject list SediAdd"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state8">
+		<node name="Delete Sped">
+			<event type="node-enter">
+				<action name="1" expression="#{IndirizzoSpedAction.inject(IndirizzoSpedPerSA)}"></action>
+				<action name="2" expression="#{IndirizzoSpedAction.unLink('sediAddebito',SediAddebito)}"></action>
+				<action name="3" expression="#{IndirizzoSpedAction.delete()}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="indirizzoSpedGestione2">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/indirizzoSpedGestione" binding="late"></sub-process>
+		<transition to="decision9"></transition>
+	</process-state>
+
+	<decision name="decision9" expression="#{button.mnemonic}">
+		<transition to="end-state3" name="BtnBack"></transition>
+		<transition to="PopConferma2" name="SELECT"></transition>
+	</decision>
+
+	<task-node name="PopConferma2">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupConfermaAssociazione')}"></action>
+		</event>
+		<transition to="decision10"></transition>
+	</task-node>
+
+	<decision name="decision10" expression="#{button.mnemonic}">
+		<transition to="end-state3" name="BtnCancel"></transition>
+		<transition to="super-state3/create IndirizzoSped2" name="OK"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<node name="create IndirizzoSped2">
+			<event type="node-enter">
+				<action name="1" expression="#{empty Sedi?SediAddebitoAction.inject(SediAddebitoAction.newEntity()):SediAddebitoAction.injectFromExisting(Sedi)}"></action>
+				<action name="2" expression="#{IndirizzoSped.addSediAddebito(SediAddebito)}"></action>
+				<action name="3" expression="#{IndirizzoSped.setPrincipale(true)}"></action>
+				<action name="4" expression="#{IndirizzoSpedAction.create()}"></action>
+			</event>
+			<transition to="../inject sediSped"></transition>
+		</node>
+	</super-state>
+
+	<node name="refresh sa">
+		<event type="node-enter">
+			<action name="1" expression="#{SediAddebitoAction.refresh()}"></action>
+		</event>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state3"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="validateVerifMulti">
+
+
+	<start-state name="start-state1">
+		<transition to="checkMulti"></transition>
+	</start-state>
+
+
+	<task-node name="popup msg">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Anagrafiche/CORE/FORMS/popupCheckVerifMulti')}"></action>
+		</event>
+		<transition to="remove temporary"></transition>
+	</task-node>
+
+	<decision name="verifiche ok?" expression="#{VerificaImpAction.temporary['verificheOk'] ne null}">
+		<transition to="verifiche ko?" name="false"></transition>
+		<transition to="super-state1/validateMulti" name="true"></transition>
+	</decision>
+
+	<node name="checkMulti">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.checkVerificheMulti(VerificaImpAction.temporary['selectedVers'])}"></action>
+		</event>
+		<transition to="verifiche ok?"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="validateMulti">
+			<event type="node-enter">
+				<action name="1" expression="#{VerificaImpAction.putCausaleListInTmp()}"></action>
+				<action name="2" expression="#{VerificaImpAction.validateMultiRefactored(VerificaImpAction.temporary.get('verificheOk'))}"></action>
+			</event>
+			<transition to="../verifiche ko?"></transition>
+		</node>
+	</super-state>
+
+	<decision name="verifiche ko?" expression="#{VerificaImpAction.temporary['selectedVers'] ne null and not empty VerificaImpAction.temporary['selectedVers']}">
+		<transition to="popup msg" name="true"></transition>
+		<transition to="remove temporary" name="false"></transition>
+	</decision>
+
+	<node name="remove temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.temporary.remove('verificheOk')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

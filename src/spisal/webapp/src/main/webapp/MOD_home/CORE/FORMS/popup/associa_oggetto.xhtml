@@ -1,0 +1,101 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1467048982471}</h1>
+	<div id="associa_uoc" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1466546916304" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1481104903874" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1481175739335}</span>
+						<h:inputText id="TextBox_1481175739335" styleClass="inputText" label="${msg.label_TextBox_1481175739335}" />
+						<a4j:outputPanel id="TextBox_1481175739335_msg" styleClass="errorContainer" ><h:message for="TextBox_1481175739335" styleClass="errorMessages TextBox_1481175739335_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnObjectSearch" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1479627882641').jstree(true).search(jQuery('#p\\:TextBox_1481175739335').val());" title="${msg.alt_BtnObjectSearch}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnObjectClean" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1479627882641').jstree('clear_search');" title="${msg.alt_BtnObjectClean}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnObjectOk" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnObjectOk;BtnObjectOk')}" status="ajaxStatus" id="BtnObjectOk_id" title="${msg.alt_BtnObjectOk}" style="float:right;" rendered="#{not empty CodeValueLaw and CodeValueLaw.getType().equals('S')}" reRender="popup,LayoutRow_1467467421059,LayoutRow_1471240349681" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466099314887" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1481741374043" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1479627882641" style="height:100%;width:100%;" >
+							<script type="text/javascript">
+							var popupWidth = 0.8;
+							var popupHeight = 0.8;
+							Tree.initTreeDictionary(jQuery("#p\\:JollyWidget_1479627882641"), 'Legge81Index', null, 'CodeValueLaw', 'translation', 'injectbyId','CodeValueLaw', false, '','#{CodeValueAction.getCodeAndParents(CodeValueLaw)}','#{CodeValueLaw.id}');
+							</script>
+							<a4j:jsFunction  name="injectbyId"  action="#{CodeValueLawAction.injectbyId}"   reRender="BtnObjectOk"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+								<a4j:actionparam name="id" assignTo="#{CodeValueLawAction.id}"/>
+							</a4j:jsFunction>	
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468586346678" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1464606505380" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Oggetto.code.code.equals('dpi') or Oggetto.code.code.equals('luoghilavoro') or Oggetto.code.code.equals('cantieritemporanei')}" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="GroupCheckBox_1466133592620" >
+							<label style="display:#{(Oggetto.code.code.equals('dpi')) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_GroupCheckBox_1466133592620}</span>
+								<h:selectManyCheckbox id="GroupCheckBox_1466133592620_id" value="#{Oggetto.dpi}" layout="pageDirection" rendered="#{Oggetto.code.code.equals('dpi')}" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1466133592620}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:dpi')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectManyCheckbox>
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="GroupCheckBox_1467953794266" >
+							<label style="display:#{(Oggetto.code.code.equals('luoghilavoro')) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_GroupCheckBox_1467953794266}</span>
+								<h:selectManyCheckbox id="GroupCheckBox_1467953794266_id" value="#{Oggetto.luoghiLavoro}" layout="pageDirection" rendered="#{Oggetto.code.code.equals('luoghilavoro')}" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1467953794266}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:workPlaces')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectManyCheckbox>
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="GroupCheckBox_1464955863242" >
+							<label style="display:#{(Oggetto.code.code.equals('cantieritemporanei')) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_GroupCheckBox_1464955863242}</span>
+								<h:selectManyCheckbox id="GroupCheckBox_1464955863242_id" value="#{Oggetto.siti}" layout="pageDirection" rendered="#{Oggetto.code.code.equals('cantieritemporanei')}" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1464955863242}" >
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:workSites')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectManyCheckbox>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1468586188713" styleClass="layoutContainer layoutContainerVertical" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1465277684372" >
+							<label >
+								<span class="label">${msg.label_TextArea_1465277684372}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1465277684372_id" value="#{Oggetto.note}" title="${msg.alt_TextArea_1465277684372}" label="${msg.label_TextArea_1465277684372}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1465277684372_id" styleClass="errorMessages TextArea_1465277684372_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

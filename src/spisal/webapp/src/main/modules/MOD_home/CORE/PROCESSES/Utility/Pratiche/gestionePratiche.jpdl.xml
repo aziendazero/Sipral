@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestionePratiche">
+
+
+	<start-state name="start-state1">
+		<transition to="Pre-Actions"></transition>
+	</start-state>
+
+
+	<task-node name="Gestione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/gestione_pratica')}"></action>
+		</event>
+		<transition to="Bottone?"></transition>
+	</task-node>
+
+	<decision name="Bottone?" expression="#{(button.getMnemonic())}">
+		<transition to="refresh stuff" name="BtnBack"></transition>
+		<transition to="praticheOperatori" name="BtnDelRDP"></transition>
+		<transition to="praticheUOS" name="BtnUOS"></transition>
+		<transition to="Gestione infortuni" name="BtnInf"></transition>
+		<transition to="praticheOperatori" name="BtnGestioneOperatori"></transition>
+		<transition to="praticheOperatori" name="BtnSetRDP"></transition>
+		<transition to="praticheOperatori" name="BtnSetRDI"></transition>
+		<transition to="praticheOperatori" name="BtnSetRFP"></transition>
+		<transition to="praticheOperatori" name="BtnDelRFP"></transition>
+		<transition to="praticheOperatori" name="BtnDelOP"></transition>
+		<transition to="praticheOperatori" name="BtnDelRDI"></transition>
+		<transition to="super-state1/save pratica" name="BtnSave"></transition>
+		<transition to="praticheOperatori" name="BtnSetUPG"></transition>
+		<transition to="praticheOperatori" name="BtnDelUPG"></transition>
+		<transition to="Gestione attivita" name="BtnActivityMng"></transition>
+		<transition to="Gestione Oggetti" name="BtnEditOgg"></transition>
+		<transition to="Gestione Oggetti" name="BtnAddOgg"></transition>
+		<transition to="Gestione Oggetti" name="BtnDelOgg"></transition>
+		<transition to="Gestione Vigilanze" name="BtnVigilanza"></transition>
+		<transition to="linkPratiche" name="BtnSearchRichiedente"></transition>
+		<transition to="linkPratiche" name="BtnSearchRiferimento"></transition>
+		<transition to="linkPratiche" name="BtnSearchUbicazione"></transition>
+		<transition to="dittePersonePareri" name="DTYPE01"></transition>
+		<transition to="dittePersonePareri" name="DTYPE02"></transition>
+		<transition to="dittePersonePareri" name="DTYPE03"></transition>
+		<transition to="dittePersonePareri" name="DelDTYPE01"></transition>
+		<transition to="dittePersonePareri" name="DelDTYPE02"></transition>
+		<transition to="dittePersonePareri" name="DelDTYPE03"></transition>
+		<transition to="dittePersonePareri" name="NewPR"></transition>
+		<transition to="dittePersonePareri" name="DelPR"></transition>
+		<transition to="reloadRiferimenti" name="reloadRiferimenti"></transition>
+		<transition to="super-state2/Gestione Stati" name="BtnStatesManagement"></transition>
+		<transition to="mal professionali" name="BtnSearchRichiedenteMal"></transition>
+		<transition to="mal professionali" name="BtnSearchRiferimentoMal"></transition>
+		<transition to="mal professionali" name="BtnSearchAttuale"></transition>
+		<transition to="mal professionali" name="compartoAteco"></transition>
+		<transition to="mal professionali" name="icd9Popup"></transition>
+		<transition to="mal professionali" name="mpInailPopup"></transition>
+		<transition to="mal professionali" name="causaPopup"></transition>
+		<transition to="mal professionali" name="delDittaAttr"></transition>
+		<transition to="mal professionali" name="editDittaAttr"></transition>
+		<transition to="mal professionali" name="newDittaAttr"></transition>
+		<transition to="mal professionali" name="BtnAttualeDetails"></transition>
+		<transition to="mal professionali" name="delFatt"></transition>
+		<transition to="mal professionali" name="editFatt"></transition>
+		<transition to="mal professionali" name="newFatt"></transition>
+		<transition to="mal professionali" name="delVisita"></transition>
+		<transition to="mal professionali" name="editVisita"></transition>
+		<transition to="mal professionali" name="newVisita"></transition>
+		<transition to="mal professionali" name="clonaVisita"></transition>
+		<transition to="read pratiche" name="BtnFilterApply"></transition>
+		<transition to="refresh and eject" name="BtnManagement"></transition>
+		<transition to="gestione tipologia prodotto finito" name="addTPF"></transition>
+		<transition to="gestione tipologia prodotto finito" name="delTPF"></transition>
+		<transition to="mal professionali" name="MedicDelete"></transition>
+		<transition to="mal professionali" name="MedicAdd"></transition>
+		<transition to="mal professionali" name="MedicDetail"></transition>
+		<transition to="isAttivitaCompleted?" name="BtnProvvMng"></transition>
+		<transition to="Gestione provvedimenti" name="BtnProvvDel"></transition>
+		<transition to="mal professionali" name="BtnInchiesta"></transition>
+		<transition to="CheckList" name="Questionario"></transition>		
+		<transition to="Gestione provvedimenti" name="BtnProvvInfo"></transition>
+		<transition to="aggiungi partner" name="AURPartnerAdd"></transition>
+		<transition to="aggiungi partner" name="PARIXPartnerAdd"></transition>
+		<transition to="aggiungi partner" name="BtnDeletePartner"></transition>
+		<transition to="gestione eventi pratica" name="readEvents"></transition>
+		<transition to="gestione eventi pratica" name="deletePraticaEvent"></transition>
+		<transition to="gestione eventi pratica" name="eventiPraticaEdit"></transition>
+		<transition to="gestione eventi pratica" name="addPraticaEvent"></transition>
+		<transition to="injectList of docs" name="BtnDocEdit"></transition>		
+		<transition to="Gestione infortuni" name="compartoAtecoWA"></transition>
+		<transition to="injectProvvedimento" name="injectProvvedimento"></transition>
+		<transition to="patentini" name="setGas"></transition>
+		<transition to="patentini" name="patDel"></transition>
+		<transition to="patentini" name="patNew"></transition>
+		<transition to="patentini" name="patSearch"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowWD_pazienteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowForm_richUtenteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowInfMittenteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowRichiedenteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowBenessereRichiedenteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowLSMittenteDiffPopup"></transition>
+		<transition to="aggiornamenti persone fisiche" name="ShowTAMittenteDiffPopup"></transition>
+		<transition to="Jump segnalazione" name="BtnJumpSegnalazione"></transition>
+		<transition to="esposti" name="esposti"></transition>
+		<transition to="miglioramenti" name="BtnImpMng"></transition>
+		<transition to="Gestione Codice Ateco" name="compartoAtecoRichiedente"></transition>
+		<transition to="Gestione Codice Ateco" name="compartoAtecoUbicazione"></transition>
+		<transition to="Gestione Codice Ateco" name="compartoAtecoRiferimento"></transition>
+		<transition to="Gestione attivita" name="BtnActivityMng1"></transition>
+		<transition to="operations" name="operation"></transition>		
+		<transition to="Gestione Data Scadenza" name="BtnDataScadenza"></transition>
+		<transition to="Storico Sospensioni" name="BtnStoricoSosp"></transition>
+		<transition to="Presa in carico" name="ObservMng"></transition>
+		<transition to="MDL" name="BtnMdl"></transition>
+		<transition to="get device location" name="getDeviceLocation"></transition>
+		<transition to="pick location on Google Maps" name="pickLocationFromMap"></transition>
+		<transition to="reverse geocoding" name="reverseGeocode"></transition>
+		<transition to="maps vigilanza" name="BtnVigilanzaMap"></transition>
+		<transition to="gestione atti" name="addAtto"></transition>
+		<transition to="gestione atti" name="editAtto"></transition>
+		<transition to="gestione atti" name="deleteAtto"></transition>	
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save pratica">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+				<action name="2" expression="#{not empty ParereTecnico ? ProcpraticheAction.link('parereTecnico',ParereTecnico) : ''}"></action>
+				<action name="3" expression="#{function.hasCodeIn(Procpratiche.serviceDeliveryLocation.area.code,'WORKDISEASE') and not empty MalattiaProfessionale ? ProcpraticheAction.link('malattiaProfessionale',MalattiaProfessionale) : MalattiaProfessionaleAction.eject()}"></action>
+				<action name="4" expression="#{not empty BenessereOrg ? ProcpraticheAction.link('benessereOrg',BenessereOrg) : ''}"></action>
+				<action name="5" expression="#{not empty BenessereOrg ? BenessereOrgAction.link('procpratiche',Procpratiche) : ''}"></action>
+				<action name="6" expression="#{not empty BenessereOrg ?  BenessereOrgAction.setArgomentiLegge81(CodeValueList) : ''}"></action>
+				<action name="7" expression="#{not empty BenessereOrg ? BenessereOrgAction.create() : ''}"></action>
+				<action name="8" expression="#{BenessereOrgAction.temporary.put('tipoPratica',BenessereOrg.tipoPratica)}"></action>
+				<action name="9" expression="#{not empty Lifestyle ? LifestyleAction.link('procpratiche',Procpratiche) : ''}"></action>
+				<action name="10" expression="#{not empty Lifestyle ? LifestyleAction.setArgomentiLegge81(CodeValueList) : ''}"></action>
+				<action name="11" expression="#{not empty Lifestyle ? LifestyleAction.create() : ''}"></action>
+				<action name="12" expression="#{not empty Formazione ? FormazioneAction.link('procpratiche',Procpratiche) : ''}"></action>
+				<action name="13" expression="#{not empty Formazione ? FormazioneAction.setArgomentiLegge81(CodeValueList) : ''}"></action>
+				<action name="14" expression="#{not empty Formazione ? FormazioneAction.create() : ''}"></action>
+				<action name="15" expression="#{not empty Informazione ? InformazioneAction.link('procpratiche',Procpratiche) : ''}"></action>
+				<action name="16" expression="#{not empty Informazione ? InformazioneAction.setArgomentiLegge81(CodeValueList) : ''}"></action>
+				<action name="17" expression="#{not empty Informazione ? InformazioneAction.create() : ''}"></action>
+				<action name="18" expression="#{PatentiniAction.savePatentini(ParereTecnico, Procpratiche.praticheRiferimenti.richiedenteUtente, Patentini, PatentiniList)}"></action>
+				<action name="19" expression="#{not empty Vigilanza ? VigilanzaAction.setReason(CodeValueList) : ''}"></action>
+				<action name="20" expression="#{not empty Vigilanza and Vigilanza.type.code=='Asbestos' and Protocollo.ubicazione.code=='Altro' ? VigilanzaAction.cleanSitoBonifica() : ''}"></action>
+				<action name="21" expression="#{ProcpraticheAction.setBuonePratiche(BuonePraticheList)}"></action>
+				<action name="22" expression="#{not empty ValutazioneConclusivaMdl ? ValutazioneConclusivaMdlAction.persistTabella(PatologieRicorsoList.list) : ''}"></action>
+			</event>
+			<transition to="../Gestione"></transition>
+		</node>
+	</super-state>
+
+
+	<process-state name="gestione tipologia prodotto finito">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneTipologiaProdottoFinito" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<node name="inject Operatori">
+		<event type="node-enter">
+			<action name="1" expression="#{OperatoreAction.injectList(Procpratiche.operatori, 'OperatoreList')}"></action>
+			<action name="2" expression="#{ProcpraticheAction.getArchList(Procpratiche.serviceDeliveryLocation.area.code)}"></action>
+		</event>
+		<transition to="fetch data for reports"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<process-state name="Gestione Stati">
+			<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneStatiPratica" binding="late"></sub-process>
+			<transition to="../to PreActions"></transition>
+		</process-state>
+	</super-state>
+
+	<process-state name="Gestione infortuni">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Infortuni/infortuniManagement" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<node name="refresh and eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.in.remove('malattiaProfessionale.ditteMalattie.personeGiuridiche.internalId')}"></action>
+			<action name="2" expression="#{ProcpraticheAction.equal.remove('malattiaProfessionale.ditteMalattie.personeGiuridiche.internalId')}"></action>
+			<action name="3" expression="#{ProcpraticheAction.ejectList()}"></action>
+			<action name="4" expression="#{ProcpraticheAction.equal.remove('serviceDeliveryLocation.area.code')}"></action>
+			<action name="5" expression="#{ProcpraticheAction.equal.remove('serviceDeliveryLocation.parent.parent.internalId')}"></action>
+			<action name="6" expression="#{PersonAction.eject()}"></action>
+			<action name="7" expression="#{OperatoreAction.eject()}"></action>
+			<action name="8" expression="#{EmployeeAction.eject()}"></action>
+			<action name="9" expression="#{ParereTecnicoAction.eject()}"></action>
+			<action name="10" expression="#{PersonaGiuridicaSedeAction.ejectList()}"></action>
+			<action name="11" expression="#{MalattiaProfessionaleAction.eject()}"></action>
+			<action name="12" expression="#{ProvvedimentiAction.eject()}"></action>
+			<action name="13" expression="#{ProvvedimentiAction.ejectList()}"></action>
+			<action name="14" expression="#{BenessereOrgAction.eject()}"></action>
+			<action name="15" expression="#{ControlLsReqAction.eject()}"></action>
+			<action name="16" expression="#{ControlLsReqAction.ejectList()}"></action>
+			<action name="17" expression="#{BenessereOrgAction.temporary.clear()}"></action>
+			<action name="18" expression="#{SediAction.eject()}"></action>
+			<action name="19" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="20" expression="#{FattoreRischioAction.temporary.remove('allowedDomains')}"></action>
+		</event>
+		<transition to="Pre-Actions"></transition>
+	</node>
+
+	<process-state name="Gestione attivita">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Attivita/gestioneAttivita" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<process-state name="Gestione Oggetti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneOggetti" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<process-state name="Pre-Actions">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/preActions" binding="late"></sub-process>
+		<transition to="inject Operatori"></transition>
+	</process-state>
+
+	<process-state name="Gestione Vigilanze">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Vigilanze/vigilanzeManagement" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<process-state name="linkPratiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/linkPratica" binding="late"></sub-process>
+		<transition to="refresh Parere"></transition>
+	</process-state>
+
+	<process-state name="dittePersonePareri">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/dittePersonePareri" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<node name="reloadRiferimenti">
+		<event type="node-enter">
+			<action name="1" expression="#{!ProcpraticheAction.temporary['showRiferimenti'] ? ProtocolloAction.refresh() : ''}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('showRiferimenti',!ProcpraticheAction.temporary['showRiferimenti'])}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<node name="refresh Parere">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty ParereTecnico ? ParereTecnicoAction.refresh() : ''}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<process-state name="CheckList">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/CheckList/CheckListCompile" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<process-state name="praticheUOS">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/praticheUOS" binding="late"></sub-process>
+		<transition to="Pre-Actions"></transition>
+	</process-state>
+
+	<process-state name="praticheOperatori">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/praticheOperatori" binding="late"></sub-process>
+		<transition to="inject Operatori"></transition>
+	</process-state>
+
+	<node name="to PreActions">
+		<transition to="Pre-Actions"></transition>
+	</node>
+
+	<process-state name="mal professionali">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/malattieProfessionaliManagement" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<node name="read pratiche">
+		<event type="node-enter">
+			<action name="1" expression="#{MalattiaProfessionaleAction.setMpPraticheFilter(DitteMalattieList.list)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.equal.put('serviceDeliveryLocation.area.code','WORKDISEASE')}"></action>
+			<action name="3" expression="#{ProcpraticheAction.setUlss()}"></action>
+			<action name="4" expression="#{ProcpraticheAction.read()}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<node name="refresh stuff">
+		<event type="node-enter">
+			<action name="1" expression="#{ParereTecnicoAction.refresh()}"></action>
+			<action name="2" expression="#{MalattiaProfessionaleAction.refresh()}"></action>
+			<action name="3" expression="#{ProvvedimentiAction.refresh()}"></action>
+			<action name="4" expression="#{ProcpraticheAction.refresh()}"></action>
+			<action name="5" expression="#{BenessereOrgAction.refresh()}"></action>
+			<action name="6" expression="#{PraticheRiferimentiAction.refresh()}"></action>
+			<action name="7" expression="#{ProcpraticheAction.in.remove('malattiaProfessionale.ditteMalattie.personeGiuridiche.internalId')}"></action>
+			<action name="8" expression="#{ProcpraticheAction.equal.remove('malattiaProfessionale.ditteMalattie.personeGiuridiche.internalId')}"></action>
+			<action name="9" expression="#{ProcpraticheAction.equal.remove('serviceDeliveryLocation.area.code')}"></action>
+			<action name="10" expression="#{FattoreRischioAction.temporary.remove('allowedDomains')}"></action>
+			<action name="11" expression="#{not empty praticheBackup ? ProcpraticheAction.restoreRestrictions() : ''}"></action>
+			<action name="12" expression="#{not empty praticheBackup ? org.jboss.seam.core.conversationContext.set('ProcpraticheList', praticheBackup) : ''}"></action>
+			<action name="13" expression="#{org.jboss.seam.core.conversationContext.remove('praticheBackup')}"></action>
+		</event>
+		<transition to="ejectProcpratiche"></transition>
+	</node>
+
+	<process-state name="Gestione provvedimenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/praticaToProvvedimento" binding="late"></sub-process>
+		<transition to="to PreActions"></transition>
+	</process-state>
+
+	<node name="ejectProcpratiche">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{OperatoreAction.eject()}"></action>
+			<action name="3" expression="#{EmployeeAction.eject()}"></action>
+			<action name="4" expression="#{processManager.setReadOnly(false)}"></action>
+			<action name="5" expression="#{ParereTecnicoAction.eject()}"></action>
+			<action name="6" expression="#{PersonaGiuridicaSedeAction.ejectList()}"></action>
+			<action name="7" expression="#{MalattiaProfessionaleAction.eject()}"></action>
+			<action name="8" expression="#{ProvvedimentiAction.eject()}"></action>
+			<action name="9" expression="#{ProvvedimentiAction.ejectList()}"></action>
+			<action name="10" expression="#{ProcpraticheAction.eject()}"></action>
+			<action name="11" expression="#{BenessereOrgAction.eject()}"></action>
+			<action name="12" expression="#{ControlLsReqAction.eject()}"></action>
+			<action name="13" expression="#{ControlLsReqAction.ejectList()}"></action>
+			<action name="14" expression="#{BenessereOrgAction.temporary.clear()}"></action>
+			<action name="15" expression="#{SediAction.eject()}"></action>
+			<action name="16" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="17" expression="#{ProtocolloMultiAction.ejectList()}"></action>
+			<action name="18" expression="#{ProtocolloMultiAction.eject()}"></action>
+			<action name="19" expression="#{CantiereAction.eject()}"></action>
+			<action name="20" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere1List')}"></action>
+			<action name="21" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere2List')}"></action>
+			<action name="22" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere3List')}"></action>
+			<action name="23" expression="#{DitteCantiereAction.ejectList()}"></action>
+			<action name="24" expression="#{TagCantiereAction.ejectList()}"></action>
+			<action name="25" expression="#{PersonaGiuridicaSedeAction.ejectList()}"></action>
+			<action name="26" expression="#{PersonaRuoloAction.ejectList()}"></action>
+			<action name="27" expression="#{OperaioAmiantoAction.ejectList()}"></action>
+			<action name="28" expression="#{ProtocolloAction.eject()}"></action>
+			<action name="29" expression="#{ProtocolloAction.ejectList()}"></action>
+			<action name="30" expression="#{MedicinaLavoroAction.eject()}"></action>
+			<action name="31" expression="#{ValutazioneConclusivaMdlAction.eject()}"></action>
+			<action name="32" expression="#{CommittenteVigilanzaAction.eject()}"></action>
+			<action name="33" expression="#{CommittenteVigilanzaAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="aggiungi partner">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/aggiungiPartner" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="gestione eventi pratica">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneEventiPratica" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="aggiornamenti persone fisiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/personUpdates" binding="late"></sub-process>
+		<transition to="Pre-Actions"></transition>
+	</process-state>
+
+	<node name="fetch data for reports">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.setMasterTemporary(Procpratiche)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('indirizzoSede',PersoneGiuridicheAction.getAddrSedePrincipale())}"></action>
+			<action name="3" expression="#{ProcpraticheAction.setActivitiesColor(Procpratiche)}"></action>
+		</event>
+		<transition to="attivita?"></transition>
+	</node>
+
+	<node name="injectList of docs">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('entity2Link', Procpratiche)}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.injectList(Procpratiche.documenti)}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.findLastChangeInfo(AlfrescoDocumentList.getList())}}"></action>
+		</event>
+		<transition to="alfrescoDocuments"></transition>
+	</node>
+
+	<process-state name="alfrescoDocuments">
+		<sub-process name="MOD_Document/CORE/PROCESSES/alfrescoDocument" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<node name="injectProvvedimento">
+		<event type="node-enter">
+			<action name="1" expression="#{MiglioramentiAction.injectList(Provvedimenti.miglioramenti,'MiglioramentiList')}"></action>
+		</event>
+		<transition to="Gestione"></transition>
+	</node>
+
+	<process-state name="patentini">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/TA/patentini" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Jump segnalazione">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/jumpPraticheSegnalazioni" binding="late"></sub-process>
+		<transition to="ending previous jump?"></transition>
+	</process-state>
+
+	<decision name="ending previous jump?" expression="#{ProcpraticheAction.temporary['jumping'] eq true}">
+		<transition to="Pre-Actions" name="false"></transition>
+		<transition to="end-state1" name="true"></transition>
+	</decision>
+
+	<process-state name="esposti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/Utility/Esposti" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="miglioramenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Provvedimenti/gestioneMiglioramenti" binding="late"></sub-process>
+		<transition to="Gestione" name=""></transition>
+	</process-state>
+
+	<process-state name="Gestione Codice Ateco">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneAtecoRiferimentiPratica" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="operations">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Generico/operations" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Gestione Data Scadenza">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/dataScadenza" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Storico Sospensioni">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/storicoSospensioni" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="Presa in carico">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/presaInCarico" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="MDL">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MDL/manageMDL" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="attivita?" expression="#{button.mnemonic eq 'BtnActivityMng1' and !empty Attivita}">
+		<transition to="Gestione" name="false"></transition>
+		<transition to="Gestione attivita" name="true"></transition>
+	</decision>
+
+	<process-state name="get device location">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/getDeviceLocationUbicazione" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="pick location on Google Maps">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/pickLocationFromMapUbicazione" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="reverse geocoding">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/reverseLookupUbicazione" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<process-state name="maps vigilanza">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/mapsVigilanza" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<decision name="isAttivitaCompleted?" expression="#{Provvedimenti.attivita.statusCode.code=='completed'}">
+		<transition to="setReadOnlyTrue" name="true"></transition>
+		<transition to="Gestione provvedimenti" name="false"></transition>
+	</decision>
+
+	<node name="setReadOnlyTrue">
+		<event type="node-enter">
+			<action name="1" expression="#{processManager.setReadOnly(true)}"></action>
+		</event>
+		<transition to="Gestione provvedimenti"></transition>
+	</node>
+
+	<process-state name="gestione atti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestioneAtti" binding="late"></sub-process>
+		<transition to="Gestione"></transition>
+	</process-state>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,522 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1519949482334}</h1>
+	<div id="indirizzoSpedSearch" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1519145753014" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1517721857552" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1517256057602" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1519040974947;BtnBack')}" status="ajaxStatus" id="Link_1519040974947" title="${msg.alt_Link_1519040974947}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('addAdd;BtnAddAnag')}" status="ajaxStatus" id="addAdd" title="${msg.alt_addAdd}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1520155878013" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnGestAddAlfrescoDocEdit" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnGestAddAlfrescoDocEdit;BtnGestAddAlfrescoDocEdit')}" status="ajaxStatus" id="BtnGestAddAlfrescoDocEdit_id" title="${msg.alt_BtnGestAddAlfrescoDocEdit}" rendered="#{!empty Addebito}" reRender="phiDesktop" styleClass="fa fa-file-text-o fa-3x link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1602833531640" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1595883269856" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1595883269856;BtnValidateMulti')}" status="ajaxStatus" id="Link_1595883269856_id" title="${msg.alt_Link_1595883269856}" rendered="#{AddebitoAction.isAnyAddSel(AddebitoAction.temporary['selectedAdds']) and false}" reRender="popup,phiDesktop" styleClass="fa fa-check-square-o fa-3x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('LinkValidateAddMulti;BtnValidateMulti')}" status="ajaxStatus" id="LinkValidateAddMulti" title="${msg.alt_LinkValidateAddMulti}" reRender="popup,phiDesktop" styleClass="fa fa-check-square-o fa-3x save link" onmouseover="sendEntityList('Addebito',selectedEntities)"/>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1604701409119" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1600764878784" style="height:100%;width:100%;" >
+							<script>
+							updateList(#{AddebitoAction.temporary['selectedAdds']});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1601294388646" style="height:100%;width:100%;" >
+							<style>
+							.nascosto { display: none; }
+							</style>
+							
+							<script>
+							if(isAnyEntitySelected()){
+								jQuery('a[id="i:LinkValidateAddMulti"]').removeClass('nascosto');
+							}else{
+								jQuery('a[id="i:LinkValidateAddMulti"]').addClass('nascosto');
+							}
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1517550950844" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical green layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1517550950844}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1516635626819" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1518207754374}</span>
+							<h:inputText id="MonthCalendar_1518207754374" value="#{AddebitoAction.greaterEqual['data']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1518207754374}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1518207754374" styleClass="errorMessages MonthCalendar_1518207754374_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1518502745524}</span>
+							<h:inputText id="MonthCalendar_1518502745524" value="#{AddebitoAction.lessEqual['data']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1518502745524}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1518502745524" styleClass="errorMessages MonthCalendar_1518502745524_E" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1529389561787" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1529389554091}</span>
+								<h:inputText id="TextBox_1529389554091" value="#{AddebitoAction.temporary['annoVerifica']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1529389554091}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1529389554091_msg" styleClass="errorContainer" ><h:message for="TextBox_1529389554091" styleClass="errorMessages TextBox_1529389554091_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1529389555324}</span>
+								<h:inputText id="TextBox_1529389555324" value="#{AddebitoAction.temporary['meseVerifica']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1529389555324}" >
+								<f:converter converterId="IntegerConverter"/>
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1529389555324_msg" styleClass="errorContainer" ><h:message for="TextBox_1529389555324" styleClass="errorMessages TextBox_1529389555324_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1517107037608}</span>
+							<h:selectOneMenu id="ComboBox_1517107037608" value="#{AddebitoAction.temporary['selectedARPAV']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1517107037608}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getArpav()}" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1519169107779" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1517560906013" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1518429366602}</span>
+								<span value="${msg.Label_1518429366602}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1520082456841" value="#{ImpiantoAction.temporary['01']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1520082456841}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1520082456841}" for="CheckBox_1520082456841" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1520082456841" styleClass="errorMessages CheckBox_1520082456841_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1520082456841" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1517308589499" value="#{ImpiantoAction.temporary['04']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1517308589499}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1517308589499}" for="CheckBox_1517308589499" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1517308589499" styleClass="errorMessages CheckBox_1517308589499_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1517308589499" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1517870447901" value="#{ImpiantoAction.temporary['03']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1517870447901}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1517870447901}" for="CheckBox_1517870447901" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1517870447901" styleClass="errorMessages CheckBox_1517870447901_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1517870447901" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1520422049280" value="#{ImpiantoAction.temporary['05']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1520422049280}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1520422049280}" for="CheckBox_1520422049280" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1520422049280" styleClass="errorMessages CheckBox_1520422049280_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1520422049280" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1520018016345" value="#{ImpiantoAction.temporary['02']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1520018016345}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1520018016345}" for="CheckBox_1520018016345" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1520018016345" styleClass="errorMessages CheckBox_1520018016345_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1520018016345" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1518567125440" value="#{ImpiantoAction.temporary['allTypes']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1518567125440}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1519169107779" event="onclick" action="#{ImpiantoAction.resetTypes()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1518567125440}" for="CheckBox_1518567125440" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1518567125440" styleClass="errorMessages CheckBox_1518567125440_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1518567125440" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1516979445581" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1518026851986" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1520521432383" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1520521461715}</span>
+										<h:inputText id="TextBox_1520521461715" value="#{AddebitoAction.like['personeGiuridiche.denominazione']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1520521461715}" />
+										<a4j:outputPanel id="TextBox_1520521461715_msg" styleClass="errorContainer" ><h:message for="TextBox_1520521461715" styleClass="errorMessages TextBox_1520521461715_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1520521533011}</span>
+										<h:inputText id="TextBox_1520521533011" value="#{AddebitoAction.like['personeGiuridiche.codiceFiscale']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1520521533011}" />
+										<a4j:outputPanel id="TextBox_1520521533011_msg" styleClass="errorContainer" ><h:message for="TextBox_1520521533011" styleClass="errorMessages TextBox_1520521533011_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1520521539723}</span>
+										<h:inputText id="TextBox_1520521539723" value="#{AddebitoAction.like['personeGiuridiche.patritaIva']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1520521539723}" />
+										<a4j:outputPanel id="TextBox_1520521539723_msg" styleClass="errorContainer" ><h:message for="TextBox_1520521539723" styleClass="errorMessages TextBox_1520521539723_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1650531928636}</span>
+										<h:inputText id="TextBox_1650531928636" value="#{AddebitoAction.temporary['codiceDitta']}" styleClass="inputText" label="${msg.label_TextBox_1650531928636}" />
+										<a4j:outputPanel id="TextBox_1650531928636_msg" styleClass="errorContainer" ><h:message for="TextBox_1650531928636" styleClass="errorMessages TextBox_1650531928636_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1518521934150" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1519487097565}</span>
+										<h:inputText id="TextBox_1519487097565" value="#{AddebitoAction.like['impSearchCollector.denominazioneSI']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1519487097565}" />
+										<a4j:outputPanel id="TextBox_1519487097565_msg" styleClass="errorContainer" ><h:message for="TextBox_1519487097565" styleClass="errorMessages TextBox_1519487097565_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1520398011654}</span>
+										<h:inputText id="TextBox_1520398011654" value="#{AddebitoAction.like['impSearchCollector.denominazioneSA']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1520398011654}" />
+										<a4j:outputPanel id="TextBox_1520398011654_msg" styleClass="errorContainer" ><h:message for="TextBox_1520398011654" styleClass="errorMessages TextBox_1520398011654_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1518627396483}</span>
+										<h:inputText id="TextBox_1518627396483" value="#{AddebitoAction.temporary['denominazioneIS']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1518627396483}" />
+										<a4j:outputPanel id="TextBox_1518627396483_msg" styleClass="errorContainer" ><h:message for="TextBox_1518627396483" styleClass="errorMessages TextBox_1518627396483_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1517848374781" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1516506686211}</span>
+										<h:inputText id="TextBox_1516506686211" value="#{AddebitoAction.like['operatore.name.fam']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516506686211}" />
+										<a4j:outputPanel id="TextBox_1516506686211_msg" styleClass="errorContainer" ><h:message for="TextBox_1516506686211" styleClass="errorMessages TextBox_1516506686211_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1520111383833}</span>
+										<h:inputText id="TextBox_1520111383833" value="#{AddebitoAction.like['operatore.name.giv']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1520111383833}" />
+										<a4j:outputPanel id="TextBox_1520111383833_msg" styleClass="errorContainer" ><h:message for="TextBox_1520111383833" styleClass="errorMessages TextBox_1520111383833_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1520340711986}</span>
+										<h:selectOneMenu id="ComboBox_1520340711986" value="#{AddebitoAction.equal['statusCode']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1520340711986}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+											<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Stato')}" />
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1518535631490" styleClass="layoutContainer layoutContainerVertical" rendered="false" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1518535641826}</span>
+										<h:inputText id="TextBox_1518535641826" value="#{AddebitoAction.like['annoRif']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1518535641826}" />
+										<a4j:outputPanel id="TextBox_1518535641826_msg" styleClass="errorContainer" ><h:message for="TextBox_1518535641826" styleClass="errorMessages TextBox_1518535641826_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1518535654640}</span>
+										<h:inputText id="TextBox_1518535654640" value="#{AddebitoAction.like['meseRif']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1518535654640}" />
+										<a4j:outputPanel id="TextBox_1518535654640_msg" styleClass="errorContainer" ><h:message for="TextBox_1518535654640" styleClass="errorMessages TextBox_1518535654640_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1520522066261" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1518519712036" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1517675840321}</span>
+										<h:inputText id="TextBox_1517675840321" value="#{AddebitoAction.like['sigla']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1517675840321}" />
+										<a4j:outputPanel id="TextBox_1517675840321_msg" styleClass="errorContainer" ><h:message for="TextBox_1517675840321" styleClass="errorMessages TextBox_1517675840321_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1518880272042}</span>
+										<h:inputText id="TextBox_1518880272042" value="#{AddebitoAction.like['matricola']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1518880272042}" />
+										<a4j:outputPanel id="TextBox_1518880272042_msg" styleClass="errorContainer" ><h:message for="TextBox_1518880272042" styleClass="errorMessages TextBox_1518880272042_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1517327213555}</span>
+										<h:inputText id="TextBox_1517327213555" value="#{AddebitoAction.like['anno']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1517327213555}" />
+										<a4j:outputPanel id="TextBox_1517327213555_msg" styleClass="errorContainer" ><h:message for="TextBox_1517327213555" styleClass="errorMessages TextBox_1517327213555_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1536044595595" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1534994664986}</span>
+										<h:inputText id="TextBox_1534994664986" value="#{AddebitoAction.temporary['fattura.anno']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1534994664986}" >
+										<f:converter converterId="IntegerConverter"/>
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1534994664986_msg" styleClass="errorContainer" ><h:message for="TextBox_1534994664986" styleClass="errorMessages TextBox_1534994664986_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1534798868613}</span>
+										<h:inputText id="TextBox_1534798868613" value="#{AddebitoAction.equal['numeroDoc']}" style="filter" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1534798868613}" >
+										<f:converter converterId="IntegerConverter"/>
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1534798868613_msg" styleClass="errorContainer" ><h:message for="TextBox_1534798868613" styleClass="errorMessages TextBox_1534798868613_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1518370098458" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1516966299388;BtnSearch')}" status="ajaxStatus" id="Link_1516966299388" title="${msg.alt_Link_1516966299388}" reRender="phiDesktop" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1518623666284;BtnFilterCancel')}" status="ajaxStatus" id="Link_1518623666284" title="${msg.alt_Link_1518623666284}" reRender="phiDesktop,LayoutRow_1517550950844,DataGrid_1518649767770" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1602720241193" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1601303019510" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						//console.log(jQuery('td:has(input[type=checkbox])')[0]);
+						
+						function toggleAll(ch){
+						if(ch===true){
+						jQuery('input[type=checkbox][class="selectAll"]:not(:checked)').each(function(){
+						//jQuery(this).trigger('onchange');
+						jQuery(this).click();
+						})
+						}else{
+						jQuery('input[type=checkbox][class="selectAll"]:checked').each(function(){
+						jQuery(this).click();
+						})
+						}
+						
+						}
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1604704318600" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1604704318600}" onclick="toggleAll(this.checked)">
+					</h:selectBooleanCheckbox>
+					<h:outputLabel value="${msg.CheckBox_1604704318600}" for="CheckBox_1604704318600" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1604704318600" styleClass="errorMessages CheckBox_1604704318600_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1604704318600" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1518649767770" layout="block" styleClass="dt layoutTable layoutVertical" >#{AddebitoAction.setReadPageSize(20)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1518649767770" value="&#8592;" action="#{AddebitoList.prev}" reRender="DataGrid_1518649767770" rendered="#{AddebitoList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1518649767770" value="#{AddebitoList.pageIndexes}" var="pi1518649767770">
+										<li class="#{(AddebitoList.currentPage eq pi1518649767770 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1518649767770" value="#{pi1518649767770}" action="#{AddebitoList.goToPage(pi1518649767770)}" reRender="DataGrid_1518649767770" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1518649767770" value="&#8594;" action="#{AddebitoList.next}" reRender="DataGrid_1518649767770" rendered="#{AddebitoList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1518649767770" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1518649767770} [AddebitoList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1602833005920}</th>
+								<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1595582521758}</th>
+								<th>${msg.DataGridColumn_1518239343755}</th>
+								<th>${msg.DataGridColumn_1519308529495}</th>
+								<th style="#{(Param['p.anagrafiche.addebitiSearch.createdBy'].visible ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1529408382313" value="${msg.DataGridColumn_1529408382313} &#8593;&#8595;" action="#{AddebitoList.orderBy('createdBy')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1521042541871" value="${msg.DataGridColumn_1521042541871} &#8593;&#8595;" action="#{AddebitoList.orderBy('creationDate')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1517225704265" value="${msg.DataGridColumn_1517225704265} &#8593;&#8595;" action="#{AddebitoList.orderBy('data')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1517963768812" value="${msg.DataGridColumn_1517963768812} &#8593;&#8595;" action="#{AddebitoList.orderBy('impType')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1518614561704} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1518535867417" value="${msg.DataGridColumn_1518535867417} &#8593;&#8595;" action="#{AddebitoList.orderBy('note')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1516584515031" value="${msg.DataGridColumn_1516584515031} &#8593;&#8595;" action="#{AddebitoList.orderBy('operatore.name')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1518535896496" value="${msg.DataGridColumn_1518535896496} &#8593;&#8595;" action="#{AddebitoList.orderBy('importo')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1518535918512" value="${msg.DataGridColumn_1518535918512} &#8593;&#8595;" action="#{AddebitoList.orderBy('impSearchCollector.denominazioneSI')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1518535948944" value="${msg.DataGridColumn_1518535948944} &#8593;&#8595;" action="#{AddebitoList.orderBy('impSearchCollector.denominazioneSA')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1518535970807" value="${msg.DataGridColumn_1518535970807} &#8593;&#8595;" action="#{AddebitoList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1518649767770" ajaxSingle="true" disabled="#{empty AddebitoList ? true : false}"/></th>
+								<th>${msg.DataGridColumn_1517186190523}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty AddebitoList or AddebitoList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="16">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1518649767770" value="#{AddebitoList.entities}" var="Addebito" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1518649767770(this.id);" class="#{AddebitoAction.getEntity().equals(Addebito) or Addebito.internalId != 0 and AddebitoAction.entity.internalId.equals(Addebito.internalId) ? 'selRow' : ''}" >
+									<td >
+						<h:selectBooleanCheckbox id="CheckBox_1602833021544_id" value="#{Addebito.isChecked}" style="vertical-align:middle;" styleClass="selectAll" alt="CHECKBOX" rendered="#{Addebito.statusCode eq null or Addebito.statusCode.code=='new'}" onclick="manageEntityList(event,this.checked,#{Addebito.internalId});">
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="JollyWidget_1601294388646" event="onchange" ignoreDupResponses="true" />
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1602833021544_id" styleClass="errorMessages CheckBox_1602833021544_E" />
+						<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{Addebito.statusCode eq null or Addebito.statusCode.code=='new'}"  for="CheckBox_1602833021544" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									</td>
+
+									<td style="#{(false ? '' : 'display:none;')} " >
+						<h:selectBooleanCheckbox id="CheckBox_1464130784354_id" value="#{Addebito.isNew}" style="vertical-align:middle;" alt="CHECKBOX" rendered="#{Addebito.statusCode eq null or Addebito.statusCode.code=='new'}" onclick="stopPropagation(event);">
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1595883269856" event="onchange" action="#{AddebitoAction.selectAdd(AddebitoList.list)}" ignoreDupResponses="true" />
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1464130784354_id" styleClass="errorMessages CheckBox_1464130784354_E" />
+						<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{Addebito.statusCode eq null or Addebito.statusCode.code=='new'}"  for="CheckBox_1464130784354" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AddebitoAction.injectAndProceed(Addebito, 'addMng;BtnAddAnag')}" status="ajaxStatus" id="addMng" title="${msg.alt_addMng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1518493353537_id" title="${msg.alt_Link_1518493353537}" style="color: red;" rendered="#{Addebito.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1518186786850_id" title="${msg.alt_Link_1518186786850}" style="color: green;" rendered="#{Addebito.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{AddebitoAction.inject(Addebito)}" status="ajaxStatus" id="Link_1519757558784_id" title="${msg.alt_Link_1519757558784}" style="color: GoldenRod;" rendered="#{Addebito.statusCode.code=='verified'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td style="#{(Param['p.anagrafiche.addebitiSearch.createdBy'].visible ? '' : 'display:none;')} " >
+										<span class="base-label" >#{Addebito.createdBy}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Addebito.creationDate}" >
+											<s:convertDateTime pattern="${format.dateTimeNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{Addebito.data}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.impType}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{AddebitoAction.getCodice(Addebito)}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.note}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.operatore.name}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.importo}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.impSearchCollector.denominazioneSI}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.impSearchCollector.denominazioneSA}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Addebito.serviceDeliveryLocation.name.giv}</span>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AddebitoAction.injectAndProceed(Addebito, 'addDel;BtnAddAnag')}" status="ajaxStatus" id="addDel_id" title="${msg.alt_addDel}" rendered="#{Addebito.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1518649767770" name="ie1518649767770" status="ajaxStatus" action="#{AddebitoList.injectEject}" data="#{AddebitoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1518649767770'))" reRender="BtnGestAddAlfrescoDocEdit" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{AddebitoList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

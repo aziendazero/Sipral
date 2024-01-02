@@ -1,0 +1,46 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1462081725847}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1464322288768" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1464360475963" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="RadioGroup_1464122182406" >
+					<label >
+						<span class="label">${msg.label_RadioGroup_1464122182406}</span>
+						<h:selectOneRadio id="RadioGroup_1464122182406_id" value="#{ProtocolloAction.temporary['nullifieReason']}" required="true" styleClass="radioGroupTable radioGroup layoutRequired" label="${msg.label_RadioGroup_1464122182406}" >
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:YesNo')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="TextArea_1464094985762" event="onclick" ignoreDupResponses="true" />
+						</h:selectOneRadio>
+					</label>
+					<h:message for="RadioGroup_1464122182406_id" styleClass="errorMessages RadioGroup_1464122182406_E" />
+					</a4j:outputPanel>
+
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1464094985762" >
+					<label style="display:#{(ProtocolloAction.temporary.get('nullifieReason')=='Si') ? 'block' : 'none' };" >
+						<span class="label">${msg.label_TextArea_1464094985762}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1464094985762_id" value="#{Protocollo.nullifieReason}" styleClass="layoutRequired" required="true" rendered="#{ProtocolloAction.temporary.get('nullifieReason')=='Si'}" label="${msg.label_TextArea_1464094985762}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1464094985762_id" styleClass="errorMessages TextArea_1464094985762_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1463169313875" style="padding-top:15px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1464626364044;BtnCancel')}" value="#{msg.Button_1464626364044}" id="Button_1464626364044_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" immediate="true" reRender="phiDesktop,popup, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1465872531268;BtnSave')}" value="#{msg.Button_1465872531268}" id="Button_1465872531268_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

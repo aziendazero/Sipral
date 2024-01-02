@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Log4j Configuration                                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+
+<!-- $Id: jboss-log4j.xml 87678 2009-04-22 16:47:08Z bstansberry@jboss.com $ -->
+
+<!--
+   | For more configuration information and examples see the Jakarta Log4j
+   | owebsite: http://jakarta.apache.org/log4j
+ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+   <!-- ================================= -->
+   <!-- Preserve messages in a local file -->
+   <!-- ================================= -->
+
+   <!-- A time/date based rolling appender -->
+   <appender name="ASYNC" class="org.jboss.logging.appender.DailyRollingFileAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="File" value="${jboss.server.log.dir}/server.log"/>
+      <param name="Append" value="false"/>
+      <param name="Threshold" value="INFO"/>
+      
+      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+
+      <layout class="org.apache.log4j.PatternLayout">
+         <!-- The default pattern: Date Priority [Category] (Thread) Message\n -->
+         <param name="ConversionPattern" value="%d %-5p [%c] (%t) %m%n"/>
+      </layout>
+   </appender>
+
+   <appender name="JVMFILE" class="org.jboss.logging.appender.DailyRollingFileAppender">
+      <errorHandler class="org.jboss.logging.util.OnlyOnceErrorHandler"/>
+      <param name="File" value="${jboss.server.log.dir}/jvm_server.log"/>
+      <param name="Append" value="false"/>
+      
+      <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+
+      <layout class="org.apache.log4j.PatternLayout">
+         <!-- The default pattern: Date Priority [Category] (Thread) Message\n -->
+         <param name="ConversionPattern" value="%d %-5p %m%n"/>
+      </layout>
+   </appender>
+   
+   
+   <!-- ================ -->
+   <!-- Limit categories -->
+   <!-- ================ -->
+	
+   
+   <category name="org.jbpm.JbpmConfiguration">
+	  <priority value="ERROR" /> 
+   </category>
+   
+   <category name="org.jgroups">
+     <priority value="WARN" />
+     
+   </category>  
+   <category name="org.jboss.ha">
+     <priority value="INFO" />
+     
+   </category>
+
+   <category name="org.jboss.web">
+     <priority value="INFO" />
+   </category>
+   <category name="com.arjuna">
+     <priority value="ERROR" />
+   </category>
+ 
+   <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
+   <category name="org.apache">
+      <priority value="INFO"/>
+   </category>
+   
+   <!-- Limit the jacorb category to WARN as its INFO is verbose -->
+   <category name="jacorb">
+      <priority value="WARN"/>
+   </category>
+   
+   <category name="javax.enterprise.resource.webcontainer.jsf">
+     <priority value="INFO" />
+   </category>
+   
+   <!-- REMOVE FOLLOWING lines and stack trace for session Kill-->
+   <!--2015-01-07 16:56:23,489 ERROR [org.apache.catalina.core.ContainerBase.[jboss.web].[localhost].[/PHI_CI]] (http-0.0.0.0-8080-37) Session event listener threw exception-->
+   <!--java.lang.IllegalStateException: Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()-->
+   <category name="org.apache.catalina.core.ContainerBase">
+     <priority value="FATAL"/>
+   </category>
+  
+   <!-- Limit the org.jgroups category to WARN as its INFO is verbose -->
+   <category name="org.jgroups">
+      <priority value="WARN"/>
+   </category>
+
+   <category name="org.apache">
+     <priority value="FATAL" />
+   </category>
+   
+   <category name="org.hibernate">
+     <priority value="INFO" />
+   </category>
+   
+   <!-- Limit the org.quartz category to INFO as its DEBUG is verbose -->
+   <category name="org.quartz">
+      <priority value="INFO"/>
+   </category>
+   
+   <!-- Limit the com.sun category to INFO as its FINE is verbose -->
+   <category name="com.sun">
+      <priority value="INFO"/>
+   </category>
+   
+   <!-- Limit the sun category to INFO as its FINE is verbose -->
+   <category name="sun">
+      <priority value="INFO"/>
+   </category>
+   
+   <!-- Limit the javax.xml.bind category to INFO as its FINE is verbose -->
+   <category name="javax.xml.bind">
+      <priority value="INFO"/> 
+   </category>
+  
+   <!-- Limit the springframework category to WARN-->
+   <category name="org.springframework">
+     <priority value="WARN"/>
+   </category>
+
+   <!-- Limit the JSR77 categories -->
+   <category name="org.jboss.management">
+      <priority value="INFO"/>
+   </category>
+
+   <!-- Limit the verbose facelets compiler -->
+   <category name="facelets.compiler">
+      <priority value="WARN"/>
+   </category>
+   
+   <!-- Limit the verbose ajax4jsf cache initialization -->
+   <category name="org.ajax4jsf.cache">
+      <priority value="WARN"/>
+   </category>
+   
+   <!-- Limit the verbose embedded jopr categories -->
+   <category name="org.rhq">
+      <priority value="WARN"/>
+   </category>
+   
+   <!-- Limit the verbose seam categories -->
+   <category name="org.jboss.seam">
+      <priority value="WARN"/>
+   </category>
+   
+   <!-- Limit the verbose MC4J EMS (lib used by admin-console) categories -->
+   <category name="org.mc4j.ems">
+      <priority value="WARN"/>
+   </category>
+   
+   <!-- Limit the org.jboss.serial (jboss-serialization) to WARN as its INFO is verbose -->
+   <category name="org.jboss.serial">
+      <priority value="WARN"/>
+   </category>
+
+   
+   <!--
+      | An example of enabling the custom TRACE level priority that is used
+      | by the JBoss internals to diagnose low level details. This example
+      | turns on TRACE level msgs for the org.jboss.ejb.plugins package and its
+      | subpackages. This will produce A LOT of logging output.
+      |
+      | Note: since jboss AS 4.2.x, the trace level is supported natively by
+      | log4j, so although the custom org.jboss.logging.XLevel priority will
+      | still work, there is no need to use it. The two examples that follow
+      | will both enable trace logging.
+   <category name="org.jboss.system">
+     <priority value="TRACE" class="org.jboss.logging.XLevel"/>
+   </category>
+   <category name="org.jboss.ejb.plugins">
+     <priority value="TRACE"/>
+   </category>
+   -->
+  
+  
+   <!-- ======================= -->
+   <!-- Setup the Root category -->
+   <!-- ======================= -->
+
+    <logger name="com.phi.cs.timer.PerformanceLogger" additivity="false">
+		<level value="INFO"/>
+		<appender-ref ref="JVMFILE"/>
+	</logger>
+   
+	<root>
+      <!-- 
+         Set the root logger priority via a system property. Note this is parsed by log4j,
+         so the full JBoss system property format is not supported; e.g.
+         setting a default via ${jboss.server.log.threshold:WARN} will not work.         
+       -->
+      <priority value="${jboss.server.log.threshold}"/>
+      <!-- appender-ref ref="CONSOLE"/ -->
+      <appender-ref ref="ASYNC"/>
+	</root>
+	
+
+</log4j:configuration>

@@ -1,0 +1,138 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1470355529123}</h1>
+	<div id="LeggiPEM_popup" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1473179227151" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1471035623190" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1469986744944}</span>
+						<h:inputText id="TextBox_1469986744944" styleClass="inputText" label="${msg.label_TextBox_1469986744944}" />
+						<a4j:outputPanel id="TextBox_1469986744944_msg" styleClass="errorContainer" ><h:message for="TextBox_1469986744944" styleClass="errorMessages TextBox_1469986744944_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnLeggiPEMSearch" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1473540896546').jstree(true).search(jQuery('#p\\:TextBox_1469986744944').val());" title="${msg.alt_BtnLeggiPEMSearch}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="BtnLeggiPEMSearchClean" onclick="stopPropagation(event);jQuery('#p\\:JollyWidget_1473540896546').jstree('clear_search');" title="${msg.alt_BtnLeggiPEMSearchClean}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnLeggiPEMOk" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnLeggiPEMOk;BtnOk')}" status="ajaxStatus" id="BtnLeggiPEMOk_id" title="${msg.alt_BtnLeggiPEMOk}" style="float:right;" rendered="#{not empty CodeValueLaw}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x linkUnlink link" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_txtPemProvvedimentoData}</span>
+						<h:inputText id="txtPemProvvedimentoData" value="#{Provvedimenti.data}" styleClass="inputText" disabled="true" label="${msg.label_txtPemProvvedimentoData}" />
+						<a4j:outputPanel id="txtPemProvvedimentoData_msg" styleClass="errorContainer" ><h:message for="txtPemProvvedimentoData" styleClass="errorMessages txtPemProvvedimentoData_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding-bottom:15px;padding:0;display:#{(not empty CodeValueLaw) ? 'block' : 'none' };" id="LayoutFill_1472862661121" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" rendered="#{not empty CodeValueLaw}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1472862661121}</legend>
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1473986457715}</span>
+						<h:outputText value="#{CodeValueLaw.displayName}" id="Label_1473986457715" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1473891614487}</span>
+						<h:outputText value="#{CodeValueLaw.description}" id="Label_1473891614487" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1494944754011" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_TextArea_1494944754011}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1494944754011_id" value="#{CodeValueLaw.corpo}" readonly="true" label="${msg.label_TextArea_1494944754011}" rows="3">
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1494944754011_id" styleClass="errorMessages TextArea_1494944754011_E" />
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1472252934866}</span>
+						<h:outputText value="#{CodeValueLaw.classificazione}" id="Label_1472252934866" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1471222153804}</span>
+						<h:outputText value="#{CodeValueLaw.sanzionatoDa}" id="Label_1471222153804" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1478868118293" style="width: 100%;height: 12.5%;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1478867743465}</span>
+							<h:outputText value="#{CodeValueLaw.importoMin}" id="Label_1478867743465" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1478867741993}</span>
+							<h:outputText value="#{CodeValueLaw.importoMax}" id="Label_1478867741993" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1472029088076}</span>
+							<h:outputText value="#{CodeValueLaw.sanzione}" id="Label_1472029088076" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1478867740578}</span>
+						<h:outputText value="#{CodeValueLaw.arresto}" id="Label_1478867740578" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" style="width: 100%;height: 12.5%;" >
+					<label >
+						<span class="label">${msg.label_Label_1478867745578}</span>
+						<h:outputText value="#{CodeValueLaw.descrizioneContravventore}" id="Label_1478867745578" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1472725770802" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1473540896546" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						var popupWidth = 0.8;
+						var popupHeight = 0.8;
+						Tree.initTreeDictionary(jQuery("#p\\:JollyWidget_1473540896546"), 'Legge81', null, 'CodeValueLaw', 'translation', 'injectFromTree','CodeValueLaw', false, '','#{CodeValueAction.getCodeAndParents(CodeValueLaw)}','#{CodeValueLaw.id}', new Date(#{Provvedimenti.data.time}));
+						</script>
+						<a4j:jsFunction  name="injectFromTree"  action="#{CodeValueLawAction.injectFromTree}"   reRender="BtnLeggiPEMOk,LayoutFill_1472862661121"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+							<a4j:actionparam name="id" assignTo="#{CodeValueLawAction.id}"/>
+						</a4j:jsFunction>	
+						
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,255 @@
+<process-definition  xmlns=""  name="companyDetails">
+
+
+	<start-state name="start-state1">
+		<transition to="Button1?"></transition>
+	</start-state>
+
+
+	<decision name="Button1?" expression="#{(button.getMnemonic())}">
+		<transition to="CvRif1?" name="BtnRichiedenteDetails"></transition>
+		<transition to="CvRif2?" name="BtnRiferimentoDetails"></transition>
+		<transition to="inject8" name="BtnSeqCustGiudDetails"></transition>
+		<transition to="inject9" name="BtnSeqPropDittaDetails"></transition>
+		<transition to="inject10" name="BtnSeqPropPersDetails"></transition>
+		<transition to="Person Details" name="BtnPersonDetails"></transition>
+		<transition to="Company Details" name="BtnCompanyDetails"></transition>
+		<transition to="inject12" name="BtnCantiereDetails"></transition>
+		<transition to="MnemonicInfortunio?" name="BtnInf"></transition>
+		<transition to="MnemonicVigilanza" name="BtnVigilanza"></transition>
+		<transition to="Company Details" name="BtnExtCompanyDetails"></transition>
+	</decision>
+
+	<node name="inject1">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(Protocollo.richiedenteDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(Protocollo.richiedenteSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<task-node name="Company Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/company_details')}"></action>
+		</event>
+		<transition to="eject1"></transition>
+	</task-node>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="CvRif1?" expression="#{Protocollo.richiedente.code}">
+		<transition to="inject1" name="Ditta"></transition>
+		<transition to="node1" name="Medico"></transition>
+		<transition to="inject4" name="Utente"></transition>
+		<transition to="inject6" name="Interno"></transition>
+		<transition to="end-state2" name="NonPrevisto"></transition>
+	</decision>
+
+	<node name="inject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(Protocollo.riferimentoDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(Protocollo.riferimentoSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<decision name="CvRif2?" expression="#{Protocollo.riferimento.code}">
+		<transition to="inject2" name="Ditta"></transition>
+		<transition to="inject7" name="Interno"></transition>
+		<transition to="end-state3" name="NonPrevisto"></transition>
+		<transition to="inject5" name="Utente"></transition>
+		<transition to="inject11" name="Cantiere"></transition>
+	</decision>
+
+	<node name="inject4">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Protocollo.richiedenteUtente)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<task-node name="Person Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_person/CORE/FORMS/popup/show_person')}"></action>
+		</event>
+		<transition to="eject2"></transition>
+	</task-node>
+
+	<node name="eject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject5">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Protocollo.riferimentoUtente)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<node name="inject6">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(Protocollo.richiedenteInterno)}"></action>
+		</event>
+		<transition to="Employee Details"></transition>
+	</node>
+
+	<node name="inject7">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(Protocollo.riferimentoInterno)}"></action>
+		</event>
+		<transition to="Employee Details"></transition>
+	</node>
+
+	<task-node name="Employee Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Employees/CORE/FORMS/employee_details')}"></action>
+		</event>
+		<transition to="eject3"></transition>
+	</task-node>
+
+	<node name="eject3">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject8">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Sequestri.custodeGiudiziario)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<node name="inject10">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Sequestri.proprietarioPersona)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<node name="inject9">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(Sequestri.proprietarioDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(Sequestri.proprietarioSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<node name="inject12">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.equal.put('isActive', true)}"></action>
+			<action name="2" expression="#{CommittenteAction.equal.put('cantiere', Cantiere)}"></action>
+			<action name="3" expression="#{CommittenteAction.read()}"></action>
+			<action name="4" expression="#{PersoneCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{PersoneCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="6" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT01')}"></action>
+			<action name="7" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere1List')}"></action>
+			<action name="8" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT02')}"></action>
+			<action name="9" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere2List')}"></action>
+			<action name="10" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT03')}"></action>
+			<action name="11" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere3List')}"></action>
+			<action name="12" expression="#{DitteCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="13" expression="#{DitteCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="14" expression="#{DitteCantiereAction.read()}"></action>
+			<action name="15" expression="#{TagCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="16" expression="#{TagCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="17" expression="#{TagCantiereAction.read()}"></action>
+		</event>
+		<transition to="Cantiere Details"></transition>
+	</node>
+
+	<task-node name="Cantiere Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Cantieri/FORMS/show_cantiere')}"></action>
+		</event>
+		<transition to="eject4"></transition>
+	</task-node>
+
+	<node name="eject4">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.ejectList('CommittenteList')}"></action>
+			<action name="2" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere1List')}"></action>
+			<action name="3" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere2List')}"></action>
+			<action name="4" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere3List')}"></action>
+			<action name="5" expression="#{DitteCantiereAction.ejectList('DitteCantiereList')}"></action>
+			<action name="6" expression="#{TagCantiereAction.ejectList('TagCantiereList')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject11">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(Protocollo.riferimentoCantiere)}"></action>
+		</event>
+		<transition to="inject12"></transition>
+	</node>
+
+	<decision name="MnemonicInfortunio?" expression="#{button.value}">
+		<transition to="Person Details" name="BtnPersonDetails"></transition>
+		<transition to="Company Details" name="BtnCompanyDetails"></transition>
+	</decision>
+
+	<node name="node1">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.inject(Protocollo.richiedenteMedico)}"></action>
+		</event>
+		<transition to="MedicoDetails"></transition>
+	</node>
+
+	<task-node name="MedicoDetails">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Anagrafiche/CORE/FORMS/medicoDetail')}"></action>
+		</event>
+		<transition to="node2"></transition>
+	</task-node>
+
+	<node name="node2">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="MnemonicVigilanza" expression="#{button.value}">
+		<transition to="Company Details" name="BtnInfPGS2"></transition>
+		<transition to="Person Details" name="BtnInfPRS2"></transition>
+		<transition to="Company Details" name="BtnInfPGS"></transition>
+		<transition to="Person Details" name="BtnInfPRS"></transition>
+		<transition to="Company Details" name="BtnInfoDAmianto"></transition>
+		<transition to="Company Details" name="BtnInfPGS3"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state3"></end-state>
+
+
+</process-definition>
