@@ -1,0 +1,443 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1464942174066}</h1>
+	<div id="company_details" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1464535994892" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<span value="${msg.Label_1462907584921}" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1462907584921}</span>
+				</div>
+
+				<a4j:outputPanel layout="block" style="width:100%;padding-top:15px;padding:0;" id="LayoutRow_1464598859069" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PersoneGiuridiche ne null}" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1464276224634" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1464714749396}</span>
+							<h:inputText id="TextBox_1464714749396" value="#{PersoneGiuridiche.denominazione}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1464714749396}" />
+							<a4j:outputPanel id="TextBox_1464714749396_msg" styleClass="errorContainer" ><h:message for="TextBox_1464714749396" styleClass="errorMessages TextBox_1464714749396_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466636740069}</span>
+							<h:inputText id="TextBox_1466636740069" value="#{PersoneGiuridiche.codiceFiscale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1466636740069}" />
+							<a4j:outputPanel id="TextBox_1466636740069_msg" styleClass="errorContainer" ><h:message for="TextBox_1466636740069" styleClass="errorMessages TextBox_1466636740069_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1467033219059}</span>
+							<h:inputText id="TextBox_1467033219059" value="#{PersoneGiuridiche.numeroRI}" style="width: 46px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1467033219059}" />
+							<a4j:outputPanel id="TextBox_1467033219059_msg" styleClass="errorContainer" ><h:message for="TextBox_1467033219059" styleClass="errorMessages TextBox_1467033219059_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1462968560170}</span>
+							<h:inputText id="MonthCalendar_1462968560170" value="#{PersoneGiuridiche.dataCostituzione}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1462968560170}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1462968560170" styleClass="errorMessages MonthCalendar_1462968560170_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1650621100990}</span>
+							<h:inputText id="TextBox_1650621100990" value="#{PersoneGiuridiche.codiceDitta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1650621100990}" />
+							<a4j:outputPanel id="TextBox_1650621100990_msg" styleClass="errorContainer" ><h:message for="TextBox_1650621100990" styleClass="errorMessages TextBox_1650621100990_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1466176671691}</span>
+							<h:outputText value="#{PersoneGiuridicheAction.getAddrSedePrincipale()}" id="Label_1466176671691" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1463996427501" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1465875666205}</span>
+							<h:selectOneMenu id="ComboBox_1465875666205" value="#{PersoneGiuridiche.formaGiuridica}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1465875666205}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:FormaGiuridica')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1464606614752}</span>
+							<h:inputText id="TextBox_1464606614752" value="#{PersoneGiuridiche.patritaIva}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1464606614752}" />
+							<a4j:outputPanel id="TextBox_1464606614752_msg" styleClass="errorContainer" ><h:message for="TextBox_1464606614752" styleClass="errorMessages TextBox_1464606614752_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1463874648093}</span>
+							<h:inputText id="MonthCalendar_1463874648093" value="#{PersoneGiuridiche.dataIscrizioneRI}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1463874648093}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1463874648093" styleClass="errorMessages MonthCalendar_1463874648093_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1463915033316}</span>
+							<h:inputText id="MonthCalendar_1463915033316" value="#{PersoneGiuridiche.dataTermine}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1463915033316}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1463915033316" styleClass="errorMessages MonthCalendar_1463915033316_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1650621502255" style="height:100%;width:100%;" >
+													<label style="display:block;" >
+														<span class="widget-label"> </span>
+														<h:inputText id="TextBox_1650621315703" styleClass="inputText" disabled="true" />
+													</label>
+							
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1466176710508}</span>
+							<h:outputText value="#{PersoneGiuridicheAction.getCountrySedePrincipale()}" id="Label_1466176710508" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1464546348632" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Sedi ne null}" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1467082673702}" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1467082673702}</span>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1464351020378" >
+					<span value="${msg.Label_1464351020378}" id="Label_1464351020378_id" style="display:#{(Sedi.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1464351020378}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1466117897469" >
+					<span value="${msg.Label_1466117897469}" id="Label_1466117897469_id" style="display:#{(not Sedi.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1466117897469}</span>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1466039312206" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Sedi ne null}" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1466007068876" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463017666994}</span>
+							<h:inputText id="TextBox_1463017666994" value="#{Sedi.denominazioneUnitaLocale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463017666994}" />
+							<a4j:outputPanel id="TextBox_1463017666994_msg" styleClass="errorContainer" ><h:message for="TextBox_1463017666994" styleClass="errorMessages TextBox_1463017666994_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1466036267415" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1466036267415}</span>
+							#{SediAction.autocomplete['addr'].setContentType('0')}
+							#{SediAction.autocomplete['addr'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1466036267415_MAIN" value="#{Sedi.addr.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1466036267415}" />
+							<h:outputLabel for="TextSuggestionBox_1466036267415_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1466036267415_CPA" value="#{Sedi.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1466036267415_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1466036267415_ZIP" value="#{Sedi.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1466036267415_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1466036267415_CODE" disabled="true" value="#{Sedi.addr.code}" label="${msg.label_TextSuggestionBox_1466036267415}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1466036267415_CODE" styleClass="errorMessages TextSuggestionBox_1466036267415_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1466036267415" action="#{SediAction.autocomplete['addr'].autocomplete()}" data="#{SediAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediAction.autocomplete['addr'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463449968447}</span>
+							<h:selectOneMenu id="ComboBox_1463449968447" value="#{Sedi.stato}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1463449968447}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1464862294427}</span>
+							<h:inputText id="TextBox_1464862294427" value="#{Sedi.telecom.as}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1464862294427}" />
+							<a4j:outputPanel id="TextBox_1464862294427_msg" styleClass="errorContainer" ><h:message for="TextBox_1464862294427" styleClass="errorMessages TextBox_1464862294427_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1465463496880}</span>
+							<h:selectOneMenu id="ComboBox_1465463496880" value="#{Sedi.statoAttivita}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1465463496880}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:StatoAttivita')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463102176142}</span>
+							<h:inputText id="TextBox_1463102176142" value="#{Sedi.numeroREA}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463102176142}" />
+							<a4j:outputPanel id="TextBox_1463102176142_msg" styleClass="errorContainer" ><h:message for="TextBox_1463102176142" styleClass="errorMessages TextBox_1463102176142_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463620771849}</span>
+							<h:selectOneMenu id="ComboBox_1463620771849" value="#{Sedi.tipo1}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1463620771849}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipo1')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1465671525245}</span>
+							<h:selectOneMenu id="ComboBox_1465671525245" value="#{Sedi.tipo4}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1465671525245}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipo1')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1465884748625}</span>
+							<h:inputText id="MonthCalendar_1465884748625" value="#{Sedi.dataInizioAttivita}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1465884748625}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1465884748625" styleClass="errorMessages MonthCalendar_1465884748625_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1466615744017}</span>
+							<h:inputText id="MonthCalendar_1466615744017" value="#{Sedi.dataDenunciaCessazione}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1466615744017}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1466615744017" styleClass="errorMessages MonthCalendar_1466615744017_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1466835386247" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463563954458}</span>
+							<h:inputText id="TextBox_1463563954458" value="#{Sedi.addr.str}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463563954458}" />
+							<a4j:outputPanel id="TextBox_1463563954458_msg" styleClass="errorContainer" ><h:message for="TextBox_1463563954458" styleClass="errorMessages TextBox_1463563954458_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465961952603}</span>
+							<h:inputText id="TextBox_1465961952603" value="#{Sedi.addr.adl}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1465961952603}" />
+							<a4j:outputPanel id="TextBox_1465961952603_msg" styleClass="errorContainer" ><h:message for="TextBox_1465961952603" styleClass="errorMessages TextBox_1465961952603_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1467000791399}</span>
+							<h:inputText id="TextBox_1467000791399" value="#{Sedi.addr.cnt}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1467000791399}" />
+							<a4j:outputPanel id="TextBox_1467000791399_msg" styleClass="errorContainer" ><h:message for="TextBox_1467000791399" styleClass="errorMessages TextBox_1467000791399_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463775356926}</span>
+							<h:inputText id="TextBox_1463775356926" value="#{Sedi.telecom.bad}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463775356926}" />
+							<a4j:outputPanel id="TextBox_1463775356926_msg" styleClass="errorContainer" ><h:message for="TextBox_1463775356926" styleClass="errorMessages TextBox_1463775356926_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463168365469}</span>
+							<h:selectOneMenu id="ComboBox_1463168365469" value="#{Sedi.tipologia}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1463168365469}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipologiaDitta')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466640813909}</span>
+							<h:inputText id="TextBox_1466640813909" value="#{Sedi.personaGiuridica.numeroRI}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1466640813909}" />
+							<a4j:outputPanel id="TextBox_1466640813909_msg" styleClass="errorContainer" ><h:message for="TextBox_1466640813909" styleClass="errorMessages TextBox_1466640813909_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1466247806877}</span>
+							<h:selectOneMenu id="ComboBox_1466247806877" value="#{Sedi.tipo2}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1466247806877}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipo1')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1463002128604}</span>
+							<h:selectOneMenu id="ComboBox_1463002128604" value="#{Sedi.tipo5}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1463002128604}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipo1')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1463447991034}</span>
+							<h:inputText id="MonthCalendar_1463447991034" value="#{Sedi.dataCessazione}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1463447991034}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1463447991034" styleClass="errorMessages MonthCalendar_1463447991034_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1464746721786}</span>
+							<h:inputText id="MonthCalendar_1464746721786" value="#{Sedi.dataCancellazione}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1464746721786}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1464746721786" styleClass="errorMessages MonthCalendar_1464746721786_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1464142058051" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466295983377}</span>
+							<h:inputText id="TextBox_1466295983377" value="#{Sedi.addr.bnr}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1466295983377}" />
+							<a4j:outputPanel id="TextBox_1466295983377_msg" styleClass="errorContainer" ><h:message for="TextBox_1466295983377" styleClass="errorMessages TextBox_1466295983377_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1464814243541}</span>
+							<h:inputText id="TextBox_1464814243541" value="#{Sedi.addr.sta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1464814243541}" />
+							<a4j:outputPanel id="TextBox_1464814243541_msg" styleClass="errorContainer" ><h:message for="TextBox_1464814243541" styleClass="errorMessages TextBox_1464814243541_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466524952768}</span>
+							<h:inputText id="TextBox_1466524952768" value="#{Sedi.insegna}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1466524952768}" />
+							<a4j:outputPanel id="TextBox_1466524952768_msg" styleClass="errorContainer" ><h:message for="TextBox_1466524952768" styleClass="errorMessages TextBox_1466524952768_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463324779244}</span>
+							<h:inputText id="TextBox_1463324779244" value="#{Sedi.telecom.mail}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463324779244}" />
+							<a4j:outputPanel id="TextBox_1463324779244_msg" styleClass="errorContainer" ><h:message for="TextBox_1463324779244" styleClass="errorMessages TextBox_1463324779244_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<h:selectBooleanCheckbox id="CheckBox_1465170780127" value="#{Sedi.sedePrincipale}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="true" label="${msg.CheckBox_1465170780127}" />
+						<h:outputLabel value="${msg.CheckBox_1465170780127}" for="CheckBox_1465170780127" style="vertical-align:middle;margin-left:3px;" />
+						<h:message for="CheckBox_1465170780127" styleClass="errorMessages CheckBox_1465170780127_E" />
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1465170780127" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466998674846}</span>
+							<h:inputText id="TextBox_1466998674846" value="#{Sedi.provinciaCCIAA}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1466998674846}" />
+							<a4j:outputPanel id="TextBox_1466998674846_msg" styleClass="errorContainer" ><h:message for="TextBox_1466998674846" styleClass="errorMessages TextBox_1466998674846_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1464581129143}</span>
+							<h:selectOneMenu id="ComboBox_1464581129143" value="#{Sedi.tipo3}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1464581129143}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Tipo1')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465990095407}</span>
+							<h:inputText id="TextBox_1465990095407" value="#{Sedi.progressivoUnitaLocale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1465990095407}" />
+							<a4j:outputPanel id="TextBox_1465990095407_msg" styleClass="errorContainer" ><h:message for="TextBox_1465990095407" styleClass="errorMessages TextBox_1465990095407_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1464210393217}</span>
+							<h:inputText id="TextBox_1464210393217" value="#{Sedi.causaleCessazione}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1464210393217}" />
+							<a4j:outputPanel id="TextBox_1464210393217_msg" styleClass="errorContainer" ><h:message for="TextBox_1464210393217" styleClass="errorMessages TextBox_1464210393217_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1463707641891}</span>
+							<h:inputText id="TextBox_1463707641891" value="#{Sedi.attivita}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1463707641891}" />
+							<a4j:outputPanel id="TextBox_1463707641891_msg" styleClass="errorContainer" ><h:message for="TextBox_1463707641891" styleClass="errorMessages TextBox_1463707641891_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

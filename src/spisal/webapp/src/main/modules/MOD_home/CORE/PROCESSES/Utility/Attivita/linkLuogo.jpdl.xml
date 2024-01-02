@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSegnalazione">
+
+
+	<start-state name="start-state1">
+		<transition to="decision1"></transition>
+	</start-state>
+
+
+	<decision name="target?" expression="#{AttivitaAction.temporary['target']}">
+		<transition to="Search Ditta" name="Ditta"></transition>
+		<transition to="Search Utente" name="Utente"></transition>
+		<transition to="Search Cantiere" name="Cantiere"></transition>
+	</decision>
+
+	<process-state name="Search Ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="temp Ditta"></transition>
+	</process-state>
+
+	<process-state name="Search Utente">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="temp Utente"></transition>
+	</process-state>
+
+	<super-state name="super-state1">
+		<node name="Save Attivita">
+			<event type="node-enter">
+				<action name="1" expression="#{AttivitaAction.create()}"></action>
+			</event>
+			<transition to="../clean temporary"></transition>
+		</node>
+	</super-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="set temporary richiedente"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="set temporary"></transition>
+	</node>
+
+	<node name="set temporary richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('target', Attivita.luogo.code)}"></action>
+			<action name="2" expression="#{AttivitaAction.temporary.put('base','luogo')}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{AttivitaAction.temporary.remove('base')}"></action>
+			<action name="3" expression="#{AttivitaAction.temporary.remove('target')}"></action>
+			<action name="4" expression="#{AttivitaAction.temporary.remove('toLink')}"></action>
+			<action name="5" expression="#{AttivitaAction.temporary.remove('sedeLink')}"></action>
+			<action name="6" expression="#{AttivitaAction.temporary.remove('linkObj')}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="8" expression="#{SediAction.eject()}"></action>
+			<action name="9" expression="#{PersonAction.eject()}"></action>
+			<action name="10" expression="#{CantiereAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="Button1" expression="#{(button.getMnemonic())}">
+		<transition to="unlink richiedente" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<process-state name="Search Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/GestioneCantieri" binding="late"></sub-process>
+		<transition to="temp Cantiere"></transition>
+	</process-state>
+
+	<node name="temp Ditta">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('linkObj',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Utente">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('linkObj',Person)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Cantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('linkObj',Cantiere)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="compose ToLink">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.temporary.put('toLink',function.concat(AttivitaAction.temporary['base'],AttivitaAction.temporary['target']))}"></action>
+			<action name="2" expression="#{AttivitaAction.temporary.put('sedeLink',function.concat(AttivitaAction.temporary['base'],'Sede'))}"></action>
+		</event>
+		<transition to="target?"></transition>
+	</node>
+
+	<node name="unlink richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{Attivita.setLuogoCantiere(null)}"></action>
+			<action name="2" expression="#{Attivita.setLuogoDitta(null)}"></action>
+			<action name="3" expression="#{Attivita.setLuogoSede(null)}"></action>
+			<action name="4" expression="#{Attivita.setLuogoUtente(null)}"></action>
+		</event>
+		<transition to="set address"></transition>
+	</node>
+
+	<node name="link object">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.link(AttivitaAction.temporary['toLink'],AttivitaAction.temporary['linkObj'])}"></action>
+			<action name="2" expression="#{AttivitaAction.link(AttivitaAction.temporary['sedeLink'], Sedi)}"></action>
+		</event>
+		<transition to="super-state1/Save Attivita"></transition>
+	</node>
+
+	<node name="set address">
+		<event type="node-enter">
+			<action name="1" expression="#{(not empty PersoneGiuridiche and empty Sedi) ? SediAction.inject(PersoneGiuridicheAction.getSedePrincipale(PersoneGiuridiche)) : ''}"></action>
+			<action name="2" expression="#{not empty Sedi ? Attivita.setAddr(ProtocolloAction.copyAddr(Sedi.addr)) : ''}"></action>
+			<action name="3" expression="#{not empty Cantiere ? Attivita.setAddr(ProtocolloAction.copyAddr(Cantiere.addr)) : ''}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<process-state name="detailsPopUpRiferimenti">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/detailsPopUpRiferimenti" binding="late"></sub-process>
+		<transition to="end-state2"></transition>
+	</process-state>
+
+	<decision name="decision1" expression="#{(button.getMnemonic()=='BtnLuogoInfo')}">
+		<transition to="detailsPopUpRiferimenti" name="true"></transition>
+		<transition to="eject" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

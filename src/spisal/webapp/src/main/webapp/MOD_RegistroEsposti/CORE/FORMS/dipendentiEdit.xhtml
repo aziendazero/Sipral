@@ -1,0 +1,329 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1466767677586}</h1>
+	<div id="dipendentiEdit" style="position:relative;height:549px;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1465384090582" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1466582358297" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468674651070;dipendentiBack')}" status="ajaxStatus" id="Link_1468674651070" title="${msg.alt_Link_1468674651070}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468185419878;dipendentiSave')}" status="ajaxStatus" id="Link_1468185419878" title="${msg.alt_Link_1468185419878}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1474463036292" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1474463036292}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474463258786" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1473422347548}</span>
+							<h:inputText id="TextBox_1473422347548" value="#{Person.fiscalCode}" style="height: 21px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473422347548}" />
+							<a4j:outputPanel id="TextBox_1473422347548_msg" styleClass="errorContainer" ><h:message for="TextBox_1473422347548" styleClass="errorMessages TextBox_1473422347548_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1473911538930" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1473911538930}</span>
+							<h:inputText id="TextBox_1473911538930_id" value="#{Person.name.fam}" style="height: 20px;width: 36px;" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1473911538930}" />
+							<a4j:outputPanel id="TextBox_1473911538930_msg" styleClass="errorContainer" ><h:message for="TextBox_1473911538930_id" styleClass="errorMessages TextBox_1473911538930_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1473250301724" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1473250301724}</span>
+							<h:inputText id="TextBox_1473250301724_id" value="#{Person.name.giv}" style="height: 20px;width: 41px;" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1473250301724}" />
+							<a4j:outputPanel id="TextBox_1473250301724_msg" styleClass="errorContainer" ><h:message for="TextBox_1473250301724_id" styleClass="errorMessages TextBox_1473250301724_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1474889834241}</span>
+							<h:selectOneMenu id="ComboBox_1474889834241" value="#{Person.genderCode}" disabled="true" styleClass="comboBox" style="height: 20px;" label="${msg.label_ComboBox_1474889834241}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Gender')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1476532859878}</span>
+							<h:selectOneMenu id="ComboBox_1476532859878" value="#{Person.citizen}" disabled="true" styleClass="comboBox" style="height: 19px;width: 41px;" label="${msg.label_ComboBox_1476532859878}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1475993901479}</span>
+							<h:selectOneMenu id="ComboBox_1475993901479" value="#{Person.maritalStatusCode}" disabled="true" styleClass="comboBox" style="height: 20px;" label="${msg.label_ComboBox_1475993901479}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:MaritalStatus')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474463259316" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1473046763158}</span>
+							<h:inputText id="MonthCalendar_1473046763158" value="#{Person.birthTime}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;height: 20px;" label="${msg.label_MonthCalendar_1473046763158}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1473046763158" styleClass="errorMessages MonthCalendar_1473046763158_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1473190857350}</span>
+							<h:inputText id="MonthCalendar_1473190857350" value="#{Person.deathDate}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;height: 20px;" label="${msg.label_MonthCalendar_1473190857350}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1473190857350" styleClass="errorMessages MonthCalendar_1473190857350_E" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1473607493324" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1473607493324}</span>
+							#{PersonAction.autocomplete['birthPlace'].setContentType('0')}
+							#{PersonAction.autocomplete['birthPlace'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1473607493324_MAIN" value="#{Person.birthPlace.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1473607493324}" />
+							<h:outputLabel for="TextSuggestionBox_1473607493324_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1473607493324_CPA" value="#{Person.birthPlace.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1473607493324_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1473607493324_ZIP" value="#{Person.birthPlace.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1473607493324_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1473607493324_CODE" disabled="true" value="#{Person.birthPlace.code}" label="${msg.label_TextSuggestionBox_1473607493324}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1473607493324_CODE" styleClass="errorMessages TextSuggestionBox_1473607493324_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1473607493324" action="#{PersonAction.autocomplete['birthPlace'].autocomplete()}" data="#{PersonAction.autocomplete['birthPlace'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{PersonAction.autocomplete['birthPlace'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1472526505446}</span>
+							<h:selectOneMenu id="ComboBox_1472526505446" value="#{Person.countryOfBirth}" disabled="true" styleClass="comboBox" style="height: 19px;width: 36px;" label="${msg.label_ComboBox_1472526505446}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1474930792259}</span>
+							<h:selectOneMenu id="ComboBox_1474930792259" value="#{Person.category}" disabled="true" styleClass="comboBox" style="height: 20px;width: 81px;" label="${msg.label_ComboBox_1474930792259}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Category')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466768202306" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466768202306}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1466768994044" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1466768994044;dipendentiEspostiNew')}" status="ajaxStatus" id="Link_1466768994044_id" title="${msg.alt_Link_1466768994044}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-plus fa-3x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1467620849915" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1467620849915" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1467620849915} [EspostiList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th>${msg.DataGridColumn_1467348002047}</th>
+									<th>${msg.DataGridColumn_1468125707434}</th>
+									<th>${msg.DataGridColumn_1466724200138}</th>
+									<th><a4j:commandLink id="DataGridColumn_1466767940237" value="${msg.DataGridColumn_1466767940237} &#8593;&#8595;" action="#{EspostiList.orderBy('attivita')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1466767979508" value="${msg.DataGridColumn_1466767979508} &#8593;&#8595;" action="#{EspostiList.orderBy('agente')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1466767983646" value="${msg.DataGridColumn_1466767983646} &#8593;&#8595;" action="#{EspostiList.orderBy('agenti')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}">${msg.DataGridColumn_1467106333417}</th>
+									<th style="#{(SchedaEsposti.tipologia.code eq 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1467117443285" value="${msg.DataGridColumn_1467117443285} &#8593;&#8595;" action="#{EspostiList.orderBy('bio')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1466768036288" value="${msg.DataGridColumn_1466768036288} &#8593;&#8595;" action="#{EspostiList.orderBy('valore')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1466768035235" value="${msg.DataGridColumn_1466768035235} &#8593;&#8595;" action="#{EspostiList.orderBy('metodo')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1466768033999" value="${msg.DataGridColumn_1466768033999} &#8593;&#8595;" action="#{EspostiList.orderBy('tempo')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1468106285063" value="${msg.DataGridColumn_1468106285063} &#8593;&#8595;" action="#{EspostiList.orderBy('startDate')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1467274436283" value="${msg.DataGridColumn_1467274436283} &#8593;&#8595;" action="#{EspostiList.orderBy('endDate')}" reRender="DataGrid_1467620849915" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')}">${msg.DataGridColumn_1468059034371}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty EspostiList or EspostiList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="14">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1467620849915" value="#{EspostiList.entities}" var="Esposti" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:4%;" >
+											<a4j:commandLink action="#{EspostiAction.injectAndProceed(Esposti, 'Link_1467177980052;dipendentiEspostiEdit')}" status="ajaxStatus" id="Link_1467177980052" title="${msg.alt_Link_1467177980052}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+										</td>
+
+										<td style="width:8%;" >
+											#{Esposti.codClass}
+										</td>
+
+										<td style="width:8%;" >
+											#{Esposti.mansione}
+										</td>
+
+										<td style="width:8%;" >
+											#{Esposti.attivita}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:6%;" >
+											#{Esposti.agente}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:8%;" >
+											#{Esposti.agenti}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:14%;" >
+											#{Esposti.sostanza}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code eq 'SUBTYPE3' ? '' : 'display:none;')} " >
+											#{Esposti.bio}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:10%;" >
+											<span class="base-label" >#{Esposti.valore}</span>
+											<span class="base-label" >#{Esposti.um}</span>
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:7%;" >
+											#{Esposti.metodo}
+										</td>
+
+										<td style="#{(SchedaEsposti.tipologia.code ne 'SUBTYPE3' ? '' : 'display:none;')} width:7%;" >
+											#{Esposti.tempo}
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{Esposti.startDate}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{Esposti.endDate}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')} width:4%;" >
+											<a4j:commandLink action="#{EspostiAction.injectAndProceed(Esposti, 'Link_1464828732584;dipendentiEspostiDel')}" status="ajaxStatus" id="Link_1464828732584" title="${msg.alt_Link_1464828732584}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1467386094054" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{SchedaEsposti.tipologia.code eq 'SUBTYPE3'}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1467386094054}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1468725696650" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468725696650;dipendentiEventiNew')}" status="ajaxStatus" id="Link_1468725696650_id" title="${msg.alt_Link_1468725696650}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-plus fa-2x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1465886737739" layout="block" styleClass="dt layoutTable layoutVertical" >
+						<table id="d1465886737739" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1465886737739} [EventoAccidentaleList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th class="sortableColumn">${msg.DataGridColumn_1467386396844} &#8593;&#8595;</th>
+									<th>${msg.DataGridColumn_1466373958132}</th>
+									<th>${msg.DataGridColumn_1467591377195}</th>
+									<th>${msg.DataGridColumn_1468866924843}</th>
+									<th>${msg.DataGridColumn_1466789131130}</th>
+									<th>${msg.DataGridColumn_1467549004571}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty EventoAccidentaleList or EventoAccidentaleList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="6">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1465886737739" value="#{EventoAccidentaleList.entities}" var="EventoAccidentale" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:4%;" >
+											<a4j:commandLink action="#{EventoAccidentaleAction.injectAndProceed(EventoAccidentale, 'Link_1468229386183;dipendentiEventiEdit')}" status="ajaxStatus" id="Link_1468229386183" title="${msg.alt_Link_1468229386183}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{EventoAccidentale.dataEvento}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:25%;" >
+											#{EventoAccidentale.tipo}
+										</td>
+
+										<td style="width:28%;" >
+											#{EventoAccidentale.descrizione}
+										</td>
+
+										<td style="width:30%;" >
+											#{EventoAccidentale.provvedimenti}
+										</td>
+
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{EventoAccidentaleAction.injectAndProceed(EventoAccidentale, 'Link_1467570845360;dipendentiEventiDel')}" status="ajaxStatus" id="Link_1467570845360" title="${msg.alt_Link_1467570845360}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+			<a4j:outputPanel layout="block" id="JollyWidget_1466277451028" style="position: absolute;left: 965px;top: 500px;" >
+				<script>
+				jQuery('input[type=text]:visible, textarea:visible').each(function() {
+					jQuery(this).val(jQuery(this).val().toUpperCase());
+				}).on('input',function() {
+				   	jQuery(this).val(jQuery(this).val().toUpperCase());
+				});
+				</script>
+			</a4j:outputPanel>
+
+	</div>
+	<script>focusFirstElement();</script>
+</div>

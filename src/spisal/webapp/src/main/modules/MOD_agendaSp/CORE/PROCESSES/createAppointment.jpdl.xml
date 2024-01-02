@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="createAppointment">
+
+<start-state name="start-state1">
+		<transition to="existing app?"></transition>
+	</start-state>
+
+
+	<process-state name="view agenda">
+		<sub-process name="MOD_agendaSp/CORE/PROCESSES/AgendaSp" binding="late"></sub-process>
+		<transition to="end-state2"></transition>
+	</process-state>
+
+	<node name="set Filter e id">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.temporary.put('viewOnly',false)}"></action>
+			<action name="2" expression="#{AppointmentSpAction.temporary.put('appointmentFilter','byagenda')}"></action>
+			<action name="3" expression="#{AppointmentSpAction.temporary.put('defaultView', 'agendaWeek')}"></action>
+		</event>
+		<transition to="view agenda"></transition>
+	</node>
+
+	<process-state name="search Agenda">
+		<sub-process name="MOD_agendaSp/CORE/PROCESSES/searchAgendaSp" binding="late"></sub-process>
+		<transition to="set Filter e id"></transition>
+	</process-state>
+
+	<decision name="existing app?" expression="#{!empty AppointmentSp}">
+		<transition to="conferma eliminazione" name="true"></transition>
+		<transition to="search Agenda" name="false"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="delete">
+			<event type="node-enter">
+				<action name="1" expression="#{AppointmentSp.agendaConf.appointmentSp.remove(AppointmentSp)}"></action>
+				<action name="2" expression="#{AppointmentSp.accertSp.appointmentSp.remove(AppointmentSp)}"></action>
+				<action name="3" expression="#{AppointmentSp.visitaSp.appointmentSp.remove(AppointmentSp)}"></action>
+				<action name="4" expression="#{AppointmentSp.setAgendaConf(null)}"></action>
+				<action name="5" expression="#{AppointmentSp.setAccertSp(null)}"></action>
+				<action name="6" expression="#{AppointmentSp.setEmployee(null)}"></action>
+				<action name="7" expression="#{AppointmentSp.setVisitaSp(null)}"></action>
+				<action name="8" expression="#{AppointmentSpAction.delete()}"></action>
+			</event>
+			<transition to="../BtnAgendaVisitaRemove or BtnAgendaAccRemove"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="super-state1/delete" name="OK"></transition>
+		<transition to="end-state2" name="BtnCancel"></transition>
+	</decision>
+
+	<task-node name="conferma eliminazione">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_agendaSp/CORE/FORMS/AppointmentSpDel')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="BtnAgendaVisitaRemove or BtnAgendaAccRemove" expression="#{AttivitaAction.temporary.get('agenda') eq 'BtnAgendaVisitaRemove' or AttivitaAction.temporary.get('agenda') eq 'BtnAgendaAccRemove'}">
+		<transition to="search Agenda" name="false"></transition>
+		<transition to="end-state2" name="true"></transition>
+	</decision>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+	<action name="security" expression="admin;utente;"></action>
+
+
+</process-definition>

@@ -1,0 +1,36 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1683332976384" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical layoutRootHorizontal  layoutRoot" >
+				<div class="layoutHorizontal" >
+				<a4j:outputPanel layout="block" id="JollyWidget_1686496180290" style="height:100%;width:100%;" >
+					<style>
+					 .refusedinterrupt_V0{ color: #000000;background-color:#ff8f8f; font-weight:bold;}
+					 .completedquest_V0{ color: #000000;background-color:#b2e8b2; font-weight:bold;}
+					 .inprogressquest_V0{ color: #000000;background-color:#ffe34e; font-weight:bold;}
+					</style>
+				</a4j:outputPanel>
+				</div>
+
+				<div class="layoutHorizontal" >
+				<a4j:outputPanel layout="block" id="JollyWidget_1685435899882" style="height:100%;width:100%;" >
+					<script>
+					jQuery("[name*='ComboBox_1684751222643']").removeClass();
+					jQuery("[name*='ComboBox_1684751222643']").addClass(jQuery("[name*='ComboBox_1684751222643']").val().substring(jQuery("[name*='ComboBox_1684751222643']").val().lastIndexOf('.')+1))
+					</script>
+				</a4j:outputPanel>
+				</div>
+
+				<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+				<label >
+					<span class="label">${msg.label_ComboBox_1684751222643}</span>
+					<h:selectOneMenu id="ComboBox_1684751222643" value="#{Questionario.statusCode}" styleClass="comboBox" title="${msg.alt_ComboBox_1684751222643}" label="${msg.label_ComboBox_1684751222643}" onchange="jQuery('&lt;style &gt; .refusedinterrupedquest_V0{ color: #000000;background-color:#ff8f8f; font-weight:bold;} .completedquest_V0{ color: #000000;background-color:#b2e8b2; font-weight:bold;} .inprogressquest_V0{ color: #000000;background-color:#ffe34e; font-weight:bold;}&lt;/style&gt;').appendTo('head');jQuery(this).removeClass();jQuery(this).addClass(jQuery(this).val().substring(jQuery(this).val().lastIndexOf('.')+1))">
+						<f:selectItem itemLabel="-" itemValue=""/>
+						<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:StatusCode')}" />
+						<f:converter converterId="CodeValueConverter"/>
+					</h:selectOneMenu>
+				</label>
+				</div>
+
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

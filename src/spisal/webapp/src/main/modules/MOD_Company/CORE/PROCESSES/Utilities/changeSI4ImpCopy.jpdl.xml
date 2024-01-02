@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="changeSI4ImpCopy">
+
+
+	<start-state name="start-state1">
+		<transition to="Inject Sedi Inst"></transition>
+	</start-state>
+
+
+	<node name="inject SI">
+		<event type="node-enter"></event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<task-node name="Select Sede SI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Company/CORE/FORMS/selectSede_SedeInst_Simple')}"></action>
+		</event>
+		<transition to="decision4"></transition>
+	</task-node>
+
+	<decision name="decision4" expression="#{button.mnemonic}">
+		<transition to="inject SI" name="SedeSelected"></transition>
+		<transition to="Link SI to abstract" name="BtnSelect"></transition>
+		<transition to="end-state2" name="BtnBack"></transition>
+	</decision>
+
+	<node name="Link SI to abstract">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpCopyAction.manageCopy(SediInstallazione)}"></action>
+			<action name="2" expression="#{ImpiantoAction.fillOtherFieldsFromSedeInst(Impianto.sedeInstallazione.sede.personaGiuridica, 'copy')}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="Inject Sedi Inst">
+		<event type="node-enter">
+			<action name="1" expression="#{Impianto ne null ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(Impianto.sedeInstallazione.sede.personaGiuridica)) : ''}"></action>
+			<action name="2" expression="#{Addebito ne null ? SediInstallazioneAction.injectList(SediInstallazioneAction.getFullListFromPG(Addebito.personeGiuridiche)) : ''}"></action>
+		</event>
+		<transition to="Select Sede SI"></transition>
+	</node>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

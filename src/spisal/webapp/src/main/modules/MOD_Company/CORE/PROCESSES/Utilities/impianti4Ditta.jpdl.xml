@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="companyManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{button.mnemonic}">
+		<transition to="preserve PG1" name="BtnImp"></transition>
+		<transition to="preserve PG2" name="BtnImpPerSi"></transition>
+		<transition to="preserve PG1" name="BtnImpSellMulti"></transition>
+	</decision>
+
+	<process-state name="gestione Impianti">
+		<sub-process name="MOD_Company/CORE/PROCESSES/manageImpianti" binding="late"></sub-process>
+		<transition to="restore PG"></transition>
+	</process-state>
+
+	<node name="inj from impPerSi">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpiantoAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+			<action name="3" expression="#{ImpiantoAction.inject(ImpiantoPerSi)}"></action>
+		</event>
+		<transition to="gestione Impianti"></transition>
+	</node>
+
+	<node name="preserve PG2">
+		<event type="node-enter">
+			<action name="1" expression="#{org.jboss.seam.core.conversationContext.set('pg',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="inj from impPerSi"></transition>
+	</node>
+
+	<node name="preserve PG1">
+		<event type="node-enter">
+			<action name="1" expression="#{org.jboss.seam.core.conversationContext.set('pg',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="gestione Impianti"></transition>
+	</node>
+
+	<node name="restore PG">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty pg ? PersoneGiuridicheAction.inject(pg):''}"></action>
+			<action name="2" expression="#{org.jboss.seam.core.conversationContext.remove('pg')}"></action>
+			<action name="3" expression="#{SediAction.ejectList()}"></action>
+			<action name="4" expression="#{SediAction.cleanRestrictions()}"></action>
+			<action name="5" expression="#{CessioneImpAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

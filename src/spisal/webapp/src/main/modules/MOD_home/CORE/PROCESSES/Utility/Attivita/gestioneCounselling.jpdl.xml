@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneAttivitaMdL">
+
+
+	<start-state name="start-state1">
+		<transition to="Button?"></transition>
+	</start-state>
+
+
+	<decision name="isCounselling?" expression="#{Attivita.code ne null and Attivita.code.code=='counselling'}">
+		<transition to="end-state2" name="false"></transition>
+		<transition to="inject Entities" name="true"></transition>
+	</decision>
+
+	<node name="inject Entities">
+		<event type="node-enter">
+			<action name="1" expression="#{CousellingAction.equal.put('attivita.internalId',Attivita.internalId)}"></action>
+			<action name="2" expression="#{CousellingAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{CousellingAction.read()}"></action>
+			<action name="4" expression="#{CousellingAction.injectFirst()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="init Entities">
+		<event type="node-enter">
+			<action name="1" expression="#{CousellingAction.inject(CousellingAction.newEntity())}"></action>
+			<action name="2" expression="#{AttivitaAction.link('couselling',Couselling)}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="Button?" expression="#{button.mnemonic}">
+		<transition to="init Entities" name="BtnAttivitaNew"></transition>
+		<transition to="isCounselling?" name="BtnAttivitaMng"></transition>
+		<transition to="isCounselling2?" name="BtnSave"></transition>
+	</decision>
+
+	<decision name="isCounselling2?" expression="#{Attivita.code.code=='counselling'}">
+		<description>
+			'counselling'
+		</description>
+		<transition to="setLuogo" name="true"></transition>
+		<transition to="end-state2" name="false"></transition>
+	</decision>
+
+	<node name="setLuogo">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.setCodeValue('luogo','PHIDIC','TargetSource','Altro')}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

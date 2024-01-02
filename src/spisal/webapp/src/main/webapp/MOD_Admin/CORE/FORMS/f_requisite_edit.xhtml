@@ -1,0 +1,204 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1416575801180}</h1>
+	<div id="f_requisite_edit" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1468842200540" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutFill_1468851156550" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1468842206763" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1470351227839;BACK')}" status="ajaxStatus" id="Link_1470351227839" title="${msg.alt_Link_1470351227839}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1469887809779" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1469887809779;OK')}" status="ajaxStatus" id="Link_1469887809779_id" title="${msg.alt_Link_1469887809779}" rendered="#{userBean.hasRoleIn('admin') and not RequisitoAction.temporary['isForHistory']}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1468842215427" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1423356268378" >
+							<span value="${msg.Label_1423356268378}" id="Label_1423356268378_id" style="display:#{(RequisitoAction.temporary['isForHistory']) ? 'block' : 'none' };" class="labelContent c-text-red c-border-red base-label" >${msg.Label_1423356268378}</span>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1425767311691" >
+							<span value="${msg.Label_1425767311691}" id="Label_1425767311691_id" style="display:#{(userBean.hasRoleIn('admin') and not RequisitoAction.temporary['isForHistory']) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1425767311691}</span>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1466833649698" style="width: 50.0%;height: 100%;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1466833649698;ViewHistory')}" status="ajaxStatus" id="Link_1466833649698_id" title="${msg.alt_Link_1466833649698}" rendered="#{userBean.hasRoleIn('admin') and !RequisitoAction.temporary['isForHistory']}" reRender="phiDesktop" styleClass="fa fa-clock-o fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_Label_1425989693628}</span>
+					<h:outputText value="#{Requisito.reqid}" id="Label_1425989693628" styleClass="labelContent c-text-bold base-label" />
+				</label>
+				</div>
+
+				<div class="layoutVertical" >
+				<label style="display:block;" >
+					<span class="widget-label">${msg.label_TextBox_1416239233134}</span>
+					<h:inputText id="TextBox_1416239233134" value="#{Requisito.descrCode}" styleClass="inputText" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_TextBox_1416239233134}" />
+					<a4j:outputPanel id="TextBox_1416239233134_msg" styleClass="errorContainer" ><h:message for="TextBox_1416239233134" styleClass="errorMessages TextBox_1416239233134_E" /></a4j:outputPanel>
+				</label>
+				</div>
+
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1422804941710" >
+				<label >
+					<span class="label">${msg.label_TextArea_1422804941710}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1422804941710_id" value="#{Requisito.description}" styleClass="formattedTextArea TextArea_1422804941710_id" readonly="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_TextArea_1422804941710}" >
+						<f:validateLength minimum="0" maximum="32000"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1422804941710_id" styleClass="errorMessages TextArea_1422804941710_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1472473122776" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1472473122776}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1472473233659" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1416575914819}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1416575914819" value="#{Requisito.reqVis}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_CheckBox_1416575914819}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutFill_1468853108252" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1416575914819" styleClass="errorMessages CheckBox_1416575914819_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1416575914819" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1416576149950}</span>
+							<h:inputText id="TextBox_1416576149950" value="#{Requisito.parent}" style="width:100px;min-width:100px;" styleClass="inputText" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_TextBox_1416576149950}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1416576149950_msg" styleClass="errorContainer" ><h:message for="TextBox_1416576149950" styleClass="errorMessages TextBox_1416576149950_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1425519282364}</span>
+							<h:inputText id="TextBox_1425519282364" value="#{Requisito.ordering}" style="width:100px;min-width:100px;" styleClass="inputText" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_TextBox_1425519282364}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1425519282364_msg" styleClass="errorContainer" ><h:message for="TextBox_1425519282364" styleClass="errorMessages TextBox_1425519282364_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468842441740" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1414561777265" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1414561777265}</span>
+							<h:inputText id="MonthCalendar_1414561777265_id" value="#{Requisito.startValidity}" required="true" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1414561777265}" onchange="dateCompare(this,'#'+getIdPrefix(this)+'MonthCalendar_1414483481819')"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1414561777265_id" styleClass="errorMessages MonthCalendar_1414561777265_E" />
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1414483481819}</span>
+							<h:inputText id="MonthCalendar_1414483481819" value="#{Requisito.endValidity}" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1414483481819}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1414561777265',this)"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1414483481819" styleClass="errorMessages MonthCalendar_1414483481819_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;display:#{(Requisito.reqVis) ? 'block' : 'none' };" id="LayoutFill_1468853108252" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" rendered="#{Requisito.reqVis}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1468853108252}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1472546675193" style="width: 100%;height: 50.0%;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_RadioGroup_1472545885317}</span>
+							<h:selectOneRadio id="RadioGroup_1472545885317" value="#{Requisito.rispostaType}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1472545885317}" >
+							<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:ResponseType')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1472469667784,LayoutRow_1468853124029" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1472546680153}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1472546680153" value="#{Requisito.rispostaObb}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1472546680153}" />
+							<h:message for="CheckBox_1472546680153" styleClass="errorMessages CheckBox_1472546680153_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1472546680153" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1472549117678" style="width: 100%;height: 50.0%;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1472469667784" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="ComboBox_1472469662744" >
+							<label style="display:#{(Requisito.rispostaType.code eq 'resptype02' ? 'true' : 'false'.concat(Requisito.setValDomain(null))) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_ComboBox_1472469662744}</span>
+								<h:selectOneMenu id="ComboBox_1472469662744_id" value="#{Requisito.valDomain}" rendered="#{Requisito.rispostaType.code eq 'resptype02' ? 'true' : 'false'.concat(Requisito.setValDomain(null))}" styleClass="comboBox" label="${msg.label_ComboBox_1472469662744}" >
+									<f:selectItems value="#{vocabularies.getSpecializedIdValues('PHIDIC:CheckLists')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="GroupCheckBox_1416576642530,GroupCheckBox_1472473455096" event="onchange" action="#{Requisito.setValAdmitted(function.propertyAsList(vocabularies.getIdValues(function.concat('PHIDIC:',Requisito.valDomain.displayName)),'value'))}" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="GroupCheckBox_1416576642530" >
+							<label style="display:#{(Requisito.rispostaType.code eq 'resptype02' and not empty Requisito.valDomain ? 'true' : 'false'.concat(Requisito.setValAdmitted(null))) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_GroupCheckBox_1416576642530}</span>
+								<h:selectManyCheckbox id="GroupCheckBox_1416576642530_id" value="#{Requisito.valAdmitted}" layout="pageDirection" rendered="#{Requisito.rispostaType.code eq 'resptype02' and not empty Requisito.valDomain ? 'true' : 'false'.concat(Requisito.setValAdmitted(null))}" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1416576642530}" >
+									<f:selectItems value="#{vocabularies.getIdValues(function.concat('PHIDIC:',Requisito.valDomain.displayName))}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="CheckBox_1468942385958,GroupCheckBox_1472473455096" event="onchange" action="#{Requisito.setValNotesObb(null)}" ignoreDupResponses="true" />
+								</h:selectManyCheckbox>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1468853124029" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472473501769" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Requisito.rispostaType.code eq 'resptype02' ? 'true' : 'false'.concat(Requisito.setCampoNoteObb(false))}" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_CheckBox_1432232210454}</span>
+									<h:selectBooleanCheckbox id="CheckBox_1432232210454" value="#{Requisito.campoNoteObb}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="#{!userBean.hasRoleIn('admin') or RequisitoAction.temporary['isForHistory']}" label="${msg.label_CheckBox_1432232210454}" >
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="GroupCheckBox_1472473455096" event="onclick" ignoreDupResponses="true" />
+									</h:selectBooleanCheckbox>
+									<h:message for="CheckBox_1432232210454" styleClass="errorMessages CheckBox_1432232210454_E" />
+								</label>
+								</div>
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1432232210454" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="GroupCheckBox_1472473455096" >
+								<label style="display:#{(Requisito.campoNoteObb ? 'true' : 'false'.concat(Requisito.setValNotesObb(null))) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_GroupCheckBox_1472473455096}</span>
+									<h:selectManyCheckbox id="GroupCheckBox_1472473455096_id" value="#{Requisito.valNotesObb}" layout="pageDirection" rendered="#{Requisito.campoNoteObb ? 'true' : 'false'.concat(Requisito.setValNotesObb(null))}" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1472473455096}" >
+										<f:selectItems value="#{vocabularies.entityToSelectItem(Requisito.valAdmitted,'langIt')}" />
+
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectManyCheckbox>
+								</label>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

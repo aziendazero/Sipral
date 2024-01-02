@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="deleteFattura">
+
+
+	<start-state name="start-state1">
+		<transition to="eject"></transition>
+	</start-state>
+
+
+	<decision name="DeleteLast?" expression="#{FatturaAction.deleteLast()}">
+		<transition to="end-state1" name="false"></transition>
+		<transition to="super-state1/Save" name="true"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{FatturaAction.eject()}"></action>
+			<action name="2" expression="#{FatturaAction.ejectList()}"></action>
+		</event>
+		<transition to="DeleteLast?"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Save">
+			<event type="node-enter">
+				<action name="1" expression="#{FatturaAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

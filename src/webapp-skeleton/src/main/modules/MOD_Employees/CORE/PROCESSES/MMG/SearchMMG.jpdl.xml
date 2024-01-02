@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="PHI_CI.war/processes/MOD_Employees/CORE/MMG/SearchMMG">
+		
+	<start-state name="start-state1">
+		
+		<transition to="ejectMMG"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="search MMG UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_Employees/CORE/FORMS/f_search_mmg')}" name="main"></action>
+		</event>
+		<transition to="next?"></transition>		
+	</task-node>
+
+	
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.equal.put('employeeRole.code.displayName','MMG')}"></action>
+			<action name="2" expression="#{EmployeeAction.orderBy.put('name.fam','ascending')}"></action>
+			<action name="3" expression="#{EmployeeAction.setReadPageSize(10)}"></action>
+			<action name="4" expression="#{EmployeeAction.read()}"></action>
+		</event>
+		<transition to="search MMG UI"></transition>
+	</node>
+			
+	
+	 
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+	<transition to="search" name="SEARCH"></transition>
+	<transition to="end-state1" name="NEXT"></transition>
+	
+	</decision>
+
+	<node name="ejectMMG">
+		<event type="node-enter">
+			<action expression="#{EmployeeAction.eject()}" name="1350652748098"></action>
+		</event>
+		<transition to="search MMG UI"></transition>
+	</node>
+	 
+	 
+	
+	<end-state name="end-state1">
+	</end-state>
+	
+	
+
+ <action name="security" expression=""></action>
+
+</process-definition>
+

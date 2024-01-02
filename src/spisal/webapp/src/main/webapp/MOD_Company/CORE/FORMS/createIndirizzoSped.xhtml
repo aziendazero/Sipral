@@ -1,0 +1,130 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1507708706521}</h1>
+	<div id="popupIndirizzoSped" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1507148731069" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1507730303213" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1509865206834;BACK')}" status="ajaxStatus" id="Link_1509865206834" title="${msg.alt_Link_1509865206834}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1507231277739;SAVE')}" status="ajaxStatus" id="Link_1507231277739" title="${msg.alt_Link_1507231277739}" reRender="popup,phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510846830853" styleClass="layoutContainer layoutContainerVertical" >
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1510846905004" >
+					<label >
+						<span class="label">${msg.label_TextArea_1510846905004}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1510846905004_id" value="#{IndirizzoSped.denominazione}" label="${msg.label_TextArea_1510846905004}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1510846905004_id" styleClass="errorMessages TextArea_1510846905004_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510846834973" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1506557549135}</span>
+						<h:inputText id="TextBox_1506557549135" value="#{IndirizzoSped.addr.str}" styleClass="inputText" label="${msg.label_TextBox_1506557549135}" />
+						<a4j:outputPanel id="TextBox_1506557549135_msg" styleClass="errorContainer" ><h:message for="TextBox_1506557549135" styleClass="errorMessages TextBox_1506557549135_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1507393526740}</span>
+						<h:inputText id="TextBox_1507393526740" value="#{IndirizzoSped.addr.bnr}" styleClass="inputText" label="${msg.label_TextBox_1507393526740}" />
+						<a4j:outputPanel id="TextBox_1507393526740_msg" styleClass="errorContainer" ><h:message for="TextBox_1507393526740" styleClass="errorMessages TextBox_1507393526740_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1507515390017" >
+					<label >
+						<span class="label">${msg.label_TextSuggestionBox_1507515390017}</span>
+						#{IndirizzoSpedAction.autocomplete['addr'].setContentType('0')}
+						#{IndirizzoSpedAction.autocomplete['addr'].setCodeSystem('Comuni')}
+						<h:inputText id="TextSuggestionBox_1507515390017_MAIN" value="#{IndirizzoSped.addr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1507515390017}" />
+						<h:outputLabel for="TextSuggestionBox_1507515390017_CPA" styleClass="textSuggestionSeparator" value="-" />
+						<h:inputText id="TextSuggestionBox_1507515390017_CPA" value="#{IndirizzoSped.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+						<h:outputLabel for="TextSuggestionBox_1507515390017_ZIP" styleClass="textSuggestionSeparator" value="-" />
+						<h:inputText id="TextSuggestionBox_1507515390017_ZIP" value="#{IndirizzoSped.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+						<h:outputLabel for="TextSuggestionBox_1507515390017_CODE" style="display:none;"/>
+						<h:inputText id="TextSuggestionBox_1507515390017_CODE" value="#{IndirizzoSped.addr.code}" label="${msg.label_TextSuggestionBox_1507515390017}"  style="display: none">
+							<f:converter converterId="CodeValueConverter"/>
+
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="Label_1509467464724,Label_1510360472175" event="onchange" ignoreDupResponses="true" />
+						</h:inputText>
+						<h:message for="TextSuggestionBox_1507515390017_CODE" styleClass="errorMessages TextSuggestionBox_1507515390017_CODE_E" />
+						<a4j:jsFunction name="TextSuggestionBox_1507515390017" action="#{IndirizzoSpedAction.autocomplete['addr'].autocomplete()}" data="#{IndirizzoSpedAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+							<a4j:actionparam name="search" assignTo="#{IndirizzoSpedAction.autocomplete['addr'].search}"/>
+							<a4j:actionparam name="ui"/>
+						</a4j:jsFunction>
+					</label>
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1505726352993}</span>
+						<h:inputText id="TextBox_1505726352993" value="#{IndirizzoSped.addr.adl}" styleClass="inputText" label="${msg.label_TextBox_1505726352993}" />
+						<a4j:outputPanel id="TextBox_1505726352993_msg" styleClass="errorContainer" ><h:message for="TextBox_1505726352993" styleClass="errorMessages TextBox_1505726352993_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1509467464724" >
+					<label style="display:#{(IndirizzoSped.addr ne null) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1509467464724}</span>
+						<h:outputText rendered="#{IndirizzoSped.addr ne null}" value="#{SediInstallazioneAction.getUlss(IndirizzoSped.addr.code.code)}" id="Label_1509467464724_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1510360472175" >
+					<label style="display:#{(IndirizzoSped.addr ne null) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1510360472175}</span>
+						<h:outputText rendered="#{IndirizzoSped.addr ne null}" value="#{SediInstallazioneAction.getRegione(IndirizzoSped.addr.code.code)}" id="Label_1510360472175_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510846833925" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1506658044642}</span>
+						<h:inputText id="TextBox_1506658044642" value="#{IndirizzoSped.telecom.mc}" style="width:325px;" styleClass="inputText" label="${msg.label_TextBox_1506658044642}" />
+						<a4j:outputPanel id="TextBox_1506658044642_msg" styleClass="errorContainer" ><h:message for="TextBox_1506658044642" styleClass="errorMessages TextBox_1506658044642_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1506608407280}</span>
+						<h:inputText id="TextBox_1506608407280" value="#{IndirizzoSped.telecom.mail}" style="width:325px;" styleClass="inputText" label="${msg.label_TextBox_1506608407280}" />
+						<a4j:outputPanel id="TextBox_1506608407280_msg" styleClass="errorContainer" ><h:message for="TextBox_1506608407280" styleClass="errorMessages TextBox_1506608407280_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510846832870" styleClass="layoutContainer layoutContainerVertical" >
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1510846992955" >
+					<label >
+						<span class="label">${msg.label_TextArea_1510846992955}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1510846992955_id" value="#{IndirizzoSped.note}" label="${msg.label_TextArea_1510846992955}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1510846992955_id" styleClass="errorMessages TextArea_1510846992955_E" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

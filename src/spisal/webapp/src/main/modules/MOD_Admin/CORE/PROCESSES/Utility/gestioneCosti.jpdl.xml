@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneCosti">
+
+
+	<start-state name="start-state1">
+		<transition to="Gestione Costi"></transition>
+	</start-state>
+
+
+	<task-node name="Gestione Costi">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/gestione_costi')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="Read CD" name="BtnCDSearch"></transition>
+		<transition to="Clean" name="BtnBack"></transition>
+		<transition to="FilterCD Reset" name="BtnFilterCDCancel"></transition>
+		<transition to="Manage CD" name="BtnCD"></transition>
+		<transition to="Read CIND" name="BtnCINDSearch"></transition>
+		<transition to="FilterCIND Reset" name="BtnFilterCINDCancel"></transition>
+		<transition to="Manage CIND" name="BtnCIND"></transition>
+		<transition to="Create CD Multi" name="BtnCDMulti"></transition>
+	</decision>
+
+	<node name="Read CD">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.setUlss()}"></action>
+			<action name="2" expression="#{CostoDirettoAction.orderBy.put('serviceDeliveryLocation.name.giv','ascending')}"></action>
+			<action name="3" expression="#{CostoDirettoAction.orderBy.put('anno','descending')}"></action>
+			<action name="4" expression="#{CostoDirettoAction.orderBy.put('tipologia','ascending')}"></action>
+			<action name="5" expression="#{CostoDirettoAction.setReadPageSize(20)}"></action>
+			<action name="6" expression="#{CostoDirettoAction.read()}"></action>
+		</event>
+		<transition to="Gestione Costi"></transition>
+	</node>
+
+	<node name="FilterCD Reset">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.temporary.clear()}"></action>
+			<action name="2" expression="#{CostoDirettoAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{CostoDirettoAction.eject()}"></action>
+		</event>
+		<transition to="Read CD"></transition>
+	</node>
+
+	<process-state name="Manage CD">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/gestioneCostiDiretti" binding="late"></sub-process>
+		<transition to="Read CD"></transition>
+	</process-state>
+
+	<node name="Read CIND">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoIndirettoAction.setUlss()}"></action>
+			<action name="2" expression="#{CostoIndirettoAction.orderBy.put('serviceDeliveryLocation.name.giv','ascending')}"></action>
+			<action name="3" expression="#{CostoIndirettoAction.orderBy.put('anno','descending')}"></action>
+			<action name="4" expression="#{CostoIndirettoAction.orderBy.put('tipologia','ascending')}"></action>
+			<action name="5" expression="#{CostoIndirettoAction.setReadPageSize(20)}"></action>
+			<action name="6" expression="#{CostoIndirettoAction.read()}"></action>
+		</event>
+		<transition to="Gestione Costi"></transition>
+	</node>
+
+	<node name="FilterCIND Reset">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoIndirettoAction.temporary.clear()}"></action>
+			<action name="2" expression="#{CostoIndirettoAction.cleanRestrictions()}"></action>
+			<action name="3" expression="#{CostoIndirettoAction.eject()}"></action>
+		</event>
+		<transition to="Read CIND"></transition>
+	</node>
+
+	<process-state name="Manage CIND">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/gestioneCostiIndiretti" binding="late"></sub-process>
+		<transition to="Read CIND"></transition>
+	</process-state>
+
+	<node name="Clean">
+		<event type="node-enter">
+			<action name="1" expression="#{CostoDirettoAction.temporary.clear()}"></action>
+			<action name="2" expression="#{CostoDirettoAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="Create CD Multi">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/Utility/costiDirettiMulti" binding="late"></sub-process>
+		<transition to="Gestione Costi"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

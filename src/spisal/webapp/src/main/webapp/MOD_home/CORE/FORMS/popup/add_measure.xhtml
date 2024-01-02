@@ -1,0 +1,100 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1461087600793}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1461236965914" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<div class="layoutVertical" >
+				<h:selectOneRadio id="RadioGroup_1461247094092" value="#{Misure.type}" layout="pageDirection" styleClass="radioGroupTable radioGroup" >
+					<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:DetectionType')}" />
+
+					<f:converter converterId="CodeValueConverter"/>
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1495033847329" event="onclick" action="#{MisureAction.clearMisure(Misure)}" ignoreDupResponses="true" />
+				</h:selectOneRadio>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1495033847329" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1495033833164" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Misure.type.code=='misurazione'}" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1461161514961}</span>
+							<h:selectOneMenu id="ComboBox_1461161514961" value="#{Misure.misurazioneCv}" styleClass="comboBox" label="${msg.label_ComboBox_1461161514961}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Measure')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1495033833618" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Misure.type.code=='campionamento'}" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1461161516688}</span>
+							<h:selectOneMenu id="ComboBox_1461161516688" value="#{Misure.campionamentoCv}" styleClass="comboBox" label="${msg.label_ComboBox_1461161516688}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Sampling')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1495034156278" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty Misure.type}" >
+						<div class="layoutHorizontal" >
+						<label style="display:none;" >
+							<span class="widget-label">${msg.label_TextBox_1461161523225}</span>
+							<h:inputText id="TextBox_1461161523225" value="#{Misure.value}" styleClass="inputText" rendered="false" label="${msg.label_TextBox_1461161523225}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1495034005646" event="onchange" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1461161523225_msg" styleClass="errorContainer" ><h:message for="TextBox_1461161523225" styleClass="errorMessages TextBox_1461161523225_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1700749714097}</span>
+							<h:inputText id="TextBox_1700749714097" value="#{Misure.valueDbl}" styleClass="inputText" label="${msg.label_TextBox_1700749714097}" >
+							<f:converter converterId="DoubleConverter"/>
+							<f:attribute name="cMinimumFractionDigits" value="0" />
+							<f:attribute name="cMaximumFractionDigits" value="10" />
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1495034005646" event="onchange" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1700749714097_msg" styleClass="errorContainer" ><h:message for="TextBox_1700749714097" styleClass="errorMessages TextBox_1700749714097_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1495034005646" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1495034005646}</span>
+							<h:selectOneMenu id="ComboBox_1495034005646_id" value="#{Misure.um}" required="#{not empty Misure.valueDbl}" styleClass="#{not empty Misure.valueDbl ? ' layoutRequired' : ''} comboBox" label="${msg.label_ComboBox_1495034005646}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:unit of measure')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1495034005646" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+							<h:message style="float:left;" for="ComboBox_1495034005646_id" styleClass="errorMessages ComboBox_1495034005646_E" />
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1462130802679" style="padding-top:15px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1463231414629;BtnCancel')}" value="#{msg.Button_1463231414629}" id="Button_1463231414629_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" immediate="true" reRender="popup,LayoutRow_1461159923547, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1462138312773;BtnSave')}" value="#{msg.Button_1462138312773}" id="Button_1462138312773_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup,LayoutRow_1461159923547, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

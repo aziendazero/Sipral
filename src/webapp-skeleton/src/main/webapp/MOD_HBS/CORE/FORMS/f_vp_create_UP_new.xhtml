@@ -1,0 +1,192 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Button_1372166129983" style="left: 713px;top: -20px;" >
+			<a4j:commandLink action="#{processManager.manageTask('Button_1372166129983;saveUP')}" id="Button_1372166129983_id" status="ajaxStatus" title="${msg.alt_Button_1372166129983}" style="height: 48px;width: 48px;" styleClass="buttonBase buttonSave" rendered="#{!userBean.hasRoleIn('28','30','31')}" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+				<i/>
+			</a4j:commandLink>
+
+			</a4j:outputPanel>
+
+			<a4j:outputPanel id="GroupBox_1371072422398" style="position: absolute;left: 20px;top: 40px;" layout="block" >
+			<fieldset style="height: 881px;width: 741px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1371072422398}</legend>
+
+				<h:outputLabel for="IDBox_1370931070531_id" value="${msg.Label_1371385872015}" style="height: 31px;width: 145px;position: absolute;left: 20px;top: 25px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="IDBox_1370931070531" style="left: 180px;top: 25px;" >
+				<h:inputText id="IDBox_1370931070531_id" value="#{ServiceDeliveryLocation.id['HBS'].extension}" required="true" alt="IDBOX" style="height: 31px;width: 169px;" styleClass="required" label="${msg.Label_1371385872015}" />
+				<h:message style="position:absolute;top:31px;" for="IDBox_1370931070531_id" styleClass="errorMessages IDBox_1370931070531_E" />
+				</a4j:outputPanel>
+
+				<span value="${msg.Label_1373604712874}" style="height: 21px;width: 341px;position: absolute;left: 380px;top: 25px;" class="base-label" >${msg.Label_1373604712874}</span>
+
+				<div class="widgetDiv" style="left: 380px;top: 45px;" >
+				<div style="height: 231px;width: 341px;overflow:auto;white-space:normal;" >
+				<h:selectManyCheckbox id="GroupCheckBox_1372145250075" value="#{ServiceDeliveryLocation.internalCostCenter}" layout="pageDirection" styleClass="checkGroupTable" label="${msg.Label_1373604712874}" >
+
+
+					<f:converter converterId="CodeValueConverter"/>
+				</h:selectManyCheckbox>
+				</div>
+				</div>
+
+				<h:outputLabel for="TextBox_1371981098636_id" value="${msg.Label_1372096206108}" style="height: 31px;width: 145px;position: absolute;left: 20px;top: 65px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1371981098636" style="left: 180px;top: 65px;" >
+				<h:inputText id="TextBox_1371981098636_id" value="#{ServiceDeliveryLocation.name.giv}" style="height: 31px;width: 169px;" styleClass="required" required="true" disabled="#{'VCO' ne CUSTOMER}" label="${msg.Label_1372096206108}" />
+				<a4j:outputPanel id="TextBox_1371981098636_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:31px;left:0px;" for="TextBox_1371981098636_id" styleClass="errorMessages TextBox_1371981098636_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<h:outputLabel for="TextBox_1372598595168" value="${msg.Label_1373637753881}" style="height: 31px;width: 145px;position: absolute;left: 20px;top: 105px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 180px;top: 105px;" >
+				<h:inputText id="TextBox_1372598595168" value="#{ServiceDeliveryLocation.telecom.dir}" style="height: 31px;width: 169px;" label="${msg.Label_1373637753881}" />
+				<a4j:outputPanel id="TextBox_1372598595168_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:31px;left:0px;" for="TextBox_1372598595168" styleClass="errorMessages TextBox_1372598595168_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="TextBox_1431648738559" value="${msg.Label_1434066440690}" style="height: 26px;width: 141px;position: absolute;left: 20px;top: 150px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 180px;top: 150px;" >
+				<h:inputText id="TextBox_1431648738559" value="#{ServiceDeliveryLocation.g2Strt0}" style="height: 26px;width: 169px;" label="${msg.Label_1434066440690}" />
+				<a4j:outputPanel id="TextBox_1431648738559_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:26px;left:0px;" for="TextBox_1431648738559" styleClass="errorMessages TextBox_1431648738559_E" /></a4j:outputPanel>
+				</div>
+
+				<h:outputLabel for="ListBox_1371646265984" value="${msg.Label_1371774923263}" style="height: 31px;width: 145px;position: absolute;left: 20px;top: 190px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 180px;top: 190px;" >
+				<h:selectManyListbox id="ListBox_1371646265984" value="#{ServiceDeliveryLocation.encounterCode}" style="height: 131px;width: 166px;" label="${msg.Label_1371774923263}" >
+					<f:selectItems value="#{(ServiceDeliveryLocation.parent.code.code=='UOF')?(vocabularies.attributeToSelectItem(ServiceDeliveryLocation.parent.encounterCode,'AMB')):(vocabularies.attributeToSelectItem(ServiceDeliveryLocation.parent.parent.encounterCode,'AMB'))}" />
+					<f:converter converterId="CodeValueConverter"/>
+				</h:selectManyListbox> 
+				</div>
+
+				<span value="${msg.Label_1372799838233}" style="height: 21px;width: 161px;position: absolute;left: 380px;top: 300px;" class="base-label" >${msg.Label_1372799838233}</span>
+
+				<div class="widgetDiv" style="left: 380px;top: 320px;" >
+				<div style="height: 231px;width: 341px;overflow:auto;white-space:normal;" >
+				<h:selectManyCheckbox id="GroupCheckBox_1369671171701" value="#{ServiceDeliveryLocation.externalCostCenter}" layout="pageDirection" styleClass="checkGroupTable" label="${msg.Label_1372799838233}" >
+
+
+					<f:converter converterId="CodeValueConverter"/>
+				</h:selectManyCheckbox>
+				</div>
+				</div>
+
+				<span value="${msg.Label_1371628782984}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 340px;" class="base-label" >${msg.Label_1371628782984}</span>
+
+				<div class="widgetDiv" style="height: 19px;line-height: 14px;width: 17px;left: 180px;top: 340px;" >
+				<h:selectBooleanCheckbox id="CheckBox_1371628815546" value="#{ServiceDeliveryLocation.intActSupported}" style="vertical-align:middle;" alt="CHECKBOX" />
+				<h:message style="position:absolute;top:15px;" for="CheckBox_1371628815546" styleClass="errorMessages CheckBox_1371628815546_E" />
+				</div>
+				<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1371628815546" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1410848482368" style="left: 20px;top: 380px;" >
+				<span value="${msg.Label_1410848482368}" id="Label_1410848482368_id" style="display:#{(CUSTOMER ne 'VCO' ) ? 'block' : 'none' };height: 21px;width: 141px;" class="base-label" >${msg.Label_1410848482368}</span>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="CheckBox_1414062396108" style="height: 21px;line-height: 16px;width: 21px;left: 180px;top: 380px;" >
+				<h:selectBooleanCheckbox id="CheckBox_1414062396108_id" value="#{ServiceDeliveryLocation.waitingListSupported}" style="vertical-align:middle;" alt="CHECKBOX" rendered="#{CUSTOMER ne 'VCO'}" />
+				<h:message style="position:absolute;top:15px;" for="CheckBox_1414062396108_id" styleClass="errorMessages CheckBox_1414062396108_E" />
+				</a4j:outputPanel>
+				<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{CUSTOMER ne 'VCO'}"  for="CheckBox_1414062396108" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				<span value="${msg.Label_1390826274312}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 420px;" class="base-label" >${msg.Label_1390826274312}</span>
+
+				<div class="widgetDiv" style="height: 21px;line-height: 16px;width: 21px;left: 180px;top: 420px;" >
+				<h:selectBooleanCheckbox id="CheckBox_1387904735700" value="#{ServiceDeliveryLocation.hybridManagementSupported}" style="vertical-align:middle;" alt="CHECKBOX" />
+				<h:message style="position:absolute;top:15px;" for="CheckBox_1387904735700" styleClass="errorMessages CheckBox_1387904735700_E" />
+				</div>
+				<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1387904735700" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				<h:outputLabel for="ComboBox_1411019241602" value="${msg.Label_1410561913185}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 460px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 180px;top: 460px;" >
+				<h:selectOneMenu id="ComboBox_1411019241602" value="#{ServiceDeliveryLocation.area}" style="height: 21px;width: 161px;" label="${msg.Label_1410561913185}" >
+					<f:selectItem itemLabel="-" itemValue=""/>
+					<f:selectItems value="#{vocabularies.getIdValues('Comuni:')}" />
+					<f:converter converterId="CodeValueConverter"/>
+				</h:selectOneMenu>
+				</div>
+
+				<span value="${msg.Label_1370073030205}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 500px;" class="base-label" >${msg.Label_1370073030205}</span>
+
+				<h:outputText value="#{ServiceDeliveryLocation.parent.name.giv}" id="Label_1373092251908" style="display:block;height: 21px;width: 161px;position: absolute;left: 180px;top: 500px;" styleClass="base-label" />
+
+				<span value="${msg.Label_1372509600492}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 540px;" class="base-label" >${msg.Label_1372509600492}</span>
+
+				<h:outputText value="#{function.concat(ServiceDeliveryLocation.responsible.name.fam,' ',ServiceDeliveryLocation.responsible.name.giv)}" id="Label_1371982864389" style="display:block;height: 21px;width: 161px;position: absolute;left: 180px;top: 540px;" styleClass="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Button_1426073344479" style="left: 20px;top: 570px;" >
+				<a4j:commandButton action="#{processManager.manageTask('Button_1426073344479;ADDEMPWARDUP')}" value="#{msg.Button_1426073344479}" id="Button_1426073344479_id" status="ajaxStatus" style="height: 21px;width: 181px;" styleClass="buttonGeneric" rendered="#{!userBean.hasRoleIn('28','30','31') and CUSTOMER eq 'VCO'}" reRender="phiDesktop, header, errorMenu" limitToList="true" />
+				</a4j:outputPanel>
+
+				<span value="${msg.Label_1371342266961}" style="height: 21px;width: 141px;position: absolute;left: 20px;top: 600px;" class="base-label" >${msg.Label_1371342266961}</span>
+
+				<h:outputText value="#{ServiceDeliveryLocation.parent.discipline.displayName}" id="Label_1369653206502" style="display:block;height: 21px;width: 161px;position: absolute;left: 180px;top: 600px;" styleClass="base-label" />
+
+				<a4j:commandButton action="#{processManager.manageTask('Button_1384865500142;ADDLOC')}" id="Button_1384865500142" status="ajaxStatus" alt="${msg.alt_Button_1384865500142}" title="${msg.alt_Button_1384865500142}" style="height: 41px;width: 41px;position: absolute;left: 20px;top: 630px;" styleClass="buttonGeneric" reRender="phiDesktop, header, errorMenu" limitToList="true" image="images/Hospital_Add.png" />
+
+				<span value="${msg.Label_1385624277281}" style="height: 21px;width: 305px;position: absolute;left: 20px;top: 680px;" class="c-text-red c-text-bold c-text-11 base-label" >${msg.Label_1385624277281}</span>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1385009064050" style="left: 20px;top: 710px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" for="TextBox_1382105451169_id" value="${msg.Label_1385009064050}" id="Label_1385009064050_id" style="display:#{(ServiceDeliveryLocation.getServiceDeliveryLocation()  ne null) ? 'block' : 'none' };height: 15px;width: 121px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1382105451169" style="left: 160px;top: 710px;" >
+				<h:inputText id="TextBox_1382105451169_id" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.name.fam}" style="height: 15px;width: 161px;" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" disabled="true" label="${msg.Label_1385009064050}" />
+				<a4j:outputPanel id="TextBox_1382105451169_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:15px;left:0px;" for="TextBox_1382105451169_id" styleClass="errorMessages TextBox_1382105451169_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1382537376611" style="left: 380px;top: 710px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" for="IDBox_1382023252800_id" value="${msg.Label_1382537376611}" id="Label_1382537376611_id" style="display:#{(ServiceDeliveryLocation.getServiceDeliveryLocation()  ne null) ? 'block' : 'none' };height: 21px;width: 121px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="IDBox_1382023252800" style="left: 520px;top: 710px;" >
+				<h:inputText id="IDBox_1382023252800_id" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.id['HBS'].extension}" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" alt="IDBOX" disabled="true" style="height: 21px;width: 201px;" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1383366277595" style="left: 20px;top: 740px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" for="TextBox_1384068371138_id" value="${msg.Label_1383366277595}" id="Label_1383366277595_id" style="display:#{(ServiceDeliveryLocation.getServiceDeliveryLocation()  ne null) ? 'block' : 'none' };height: 15px;width: 121px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1384068371138" style="left: 160px;top: 740px;" >
+				<h:inputText id="TextBox_1384068371138_id" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.name.giv}" style="height: 21px;width: 561px;" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" disabled="true" label="${msg.Label_1383366277595}" />
+				<a4j:outputPanel id="TextBox_1384068371138_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1384068371138_id" styleClass="errorMessages TextBox_1384068371138_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1385934191596" style="left: 20px;top: 780px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" for="TextBox_1382412143196_id" value="${msg.Label_1385934191596}" id="Label_1385934191596_id" style="display:#{(ServiceDeliveryLocation.getServiceDeliveryLocation()  ne null) ? 'block' : 'none' };height: 15px;width: 121px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1382412143196" style="left: 160px;top: 780px;" >
+				<h:inputText id="TextBox_1382412143196_id" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.addr.str}" style="height: 21px;width: 561px;" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" disabled="true" label="${msg.Label_1385934191596}" />
+				<a4j:outputPanel id="TextBox_1382412143196_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1382412143196_id" styleClass="errorMessages TextBox_1382412143196_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1386248568626" style="left: 20px;top: 820px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" for="TextSuggestionBox_1385755246021_MAIN" value="${msg.Label_1386248568626}" id="Label_1386248568626_id" style="display:#{(ServiceDeliveryLocation.getServiceDeliveryLocation()  ne null) ? 'block' : 'none' };height: 21px;width: 126px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextSuggestionBox_1385755246021" style="left: 160px;top: 820px;" >
+					<a4j:outputPanel layout="block" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" >
+					#{ServiceDeliveryLocationAction.autocomplete['serviceDeliveryLocation.addr'].setContentType('0')}
+					<h:inputText id="TextSuggestionBox_1385755246021_MAIN" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.addr.cty}" styleClass="autocomplete autoAddress" style="height: 21px;width: 481px;" disabled="true" label="${msg.Label_1386248568626}" />
+					<h:outputLabel for="TextSuggestionBox_1385755246021_CPA" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1385755246021_CPA" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.addr.cpa}" style="height: 21px;width: 25px;" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" disabled="true" label="${static.Province}" />
+					<h:outputLabel for="TextSuggestionBox_1385755246021_ZIP" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1385755246021_ZIP" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.addr.zip}" style="height: 21px;width: 45px;" rendered="#{ServiceDeliveryLocation.getServiceDeliveryLocation() ne null}" disabled="true" label="${static.ZIP}" />
+					<h:outputLabel for="TextSuggestionBox_1385755246021_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1385755246021_CODE" disabled="true" value="#{ServiceDeliveryLocation.serviceDeliveryLocation.addr.code}" label="${msg.Label_1386248568626}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message style="position:absolute;top:21px;" for="TextSuggestionBox_1385755246021_CODE" styleClass="errorMessages TextSuggestionBox_1385755246021_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1385755246021" action="#{ServiceDeliveryLocationAction.autocomplete['serviceDeliveryLocation.addr'].autocomplete()}" data="#{ServiceDeliveryLocationAction.autocomplete['serviceDeliveryLocation.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{ServiceDeliveryLocationAction.autocomplete['serviceDeliveryLocation.addr'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+
+	<script>focusFirstElement();</script>
+</div>

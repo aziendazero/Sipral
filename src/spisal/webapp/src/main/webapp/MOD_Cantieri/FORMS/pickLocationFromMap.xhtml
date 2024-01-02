@@ -1,0 +1,52 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1508417660459}</h1>
+	<div id="pickLocationFromMap" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1508417748263" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1508417766989" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1508417836797" style="height:100%;width:100%;" >
+						<style>
+							#map {
+						    height: 480px;
+						    width: 640px;
+							}
+							#current{
+						    font-size: 16px;
+							}
+						</style>
+						
+						<script src='https://maps.googleapis.com/maps/api/js?key=#{geolocation.googleMapsApiKeyFromUrl()}'></script>
+						<div id="map"></div>
+						<div id="current"/>
+						<script>
+						doUserPickMap("#{Cantiere.addr.str}","#{Cantiere.addr.bnr}","#{Cantiere.addr.cty}","#{Cantiere.latitudine}","#{Cantiere.longitudine}");
+						</script>
+						
+						<a4j:jsFunction  name="setTemporary" limitToList="false" immediate="false" ajaxSingle="false">
+							<a4j:actionparam name="latitude" assignTo="#{CantiereAction.temporary['latitude']}"/>
+							<a4j:actionparam name="longitude" assignTo="#{CantiereAction.temporary['longitude']}"/>
+						</a4j:jsFunction>
+						
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+						
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1508959974515" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1509013878129;BtnCancel')}" status="ajaxStatus" id="Link_1509013878129" title="${msg.alt_Link_1509013878129}" reRender="phiDesktop,popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1508518057741" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1508518057741;btnOk')}" status="ajaxStatus" id="Link_1508518057741_id" title="${msg.alt_Link_1508518057741}" rendered="#{Cantiere.latitudine eq null or Cantiere.longitudine eq null or Cantiere.latitudine eq '' or Cantiere.longitudine eq ''}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

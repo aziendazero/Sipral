@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+	<persistence-unit name="rimEntityManagerPDM2">
+	
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>java:/rimDatasourcePDM2</jta-data-source>
+		<jar-file>${jar-file}</jar-file>
+
+		
+		<properties>
+
+		<property name="hibernate.dialect" value="${hibernate.dialect}"/>
+		<property name="hibernate.default_schema" value="${hibernate.default_schema}"/>
+		<property name="hibernate.cache.use_second_level_cache" value="true"/>
+		<property name="hibernate.cache.use_query_cache" value="true"/>
+		<property name="hibernate.cache.region_prefix" value="phi-cache"/>
+		<property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.SingletonEhCacheProvider"/>
+		<property name="hibernate.generate_statistics" value="false" />
+		
+		<property name="hibernate.show_sql" value="${hibernate.show_sql}"/>
+		<property name="hibernate.format_sql" value="false"/>
+		<property name="hibernate.use_sql_comments" value="false"/>
+		
+		<!-- To use this em without EE container
+		<property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/> 
+		 -->
+		 
+		<!--Update database?	-->
+		<property name="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />	
+
+		<!--ENVERS-->
+		<property name="org.hibernate.envers.audit_table_prefix" value="z_" />
+		<property name="org.hibernate.envers.audit_table_suffix" value="" />
+		
+
+		<property name="hibernate.ejb.event.pre-update" value="com.phi.events.ProcpraticaPreupdateListener" />
+		<property name="hibernate.ejb.event.pre-insert" value="com.phi.events.ProcpraticaPreinsertListener" />
+		<property name="hibernate.ejb.event.post-insert" value="com.phi.cs.catalog.adapter.nestedset.listener.NestedSetPostInsertEventListener,org.hibernate.envers.event.AuditEventListener" />
+		<property name="hibernate.ejb.event.post-update" value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.hibernate.envers.event.AuditEventListener" />
+		<property name="hibernate.ejb.event.post-delete" value="com.phi.cs.catalog.adapter.nestedset.listener.NestedSetPostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
+		<property name="hibernate.ejb.event.pre-collection-update" value="org.hibernate.envers.event.AuditEventListener,com.phi.events.ProcpraticaPrecollectionupdateListener" />
+		<property name="hibernate.ejb.event.pre-collection-remove" value="org.hibernate.envers.event.AuditEventListener" />
+		<property name="hibernate.ejb.event.post-collection-recreate" value="org.hibernate.envers.event.AuditEventListener" />
+		
+		<!-- To be enabled with envers: Avoid AssertionFailure: collection [x.y.z] was not processed by flush()
+		see: http://opensource.atlassian.com/projects/hibernate/browse/HHH-2763-->
+		<property name="hibernate.ejb.event.flush" value="com.phi.cs.catalog.adapter.workAround.HibernateWorkaroundHH2763" />
+		<property name="hibernate.ejb.event.refresh" value="com.phi.cs.catalog.adapter.workAround.RefreshEventListener" />
+
+      </properties>
+   </persistence-unit>
+
+</persistence>

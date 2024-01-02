@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="opLink">
+
+
+	<start-state name="start-state1">
+		<transition to="search"></transition>
+	</start-state>
+
+
+	<decision name="button.value" expression="#{button.value}">
+		<transition to="Person search" name="Utente"></transition>
+		<transition to="Medico search" name="Medico"></transition>
+		<transition to="Employee search" name="Interno"></transition>
+		<transition to="Company search" name="Ditta"></transition>
+		<transition to="Cantiere search" name="Cantiere"></transition>
+	</decision>
+
+	<process-state name="Person search">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="button"></transition>
+	</process-state>
+
+	<process-state name="Medico search">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/mediciGestione" binding="late"></sub-process>
+		<transition to="button"></transition>
+	</process-state>
+
+	<process-state name="Employee search">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="button"></transition>
+	</process-state>
+
+	<process-state name="Company search">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="button"></transition>
+	</process-state>
+
+	<process-state name="Cantiere search">
+		<sub-process name="MOD_Cantieri/PROCESSES/GestioneCantieri" binding="late"></sub-process>
+		<transition to="button"></transition>
+	</process-state>
+
+	<node name="perform link">
+		<event type="node-enter">
+			<action name="1" expression="#{OperationManager.performLink()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="DettagliBonifiche?"></transition>
+	</node>
+
+	<decision name="button" expression="#{button.mnemonic}">
+		<transition to="perform link" name="BtnSave"></transition>
+		<transition to="clean temporary" name="BtnBack"></transition>
+	</decision>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="DettagliBonifiche?" expression="#{not empty DettagliBonifiche}">
+		<transition to="set DettagliBonifiche" name="true"></transition>
+		<transition to="end-state1" name="false"></transition>
+	</decision>
+
+	<node name="set DettagliBonifiche">
+		<event type="node-enter">
+			<action name="1" expression="#{DettagliBonifiche.setNaturaOpera(null)}"></action>
+			<action name="2" expression="#{DettagliBonifiche.setAddr(null)}"></action>
+			<action name="3" expression="#{DettagliBonificheAction.manageCantiere(Cantiere, Protocollo.ubicazioneAddr)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="button.value"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

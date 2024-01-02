@@ -1,0 +1,50 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1511124773210" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1508701016315" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<span value="${msg.Label_1508109008352}" class="labelContent  base-label" >${msg.Label_1508109008352}</span>
+					</div>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_Label_1510849555526}</span>
+						<h:outputText value="#{ProtocolloAction.temporary['latitude']}" id="Label_1510849555526" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_Label_1508807395051}</span>
+						<h:outputText value="#{ProtocolloAction.temporary['longitude']}" id="Label_1508807395051" styleClass="labelContent  base-label" />
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1509769698070" style="height:100%;width:100%;" >
+						<div id="googleMapStatic" class="layoutVertical" style="width:300px;height:300px;word-break: break-word;">
+						<img src="https://maps.googleapis.com/maps/api/staticmap?center=#{ProtocolloAction.temporary['latitude']}&#44;#{ProtocolloAction.temporary['longitude']}&amp;zoom=16&amp;size=300x300&amp;sensor=false&amp;markers=color:red|label: |#{ProtocolloAction.temporary['latitude']}&#44;#{ProtocolloAction.temporary['longitude']}&amp;key=#{geolocation.googleMapsApiKeyFromUrl()}" style="width:300px;height:300px;"
+						 onError="googleStaticMapErrorFunction(src)"/>
+						</div>
+						
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1508125073219" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1512230992336;BtnCancel')}" status="ajaxStatus" id="Link_1512230992336" title="${msg.alt_Link_1512230992336}" reRender="popup,LayoutRow_1453833159790" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510813073041;btnOk')}" status="ajaxStatus" id="Link_1510813073041" title="${msg.alt_Link_1510813073041}" reRender="popup,LayoutRow_1453833159790" styleClass="fa fa-check fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

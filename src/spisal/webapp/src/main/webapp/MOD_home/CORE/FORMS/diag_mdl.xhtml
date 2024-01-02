@@ -1,0 +1,86 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1504511527950}</h1>
+	<div id="diag_mdl" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1504511637016" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1502535924533" style="padding-bottom:30px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1505132066846" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1504389835088;BtnBack')}" status="ajaxStatus" id="Link_1504389835088" title="${msg.alt_Link_1504389835088}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="width:33%;padding:0;" id="LayoutRow_1503933559840" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{DiagMdl.icd9.code!=null or DiagMdl.inail.code!=null}" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1505321614050;BtnSave')}" status="ajaxStatus" id="Link_1505321614050" title="${msg.alt_Link_1505321614050}" reRender="phiDesktop" styleClass="fa fa-save fa-3x linkUnlink link" />
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1504599219636" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1504599219636}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1502380585494" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1505687985965}</span>
+							<h:inputText id="TextBox_1505687985965" value="#{DiagMdl.icd9.code}" style="width:60px;min-width:60px;" styleClass="layoutRequired inputText" disabled="true" label="${msg.label_TextBox_1505687985965}" />
+							<a4j:outputPanel id="TextBox_1505687985965_msg" styleClass="errorContainer" ><h:message for="TextBox_1505687985965" styleClass="errorMessages TextBox_1505687985965_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1504570257473" style="width:48%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1504671486201_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1504671486201" >
+							<h:inputTextarea id="TextArea_1504671486201_id" value="#{DiagMdl.icd9.currentTranslation}" style="height: 55px;" readonly="true" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1504671486201_id" styleClass="errorMessages TextArea_1504671486201_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1506133462086;icd9Popup')}" status="ajaxStatus" id="Link_1506133462086" title="${msg.alt_Link_1506133462086}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{DiagMdl.setIcd9(null)}" status="ajaxStatus" id="Link_1504932530614" title="${msg.alt_Link_1504932530614}" reRender="LayoutRow_1502380585494" styleClass="fa fa-eraser fa-2x link" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506307593696" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1503299317206}</span>
+							<h:inputText id="TextBox_1503299317206" value="#{function.concat(DiagMdl.inail.parent.code, '.', DiagMdl.inail.code)}" style="width:100px;min-width:100px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1503299317206}" />
+							<a4j:outputPanel id="TextBox_1503299317206_msg" styleClass="errorContainer" ><h:message for="TextBox_1503299317206" styleClass="errorMessages TextBox_1503299317206_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1504969225956" style="width:39%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1503800616163_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1503800616163" >
+							<h:inputTextarea id="TextArea_1503800616163_id" value="#{DiagMdl.inail.currentTranslation}" style="height: 55px;" readonly="true" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message style="float:left;" for="TextArea_1503800616163_id" styleClass="errorMessages TextArea_1503800616163_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1503933109729;inailPopup')}" status="ajaxStatus" id="Link_1503933109729" title="${msg.alt_Link_1503933109729}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{DiagMdl.setInail(null)}" status="ajaxStatus" id="Link_1506314381214" title="${msg.alt_Link_1506314381214}" reRender="LayoutRow_1506307593696" styleClass="fa fa-eraser fa-2x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

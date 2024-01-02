@@ -1,0 +1,55 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1509378356029}</h1>
+	<div id="reverseGeocodeUbicazione" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1508445981220" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1508094138327" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1507520797325" >
+					<label style="display:#{(not empty PraticheRiferimenti.ubicazioneAddr.str and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1507520797325}</span>
+						<h:outputText rendered="#{not empty PraticheRiferimenti.ubicazioneAddr.str and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])}" value="#{PraticheRiferimenti.ubicazioneAddr}" id="Label_1507520797325_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1509378223160" >
+					<label style="display:#{(PraticheRiferimentiAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])) ? 'block' : 'none' };" >
+						<span class="label">${msg.label_Label_1509378223160}</span>
+						<h:outputText rendered="#{PraticheRiferimentiAction.temporary['reversedAddress'] != null and not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])}" value="#{function.concat(PraticheRiferimentiAction.temporary['reversedAddress'],PraticheRiferimentiAction.temporary['reversedAddressLocalita'])}" id="Label_1509378223160_id" class="labelContent  base-label" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1508840721760" >
+					<span value="${msg.Label_1508840721760}" id="Label_1508840721760_id" style="display:#{(geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress'])) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1508840721760}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1510954925797" >
+					<h:outputText rendered="#{not empty PraticheRiferimentiAction.temporary['geolocation_error']}" escape="false" value="#{PraticheRiferimentiAction.temporary['geolocation_error']}" id="Label_1510954925797_id" style="font-color: red; font-weight: bold;display:block;" class="labelContent  base-label" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1507570096999" >
+					<span value="${msg.Label_1507570096999}" id="Label_1507570096999_id" style="display:#{(PraticheRiferimentiAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress']) or PraticheRiferimentiAction.temporary['reversedLat']!=null)) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1507570096999}</span>
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1589532481562" style="height:100%;width:100%;" >
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1510800570497" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511504140089;BtnCancel')}" status="ajaxStatus" id="Link_1511504140089" title="${msg.alt_Link_1511504140089}" reRender="popup,LayoutRow_1473221068669,LayoutRow_1474177445917,LayoutRow_1482132929043,LayoutRow_1456754018627,LayoutRow_1468276550084,LayoutRow_1472924817452" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1509175605551" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1509175605551;btnOk')}" status="ajaxStatus" id="Link_1509175605551_id" title="${msg.alt_Link_1509175605551}" rendered="#{PraticheRiferimentiAction.temporary['reversedAddress'] != null and (not geolocation.sameAddress(PraticheRiferimenti.ubicazioneAddr,PraticheRiferimentiAction.temporary['reversedAddress']) or PraticheRiferimentiAction.temporary['reversedLat']!=null)}" reRender="popup,LayoutRow_1473221068669,LayoutRow_1474177445917,LayoutRow_1482132929043,LayoutRow_1456754018627,LayoutRow_1468276550084,LayoutRow_1472924817452" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

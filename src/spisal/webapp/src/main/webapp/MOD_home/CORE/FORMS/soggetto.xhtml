@@ -1,0 +1,714 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Soggetto}</h1>
+	<div id="soggetto" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1462191853899" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1458748816837" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1461352657356;BtnBack')}" status="ajaxStatus" id="Link_1461352657356" title="${msg.alt_Link_1461352657356}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1461015682980" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1461015682980;BtnSave')}" status="ajaxStatus" id="Link_1461015682980_id" title="${msg.alt_Link_1461015682980}" rendered="#{Soggetto.code.code ne null and !(Soggetto.code.code=='Ditta' and Soggetto.ditta == null) and !(Soggetto.code.code=='Utente' and Soggetto.utente == null)}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1459927314272" style="width:100%;padding-top: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1459359631104" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1462476338752" style="width:25%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="RadioGroup_1460693062566" >
+							<h:selectOneRadio id="RadioGroup_1460693062566_id" value="#{Soggetto.code}" rendered="#{Attivita.code.code !='visitaMedica' and Attivita.code.code!='accertamento' and Attivita.code.code!='counselling'}" disabled="#{Soggetto.ditta ne null or Soggetto.utente ne null or Soggetto.riferimentoEntita ne null}" styleClass="filter radioGroupTable radioGroup" >
+								<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Utente')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1462191853899" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="RadioGroup_1505463674670" >
+							<h:selectOneRadio id="RadioGroup_1505463674670_id" value="#{Soggetto.code}" rendered="#{Attivita.code.code =='visitaMedica' or Attivita.code.code=='accertamento' or Attivita.code.code=='counselling'}" disabled="#{Soggetto.ditta ne null or Soggetto.utente ne null or Soggetto.cantiere ne null or Soggetto.riferimentoEntita ne null}" styleClass="filter radioGroupTable radioGroup" >
+								<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Utente,Medico')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1462191853899" event="onclick" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1460987061279" >
+							<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, '', Soggetto.code.code, Soggetto, false, null, null, null)}" status="ajaxStatus" id="Link_1460987061279_id" title="${msg.alt_Link_1460987061279}" rendered="#{Soggetto.code!=null and Soggetto.code.code ne 'Altro' and Soggetto.ditta==null and Soggetto.utente==null and Soggetto.cantiere==null and Soggetto.riferimentoEntita==null}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1466681691832" style="width:35%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1460468926772" >
+							<label style="display:#{(Soggetto.code.code=='Ditta' and Soggetto.ditta ne null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_ComboBox_1460468926772}</span>
+								<h:selectOneMenu id="ComboBox_1460468926772_id" value="#{Soggetto.tipoDitta}" rendered="#{Soggetto.code.code=='Ditta' and Soggetto.ditta ne null}" styleClass="comboBox" label="${msg.label_ComboBox_1460468926772}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:CompanyType')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1504685479341" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Attivita.code.code !='visitaMedica' and Attivita.code.code!='accertamento' and Attivita.code.code!='counselling'}" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1460470993025" >
+							<label style="display:#{(Soggetto.code.code=='Utente' and Soggetto.utente ne null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_ComboBox_1460470993025}</span>
+								<h:selectOneMenu id="ComboBox_1460470993025_id" value="#{Soggetto.ruolo}" rendered="#{Soggetto.code.code=='Utente' and Soggetto.utente ne null}" styleClass="comboBox" label="${msg.label_ComboBox_1460470993025}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Roles')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1504685686595" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Attivita.code.code =='visitaMedica' or Attivita.code.code=='accertamento' or Attivita.code.code=='counselling'}" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1502570774814" >
+							<label style="display:#{((Soggetto.code.code=='Utente' and Soggetto.utente ne null) or (Soggetto.code.code=='Medico' and Soggetto.medico ne null)) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_ComboBox_1502570774814}</span>
+								<h:selectOneMenu id="ComboBox_1502570774814_id" value="#{Soggetto.ruolo}" rendered="#{(Soggetto.code.code=='Utente' and Soggetto.utente ne null) or (Soggetto.code.code=='Medico' and Soggetto.medico ne null)}" styleClass="comboBox" label="${msg.label_ComboBox_1502570774814}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','Roles:Paziente,MedicoReferente')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="width:40%;padding:0;" id="LayoutRow_1464950218220" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Utente' and Soggetto.utente ne null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1465580033816}</span>
+								<h:outputText value="#{Soggetto.dittaUtente.denominazione}" id="Label_1465580033816" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1466864804644" >
+							<label style="display:#{(Soggetto.sedeUtente!=null) ? 'block' : 'none' };" >
+								<span class="label">${msg.label_Label_1466864804644}</span>
+								<h:outputText rendered="#{Soggetto.sedeUtente!=null}" value="#{Soggetto.sedeUtente.denominazioneUnitaLocale}" id="Label_1466864804644_id" class="labelContent  base-label" />
+							</label>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="utenteDitta" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(Soggetto.sedeUtente)}" status="ajaxStatus" id="utenteDitta_id" title="${msg.alt_utenteDitta}" rendered="#{Soggetto.dittaUtente!=null}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1500619935096" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(Soggetto,'SedeUtente',null,'DittaUtente')}" status="ajaxStatus" id="Link_1500619935096_id" title="${msg.alt_Link_1500619935096}" rendered="#{Soggetto.dittaUtente!=null}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, 'SedeUtente', null, null, false, null, 'DittaUtente', null)}" status="ajaxStatus" id="BtnSearchSoggettoDitta" title="${msg.alt_BtnSearchSoggettoDitta}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1500028977783" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(Soggetto, 'SedeUtente', null, null, false, null, 'DittaUtente', null)}" status="ajaxStatus" id="Link_1500028977783_id" title="${msg.alt_Link_1500028977783}" rendered="#{Soggetto.dittaUtente!=null}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1459745993213" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code ne null}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1459745993213}</legend>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1466690580003" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Ditta' and Soggetto.ditta ne null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1461983787990}</span>
+								<span value="${msg.Label_1461983787990}" class="labelContent c-text-12 c-text-bold base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(Soggetto.sede)}" status="ajaxStatus" id="ditta" title="${msg.alt_ditta}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(Soggetto,'Sede',null,'Ditta')}" status="ajaxStatus" id="Link_1499314587111" title="${msg.alt_Link_1499314587111}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, 'Sede', null, Soggetto, false, null, 'Ditta', 'Utente,Cantiere')}" status="ajaxStatus" id="Link_1500231734344" title="${msg.alt_Link_1500231734344}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(Soggetto, 'Sede', null, Soggetto, false, null, 'Ditta', 'Utente,Cantiere')}" status="ajaxStatus" id="Link_1500516820271" title="${msg.alt_Link_1500516820271}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1460628185587" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Ditta' and Soggetto.ditta ne null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1459164939675" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1459648468432}</span>
+									<h:inputText id="TextBox_1459648468432" value="#{Soggetto.ditta.denominazione}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1459648468432}" />
+									<a4j:outputPanel id="TextBox_1459648468432_msg" styleClass="errorContainer" ><h:message for="TextBox_1459648468432" styleClass="errorMessages TextBox_1459648468432_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1461401298132}</span>
+									<h:inputText id="TextBox_1461401298132" value="#{Soggetto.ditta.codiceFiscale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1461401298132}" />
+									<a4j:outputPanel id="TextBox_1461401298132_msg" styleClass="errorContainer" ><h:message for="TextBox_1461401298132" styleClass="errorMessages TextBox_1461401298132_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1459497535138" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1460618776922}</span>
+									<h:inputText id="TextBox_1460618776922" value="#{Soggetto.ditta.patritaIva}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1460618776922}" />
+									<a4j:outputPanel id="TextBox_1460618776922_msg" styleClass="errorContainer" ><h:message for="TextBox_1460618776922" styleClass="errorMessages TextBox_1460618776922_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1650640545698}</span>
+									<h:inputText id="TextBox_1650640545698" value="#{Soggetto.ditta.codiceDitta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1650640545698}" />
+									<a4j:outputPanel id="TextBox_1650640545698_msg" styleClass="errorContainer" ><h:message for="TextBox_1650640545698" styleClass="errorMessages TextBox_1650640545698_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1461583271235" >
+						<label style="display:#{(Soggetto.code.code=='Ditta' and Soggetto.sede ne null) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_Label_1461583271235}</span>
+							<span value="${msg.Label_1461583271235}" id="Label_1461583271235_id" style="display:#{(Soggetto.code.code=='Ditta' and Soggetto.sede ne null) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" ></span>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1459845727645" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Ditta' and Soggetto.sede ne null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1458643580642" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<h:selectBooleanCheckbox id="CheckBox_1462253617513" value="#{Soggetto.sede.sedePrincipale}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="true" label="${msg.CheckBox_1462253617513}" />
+								<h:outputLabel value="${msg.CheckBox_1462253617513}" for="CheckBox_1462253617513" style="vertical-align:middle;margin-left:3px;" />
+								<h:message for="CheckBox_1462253617513" styleClass="errorMessages CheckBox_1462253617513_E" />
+								</div>
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1462253617513" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1459190796721" >
+								<label >
+									<span class="label">${msg.label_TextSuggestionBox_1459190796721}</span>
+									#{SoggettoAction.autocomplete['sede.addr'].setContentType('0')}
+									<h:inputText id="TextSuggestionBox_1459190796721_MAIN" value="#{Soggetto.sede.addr.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1459190796721}" />
+									<h:outputLabel for="TextSuggestionBox_1459190796721_CPA" styleClass="textSuggestionSeparator" value="-" />
+									<h:inputText id="TextSuggestionBox_1459190796721_CPA" value="#{Soggetto.sede.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+									<h:outputLabel for="TextSuggestionBox_1459190796721_ZIP" styleClass="textSuggestionSeparator" value="-" />
+									<h:inputText id="TextSuggestionBox_1459190796721_ZIP" value="#{Soggetto.sede.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+									<h:outputLabel for="TextSuggestionBox_1459190796721_CODE" style="display:none;"/>
+									<h:inputText id="TextSuggestionBox_1459190796721_CODE" disabled="true" value="#{Soggetto.sede.addr.code}" label="${msg.label_TextSuggestionBox_1459190796721}"  style="display: none">
+										<f:converter converterId="CodeValueConverter"/>
+
+									</h:inputText>
+									<h:message for="TextSuggestionBox_1459190796721_CODE" styleClass="errorMessages TextSuggestionBox_1459190796721_CODE_E" />
+									<a4j:jsFunction name="TextSuggestionBox_1459190796721" action="#{SoggettoAction.autocomplete['sede.addr'].autocomplete()}" data="#{SoggettoAction.autocomplete['sede.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+										<a4j:actionparam name="search" assignTo="#{SoggettoAction.autocomplete['sede.addr'].search}"/>
+										<a4j:actionparam name="ui"/>
+									</a4j:jsFunction>
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1459149848485}</span>
+									<h:inputText id="TextBox_1459149848485" value="#{Soggetto.sede.addr.cnt}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1459149848485}" />
+									<a4j:outputPanel id="TextBox_1459149848485_msg" styleClass="errorContainer" ><h:message for="TextBox_1459149848485" styleClass="errorMessages TextBox_1459149848485_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1462178260190}</span>
+									<h:inputText id="TextBox_1462178260190" value="#{Soggetto.sede.telecom.bad}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1462178260190}" />
+									<a4j:outputPanel id="TextBox_1462178260190_msg" styleClass="errorContainer" ><h:message for="TextBox_1462178260190" styleClass="errorMessages TextBox_1462178260190_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1462260146040" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1458314843859}</span>
+									<h:inputText id="TextBox_1458314843859" value="#{Soggetto.sede.addr.str}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1458314843859}" />
+									<a4j:outputPanel id="TextBox_1458314843859_msg" styleClass="errorContainer" ><h:message for="TextBox_1458314843859" styleClass="errorMessages TextBox_1458314843859_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1461993767852}</span>
+									<h:inputText id="TextBox_1461993767852" value="#{Soggetto.sede.addr.adl}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1461993767852}" />
+									<a4j:outputPanel id="TextBox_1461993767852_msg" styleClass="errorContainer" ><h:message for="TextBox_1461993767852" styleClass="errorMessages TextBox_1461993767852_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1458459183955}</span>
+									<h:inputText id="TextBox_1458459183955" value="#{Soggetto.sede.telecom.mail}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1458459183955}" />
+									<a4j:outputPanel id="TextBox_1458459183955_msg" styleClass="errorContainer" ><h:message for="TextBox_1458459183955" styleClass="errorMessages TextBox_1458459183955_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1460349929063" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1461235329268}</span>
+									<h:inputText id="TextBox_1461235329268" value="#{Soggetto.sede.denominazioneUnitaLocale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1461235329268}" />
+									<a4j:outputPanel id="TextBox_1461235329268_msg" styleClass="errorContainer" ><h:message for="TextBox_1461235329268" styleClass="errorMessages TextBox_1461235329268_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1461093072614}</span>
+									<h:inputText id="TextBox_1461093072614" value="#{Soggetto.sede.addr.bnr}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1461093072614}" />
+									<a4j:outputPanel id="TextBox_1461093072614_msg" styleClass="errorContainer" ><h:message for="TextBox_1461093072614" styleClass="errorMessages TextBox_1461093072614_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1460781369804}</span>
+									<h:selectOneMenu id="ComboBox_1460781369804" value="#{Soggetto.sede.stato}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1460781369804}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1458956047203}</span>
+									<h:inputText id="TextBox_1458956047203" value="#{Soggetto.sede.telecom.as}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1458956047203}" />
+									<a4j:outputPanel id="TextBox_1458956047203_msg" styleClass="errorContainer" ><h:message for="TextBox_1458956047203" styleClass="errorMessages TextBox_1458956047203_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1461953009804}</span>
+									<h:inputText id="TextBox_1461953009804" value="#{Soggetto.sede.attivita}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1461953009804}" />
+									<a4j:outputPanel id="TextBox_1461953009804_msg" styleClass="errorContainer" ><h:message for="TextBox_1461953009804" styleClass="errorMessages TextBox_1461953009804_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1466690628690" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Utente' and Soggetto.utente ne null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1460471118261}</span>
+								<span value="${msg.Label_1460471118261}" class="labelContent c-text-12 c-text-bold base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(Soggetto.utente)}" status="ajaxStatus" id="Link_1467741640617" title="${msg.alt_Link_1467741640617}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(Soggetto,'Utente',null,null)}" status="ajaxStatus" id="Link_1500969034814" title="${msg.alt_Link_1500969034814}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, 'Utente', null, Soggetto, false, null, null, 'Sede,Ditta,Cantiere')}" status="ajaxStatus" id="Link_1502200873773" title="${msg.alt_Link_1502200873773}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(Soggetto, 'Utente', null, Soggetto, false, null, null, 'Sede,Ditta,Cantiere')}" status="ajaxStatus" id="Link_1502130852795" title="${msg.alt_Link_1502130852795}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1459702628581" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Utente' and Soggetto.utente ne null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1460527997026" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1459922796618" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1459275459337}</span>
+										<h:outputText value="#{Soggetto.utente.name.fam}" id="Label_1459275459337" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1460826681708}</span>
+										<h:outputText value="#{Soggetto.utente.birthTime}" id="Label_1460826681708" styleClass="labelContent  base-label" >
+										<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1459999728535}</span>
+										<h:outputText value="#{Soggetto.utente.fiscalCode}" id="Label_1459999728535" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1461087868632" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1460967798578}</span>
+										<h:outputText value="#{Soggetto.utente.name.giv}" id="Label_1460967798578" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1459090442291}</span>
+										<h:outputText value="#{Soggetto.utente.birthPlace.cty}" id="Label_1459090442291" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1462197327895}</span>
+										<h:outputText value="#{Soggetto.utente.mpi}" id="Label_1462197327895" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1461654764920" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1458409710805}</span>
+										<h:outputText value="#{Soggetto.utente.genderCode.currentTranslation}" id="Label_1458409710805" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1462050421663}</span>
+										<h:outputText value="#{Soggetto.utente.category.currentTranslation}" id="Label_1462050421663" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1458476365941}</span>
+										<h:outputText value="#{Soggetto.utente.eni}" id="Label_1458476365941" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1505469758188" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1507601730542" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Medico' and Soggetto.medico ne null}" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1507087387991}</span>
+									<span value="${msg.Label_1507087387991}" class="labelContent c-text-12 c-text-bold base-label" ></span>
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(Soggetto.medico)}" status="ajaxStatus" id="Link_1507575684109" title="${msg.alt_Link_1507575684109}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{OperationManager.manageEdit(Soggetto,'Medico',null,null)}" status="ajaxStatus" id="Link_1503813494216" title="${msg.alt_Link_1503813494216}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, 'Medico', null, Soggetto, false, null, null, 'Sede,Ditta,Cantiere')}" status="ajaxStatus" id="Link_1503405820907" title="${msg.alt_Link_1503405820907}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{OperationManager.manageUnlink(Soggetto, 'Medico', null, Soggetto, false, null, null, 'Sede,Ditta,Cantiere')}" status="ajaxStatus" id="Link_1504602672160" title="${msg.alt_Link_1504602672160}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink link" />
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1506937086846" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Medico' and Soggetto.medico ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1506302328768" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1503518322835" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1504955911943}</span>
+											<h:outputText value="#{Soggetto.medico.name.fam}" id="Label_1504955911943" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1504079812449}</span>
+											<h:outputText value="#{Soggetto.medico.regionalCode}" id="Label_1504079812449" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1503632916194" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1506131723719}</span>
+											<h:outputText value="#{Soggetto.medico.name.giv}" id="Label_1506131723719" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1504466691659}</span>
+											<h:outputText value="#{Soggetto.medico.type}" id="Label_1504466691659" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1466691611164" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Cantiere' and Soggetto.cantiere ne null}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1465620331637}</span>
+								<span value="${msg.Label_1465620331637}" class="labelContent c-text-12 c-text-bold base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageDetail(Soggetto.cantiere)}" status="ajaxStatus" id="Link_1465769335926" title="${msg.alt_Link_1465769335926}" reRender="popup,phiDesktop" styleClass="fa fa-info-circle fa-2x link readOnly" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageEdit(Soggetto, 'Cantiere', null, null)}" status="ajaxStatus" id="Link_1486771441790" title="${msg.alt_Link_1486771441790}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageLink(Soggetto, 'Cantiere', null, Soggetto, false, null, null, 'Sede,Ditta,Utente')}" status="ajaxStatus" id="Link_1502199133633" title="${msg.alt_Link_1502199133633}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{OperationManager.manageUnlink(Soggetto, 'Cantiere', null, Soggetto, false, null, null, 'Sede,Ditta,Utente')}" status="ajaxStatus" id="Link_1499993422856" title="${msg.alt_Link_1499993422856}" reRender="phiDesktop" styleClass="fa fa-trash-alt fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1467785104577" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code=='Cantiere' and Soggetto.cantiere ne null}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1467984988484" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1465670176288" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1467968248808}</span>
+										<h:outputText value="#{Soggetto.cantiere.addr}" id="Label_1467968248808" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1466173514866" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1466294003205}</span>
+										<h:outputText value="#{Soggetto.cantiere.naturaOpera}" id="Label_1466294003205" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1465738609091" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1467168441577}</span>
+										<h:outputText value="#{Soggetto.cantiere.tipologiaNotifica}" id="Label_1467168441577" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1466477669284" >
+						<label style="display:#{(Soggetto.code.code=='Altro') ? 'block' : 'none' };" >
+							<span class="label">${msg.label_Label_1466477669284}</span>
+							<span value="${msg.Label_1466477669284}" id="Label_1466477669284_id" style="display:#{(Soggetto.code.code=='Altro') ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" ></span>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1466446921333" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Soggetto.code.code =='Altro'}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1466720250926" style="width:50%;" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1466410506439}</span>
+									<h:selectOneMenu id="ComboBox_1466410506439" value="#{Soggetto.riferimentoEntita}" styleClass="comboBox" title="${msg.alt_ComboBox_1466410506439}" label="${msg.label_ComboBox_1466410506439}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Entity')}" />
+										<f:converter converterId="CodeValueConverter"/>
+										<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1466720250926" event="onchange" ignoreDupResponses="true" />
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1475838634633" >
+								<label style="display:#{(Soggetto.riferimentoEntita.code =='automobile') ? 'block' : 'none' };" >
+									<span class="widget-label">${msg.label_TextBox_1475838634633}</span>
+									<h:inputText id="TextBox_1475838634633_id" value="#{Soggetto.targa}" styleClass="inputText" rendered="#{Soggetto.riferimentoEntita.code =='automobile'}" label="${msg.label_TextBox_1475838634633}" />
+									<a4j:outputPanel id="TextBox_1475838634633_msg" styleClass="errorContainer" ><h:message for="TextBox_1475838634633_id" styleClass="errorMessages TextBox_1475838634633_E" /></a4j:outputPanel>
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1475838636055" >
+								<label style="display:#{(Soggetto.riferimentoEntita.code =='natante') ? 'block' : 'none' };" >
+									<span class="widget-label">${msg.label_TextBox_1475838636055}</span>
+									<h:inputText id="TextBox_1475838636055_id" value="#{Soggetto.codiceIMO}" styleClass="inputText" rendered="#{Soggetto.riferimentoEntita.code =='natante'}" label="${msg.label_TextBox_1475838636055}" />
+									<a4j:outputPanel id="TextBox_1475838636055_msg" styleClass="errorContainer" ><h:message for="TextBox_1475838636055_id" styleClass="errorMessages TextBox_1475838636055_E" /></a4j:outputPanel>
+								</label>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1464992040652" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1463412741954" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1465196862445}</span>
+										<h:inputText id="TextBox_1465196862445" value="#{Soggetto.riferimentoDenominazione}" styleClass="inputText" label="${msg.label_TextBox_1465196862445}" />
+										<a4j:outputPanel id="TextBox_1465196862445_msg" styleClass="errorContainer" ><h:message for="TextBox_1465196862445" styleClass="errorMessages TextBox_1465196862445_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1466446772904" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+									<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1466111938980" >
+									<label >
+										<span class="label">${msg.label_TextArea_1466111938980}</span>
+										<div>
+										<h:inputTextarea id="TextArea_1466111938980_id" value="#{Soggetto.riferimentoNote}" title="${msg.alt_TextArea_1466111938980}" label="${msg.label_TextArea_1466111938980}" >
+											<f:validateLength minimum="0" maximum="255"/>
+										</h:inputTextarea>
+										</div>
+									</label>
+									<h:message style="float:left;" for="TextArea_1466111938980_id" styleClass="errorMessages TextArea_1466111938980_E" />
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1459636449748" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1461878573667" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1460799171762}</span>
+										<h:inputText id="TextBox_1460799171762" value="#{Soggetto.addr.str}" styleClass="inputText" label="${msg.label_TextBox_1460799171762}" />
+										<a4j:outputPanel id="TextBox_1460799171762_msg" styleClass="errorContainer" ><h:message for="TextBox_1460799171762" styleClass="errorMessages TextBox_1460799171762_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1461563174710}</span>
+										<h:inputText id="TextBox_1461563174710" value="#{Soggetto.addr.cnt}" styleClass="inputText" label="${msg.label_TextBox_1461563174710}" >
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1461563174710_msg" styleClass="errorContainer" ><h:message for="TextBox_1461563174710" styleClass="errorMessages TextBox_1461563174710_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1460525773359" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1462396757330}</span>
+										<h:inputText id="TextBox_1462396757330" value="#{Soggetto.addr.bnr}" styleClass="inputText" label="${msg.label_TextBox_1462396757330}" />
+										<a4j:outputPanel id="TextBox_1462396757330_msg" styleClass="errorContainer" ><h:message for="TextBox_1462396757330" styleClass="errorMessages TextBox_1462396757330_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1458979197596}</span>
+										<h:inputText id="TextBox_1458979197596" value="#{Soggetto.addr.adl}" styleClass="inputText" label="${msg.label_TextBox_1458979197596}" >
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1458979197596_msg" styleClass="errorContainer" ><h:message for="TextBox_1458979197596" styleClass="errorMessages TextBox_1458979197596_E" /></a4j:outputPanel>
+									</label>
+									<script>focusIt('TextBox_1458979197596');</script>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1461536798258" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1459366178351" >
+									<label >
+										<span class="label">${msg.label_TextSuggestionBox_1459366178351}</span>
+										#{SoggettoAction.autocomplete['addr'].setContentType('0')}
+										#{SoggettoAction.autocomplete['addr'].setCodeSystem('Comuni')}
+										<h:inputText id="TextSuggestionBox_1459366178351_MAIN" value="#{Soggetto.addr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1459366178351}" />
+										<h:outputLabel for="TextSuggestionBox_1459366178351_CPA" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1459366178351_CPA" value="#{Soggetto.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+										<h:outputLabel for="TextSuggestionBox_1459366178351_ZIP" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1459366178351_ZIP" value="#{Soggetto.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+										<h:outputLabel for="TextSuggestionBox_1459366178351_CODE" style="display:none;"/>
+										<h:inputText id="TextSuggestionBox_1459366178351_CODE" value="#{Soggetto.addr.code}" label="${msg.label_TextSuggestionBox_1459366178351}"  style="display: none">
+											<f:converter converterId="CodeValueConverter"/>
+
+										</h:inputText>
+										<h:message for="TextSuggestionBox_1459366178351_CODE" styleClass="errorMessages TextSuggestionBox_1459366178351_CODE_E" />
+										<a4j:jsFunction name="TextSuggestionBox_1459366178351" action="#{SoggettoAction.autocomplete['addr'].autocomplete()}" data="#{SoggettoAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+											<a4j:actionparam name="search" assignTo="#{SoggettoAction.autocomplete['addr'].search}"/>
+											<a4j:actionparam name="ui"/>
+										</a4j:jsFunction>
+									</label>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding-top:15px;padding:0;" id="LayoutRow_1467040429079" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Attivita.code.code.equals('sit') and Soggetto.code.code.equals('Utente')}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1467040429079}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1465238845262" style="width:100%;min-width:100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1464953084955" >
+							<label >
+								<span class="label">${msg.label_TextArea_1464953084955}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1464953084955_id" value="#{AcquisizioneInformazioni.oggetto}" style="height: 400px;" label="${msg.label_TextArea_1464953084955}" rows="10" >
+									<f:validateLength minimum="0" maximum="4000"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1464953084955_id" styleClass="errorMessages TextArea_1464953084955_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="preMdl">
+
+
+	<start-state name="start-state1">
+		<transition to="begin"></transition>
+	</start-state>
+
+
+	<node name="begin">
+		<event type="node-enter">
+			<action name="1" expression="#{MedicinaLavoroAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{MedicinaLavoroAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{MedicinaLavoroAction.equal.put('procpratiche.internalId', Procpratiche.internalId)}"></action>
+			<action name="4" expression="#{MedicinaLavoroAction.select.add('isActive')}"></action>
+			<action name="5" expression="#{MedicinaLavoroAction.read()}"></action>
+			<action name="6" expression="#{not empty MedicinaLavoroList and not MedicinaLavoroList.isEmpty() ? MedicinaLavoroAction.injectFirst() : MedicinaLavoroAction.eject()}"></action>
+			<action name="7" expression="#{MedicinaLavoroAction.ejectList()}"></action>
+			<action name="8" expression="#{MedicinaLavoroAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="empty mdl?"></transition>
+	</node>
+
+	<decision name="empty mdl?" expression="#{empty MedicinaLavoro}">
+		<transition to="new mdl" name="true"></transition>
+		<transition to="end" name="false"></transition>
+	</decision>
+
+	<node name="new mdl">
+		<event type="node-enter">
+			<action name="1" expression="#{MedicinaLavoroAction.inject(MedicinaLavoroAction.newEntity())}"></action>
+			<action name="2" expression="#{MedicinaLavoro.setTipoExEsposto(Protocollo.getTipoExEsposto())}"></action>
+			<action name="3" expression="#{MedicinaLavoroAction.presetData()}"></action>
+			<action name="4" expression="#{Procpratiche.setMedicinaLavoro(MedicinaLavoro)}"></action>
+		</event>
+		<transition to="super-state1/first save"></transition>
+	</node>
+
+	<node name="end">
+		<event type="node-enter">
+			<action name="1" expression="#{FattoreRischioAction.injectList(MedicinaLavoro.fattoreRischio)}"></action>
+			<action name="2" expression="#{FattoreRischioList.orderBy('startValidity','descending')}"></action>
+			<action name="3" expression="#{AnamnesisMdlAction.injectList(MedicinaLavoro.anamnesisMdl)}"></action>
+			<action name="4" expression="#{AnamnesisMdlList.orderBy('startValidity','descending')}"></action>
+			<action name="5" expression="#{MedicinaLavoroAction.temporary.put('type',MedicinaLavoro.type)}"></action>
+			<action name="6" expression="#{Procpratiche.conclusioniMdl eq null?ValutazioneConclusivaMdlAction.inject(ValutazioneConclusivaMdlAction.newEntity()):ValutazioneConclusivaMdlAction.inject(Procpratiche.conclusioniMdl)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="first save">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+			</event>
+			<transition to="../end"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

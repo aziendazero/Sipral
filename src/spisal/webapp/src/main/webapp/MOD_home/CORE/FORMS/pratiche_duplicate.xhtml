@@ -1,0 +1,69 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1532003470668}</h1>
+	<div id="pratiche_duplicate" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1532003495292" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1532003573649" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel id="DataGrid_1532003598905" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+						<table id="d1532003598905" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1532003598905} [ProcpraticheList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1532006610211" value="${msg.DataGridColumn_1532006610211} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('data')}" reRender="DataGrid_1532003598905" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1532003615762" value="${msg.DataGridColumn_1532003615762} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('serviceDeliveryLocation.area.langIt')}" reRender="DataGrid_1532003598905" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1532003614393" value="${msg.DataGridColumn_1532003614393} &#8593;&#8595;" action="#{ProcpraticheList.orderBy('numero')}" reRender="DataGrid_1532003598905" ajaxSingle="true" disabled="#{empty ProcpraticheList ? true : false}"/></th>
+									<th class="sortableColumn">${msg.DataGridColumn_1532003617593} &#8593;&#8595;</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody selectable">
+								<jstl:if test="#{empty ProcpraticheList or ProcpraticheList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="4">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1532003598905" value="#{ProcpraticheList.entities}" var="Procpratiche" rowKeyVar="rowIndex" >
+									<tr id="#{rowIndex}" onclick="ie1532003598905(this.id);" class="#{ProcpraticheAction.getEntity().equals(Procpratiche) or Procpratiche.internalId != 0 and ProcpraticheAction.entity.internalId.equals(Procpratiche.internalId) ? 'selRow' : ''}" >
+										<td >
+											<h:outputText styleClass="base-label" value="#{Procpratiche.data}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td >
+											#{Procpratiche.serviceDeliveryLocation.area.langIt}
+										</td>
+
+										<td >
+											<span class="base-label" >#{Procpratiche.numero}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{ProcpraticheAction.getUtenteDitta(Procpratiche)}</span>
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					<a4j:jsFunction id="ie1532003598905" name="ie1532003598905" status="ajaxStatus" action="#{ProcpraticheList.injectEject}" data="#{ProcpraticheList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1532003598905'))" reRender="LayoutRow_1532003576034" limitToList="true" ajaxSingle="true">
+						<a4j:actionparam name="rowIndex" assignTo="#{ProcpraticheList.selectedIndex}"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1532003576034" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="link" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('link;BtnLink')}" value="#{msg.link}" id="link_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" rendered="#{not empty Procpratiche}" reRender="phiDesktop, header, errorMenu" limitToList="true" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('exit;BtnCancel')}" value="#{msg.exit}" id="exit_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('save;BtnNew')}" value="#{msg.save}" id="save_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

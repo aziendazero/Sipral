@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="signature">
+
+
+	<start-state name="start-state1">
+		<transition to="button?"></transition>
+	</start-state>
+
+
+	<super-state name="super-state1">
+		<node name="switch to pdf and lock">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.switchToPdfAndLock()}"></action>
+			</event>
+			<transition to="remote signature" name=""></transition>
+		</node>
+		<node name="remote signature">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.sendToSignatureService()}"></action>
+			</event>
+			<transition to="../notification window"></transition>
+		</node>
+	</super-state>
+
+	<decision name="button?" expression="#{button.mnemonic}">
+		<transition to="reset temporaries" name="APPLY_SIGNATURE"></transition>
+		<transition to="read PDF list" name="PDFLIST"></transition>
+		<transition to="confirm odt restore popup" name="UNLOCK"></transition>
+		<transition to="reset temporaries 2" name="REGISTER"></transition>
+		<transition to="view destinatari temp" name="VIEW_DESTINATARI"></transition>
+	</decision>
+
+	<node name="read PDF list">
+		<event type="node-enter">
+			<action name="1" expression="#{SignedDocumentAction.equal.put('alfrescoDocument',AlfrescoDocument)}"></action>
+			<action name="2" expression="#{SignedDocumentAction.orderBy.put('internalId','descending')}"></action>
+			<action name="3" expression="#{SignedDocumentAction.setDistinct(true)}"></action>
+			<action name="4" expression="#{SignedDocumentAction.read()}"></action>
+		</event>
+		<transition to="PDF list UI"></transition>
+	</node>
+
+	<task-node name="PDF list UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/signedPdfList')}"></action>
+		</event>
+		<transition to="button2?"></transition>
+	</task-node>
+
+	<decision name="button2?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="BACK"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<node name="unlock document">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocument.setLockedForSignature(false)}"></action>
+				<action name="2" expression="#{AlfrescoDocument.setSignaturesPresent(0)}"></action>
+				<action name="3" expression="#{AlfrescoDocument.setDocumentStatus(vocabularies.getCodeValue('PHIDIC', 'documentstatus', '1', 'C'))}"></action>
+				<action name="4" expression="#{AlfrescoDocumentAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="PIN popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/pinPopup')}"></action>
+		</event>
+		<transition to="button3?"></transition>
+	</task-node>
+
+	<decision name="button3?" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="BtnCancel"></transition>
+		<transition to="it's already locked?" name="BtnOk"></transition>
+	</decision>
+
+	<node name="reset temporaries">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.remove('pin')}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.temporary.remove('username')}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.remove('password')}"></action>
+			<action name="4" expression="#{AlfrescoDocumentAction.temporary.put('showLoginPassword',true)}"></action>
+			<action name="5" expression="#{AlfrescoDocumentAction.temporary.put('showPin',true)}"></action>
+		</event>
+		<transition to="PIN popup"></transition>
+	</node>
+
+	<task-node name="confirm odt restore popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/confirmOdtRestore')}"></action>
+		</event>
+		<transition to="button4?"></transition>
+	</task-node>
+
+	<decision name="button4?" expression="#{button.mnemonic}">
+		<transition to="super-state2/unlock document" name="BtnOk"></transition>
+		<transition to="end-state1" name="BtnCancel"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<node name="register">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.sendToRegisterService()}"></action>
+			</event>
+			<transition to="../notification window"></transition>
+		</node>
+		<node name="link new destinatario">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.link('destinatari',Destinatari)}"></action>
+			</event>
+			<transition to="create destinatario"></transition>
+		</node>
+		<node name="save document">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.create()}"></action>
+			</event>
+			<transition to="../remove temp"></transition>
+		</node>
+		<node name="create destinatario">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.create()}"></action>
+				<action name="2" expression="#{DestinatariAction.eject()}"></action>
+				<action name="3" expression="#{DestinatariAction.ejectList()}"></action>
+			</event>
+			<transition to="../reset temporaries 2"></transition>
+		</node>
+	</super-state>
+
+	<decision name="it's already locked?" expression="#{(AlfrescoDocument.lockedForSignature eq true)}">
+		<transition to="super-state1/switch to pdf and lock" name="false"></transition>
+		<transition to="super-state1/remote signature" name="true"></transition>
+	</decision>
+
+	<node name="reset temporaries 2">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.remove('username')}"></action>
+			<action name="2" expression="#{AlfrescoDocumentAction.temporary.remove('password')}"></action>
+			<action name="3" expression="#{AlfrescoDocumentAction.temporary.remove('pin')}"></action>
+			<action name="4" expression="#{AlfrescoDocumentAction.temporary.put('showLoginPassword',true)}"></action>
+			<action name="5" expression="#{AlfrescoDocumentAction.temporary.put('showPin',false)}"></action>
+			<action name="6" expression="#{DestinatariAction.injectList(AlfrescoDocument.destinatari,'DestinatariList')}"></action>
+			<action name="7" expression="#{(AlfrescoDocument.oggetto eq null or AlfrescoDocument.oggetto eq '') ? AlfrescoDocument.setOggetto(AlfrescoDocument.name) : ''}"></action>
+		</event>
+		<transition to="destinatari list"></transition>
+	</node>
+
+	<task-node name="destinatari list">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/documentRegisterUserDialog')}"></action>
+		</event>
+		<transition to="button5"></transition>
+	</task-node>
+
+	<decision name="button5" expression="#{button.mnemonic}">
+		<transition to="super-state3/register" name="BtnOk"></transition>
+		<transition to="remove temp" name="BtnCancel"></transition>
+		<transition to="new destinatario" name="BtnAdd"></transition>
+		<transition to="super-state4/delete destinatario" name="Delete"></transition>
+		<transition to="super-state3/save document" name="BtnSave"></transition>
+		<transition to="edit destinatario" name="BtnEdit"></transition>
+	</decision>
+
+	<task-node name="notification window">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Document/CORE/FORMS/popup/signatureNotificationOk')}"></action>
+		</event>
+		<transition to="notification button?"></transition>
+	</task-node>
+
+	<decision name="notification button?" expression="#{button.mnemonic}">
+		<transition to="remove temp" name="BACK"></transition>
+		<transition to="remove temp" name="BtnOk"></transition>
+		<transition to="remove temp" name="BtnCancel"></transition>
+	</decision>
+
+	<task-node name="new destinatario">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/editDestinatario')}"></action>
+		</event>
+		<transition to="new destinatario?"></transition>
+	</task-node>
+
+	<decision name="new destinatario?" expression="#{button.mnemonic}">
+		<transition to="super-state3/link new destinatario" name="BtnOk"></transition>
+		<transition to="save destinatario?" name="BtnCancel"></transition>
+	</decision>
+
+	<super-state name="super-state4">
+		<node name="delete destinatario">
+			<event type="node-enter">
+				<action name="1" expression="#{AlfrescoDocumentAction.unLink('destinatari',Destinatari)}"></action>
+				<action name="2" expression="#{DestinatariList.list.remove(Destinatari)}"></action>
+				<action name="3" expression="#{DestinatariAction.eject()}"></action>
+			</event>
+			<transition to="../reset temporaries 2"></transition>
+		</node>
+	</super-state>
+
+	<node name="view destinatari temp">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.put('viewingDestinatariOnly',true)}"></action>
+		</event>
+		<transition to="reset temporaries 2"></transition>
+	</node>
+
+	<node name="remove temp">
+		<event type="node-enter">
+			<action name="1" expression="#{AlfrescoDocumentAction.temporary.remove('viewingDestinatariOnly')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<task-node name="edit destinatario">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/editDestinatario')}"></action>
+		</event>
+		<transition to="save destinatario?"></transition>
+	</task-node>
+
+	<decision name="save destinatario?" expression="#{button.mnemonic}">
+		<transition to="super-state3/create destinatario" name="BtnOk"></transition>
+		<transition to="reset temporaries 2" name="BtnCancel"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="PHI_CI.war/processes/MOD_HBS/CORE/Asl/Search Asl">
+		
+	<start-state name="start-state1">
+		
+		<transition to="eject"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="search ULSS or ARPAV">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/searchULSS')}" name="main"></action>
+		</event>
+		<transition to="next?"></transition>		
+	</task-node>
+
+	
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.orderBy.put('name.giv','ascending')}"></action>
+			<action name="2" expression="#{ServiceDeliveryLocationAction.setReadPageSize(10)}"></action>
+			<action name="3" expression="#{button.mnemonic=='BtnAddULSS'?ServiceDeliveryLocationAction.equal.put('code.code','ULSS'):ServiceDeliveryLocationAction.equal.put('code.code','ARPAV')}"></action>
+			<action name="4" expression="#{ServiceDeliveryLocationAction.read()}"></action>
+		</event>
+		<transition to="search ULSS or ARPAV"></transition>
+	</node>
+			
+	
+	 
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+	<transition to="search" name="BtnSearch"></transition>
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="end-state1" name="BtnSave"></transition>
+	
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{ServiceDeliveryLocationAction.eject()}"></action>
+		</event>
+		<transition to="search"></transition>
+	</node>
+	 
+	 
+	
+	<end-state name="end-state1">
+	</end-state>
+	
+	
+
+ <action name="security" expression=""></action>
+
+</process-definition>
+

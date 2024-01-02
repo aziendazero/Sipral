@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="groupsManagement">
+
+
+	<start-state name="start-state1">
+		<transition to="read groups list"></transition>
+	</start-state>
+
+
+	<node name="read groups list">
+		<event type="node-enter">
+			<action name="1" expression="#{GruppiAction.equal.put('articoli.provvedimento',Provvedimenti)}"></action>
+			<action name="2" expression="#{GruppiAction.read()}"></action>
+		</event>
+		<transition to="Group UI"></transition>
+	</node>
+
+	<task-node name="Group UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/group_popup')}"></action>
+		</event>
+		<transition to="BtnSave?"></transition>
+	</task-node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{GruppiAction.eject()}"></action>
+			<action name="2" expression="#{GruppiAction.ejectList()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="linkListaArticoli">
+		<event type="node-enter">
+			<action name="1" expression="#{GruppiAction.setArticoli(ArticoliList.list, GruppiList.list)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<decision name="BtnSave?" expression="#{(button.getMnemonic()=='BtnSave')}">
+		<transition to="linkListaArticoli" name="true"></transition>
+		<transition to="eject" name="false"></transition>
+	</decision>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

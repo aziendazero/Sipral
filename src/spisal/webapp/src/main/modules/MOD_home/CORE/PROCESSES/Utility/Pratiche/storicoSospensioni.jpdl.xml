@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="dataScadenza">
+
+
+	<start-state name="start-state1">
+		<transition to="Read Sospensioni"></transition>
+	</start-state>
+
+
+	<task-node name="Sospensioni popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/storico_sospensioni_popup')}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</task-node>
+
+	<node name="Read Sospensioni">
+		<event type="node-enter">
+			<action name="1" expression="#{SospensioneAction.equal.put('pratica',Procpratiche)}"></action>
+			<action name="2" expression="#{SospensioneAction.orderBy.put('creationDate','descending')}"></action>
+			<action name="3" expression="#{SospensioneAction.read()}"></action>
+			<action name="4" expression="#{SospensioneAction.injectFirst()}"></action>
+		</event>
+		<transition to="Sospensioni popup"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{SospensioneAction.ejectList()}"></action>
+			<action name="2" expression="#{SospensioneAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

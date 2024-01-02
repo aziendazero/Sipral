@@ -1,0 +1,125 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1508303284084}</h1>
+	<div id="vp_impianto_01" style="position:relative;height:67px;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1509460782363" style="position: absolute;left: 24px;top: 18px;" styleClass="layoutContainer layoutRootVertical" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1509193798965" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510269512383;BtnBack')}" status="ajaxStatus" id="Link_1510269512383" title="${msg.alt_Link_1510269512383}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1510797034321;BtnSave')}" status="ajaxStatus" id="Link_1510797034321" title="${msg.alt_Link_1510797034321}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1509686240175" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1509686240175}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1508501496745" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509454632071}</span>
+							<h:inputText id="TextBox_1509454632071" value="#{SchedaGeneratori.numero}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1509454632071}" >
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1509454632071_msg" styleClass="errorContainer" ><h:message for="TextBox_1509454632071" styleClass="errorMessages TextBox_1509454632071_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1509454393833}</span>
+							<h:selectOneMenu id="ComboBox_1509454393833" value="#{SchedaGeneratori.type}" styleClass="comboBox" label="${msg.label_ComboBox_1509454393833}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoGen')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1510542114102" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509454440721}</span>
+							<h:inputText id="TextBox_1509454440721" value="#{SchedaGeneratori.costruttore}" styleClass="inputText" label="${msg.label_TextBox_1509454440721}" />
+							<a4j:outputPanel id="TextBox_1509454440721_msg" styleClass="errorContainer" ><h:message for="TextBox_1509454440721" styleClass="errorMessages TextBox_1509454440721_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509454447344}</span>
+							<h:inputText id="TextBox_1509454447344" value="#{SchedaGeneratori.numeroFabbrica}" styleClass="inputText" label="${msg.label_TextBox_1509454447344}" />
+							<a4j:outputPanel id="TextBox_1509454447344_msg" styleClass="errorContainer" ><h:message for="TextBox_1509454447344" styleClass="errorMessages TextBox_1509454447344_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1511092377516" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1509454485720}</span>
+							<h:inputText id="TextBox_1509454485720" value="#{SchedaGeneratori.pressMax}" styleClass="inputText" label="${msg.label_TextBox_1509454485720}" />
+							<a4j:outputPanel id="TextBox_1509454485720_msg" styleClass="errorContainer" ><h:message for="TextBox_1509454485720" styleClass="errorMessages TextBox_1509454485720_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1515398417544}</span>
+							<h:selectOneMenu id="ComboBox_1515398417544" value="#{SchedaGeneratori.codiceCombCv}" styleClass="comboBox" label="${msg.label_ComboBox_1515398417544}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoComb')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1515400717310" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1515979954532" style="height:100%;width:100%;" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1515400734488}</span>
+								<h:inputText id="TextBox_1515400734488" value="#{SchedaGeneratori.potGlob}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1515400734488}">
+									<f:validator validatorId="PotencyValidator"/>
+									<f:converter converterId="DoubleConverter"/>
+									<f:attribute name="cLocale" value="en_US" />
+									<f:attribute name="cMaximumFractionDigits" value="2" />
+									<f:attribute name="cMinimumFractionDigits" value="0" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1515400734488_msg" styleClass="errorContainer" ><h:message for="TextBox_1515400734488" styleClass="errorMessages TextBox_1515400734488_E" /></a4j:outputPanel>
+							</label>
+							</div>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1513278631300" style="height:100%;width:100%;" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1515400735811}</span>
+								<h:inputText id="TextBox_1515400735811" value="#{SchedaGeneratori.potGlobNom}" styleClass="inputText" label="${msg.label_TextBox_1515400735811}">
+										<f:validator validatorId="PotencyValidator"/>
+										<f:converter converterId="DoubleConverter"/>
+										<f:attribute name="cLocale" value="en_US" />
+										<f:attribute name="cMaximumFractionDigits" value="2" />
+										<f:attribute name="cMinimumFractionDigits" value="0" />
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TextBox_1515400735811_msg" styleClass="errorContainer" ><h:message for="TextBox_1515400735811" styleClass="errorMessages TextBox_1515400735811_E" /></a4j:outputPanel>
+							</label>
+							</div>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

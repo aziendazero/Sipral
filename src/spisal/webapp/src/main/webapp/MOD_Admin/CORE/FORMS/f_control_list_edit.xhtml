@@ -1,0 +1,342 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1416574809710}</h1>
+	<div id="f_control_list_edit" style="position:relative;height:307px;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1468841696647" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutFill_1468848093739" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1468841812896" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468847627167;BACK')}" status="ajaxStatus" id="Link_1468847627167" title="${msg.alt_Link_1468847627167}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1468847628156" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468847628156;OK')}" status="ajaxStatus" id="Link_1468847628156_id" title="${msg.alt_Link_1468847628156}" rendered="#{userBean.hasRoleIn('admin') and not ControlLsAction.temporary['isForHistory']}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1468841829118" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1425358727673" >
+							<span value="${msg.Label_1425358727673}" id="Label_1425358727673_id" style="display:#{(ControlLsAction.temporary['isForHistory']) ? 'block' : 'none' };" class="labelContent c-text-red c-border-red base-label" >${msg.Label_1425358727673}</span>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1423883783454" >
+							<span value="${msg.Label_1423883783454}" id="Label_1423883783454_id" style="display:#{(userBean.hasRoleIn('admin') and not ControlLsAction.temporary['isForHistory']) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1423883783454}</span>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468848105630" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1468847821937" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468847821937;ViewHistory')}" status="ajaxStatus" id="Link_1468847821937_id" title="${msg.alt_Link_1468847821937}" rendered="#{userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory']}" reRender="phiDesktop" styleClass="fa fa-clock-o fa-3x link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_Label_1422571969549}</span>
+					<h:outputText value="#{ControlLs.listid}" id="Label_1422571969549" style="height: 25px;width: 43px;" styleClass="labelContent c-text-bold base-label" />
+				</label>
+				</div>
+
+				<a4j:outputPanel layout="block" id="LayoutFill_1468854393529" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1468854400328" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1468841700507" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1415429855730" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1415429855730}</span>
+								<h:inputText id="TextBox_1415429855730_id" value="#{ControlLs.descrCode}" styleClass="inputText layoutRequired" required="true" disabled="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" label="${msg.label_TextBox_1415429855730}" />
+								<a4j:outputPanel id="TextBox_1415429855730_msg" styleClass="errorContainer" ><h:message for="TextBox_1415429855730_id" styleClass="errorMessages TextBox_1415429855730_E" /></a4j:outputPanel>
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1425649875507}</span>
+								<h:inputText id="TextBox_1425649875507" value="#{ControlLs.descrSmall}" styleClass="inputText" disabled="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" label="${msg.label_TextBox_1425649875507}" />
+								<a4j:outputPanel id="TextBox_1425649875507_msg" styleClass="errorContainer" ><h:message for="TextBox_1425649875507" styleClass="errorMessages TextBox_1425649875507_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1424354628498" >
+						<label >
+							<span class="label">${msg.label_TextArea_1424354628498}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1424354628498_id" value="#{ControlLs.description}" style="height: 50px;" styleClass="layoutRequired" required="true" readonly="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" label="${msg.label_TextArea_1424354628498}" >
+								<f:validateLength minimum="0" maximum="4000"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1424354628498_id" styleClass="errorMessages TextArea_1424354628498_E" />
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1435241131045}</span>
+							<h:inputText id="TextBox_1435241131045" value="#{ControlLs.header}" styleClass="inputText" disabled="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" label="${msg.label_TextBox_1435241131045}" >
+							<f:validateLength minimum="0" maximum="255" />
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1435241131045_msg" styleClass="errorContainer" ><h:message for="TextBox_1435241131045" styleClass="errorMessages TextBox_1435241131045_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1435241146798" >
+						<label >
+							<span class="label">${msg.label_TextArea_1435241146798}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1435241146798_id" value="#{ControlLs.footer}" style="height: 50px;" readonly="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" label="${msg.label_TextArea_1435241146798}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1435241146798_id" styleClass="errorMessages TextArea_1435241146798_E" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" id="LayoutRow_1468841729557" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1415686254042" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1415686254042}</span>
+								<h:inputText id="MonthCalendar_1415686254042_id" value="#{ControlLs.startValidity}" required="true" disabled="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1415686254042}" onchange="dateCompare(this,'#'+getIdPrefix(this)+'MonthCalendar_1417263530370')"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1415686254042_id" styleClass="errorMessages MonthCalendar_1415686254042_E" />
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1417263530370}</span>
+								<h:inputText id="MonthCalendar_1417263530370" value="#{ControlLs.endValidity}" disabled="#{!userBean.hasRoleIn('admin') or ControlLsAction.temporary['isForHistory']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1417263530370}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1415686254042',this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1417263530370" styleClass="errorMessages MonthCalendar_1417263530370_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468854401638" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="GroupCheckBox_1470189866698" >
+						<label >
+							<span class="label">${msg.label_GroupCheckBox_1470189866698}</span>
+							<h:selectManyCheckbox id="GroupCheckBox_1470189866698_id" value="#{ControlLs.workingLine}" layout="pageDirection" required="true" styleClass="checkGroupTable layoutRequired groupCheckBox" label="${msg.label_GroupCheckBox_1470189866698}" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkingLine')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectManyCheckbox>
+						</label>
+						<h:message for="GroupCheckBox_1470189866698_id" styleClass="errorMessages GroupCheckBox_1470189866698_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="rowSub" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ControlLs}" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1426412823065" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ControlLs.listid and userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory']}" >
+						<div class="layoutVertical" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1417419540773;NewSub')}" status="ajaxStatus" id="Link_1417419540773" title="${msg.alt_Link_1417419540773}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1423140263166" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel id="DataGrid_1415944159550" layout="block" styleClass="dt layoutTable-caption layoutTable layoutVertical" style="padding-bottom:18px;" >#{ControlSubLsAction.setReadPageSize(10)}
+								<div class="captionPaging">
+									<div class="caption">
+										<label for="f1415944159550">${msg.DataGrid_1415944159550} - ${error.FILTER_TABLE}: </label>
+										<input id="f1415944159550" type="text" onkeyup="filterTbl(jQuery('#d1415944159550'), this.value )" label="${msg.DataGrid_1415944159550} - ${error.FILTER_TABLE}: "/>
+									</div>
+									<div class="paging">
+										<ul>
+											<li class="bk"><a4j:commandLink id="prev1415944159550" value="&#8592;" action="#{ControlSubLsList.prev}" reRender="DataGrid_1415944159550" rendered="#{ControlSubLsList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+											<a4j:repeat id="pr1415944159550" value="#{ControlSubLsList.pageIndexes}" var="pi1415944159550">
+												<li class="#{(ControlSubLsList.currentPage eq pi1415944159550 ? 'active' : '')}">
+													<a4j:commandLink id="goTo1415944159550" value="#{pi1415944159550}" action="#{ControlSubLsList.goToPage(pi1415944159550)}" reRender="DataGrid_1415944159550" ajaxSingle="true" status="ajaxStatus" />
+												</li>
+											</a4j:repeat>
+											<li class="fw"><a4j:commandLink id="next1415944159550" value="&#8594;" action="#{ControlSubLsList.next}" reRender="DataGrid_1415944159550" rendered="#{ControlSubLsList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+										</ul>
+									</div>
+								</div>
+							<table id="d1415944159550" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1415944159550} [ControlSubLsList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th style="#{(!ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')}">${msg.DataGridColumn_1417534206532}</th>
+										<th><a4j:commandLink id="DataGridColumn_1416101964238" value="${msg.DataGridColumn_1416101964238} &#8593;&#8595;" action="#{ControlSubLsList.orderBy('listid')}" reRender="DataGrid_1415944159550" ajaxSingle="true" disabled="#{empty ControlSubLsList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1417371719495" value="${msg.DataGridColumn_1417371719495} &#8593;&#8595;" action="#{ControlSubLsList.orderBy('descrCode')}" reRender="DataGrid_1415944159550" ajaxSingle="true" disabled="#{empty ControlSubLsList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1417410995448" value="${msg.DataGridColumn_1417410995448} &#8593;&#8595;" action="#{ControlSubLsList.orderBy('description')}" reRender="DataGrid_1415944159550" ajaxSingle="true" disabled="#{empty ControlSubLsList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1417391847048" value="${msg.DataGridColumn_1417391847048} &#8593;&#8595;" action="#{ControlSubLsList.orderBy('startValidity')}" reRender="DataGrid_1415944159550" ajaxSingle="true" disabled="#{empty ControlSubLsList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1416804551760" value="${msg.DataGridColumn_1416804551760} &#8593;&#8595;" action="#{ControlSubLsList.orderBy('endValidity')}" reRender="DataGrid_1415944159550" ajaxSingle="true" disabled="#{empty ControlSubLsList ? true : false}"/></th>
+										<th style="#{(userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')}">${msg.DataGridColumn_1414905236258}</th>
+									</tr>
+								</thead>
+								<tbody class="tableBody selectable">
+									<jstl:if test="#{empty ControlSubLsList or ControlSubLsList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="7">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1415944159550" value="#{ControlSubLsList.entities}" var="ControlSubLs" rowKeyVar="rowIndex" >
+										<tr id="#{rowIndex}" onclick="ie1415944159550('row;SelSub',this.id);" class="#{ControlSubLsAction.getEntity().equals(ControlSubLs) or ControlSubLs.internalId != 0 and ControlSubLsAction.entity.internalId.equals(ControlSubLs.internalId) ? 'selRow' : ''}" >
+											<td style="#{(!ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')} " >
+												<a4j:commandLink action="#{ControlSubLsAction.injectAndProceed(ControlSubLs, 'Link_1468851281374;EditSub')}" status="ajaxStatus" id="Link_1468851281374" title="${msg.alt_Link_1468851281374}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+											</td>
+
+											<td >
+												<span class="base-label" >#{ControlSubLs.listid}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{ControlSubLs.descrCode}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{ControlSubLs.description}</span>
+											</td>
+
+											<td >
+												<h:outputText styleClass="base-label" value="#{ControlSubLs.startValidity}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+											<td >
+												<h:outputText styleClass="base-label" value="#{ControlSubLs.endValidity}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+											<td style="#{(userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')} " >
+												<a4j:outputPanel layout="block" id="JollyWidget_1417065226679" >
+													<a4j:commandLink id="Button_1253107560597" title="Elimina" 
+														reRender="phiDesktop" limitToList="true"
+														rendered="#{ControlSubLsAction.isDeletable(ControlSubLs)}"
+														action="#{ControlSubLsAction.temporary.put('delList',ControlSubLs)}"
+														styleClass="fa fa-trash fa-2x tableButton"
+														oncomplete="openPopup('deleteSub()','Eliminare la sottolista di controllo?','Procedendo verra\\&#39; eliminata la sottolista di controllo selezionata. Continuare?', 'msg-warning', '#{static.dialog_button_ok}', '#{static.dialog_button_cancel}');" />
+												</a4j:outputPanel>
+
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						<a4j:jsFunction id="ie1415944159550" name="ie1415944159550" status="ajaxStatus" action="#{ControlSubLsList.injectEject}" data="#{ControlSubLsList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1415944159550'))" reRender="rowReq" limitToList="true" ajaxSingle="true">
+							<a4j:actionparam name="mnemonicName" assignTo="#{ControlSubLsList.mnemonicName}"/>
+							<a4j:actionparam name="rowIndex" assignTo="#{ControlSubLsList.selectedIndex}"/>
+						</a4j:jsFunction>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="rowReq" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ControlSubLs}" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1424234225309" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ControlSubLs.listid and userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory']}" >
+						<div class="layoutVertical" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1418341736083;NewReq')}" status="ajaxStatus" id="Link_1418341736083" title="${msg.alt_Link_1418341736083}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1425697824513" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel id="DataGrid_1415235004552" layout="block" styleClass="dt layoutTable-caption layoutTable layoutVertical" >
+								<div class="captionPaging">
+									<div class="caption">
+										<label for="f1415235004552">${msg.DataGrid_1415235004552} - ${error.FILTER_TABLE}: </label>
+										<input id="f1415235004552" type="text" onkeyup="filterTbl(jQuery('#d1415235004552'), this.value )" label="${msg.DataGrid_1415235004552} - ${error.FILTER_TABLE}: "/>
+									</div>
+								</div>
+							<table id="d1415235004552" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1415235004552} [RequisitoList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th style="#{(!ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')}">${msg.DataGridColumn_1415538040853}</th>
+										<th>${msg.DataGridColumn_1416057538984}</th>
+										<th>${msg.DataGridColumn_1414741181429}</th>
+										<th>${msg.DataGridColumn_1415705474865}</th>
+										<th>${msg.DataGridColumn_1414964708193}</th>
+										<th>${msg.DataGridColumn_1418574454993}</th>
+										<th style="#{(userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')}">${msg.DataGridColumn_1414558953992}</th>
+									</tr>
+								</thead>
+								<tbody class="tableBody">
+									<jstl:if test="#{empty RequisitoList or RequisitoList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="7">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1415235004552" value="#{RequisitoList.entities}" var="Requisito" rowKeyVar="rowIndex" >
+										<tr >
+											<td style="#{(!ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')} width:10%;" >
+												<a4j:commandLink action="#{RequisitoAction.injectAndProceed(Requisito, 'Link_1468851282510;EditReq')}" status="ajaxStatus" id="Link_1468851282510" title="${msg.alt_Link_1468851282510}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+											</td>
+
+											<td style="width:10%;" >
+												<span class="base-label" >#{Requisito.reqid}</span>
+											</td>
+
+											<td style="width:10%;" >
+												<span class="base-label" >#{Requisito.descrCode}</span>
+											</td>
+
+											<td style="width:40%;" >
+												<a4j:outputPanel layout="block" id="JollyWidget_1427701041068" >
+													<h:outputText value="#{Requisito.description}" escape="false" />
+												</a4j:outputPanel>
+
+											</td>
+
+											<td style="width:10%;" >
+												<h:outputText styleClass="base-label" value="#{Requisito.startValidity}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+											<td style="width:10%;" >
+												<h:outputText styleClass="base-label" value="#{Requisito.endValidity}" >
+													<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:outputText>
+											</td>
+
+											<td style="#{(userBean.hasRoleIn('admin') and !ControlLsAction.temporary['isForHistory'] ? '' : 'display:none;')} width:10%;" >
+												<a4j:outputPanel layout="block" id="JollyWidget_1416147385225" >
+													<a4j:commandLink id="Button_1253107560597" title="Elimina" 
+														reRender="phiDesktop" limitToList="true"
+														rendered="#{RequisitoAction.isDeletable(Requisito)}"
+														action="#{RequisitoAction.inject(Requisito)}"
+														styleClass="fa fa-trash fa-2x tableButton"
+														oncomplete="openPopup('deleteReq()','Eliminare il requisito?','Procedendo verra\\&#39; eliminato il requisito selezionato. Continuare?', 'msg-warning', '#{static.dialog_button_ok}', '#{static.dialog_button_cancel}');" />
+												</a4j:outputPanel>
+
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+			<a4j:outputPanel layout="block" id="JollyWidget_1414542804464" style="position: absolute;left: 894px;top: 258px;" >
+				<a4j:jsFunction name="deleteSub" action="#{processManager.manageTask('Button_1253107560597;DelSub')}" ajaxSingle="true" reRender="phiDesktop,errorMenu" limitToList="true" status="ajaxStatus"/>
+			</a4j:outputPanel>
+
+			<a4j:outputPanel layout="block" id="JollyWidget_1416319114562" style="position: absolute;left: 942px;top: 258px;" >
+				<a4j:jsFunction name="deleteReq" action="#{processManager.manageTask('Button_1253107560597;DelReq')}" ajaxSingle="true" reRender="phiDesktop,errorMenu" limitToList="true" status="ajaxStatus"/>
+			</a4j:outputPanel>
+
+	</div>
+	<script>focusFirstElement();</script>
+</div>

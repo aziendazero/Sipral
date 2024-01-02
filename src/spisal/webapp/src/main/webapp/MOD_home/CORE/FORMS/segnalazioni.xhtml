@@ -1,0 +1,775 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1447426279738}</h1>
+	<div id="segnalazioni" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1445797142247" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutSgnlznBtnBar" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1455526701703" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1445956180855" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnRefresh;BtnRefresh')}" status="ajaxStatus" id="BtnRefresh" title="${msg.alt_BtnRefresh}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" oncomplete="reloadMap()"/>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{ProtocolloAction.temporary.put('filter',!ProtocolloAction.temporary.get('filter'))}" status="ajaxStatus" id="BtnFilter" title="${msg.alt_BtnFilter}" reRender="lytSegFilters,lytSegFilterBtns" styleClass="fa fa-search fa-3x link" />
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnNew" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnNew;BtnNew')}" status="ajaxStatus" id="BtnNew_id" title="${msg.alt_BtnNew}" rendered="#{Param['p.home.segnalazioni.nuovaSegnalazione'].visible}" disabled="#{Param['p.home.segnalazioni.nuovaSegnalazione'].readOnly}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1455526702520" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="padding:0;display:#{(!empty Protocollo and Param['p.home.segnalazioni.gestioneStati'].visible) ? 'block' : 'none' };" id="LayoutRow_1447767477561" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutContainer layoutContainerVertical" rendered="#{!empty Protocollo and Param['p.home.segnalazioni.gestioneStati'].visible}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1485265253614" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="held" >
+								<a4j:commandLink action="#{processManager.manageTask('held;BtnStatesManagement')}" status="ajaxStatus" id="held_id" title="${msg.alt_held}" style="padding-right:10px;" rendered="#{Protocollo.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-square-o fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="nullified" >
+								<a4j:commandLink action="#{processManager.manageTask('nullified;BtnStatesManagement')}" status="ajaxStatus" id="nullified_id" title="${msg.alt_nullified}" style="padding-right:10px;" rendered="#{Protocollo.statusCode.code=='new'}" reRender="phiPanelMenuContainer,popup" styleClass="fa fa-square fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="active" >
+								<a4j:commandLink action="#{processManager.manageTask('active;BtnStatesManagement')}" status="ajaxStatus" id="active_id" title="${msg.alt_active}" style="padding-right:10px;" rendered="#{Protocollo.statusCode.code=='held'}" reRender="phiDesktop" styleClass="fa fa-check-square-o fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="terminated" >
+								<a4j:commandLink action="#{processManager.manageTask('terminated;BtnStatesManagement')}" status="ajaxStatus" id="terminated_id" title="${msg.alt_terminated}" style="padding-right:10px;" rendered="#{Protocollo.statusCode.code=='held'}" reRender="phiDesktop" styleClass="fa fa-minus-square-o fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="completed" >
+								<a4j:commandLink action="#{processManager.manageTask('completed;BtnStatesManagement')}" status="ajaxStatus" id="completed_id" title="${msg.alt_completed}" style="padding-right:10px;" rendered="#{Protocollo.serviceDeliveryLocation ne null and (Protocollo.statusCode.code=='active' or (Protocollo.uos.area.code == 'WORKMEDICINE' and Protocollo.statusCode.code!='completed'))}" reRender="phiDesktop" styleClass="fa fa-check-square fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="obsolete" >
+								<a4j:commandLink action="#{processManager.manageTask('obsolete;BtnStatesManagement')}" status="ajaxStatus" id="obsolete_id" title="${msg.alt_obsolete}" rendered="#{Protocollo.statusCode.code=='terminated' and false}" reRender="phiDesktop" styleClass="fa fa-archive fa-3x link" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1485265255343" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="cancelled" >
+								<a4j:commandLink action="#{processManager.manageTask('cancelled;BtnStatesManagement')}" status="ajaxStatus" id="cancelled_id" title="${msg.alt_cancelled}" style="padding-right:10px;" rendered="#{Protocollo.statusCode.code=='new' and (empty Protocollo.riferimentoCantiere or Protocollo.riferimentoCantiere.idPnc eq null or Protocollo.riferimentoCantiere.idPnc eq '')}" reRender="popup,phiDesktop" styleClass="fa fa-trash fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="back" >
+								<a4j:commandLink action="#{processManager.manageTask('back;BtnStatesManagement')}" status="ajaxStatus" id="back_id" title="${msg.alt_back}" rendered="#{!function.hasCodeIn(Protocollo.statusCode.code,'new','cancelled')}" reRender="phiDesktop" styleClass="fa fa-reply-all fa-3x link" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div class="layoutVertical" >
+						<h:outputText value="#{ProtocolloAction.temporary['stateMessage']}" id="Label_1484824092308" style="display:block;" styleClass="labelContent c-text-0080FF c-text-bold base-label" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1455526033953" style="width:16%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnManagement" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnManagement;BtnManagement')}" status="ajaxStatus" id="BtnManagement_id" title="${msg.alt_BtnManagement}" rendered="#{!empty Protocollo and Param['p.home.segnalazioni.gestioneSegnalazione'].visible}" disabled="#{Param['p.home.segnalazioni.gestioneSegnalazione'].readOnly}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnLinkMulti" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnLinkMulti;BtnLinkMulti')}" status="ajaxStatus" id="BtnLinkMulti_id" title="${msg.alt_BtnLinkMulti}" rendered="#{!empty Protocollo and Param['p.home.segnalazioni.gestioneSegnalazione'].visible}" disabled="#{Param['p.home.segnalazioni.gestioneSegnalazione'].readOnly}" reRender="phiDesktop" styleClass="associaapraticaesistente link" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnSegnAlfrescoDocEdit" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnSegnAlfrescoDocEdit;BtnSegnAlfrescoDocEdit')}" status="ajaxStatus" id="BtnSegnAlfrescoDocEdit_id" title="${msg.alt_BtnSegnAlfrescoDocEdit}" rendered="#{!empty Protocollo}" reRender="phiDesktop" styleClass="fa fa-file-text-o fa-3x link readOnly" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1519984743832" style="width:17%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" style="float: right;" >
+						<a4j:outputPanel layout="block" id="lnkSgnCsv" style="height:100%;width:100%;" rendered="false" >
+							<a4j:commandLink action="#{ProtocolloAction.generateCoordinateExportFile(ProtocolloList)}" status="ajaxStatus"  id="lnkSgnCsvGn" title="Export coordinate" 
+								styleClass="fa fa-download fa-3x link" style="cursor: default;" oncomplete="document.getElementById('i:lnkSgnCsvDwnld').click();">
+							</a4j:commandLink>
+									                <s:link action="#{downloadAttachment.download}" id="lnkSgnCsvDwnld" title="Export coordinate" target="_self">
+									                    <f:param name="path" value="#{function.concat('ImpiantiDocument.',-1)}" />
+									                </s:link>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" style="float:right;" >
+						<a id="lnkSgnTgglMap" onclick="stopPropagation(event);toggleMap(this)" title="${msg.alt_lnkSgnTgglMap}" class="fa fa-map-o fa-3x unselected link" />
+						</div>
+
+						<div class="layoutHorizontal" style="float:right;" >
+						<a id="lnkSgnTgglTbl" onclick="stopPropagation(event);toggleTable(this)" title="${msg.alt_lnkSgnTgglTbl}" class="fa fa-table fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<a4j:outputPanel layout="block" id="jwSegStyle" style="height:100%;width:100%;" >
+					<style>
+					#i\:lytSegFilters1row .label, #i\:lytSegFilters1row .widget-label {
+					    width:initial;
+					}
+					#i\:lytSegFilters > div > fieldset > div, #i\:lytSegFilters .layoutRoot {
+					    /*display:flex; justify-content: space-between;*/
+					}
+					#i\:lytSegFilters > div > fieldset > div > fieldset > div, #i\:lytSegFilters .layoutRoot > div {
+					    margin-right: 30px;
+					}
+					#i\:lytSegFilters1row .layoutGroupBox {
+					  border:none;
+					}
+					</style>
+				</a4j:outputPanel>
+				</div>
+
+				<a4j:outputPanel layout="block" style="max-height:50%;overflow:auto;padding:0;" id="lytSegFilters" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filter']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.lytSegFilters}</legend>
+					<a4j:outputPanel layout="block" id="lytSegFilters1row" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1530602687980" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1530602687980}</legend>
+							<div class="layoutHorizontal" >
+							<h:selectOneMenu id="ComboBox_1456244019489" value="#{ProtocolloAction.temporary['selectedULSS']}" disabled="#{Param['home.segnalazioni.nuovaSegnalazione'].readOnly}" styleClass="filter comboBox" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getUlss()}" />
+							</h:selectOneMenu>
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1530599941400" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1530599941400}</legend>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1455783409147" >
+							<h:selectOneMenu id="ComboBox_1455783409147_id" value="#{ProtocolloAction.equal['uos.area']}" rendered="#{ProtocolloAction.temporary['showUOS']}" disabled="#{ProtocolloAction.equal['uos.area'].code!=null}" styleClass="filter filterLine comboBox" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkingLine')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1455783409147,vpFilters" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+							</a4j:outputPanel>
+
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1490011287346" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1490011287346}</legend>
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1445564992508}</span>
+								<h:inputText id="TextBox_1445564992508" value="#{ProtocolloAction.equal['nprotocollo']}" styleClass="filter inputText" label="${msg.label_TextBox_1445564992508}" >
+								<f:converter converterId="BigDecimalConverter"/>
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1445564992508_msg" styleClass="errorContainer" ><h:message for="TextBox_1445564992508" styleClass="errorMessages TextBox_1445564992508_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1486730495580}</span>
+								<h:inputText id="MonthCalendar_1486730495580" value="#{ProtocolloAction.greaterEqual['dataProtocollo']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1486730495580}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1486730495580" styleClass="errorMessages MonthCalendar_1486730495580_E" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1487323753282}</span>
+								<h:inputText id="MonthCalendar_1487323753282" value="#{ProtocolloAction.lessEqual['dataProtocollo']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1487323753282}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1487323753282" styleClass="errorMessages MonthCalendar_1487323753282_E" />
+							</label>
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1490011287001" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1490011287001}</legend>
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1447849558570}</span>
+								<h:inputText id="MonthCalendar_1447849558570" value="#{ProtocolloAction.greaterEqual['data']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1447849558570}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1447849558570" styleClass="errorMessages MonthCalendar_1447849558570_E" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1456819404143}</span>
+								<h:inputText id="MonthCalendar_1456819404143" value="#{ProtocolloAction.lessEqual['data']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1456819404143}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1456819404143" styleClass="errorMessages MonthCalendar_1456819404143_E" />
+							</label>
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1460435836191" styleClass="layoutContainer layoutContainerVertical" rendered="false" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_RadioGroup_1460300039970}</span>
+							<h:selectOneRadio id="RadioGroup_1460300039970" value="#{ProtocolloAction.temporary['riferimento']}" styleClass="filter radioGroupTable radioGroup" label="${msg.label_RadioGroup_1460300039970}" >
+							<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Cantiere,Utente,Interno,Anonimo,Altro')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1460435836191" event="onclick" action="#{ProtocolloAction.getEqual().remove('riferimentoEntita')}" ignoreDupResponses="true" />
+							</h:selectOneRadio>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnFilterBy" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnFilterBy;BtnFilterBy')}" status="ajaxStatus" id="BtnFilterBy_id" alt="#{LINK}" rendered="#{ProtocolloAction.temporary.get('riferimento') ne null and ProtocolloAction.temporary.get('riferimento')!='Altro' and ProtocolloAction.temporary.get('riferimento')!='Anonimo'}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1507278973886" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1507278973886}</legend>
+						<a4j:outputPanel layout="block" id="VirtualPage_1507278541549" styleClass="virtualPageBox" >
+							<a4j:include id="VPfiltriRiferimentiProtocolloVP" layout="block" viewId="/MOD_home/CORE/FORMS/filtriRiferimentiProtocolloVP.xhtml"  styleClass="virtualPageBox"/>
+						</a4j:outputPanel>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1456922453504" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1456922453504}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1530602722484" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1530602722484}</legend>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1507294834196" value="#{ProtocolloAction.temporary['new']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1507294834196}" />
+							<h:outputLabel value="${msg.CheckBox_1507294834196}" for="CheckBox_1507294834196" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1507294834196" styleClass="errorMessages CheckBox_1507294834196_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1507294834196" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1447754246685" value="#{ProtocolloAction.temporary['nullified']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1447754246685}" />
+							<h:outputLabel value="${msg.CheckBox_1447754246685}" for="CheckBox_1447754246685" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1447754246685" styleClass="errorMessages CheckBox_1447754246685_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1447754246685" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1447754276781" value="#{ProtocolloAction.temporary['terminated']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1447754276781}" />
+							<h:outputLabel value="${msg.CheckBox_1447754276781}" for="CheckBox_1447754276781" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1447754276781" styleClass="errorMessages CheckBox_1447754276781_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1447754276781" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1447754274653" value="#{ProtocolloAction.temporary['completed']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1447754274653}" />
+							<h:outputLabel value="${msg.CheckBox_1447754274653}" for="CheckBox_1447754274653" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1447754274653" styleClass="errorMessages CheckBox_1447754274653_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1447754274653" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1462105597491" value="#{ProtocolloAction.temporary['cancelled']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1462105597491}" />
+							<h:outputLabel value="${msg.CheckBox_1462105597491}" for="CheckBox_1462105597491" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1462105597491" styleClass="errorMessages CheckBox_1462105597491_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1462105597491" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1467474237430" value="#{ProtocolloAction.temporary['obsolete']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" rendered="false" label="${msg.CheckBox_1467474237430}" />
+							<h:outputLabel value="${msg.CheckBox_1467474237430}" for="CheckBox_1467474237430" rendered="false" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1467474237430" styleClass="errorMessages CheckBox_1467474237430_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv" rendered="false"  for="CheckBox_1467474237430" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1507294855795" value="#{ProtocolloAction.temporary['allstates']}" style="vertical-align:middle;" styleClass="filter checkBox" alt="CHECKBOX" label="${msg.CheckBox_1507294855795}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1456922453504" event="onclick" action="#{ProtocolloAction.resetStates()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1507294855795}" for="CheckBox_1507294855795" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1507294855795" styleClass="errorMessages CheckBox_1507294855795_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1507294855795" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1478562732367" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1478562732367}</legend>
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnFilterType;BtnFilterType')}" status="ajaxStatus" id="BtnFilterType" title="${msg.alt_BtnFilterType}" reRender="popup" styleClass="fa fa-filter fa-3x link" />
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:outputText value="#{ProtocolloAction.printComplexTypes(ProtocolloAction.temporary['complexTypes'])}" id="Label_1477317589465" style="display:block;" styleClass="labelContent  base-label" />
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="margin-bottom:2px;padding:0;" id="LayoutRow_1477958553617" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ProtocolloAction.temporary.get('complexTypes') and ProtocolloAction.temporary.get('complexTypes').size() gt 0 and function.propertyAsList(ProtocolloAction.temporary.get('complexTypes'),'code').contains('4')}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1477958553617}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1490011768064" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1477314700251}</span>
+								<h:inputText id="TextBox_1477314700251" value="#{ProtocolloAction.like['riferimentoCantiere.addr.str']}" styleClass="filter inputText" label="${msg.label_TextBox_1477314700251}" />
+								<a4j:outputPanel id="TextBox_1477314700251_msg" styleClass="errorContainer" ><h:message for="TextBox_1477314700251" styleClass="errorMessages TextBox_1477314700251_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1477659731742" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1477659731742}</span>
+								#{ProtocolloAction.autocomplete['riferimentoCantiere.addr'].setContentType('0')}
+								#{ProtocolloAction.autocomplete['riferimentoCantiere.addr'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1477659731742_MAIN" value="#{ProtocolloAction.equal['riferimentoCantiere.addr.cty']}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1477659731742}" />
+								<h:outputLabel for="TextSuggestionBox_1477659731742_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1477659731742_CPA" value="#{ProtocolloAction.equal['riferimentoCantiere.addr.cpa']}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1477659731742_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1477659731742_ZIP" value="#{ProtocolloAction.equal['riferimentoCantiere.addr.zip']}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1477659731742_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1477659731742_CODE" value="#{ProtocolloAction.equal['riferimentoCantiere.addr.code']}" label="${msg.label_TextSuggestionBox_1477659731742}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1477659731742_CODE" styleClass="errorMessages TextSuggestionBox_1477659731742_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1477659731742" action="#{ProtocolloAction.autocomplete['riferimentoCantiere.addr'].autocomplete()}" data="#{ProtocolloAction.autocomplete['riferimentoCantiere.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{ProtocolloAction.autocomplete['riferimentoCantiere.addr'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1477314380111}</span>
+								<h:inputText id="MonthCalendar_1477314380111" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.inizioLavori']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1477314380111}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1477314380111" styleClass="errorMessages MonthCalendar_1477314380111_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1477314391463}</span>
+								<h:inputText id="MonthCalendar_1477314391463" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.inizioLavori']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1477314391463}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1477314391463" styleClass="errorMessages MonthCalendar_1477314391463_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1522160469041}</span>
+								<h:inputText id="MonthCalendar_1522160469041" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.fineLavori']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1522160469041}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1522160469041" styleClass="errorMessages MonthCalendar_1522160469041_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1522160473128}</span>
+								<h:inputText id="MonthCalendar_1522160473128" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.fineLavori']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1522160473128}"  autocomplete="off" >
+								<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1522160473128" styleClass="errorMessages MonthCalendar_1522160473128_E" />
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1478571057171" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1478571057171}</span>
+								<input type="text" id="TextSuggestionBox_1478571057171_MAIN" class="autocomplete inputText" value="#{CantiereAction.equal['tagCantiere.tipologiaCantiere'].type}"  />
+								<h:outputLabel for="TextSuggestionBox_1478571057171_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1478571057171_CODE" value="#{CantiereAction.equal['tagCantiere.tipologiaCantiere']}" label="${msg.label_TextSuggestionBox_1478571057171}"  style="display: none">
+									<f:converter converterId="EntityConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1478571057171_CODE" styleClass="errorMessages TextSuggestionBox_1478571057171_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1478571057171" action="#{TipologiaCantiereAction.read()}" data="#{TipologiaCantiereList.list}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{TipologiaCantiereAction.like['type']}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1523564340397" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1521851099961" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1523048044712}</span>
+									<h:inputText id="TextBox_1523048044712" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.maxWorkers']}" styleClass="inputText" label="${msg.label_TextBox_1523048044712}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1523048044712_msg" styleClass="errorContainer" ><h:message for="TextBox_1523048044712" styleClass="errorMessages TextBox_1523048044712_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1522860079559}</span>
+									<h:inputText id="TextBox_1522860079559" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.maxWorkers']}" styleClass="inputText" label="${msg.label_TextBox_1522860079559}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1522860079559_msg" styleClass="errorContainer" ><h:message for="TextBox_1522860079559" styleClass="errorMessages TextBox_1522860079559_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1521404862925" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1522171135301}</span>
+									<h:inputText id="TextBox_1522171135301" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.numeroImprese']}" styleClass="inputText" label="${msg.label_TextBox_1522171135301}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1522171135301_msg" styleClass="errorContainer" ><h:message for="TextBox_1522171135301" styleClass="errorMessages TextBox_1522171135301_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1521820807903}</span>
+									<h:inputText id="TextBox_1521820807903" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.numeroImprese']}" styleClass="inputText" label="${msg.label_TextBox_1521820807903}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1521820807903_msg" styleClass="errorContainer" ><h:message for="TextBox_1521820807903" styleClass="errorMessages TextBox_1521820807903_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1522765786974" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1522487535543}</span>
+									<h:inputText id="TextBox_1522487535543" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.numeroAutonomi']}" styleClass="inputText" label="${msg.label_TextBox_1522487535543}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1522487535543_msg" styleClass="errorContainer" ><h:message for="TextBox_1522487535543" styleClass="errorMessages TextBox_1522487535543_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1521567769332}</span>
+									<h:inputText id="TextBox_1521567769332" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.numeroAutonomi']}" styleClass="inputText" label="${msg.label_TextBox_1521567769332}" >
+									<f:converter converterId="IntegerConverter"/>
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1521567769332_msg" styleClass="errorContainer" ><h:message for="TextBox_1521567769332" styleClass="errorMessages TextBox_1521567769332_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1520107021464" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1521620628164" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1520017590804}</span>
+									<h:inputText id="TextBox_1520017590804" value="#{ProtocolloAction.greaterEqual['riferimentoCantiere.cost']}" styleClass="inputText" label="${msg.label_TextBox_1520017590804}" >
+									<f:converter converterId="DoubleConverter"/>
+									<f:attribute name="cMaximumFractionDigits" value="2" />
+									<f:attribute name="cMinimumFractionDigits" value="2" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1520017590804_msg" styleClass="errorContainer" ><h:message for="TextBox_1520017590804" styleClass="errorMessages TextBox_1520017590804_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1524038087480}</span>
+									<h:inputText id="TextBox_1524038087480" value="#{ProtocolloAction.lessEqual['riferimentoCantiere.cost']}" styleClass="inputText" label="${msg.label_TextBox_1524038087480}" >
+									<f:converter converterId="DoubleConverter"/>
+									<f:attribute name="cMaximumFractionDigits" value="2" />
+									<f:attribute name="cMinimumFractionDigits" value="2" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1524038087480_msg" styleClass="errorContainer" ><h:message for="TextBox_1524038087480" styleClass="errorMessages TextBox_1524038087480_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1524028675510" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1476153669656}</span>
+									<h:inputText id="TextBox_1476153669656" value="#{ProtocolloAction.temporary['committente']}" styleClass="filter inputText" label="${msg.label_TextBox_1476153669656}" />
+									<a4j:outputPanel id="TextBox_1476153669656_msg" styleClass="errorContainer" ><h:message for="TextBox_1476153669656" styleClass="errorMessages TextBox_1476153669656_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1522088634326}</span>
+									<h:inputText id="TextBox_1522088634326" value="#{ProtocolloAction.filterByRespOrCoord}" styleClass="inputText" label="${msg.label_TextBox_1522088634326}" />
+									<a4j:outputPanel id="TextBox_1522088634326_msg" styleClass="errorContainer" ><h:message for="TextBox_1522088634326" styleClass="errorMessages TextBox_1522088634326_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1490011769160" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1483451641311" >
+							<label >
+								<span class="label">${msg.label_TextArea_1483451641311}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1483451641311_id" value="#{ProtocolloAction.like['riferimentoCantiere.naturaOpera']}" label="${msg.label_TextArea_1483451641311}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1483451641311_id" styleClass="errorMessages TextArea_1483451641311_E" />
+							</a4j:outputPanel>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1477314361039}</span>
+								<h:inputText id="TextBox_1477314361039" value="#{ProtocolloAction.greater['riferimentoCantiere.durataLavori']}" styleClass="filter inputText" label="${msg.label_TextBox_1477314361039}" >
+								<f:converter converterId="IntegerConverter"/>
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1477314361039_msg" styleClass="errorContainer" ><h:message for="TextBox_1477314361039" styleClass="errorMessages TextBox_1477314361039_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1521766966422}</span>
+								<h:inputText id="TextBox_1521766966422" value="#{ProtocolloAction.like['riferimentoCantiere.ditteCantiere.personeGiuridiche.denominazione']}" styleClass="inputText" label="${msg.label_TextBox_1521766966422}" />
+								<a4j:outputPanel id="TextBox_1521766966422_msg" styleClass="errorContainer" ><h:message for="TextBox_1521766966422" styleClass="errorMessages TextBox_1521766966422_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="margin-bottom:2px;padding:0;" id="LayoutRow_1484770281604" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ProtocolloAction.temporary.get('complexTypes') and ProtocolloAction.temporary.get('complexTypes').size() gt 0 and function.propertyAsList(ProtocolloAction.temporary.get('complexTypes'),'code').contains('5')}" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1484770281604}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1483969663678" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1483969391314}</span>
+								<h:selectOneMenu id="ComboBox_1483969391314" value="#{ProtocolloAction.equal['dettagliBonifiche.tipoSegnalazione']}" styleClass="comboBox" label="${msg.label_ComboBox_1483969391314}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:PlanType')}" />
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1483969713678" event="onchange" ignoreDupResponses="true" />
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1483969703358}</span>
+								<h:selectOneMenu id="ComboBox_1483969703358" value="#{ProtocolloAction.equal['dettagliBonifiche.tipoBonifica']}" styleClass="comboBox" label="${msg.label_ComboBox_1483969703358}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoBonifica')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1483969713678" >
+							<label style="display:#{(ProtocolloAction.equal['dettagliBonifiche.tipoSegnalazione'].code=='1') ? 'block' : 'none' };" >
+								<span class="label">${msg.label_ComboBox_1483969713678}</span>
+								<h:selectOneMenu id="ComboBox_1483969713678_id" value="#{ProtocolloAction.equal['dettagliBonifiche.tipoConfinamento']}" rendered="#{ProtocolloAction.equal['dettagliBonifiche.tipoSegnalazione'].code=='1'}" styleClass="comboBox" label="${msg.label_ComboBox_1483969713678}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoConfinamento')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<label style="display:none;" >
+								<span class="widget-label">${msg.label_TextBox_1483969725734}</span>
+								<h:inputText id="TextBox_1483969725734" value="#{ProtocolloAction.like['dettagliBonifiche.tipoMaterialeText']}" styleClass="inputText" rendered="false" label="${msg.label_TextBox_1483969725734}" />
+								<a4j:outputPanel id="TextBox_1483969725734_msg" styleClass="errorContainer" ><h:message for="TextBox_1483969725734" styleClass="errorMessages TextBox_1483969725734_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1483969736421}</span>
+								<h:selectOneMenu id="ComboBox_1483969736421" value="#{ProtocolloAction.equal['dettagliBonifiche.tipoMatrice']}" styleClass="comboBox" label="${msg.label_ComboBox_1483969736421}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoMatrice')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1483969664438" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1483970432382}</span>
+								<h:inputText id="TextBox_1483970432382" value="#{ProtocolloAction.like['dettagliBonifiche.naturaOpera']}" styleClass="inputText" label="${msg.label_TextBox_1483970432382}" />
+								<a4j:outputPanel id="TextBox_1483970432382_msg" styleClass="errorContainer" ><h:message for="TextBox_1483970432382" styleClass="errorMessages TextBox_1483970432382_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1483970433190}</span>
+								<h:inputText id="TextBox_1483970433190" value="#{ProtocolloAction.like['dettagliBonifiche.committente']}" styleClass="inputText" label="${msg.label_TextBox_1483970433190}" />
+								<a4j:outputPanel id="TextBox_1483970433190_msg" styleClass="errorContainer" ><h:message for="TextBox_1483970433190" styleClass="errorMessages TextBox_1483970433190_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1483970434198}</span>
+								<h:inputText id="TextBox_1483970434198" value="#{ProtocolloAction.like['dettagliBonifiche.addr.str']}" styleClass="inputText" label="${msg.label_TextBox_1483970434198}" />
+								<a4j:outputPanel id="TextBox_1483970434198_msg" styleClass="errorContainer" ><h:message for="TextBox_1483970434198" styleClass="errorMessages TextBox_1483970434198_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1483970443878" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1483970443878}</span>
+								#{ProtocolloAction.autocomplete['dettagliBonifiche.addr'].setContentType('0')}
+								#{ProtocolloAction.autocomplete['dettagliBonifiche.addr'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1483970443878_MAIN" value="#{ProtocolloAction.equal['dettagliBonifiche.addr.cty']}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1483970443878}" />
+								<h:outputLabel for="TextSuggestionBox_1483970443878_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1483970443878_CPA" value="#{ProtocolloAction.equal['dettagliBonifiche.addr.cpa']}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1483970443878_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1483970443878_ZIP" value="#{ProtocolloAction.equal['dettagliBonifiche.addr.zip']}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1483970443878_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1483970443878_CODE" value="#{ProtocolloAction.equal['dettagliBonifiche.addr.code']}" label="${msg.label_TextSuggestionBox_1483970443878}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1483970443878_CODE" styleClass="errorMessages TextSuggestionBox_1483970443878_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1483970443878" action="#{ProtocolloAction.autocomplete['dettagliBonifiche.addr'].autocomplete()}" data="#{ProtocolloAction.autocomplete['dettagliBonifiche.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{ProtocolloAction.autocomplete['dettagliBonifiche.addr'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="vpFilters" styleClass="virtualPageBox" >
+						<a4j:include id="VPvp_segnalazioni_filters_workaccident" layout="block" viewId="/MOD_home/CORE/FORMS/vp_segnalazioni_filters_workaccident.xhtml" rendered="#{function.hasCodeIn(ProtocolloAction.equal['uos.area'].code,'WORKACCIDENT') or (not empty ProtocolloAction.temporary.get('complexTypes') and ProtocolloAction.temporary.get('complexTypes').size() gt 0 and function.propertyAsList(ProtocolloAction.temporary.get('complexTypes'),'code').contains('1'))}"  styleClass="virtualPageBox"/>
+						<a4j:include id="VPvp_segnalazioni_filters_workdisease" layout="block" viewId="/MOD_home/CORE/FORMS/vp_segnalazioni_filters_workdisease.xhtml" rendered="#{function.hasCodeIn(ProtocolloAction.equal['uos.area'].code,'WORKDISEASE')}"  styleClass="virtualPageBox"/>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;text-align:center;" id="lytSegFilterBtns" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filter']}" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnFilterApply;BtnFilterApply')}" status="ajaxStatus" id="BtnFilterApply" title="${msg.alt_BtnFilterApply}" reRender="vpTable,lytSegFilters" styleClass="fa fa-search fa-3x hotKeyF4 link" oncomplete="reloadMap()"/>
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnFilterCancel;BtnFilterCancel')}" status="ajaxStatus" id="BtnFilterCancel" title="${msg.alt_BtnFilterCancel}" reRender="lytSegFilters" styleClass="fa fa-eraser fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1666314467534" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+							var iconMonitor = jQuery(".fa-display-medical");
+							var iconDisplay = jQuery(".fa-display-medical-arrow-down");
+							var iconCircle = jQuery(".fa-question-circle");
+							
+							iconMonitor.each( function(){
+								 jQuery(this).attr('title','Anagrafiche validate');
+							});
+							
+							iconDisplay.each( function(){
+								if(jQuery(this).prev().hasClass("fa-question-circle")){
+									 jQuery(this).attr('title','Variazione da validare');
+								}else{
+									 jQuery(this).attr('title','Variazione'); 
+								}
+							});
+						
+							
+							iconCircle.each( function(){
+								if(jQuery(this).next().hasClass("fa-display-medical-arrow-down")){
+									 jQuery(this).attr('title','Variazione da validare');
+								}else{
+									 jQuery(this).attr('title','Nuova da validare'); 
+								}
+							});
+						
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="lytSegTblOrMap" style="display:flex;flex:2;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="vpTable" styleClass="virtualPageBox" >
+						<a4j:include id="VPvp_segnalazioni_list_generic" layout="block" viewId="/MOD_home/CORE/FORMS/vp_segnalazioni_list_generic.xhtml" rendered="#{ProtocolloAction.temporary.get('workingLine')==null or ProtocolloAction.temporary.get('workingLine')!='WORKACCIDENT'}"  styleClass="virtualPageBox"/>
+						<a4j:include id="VPvp_segnalazioni_list_workaccident" layout="block" viewId="/MOD_home/CORE/FORMS/vp_segnalazioni_list_workaccident.xhtml" rendered="#{ProtocolloAction.temporary.get('workingLine')=='WORKACCIDENT'}"  styleClass="virtualPageBox"/>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" id="lytGoogleMap" style="width:100%;display:none;" styleClass="layoutContainer layoutContainerHorizontal" >
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JwTableMap" style="height:100%;width:100%;" >
+						<style>
+						.unselected {
+						  color: #ccc;
+						}
+						.info i {
+						  line-height 20px;
+						}
+						.comm-type {
+						  padding: 20px;
+						  font-size: 16px;
+						  line-height: 40px;
+						}
+						.info {
+						  //max-width: 350px;
+						}
+						.info dt {
+						  font-weight: bold;
+						  display: inline-block;
+						  min-width: 170px;
+						}
+						</style>
+						<a4j:jsFunction  name="reRenderComunicazioni" reRender="vpTable, LayoutSgnlznBtnBar"  limitToList="false"   immediate="true" ajaxSingle="true">
+						</a4j:jsFunction>
+						<a4j:jsFunction  name="manageTask"  action="#{processManager.manageTask}"   reRender="phiDesktop, header, errorMenu"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+						  <a4j:actionparam name="value" assignTo="#{button.value}"/>
+						  <a4j:actionparam name="mnemonic" assignTo="#{button.mnemonic}"/>
+						</a4j:jsFunction>
+						<script>
+						
+						var googleMapsUtils = new GoogleMapsUtils('#{geolocation.googleMapsApiKeyFromUrl()}');
+						
+						function toggleTable(btn) {
+						  var tbl = document.getElementById('i:vpTable');
+						  tbl.style.display = tbl.style.display === 'none' ? '' : 'none';
+						  btn.classList.toggle("unselected");
+						}
+						
+						function toggleMap(btn) {
+						  var map = document.getElementById('i:lytGoogleMap');
+						  if (map.style.display === 'none') {
+						    map.style.display = '';
+						    reloadMap();
+						  } else {
+						    map.style.display = 'none';
+						  }
+						  btn.classList.toggle("unselected");
+						}
+						function reloadMap() {
+						  googleMapsUtils.initProtocolloMap(document.getElementById('i:lytGoogleMap'), reRenderComunicazioni);
+						}
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

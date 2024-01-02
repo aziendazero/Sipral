@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="getInail">
+
+
+	<start-state name="start-state1">
+		<transition to="Read Scadenze"></transition>
+	</start-state>
+
+
+	<node name="inject cs">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('PHIDIC').id)}"></action>
+			<action name="2" expression="#{ScadenzaTipoComAction.eject()}"></action>
+		</event>
+		<transition to="Gestione scadenza"></transition>
+	</node>
+
+	<task-node name="Gestione scadenza">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/popup/scadenza')}"></action>
+		</event>
+		<transition to="operation?"></transition>
+	</task-node>
+
+	<decision name="operation?" expression="#{button.mnemonic}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="super-state1/Create Scadenza" name="BtnSave"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValuePhiAction.eject()}"></action>
+			<action name="2" expression="#{CodeSystemAction.eject()}"></action>
+			<action name="3" expression="#{ScadenzaTipoComAction.eject()}"></action>
+			<action name="4" expression="#{ScadenzaTipoComAction.ejectList()}"></action>
+		</event>
+		<transition to="Read Scadenze"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Create Scadenza">
+			<event type="node-enter">
+				<action name="1" expression="#{ScadenzaTipoCom.setCode(CodeValuePhi)}"></action>
+				<action name="2" expression="#{ScadenzaTipoComAction.link('ulss',ServiceDeliveryLocation)}"></action>
+				<action name="3" expression="#{ScadenzaTipoComAction.create()}"></action>
+			</event>
+			<transition to="../eject"></transition>
+		</node>
+	</super-state>
+
+	<node name="Read Scadenze">
+		<event type="node-enter">
+			<action name="1" expression="#{ScadenzaTipoComAction.equal.put('ulss',ServiceDeliveryLocation)}"></action>
+			<action name="2" expression="#{ScadenzaTipoComAction.orderBy.put('code.displayName','ascending')}"></action>
+			<action name="3" expression="#{ScadenzaTipoComAction.read()}"></action>
+		</event>
+		<transition to="Scadenze UI"></transition>
+	</node>
+
+	<task-node name="Scadenze UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_HBS/CORE/FORMS/scadenzeULSS')}"></action>
+		</event>
+		<transition to="Button1?"></transition>
+	</task-node>
+
+	<decision name="Button1?" expression="#{button.mnemonic}">
+		<transition to="end-state2" name="BtnBack"></transition>
+		<transition to="inject cs" name="BtnNew"></transition>
+		<transition to="super-state2/Delete" name="BtnDelete"></transition>
+	</decision>
+
+	<super-state name="super-state2">
+		<node name="Delete">
+			<event type="node-enter">
+				<action name="1" expression="#{ScadenzaTipoComAction.unLink('ulss',ServiceDeliveryLocation)}"></action>
+				<action name="2" expression="#{ScadenzaTipoComAction.delete()}"></action>
+			</event>
+			<transition to="../Read Scadenze"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

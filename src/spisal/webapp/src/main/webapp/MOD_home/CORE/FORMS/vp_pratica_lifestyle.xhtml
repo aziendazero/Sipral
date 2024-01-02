@@ -1,0 +1,1315 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1472503696032" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1472730714128" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{ProcpraticheAction.temporary.put('showRiferimenti',!ProcpraticheAction.temporary['showRiferimenti'])}" status="ajaxStatus" id="Link_1473066459744" title="${msg.alt_Link_1473066459744}" reRender="LayoutRow_1470689126004" styleClass="fa fa-bars fa-2x link readOnly" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1471599869527}" class="labelContent  base-label" >${msg.Label_1471599869527}</span>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1588587489717" style="height:100%;width:100%;" >
+						<!-- Disabilitazione eventi dei pulsanti della georeferenziazione al primo mouseup-->
+						<!-- Verranno riabilitati durante la visualizzazione del popup corrispondente -->
+						<style>
+						.unclickable{
+							pointer-events: none;
+						}
+						</style>
+						<script>
+							jQuery("a").on('mouseup', function(e){
+								//console.log(jQuery(this));
+								// Elenco link da disabilitare
+								var toBeDisabled =["Link_localization1","Link_1509432112226","Link_1507744218860"];
+								var replacedId = '';
+								
+								if(jQuery(this).attr('id')!==undefined){
+									replacedId = jQuery(this).attr('id').replace(/:/g,'-');
+								}
+							    for (var i = 0; i <!--<--> toBeDisabled.length; i++) {
+									if(replacedId.match(toBeDisabled[i])){
+										jQuery(this).addClass('unclickable');		
+									}	
+								}
+							})
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1470689126004" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProcpraticheAction.temporary['showRiferimenti']}" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1470684881029" style="width:100%;padding-bottom: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1472065593524" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1472410074278" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1472585903425}" class="labelContent c-text-0080FF c-text-16 c-text-bold, *.label, *.widget-label base-label" >${msg.Label_1472585903425}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1474090294790" value="#{PraticheRiferimenti.richiedente}" styleClass="c-text-16 filter radioGroupTable radioGroup" label="${msg.Label_1472585903425}" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Utente,Interno,Medico,Anonimo')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1472324857922,LayoutRow_1473296987068,Link_1463143700085" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+								<script>setDefaultValue('RadioGroup_1474090294790','#{vocabularies.getCodeValueExtendedId("PHIDIC","TargetSource:NonPrevisto")}')</script>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1473296987068" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1485483819459" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(PraticheRiferimenti, 'Richiedente')}" status="ajaxStatus" id="Link_1485483819459_id" title="${msg.alt_Link_1485483819459}" rendered="#{OperationManager.hasDetail(PraticheRiferimenti, 'Richiedente')}" reRender="popup" styleClass="fa fa-info-circle fa-3x link readOnly" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1498510160234" >
+								<a4j:commandLink action="#{OperationManager.manageEdit(PraticheRiferimenti, 'Richiedente', PraticheRiferimenti.richiedente.code, null)}" status="ajaxStatus" id="Link_1498510160234_id" title="${msg.alt_Link_1498510160234}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.richiedente.code,'NonPrevisto','Anonimo') and OperationManager.hasDetail(PraticheRiferimenti, 'Richiedente')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x save link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1470489661451" >
+								<a4j:commandLink action="#{OperationManager.manageLink(PraticheRiferimenti, 'Richiedente', PraticheRiferimenti.richiedente.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1470489661451_id" title="${msg.alt_Link_1470489661451}" rendered="#{PraticheRiferimenti.richiedente != null and PraticheRiferimenti.richiedente.code ne 'NonPrevisto' and PraticheRiferimenti.richiedente.code ne 'Anonimo'}" reRender="phiDesktop" styleClass="fa fa-search fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1501769854985" >
+								<a4j:commandLink action="#{OperationManager.manageUnlink(PraticheRiferimenti, 'Richiedente', PraticheRiferimenti.richiedente.code, null, false, null, null, null)}" status="ajaxStatus" id="Link_1501769854985_id" title="${msg.alt_Link_1501769854985}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.richiedente.code,'NonPrevisto','Anonimo') and OperationManager.hasDetail(PraticheRiferimenti, 'Richiedente')}" reRender="phiDesktop" styleClass="fa fa-trash fa-3x link" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472324857922" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente != null and PraticheRiferimenti.richiedente.code ne 'NonPrevisto' and PraticheRiferimenti.richiedente.code ne 'Anonimo'}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1472324857922}</legend>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1472898496743" >
+							<span value="${msg.Label_1472898496743}" id="Label_1472898496743_id" style="display:#{(PraticheRiferimenti.richiedente.code=='Ditta' and PraticheRiferimenti.richiedenteDitta ne null) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1472898496743}</span>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" style="width:100%;padding-top:15px;padding:0;" id="LayoutRow_1471201237851" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente.code=='Ditta' and PraticheRiferimenti.richiedenteDitta ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472425321566" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470971783044}</span>
+										<h:inputText id="TextBox_1470971783044" value="#{PraticheRiferimenti.richiedenteDitta.denominazione}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470971783044}" />
+										<a4j:outputPanel id="TextBox_1470971783044_msg" styleClass="errorContainer" ><h:message for="TextBox_1470971783044" styleClass="errorMessages TextBox_1470971783044_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1469918918319" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473563726966}</span>
+										<h:inputText id="TextBox_1473563726966" value="#{PraticheRiferimenti.richiedenteDitta.patritaIva}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473563726966}" />
+										<a4j:outputPanel id="TextBox_1473563726966_msg" styleClass="errorContainer" ><h:message for="TextBox_1473563726966" styleClass="errorMessages TextBox_1473563726966_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1474129545396" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471539017884}</span>
+										<h:inputText id="TextBox_1471539017884" value="#{PraticheRiferimenti.richiedenteDitta.codiceFiscale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471539017884}" />
+										<a4j:outputPanel id="TextBox_1471539017884_msg" styleClass="errorContainer" ><h:message for="TextBox_1471539017884" styleClass="errorMessages TextBox_1471539017884_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1650643310211" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1650643315059}</span>
+										<h:inputText id="TextBox_1650643315059" value="#{PraticheRiferimenti.richiedenteDitta.codiceDitta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1650643315059}" />
+										<a4j:outputPanel id="TextBox_1650643315059_msg" styleClass="errorContainer" ><h:message for="TextBox_1650643315059" styleClass="errorMessages TextBox_1650643315059_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472709568873" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente.code=='Ditta' and PraticheRiferimenti.richiedenteSede ne null}" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1473973017428}" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1473973017428}</span>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1473404341883" >
+								<span value="${msg.Label_1473404341883}" id="Label_1473404341883_id" style="display:#{(PraticheRiferimenti.richiedenteSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1473404341883}</span>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1471950511852" >
+								<span value="${msg.Label_1471950511852}" id="Label_1471950511852_id" style="display:#{(not PraticheRiferimenti.richiedenteSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1471950511852}</span>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472723774615" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente.code=='Ditta' and PraticheRiferimenti.richiedenteSede ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472348067713" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470385885575}</span>
+										<h:inputText id="TextBox_1470385885575" value="#{PraticheRiferimenti.richiedenteSede.denominazioneUnitaLocale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470385885575}" />
+										<a4j:outputPanel id="TextBox_1470385885575_msg" styleClass="errorContainer" ><h:message for="TextBox_1470385885575" styleClass="errorMessages TextBox_1470385885575_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1472675927076" >
+									<label >
+										<span class="label">${msg.label_TextSuggestionBox_1472675927076}</span>
+										#{PraticheRiferimentiAction.autocomplete['richiedenteSede.addr'].setContentType('0')}
+										<h:inputText id="TextSuggestionBox_1472675927076_MAIN" value="#{PraticheRiferimenti.richiedenteSede.addr.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1472675927076}" />
+										<h:outputLabel for="TextSuggestionBox_1472675927076_CPA" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1472675927076_CPA" value="#{PraticheRiferimenti.richiedenteSede.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+										<h:outputLabel for="TextSuggestionBox_1472675927076_ZIP" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1472675927076_ZIP" value="#{PraticheRiferimenti.richiedenteSede.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+										<h:outputLabel for="TextSuggestionBox_1472675927076_CODE" style="display:none;"/>
+										<h:inputText id="TextSuggestionBox_1472675927076_CODE" disabled="true" value="#{PraticheRiferimenti.richiedenteSede.addr.code}" label="${msg.label_TextSuggestionBox_1472675927076}"  style="display: none">
+											<f:converter converterId="CodeValueConverter"/>
+
+										</h:inputText>
+										<h:message for="TextSuggestionBox_1472675927076_CODE" styleClass="errorMessages TextSuggestionBox_1472675927076_CODE_E" />
+										<a4j:jsFunction name="TextSuggestionBox_1472675927076" action="#{PraticheRiferimentiAction.autocomplete['richiedenteSede.addr'].autocomplete()}" data="#{PraticheRiferimentiAction.autocomplete['richiedenteSede.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+											<a4j:actionparam name="search" assignTo="#{PraticheRiferimentiAction.autocomplete['richiedenteSede.addr'].search}"/>
+											<a4j:actionparam name="ui"/>
+										</a4j:jsFunction>
+									</label>
+									</a4j:outputPanel>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471048711526}</span>
+										<h:inputText id="TextBox_1471048711526" value="#{PraticheRiferimenti.richiedenteSede.addr.cnt}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471048711526}" />
+										<a4j:outputPanel id="TextBox_1471048711526_msg" styleClass="errorContainer" ><h:message for="TextBox_1471048711526" styleClass="errorMessages TextBox_1471048711526_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470291255796}</span>
+										<h:inputText id="TextBox_1470291255796" value="#{PraticheRiferimenti.richiedenteSede.telecom.bad}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470291255796}" />
+										<a4j:outputPanel id="TextBox_1470291255796_msg" styleClass="errorContainer" ><h:message for="TextBox_1470291255796" styleClass="errorMessages TextBox_1470291255796_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1472850095468" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473277852940}</span>
+										<h:inputText id="TextBox_1473277852940" value="#{PraticheRiferimenti.richiedenteSede.addr.str}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473277852940}" />
+										<a4j:outputPanel id="TextBox_1473277852940_msg" styleClass="errorContainer" ><h:message for="TextBox_1473277852940" styleClass="errorMessages TextBox_1473277852940_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470410777123}</span>
+										<h:inputText id="TextBox_1470410777123" value="#{PraticheRiferimenti.richiedenteSede.addr.adl}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470410777123}" />
+										<a4j:outputPanel id="TextBox_1470410777123_msg" styleClass="errorContainer" ><h:message for="TextBox_1470410777123" styleClass="errorMessages TextBox_1470410777123_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471810357620}</span>
+										<h:inputText id="TextBox_1471810357620" value="#{PraticheRiferimenti.richiedenteSede.telecom.mail}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471810357620}" />
+										<a4j:outputPanel id="TextBox_1471810357620_msg" styleClass="errorContainer" ><h:message for="TextBox_1471810357620" styleClass="errorMessages TextBox_1471810357620_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473626453003}</span>
+										<h:inputText id="TextBox_1473626453003" value="#{PraticheRiferimenti.richiedenteSede.telecom.as}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473626453003}" />
+										<a4j:outputPanel id="TextBox_1473626453003_msg" styleClass="errorContainer" ><h:message for="TextBox_1473626453003" styleClass="errorMessages TextBox_1473626453003_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1472162913920" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470650602732}</span>
+										<h:inputText id="TextBox_1470650602732" value="#{PraticheRiferimenti.richiedenteSede.addr.bnr}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470650602732}" />
+										<a4j:outputPanel id="TextBox_1470650602732_msg" styleClass="errorContainer" ><h:message for="TextBox_1470650602732" styleClass="errorMessages TextBox_1470650602732_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1471538968887}</span>
+										<h:selectOneMenu id="ComboBox_1471538968887" value="#{PraticheRiferimenti.richiedenteSede.stato}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1471538968887}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471428393326}</span>
+										<h:inputText id="TextBox_1471428393326" value="#{PraticheRiferimenti.richiedenteSede.attivita}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471428393326}" />
+										<a4j:outputPanel id="TextBox_1471428393326_msg" styleClass="errorContainer" ><h:message for="TextBox_1471428393326" styleClass="errorMessages TextBox_1471428393326_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1473664507579" value="#{PraticheRiferimenti.richiedenteSede.sedePrincipale}" style="vertical-align:middle;" styleClass="c-text-bold checkBox" alt="CHECKBOX" disabled="true" label="${msg.CheckBox_1473664507579}" />
+									<h:outputLabel value="${msg.CheckBox_1473664507579}" for="CheckBox_1473664507579" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1473664507579" styleClass="errorMessages CheckBox_1473664507579_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1473664507579" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1471402534314" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente.code=='Interno' and PraticheRiferimenti.richiedenteInterno ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472264971723" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1470405757142}</span>
+										<h:outputText value="#{PraticheRiferimenti.richiedenteInterno.name.fam}" id="Label_1470405757142" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1472791418583}</span>
+										<h:outputText value="#{PraticheRiferimenti.richiedenteInterno.name.giv}" id="Label_1472791418583" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1473237141310}</span>
+										<h:outputText value="#{PraticheRiferimenti.richiedenteInterno.fiscalCode}" id="Label_1473237141310" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1472013296697}</span>
+										<h:outputText value="#{PraticheRiferimenti.richiedenteInterno.employeeRole}" id="Label_1472013296697" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1473415337749" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.richiedente.code=='Utente' and PraticheRiferimenti.richiedenteUtente ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472089405587" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1470585715705" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470413033319}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.name.fam}" id="Label_1470413033319" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1473125615129}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.birthTime}" id="Label_1473125615129" styleClass="labelContent  base-label" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1473419414615}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.fiscalCode}" id="Label_1473419414615" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1472992433489" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470852833213}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.name.giv}" id="Label_1470852833213" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470410952137}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.birthPlace.cty}" id="Label_1470410952137" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1471909186421}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.deathDate}" id="Label_1471909186421" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1470132943569" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470485633291}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.genderCode.currentTranslation}" id="Label_1470485633291" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1471886024211}</span>
+											<h:outputText value="#{PraticheRiferimenti.richiedenteUtente.category.currentTranslation}" id="Label_1471886024211" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1481042183317" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1481042183317;ShowLSMittenteDiffPopup')}" status="ajaxStatus" id="Link_1481042183317_id" title="${msg.alt_Link_1481042183317}" rendered="#{PraticheRiferimenti.richiedenteUtente.toUpdate eq true}" reRender="popup" styleClass="fa fa-bell fa-2x link" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472733938126" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1472733968830}</span>
+									<h:selectOneMenu id="ComboBox_1472733968830" value="#{Lifestyle.tipologiaRichiedente}" styleClass="comboBox" label="${msg.label_ComboBox_1472733968830}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:recipient or applicant type')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1471052339889" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1470344752209}</span>
+									<h:selectOneMenu id="ComboBox_1470344752209" value="#{Lifestyle.settoreRichiedente}" styleClass="comboBox" label="${msg.label_ComboBox_1470344752209}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SettoreLavorativo')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472734275540" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472738092776" style="min-width: 50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel id="DataGrid_1472734420419" layout="block" styleClass="dt layoutTable layoutHorizontal" style="min-height:76px;" >
+										<table id="d1472734420419" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1472734420419} [SoggettoList]" >
+											<thead class="tableHeader">
+												<tr>
+													<th><a4j:commandLink id="DataGridColumn_1472734434666" value="${msg.DataGridColumn_1472734434666} &#8593;&#8595;" action="#{SoggettoList.orderBy('utente.name')}" reRender="DataGrid_1472734420419" ajaxSingle="true" disabled="#{empty SoggettoList ? true : false}"/></th>
+													<th class="sortableColumn">${msg.DataGridColumn_1472734442074} &#8593;&#8595;</th>
+												</tr>
+											</thead>
+											<tbody class="tableBody">
+												<jstl:if test="#{empty SoggettoList or SoggettoList.isEmpty()}">
+													<tr class="noresults">
+														<td colspan="2">${error.emtpy_search_for_table}</td>
+													</tr>
+												</jstl:if>
+												<a4j:repeat id="r1472734420419" value="#{SoggettoList.entities}" var="Soggetto" rowKeyVar="rowIndex" >
+													<tr >
+														<td >
+															<span class="base-label" >#{function.concat(Soggetto.utente.name,Soggetto.dittaUtente.denominazione)}</span>
+														</td>
+
+														<td >
+															<a4j:commandLink action="#{SoggettoAction.injectAndProceed(Soggetto, 'Link_1472738339023;BtnDeletePartner')}" status="ajaxStatus" id="Link_1472738339023" title="${msg.alt_Link_1472738339023}" reRender="phiDesktop" styleClass="fa fa-trash fa-3x tableButton" />
+
+														</td>
+
+													</tr>
+												</a4j:repeat>
+											</tbody>
+										</table>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1472736387268" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1473236627411" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1472736429180;PARIXPartnerAdd')}" status="ajaxStatus" id="Link_1472736429180" title="${msg.alt_Link_1472736429180}" style="color:#000000;" reRender="phiDesktop" styleClass="fa fa-home fa-3x link" />
+										</div>
+
+										<div class="layoutHorizontal" >
+										<span value="${msg.Label_1473236653947}" style="margin-left: -12px;margin-top: 12px;" class="labelContent fa fa-plus-square fa-2x base-label" ></span>
+										</div>
+
+									</a4j:outputPanel>
+									<div class="layoutVertical" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1472736398021;AURPartnerAdd')}" status="ajaxStatus" id="Link_1472736398021" title="${msg.alt_Link_1472736398021}" style="color:#000000;" reRender="phiDesktop" styleClass="fa fa-user-plus fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472734365955" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1472734373211}</span>
+									<h:selectOneMenu id="ComboBox_1472734373211" value="#{Lifestyle.setting}" styleClass="comboBox" label="${msg.label_ComboBox_1472734373211}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:setting')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1471573635753" style="width:100%;padding-bottom: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1473791692357" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1473489053955" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1470978241383}" class="labelContent c-text-0080FF c-text-16 c-text-bold, *.label, *.widget-label base-label" >${msg.Label_1470978241383}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1472130194911" value="#{PraticheRiferimenti.riferimento}" styleClass="c-text-16 filter radioGroupTable radioGroup" label="${msg.Label_1470978241383}" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Cantiere,Utente,Altro')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1471023574428,LayoutRow_1473216821277" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+								<script>setDefaultValue('RadioGroup_1472130194911','#{vocabularies.getCodeValueExtendedId("PHIDIC","TargetSource:NonPrevisto")}')</script>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1471023574428" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1487015927000" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(PraticheRiferimenti, 'Riferimento')}" status="ajaxStatus" id="Link_1487015927000_id" title="${msg.alt_Link_1487015927000}" rendered="#{OperationManager.hasDetail(PraticheRiferimenti, 'Riferimento')}" reRender="popup" styleClass="fa fa-info-circle fa-3x link readOnly" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1499466918397" >
+								<a4j:commandLink action="#{OperationManager.manageEdit(PraticheRiferimenti, 'Riferimento', PraticheRiferimenti.riferimento.code, null)}" status="ajaxStatus" id="Link_1499466918397_id" title="${msg.alt_Link_1499466918397}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.riferimento.code,'NonPrevisto','Altro') and OperationManager.hasDetail(PraticheRiferimenti, 'Riferimento')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x save link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1472669693594" >
+								<a4j:commandLink action="#{OperationManager.manageLink(PraticheRiferimenti, 'Riferimento', PraticheRiferimenti.riferimento.code, null, true, null, null, null)}" status="ajaxStatus" id="Link_1472669693594_id" title="${msg.alt_Link_1472669693594}" rendered="#{PraticheRiferimenti.riferimento != null and PraticheRiferimenti.riferimento.code ne 'NonPrevisto' and PraticheRiferimenti.riferimento.code ne 'Altro'}" reRender="phiDesktop" styleClass="fa fa-search fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1502603597677" >
+								<a4j:commandLink action="#{OperationManager.manageUnlink(PraticheRiferimenti, 'Riferimento', PraticheRiferimenti.riferimento.code, null, true, null, null, null)}" status="ajaxStatus" id="Link_1502603597677_id" title="${msg.alt_Link_1502603597677}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.riferimento.code,'NonPrevisto','Altro') and OperationManager.hasDetail(PraticheRiferimenti, 'Riferimento')}" reRender="phiDesktop" styleClass="fa fa-trash fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1658500383043" >
+								<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and CantiereAction.hasChildren(PraticheRiferimenti.riferimentoCantiere)}" value="#{function.getTranslation('AlertCantiereChanged')}" id="Label_1658500383043_id" style="display:block;" class="labelContent c-text-14 c-text-bold c-text-red base-label" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1657610980780" >
+								<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and not empty PraticheRiferimenti.riferimentoCantiere and not CantiereAction.hasChildren(PraticheRiferimenti.riferimentoCantiere)}" value="#{function.getTranslation('InfoCantiereUpdated')}" id="Label_1657610980780_id" style="color:green;display:block;" class="labelContent c-text-14 c-text-bold base-label" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1657260515575" >
+								<a4j:commandLink action="#{OperationManager.manageUpdate(PraticheRiferimenti, 'Riferimento',PraticheRiferimenti.riferimento.code, PraticheRiferimenti.riferimentoCantiere.id)}" status="ajaxStatus" id="Link_1657260515575_id" title="${msg.alt_Link_1657260515575}" rendered="#{Procpratiche.statusCode.code eq 'active' and CantiereAction.hasChildren(PraticheRiferimenti.riferimentoCantiere)}" reRender="popup" styleClass="fa fa-refresh fa-2x linkUnlink link" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1473216821277" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1473216821277}</legend>
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1473548078727" >
+							<span value="${msg.Label_1473548078727}" id="Label_1473548078727_id" style="display:#{(PraticheRiferimenti.riferimento.code=='Ditta' and PraticheRiferimenti.riferimentoDitta ne null) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1473548078727}</span>
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" style="width:100%;padding-top:15px;padding:0;" id="LayoutRow_1470605003034" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Ditta' and PraticheRiferimenti.riferimentoDitta ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1473645447204" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1474058579171}</span>
+										<h:inputText id="TextBox_1474058579171" value="#{PraticheRiferimenti.riferimentoDitta.denominazione}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1474058579171}" />
+										<a4j:outputPanel id="TextBox_1474058579171_msg" styleClass="errorContainer" ><h:message for="TextBox_1474058579171" styleClass="errorMessages TextBox_1474058579171_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1474139417073" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473256667804}</span>
+										<h:inputText id="TextBox_1473256667804" value="#{PraticheRiferimenti.riferimentoDitta.patritaIva}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473256667804}" />
+										<a4j:outputPanel id="TextBox_1473256667804_msg" styleClass="errorContainer" ><h:message for="TextBox_1473256667804" styleClass="errorMessages TextBox_1473256667804_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1473634896460" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1474032485831}</span>
+										<h:inputText id="TextBox_1474032485831" value="#{PraticheRiferimenti.riferimentoDitta.codiceFiscale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1474032485831}" />
+										<a4j:outputPanel id="TextBox_1474032485831_msg" styleClass="errorContainer" ><h:message for="TextBox_1474032485831" styleClass="errorMessages TextBox_1474032485831_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1650643352052" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1650643356140}</span>
+										<h:inputText id="TextBox_1650643356140" value="#{PraticheRiferimenti.riferimentoDitta.codiceDitta}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1650643356140}" />
+										<a4j:outputPanel id="TextBox_1650643356140_msg" styleClass="errorContainer" ><h:message for="TextBox_1650643356140" styleClass="errorMessages TextBox_1650643356140_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472617037830" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Ditta' and PraticheRiferimenti.riferimentoSede ne null}" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1473915688235}" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1473915688235}</span>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1470129613188" >
+								<span value="${msg.Label_1470129613188}" id="Label_1470129613188_id" style="display:#{(PraticheRiferimenti.riferimentoSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1470129613188}</span>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1471902543587" >
+								<span value="${msg.Label_1471902543587}" id="Label_1471902543587_id" style="display:#{(not PraticheRiferimenti.riferimentoSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent c-text-12 c-text-bold base-label" >${msg.Label_1471902543587}</span>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1473231762095" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Ditta' and PraticheRiferimenti.riferimentoSede ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1470067229329" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1472675750404}</span>
+										<h:inputText id="TextBox_1472675750404" value="#{PraticheRiferimenti.riferimentoSede.denominazioneUnitaLocale}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1472675750404}" />
+										<a4j:outputPanel id="TextBox_1472675750404_msg" styleClass="errorContainer" ><h:message for="TextBox_1472675750404" styleClass="errorMessages TextBox_1472675750404_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1472695170581" >
+									<label >
+										<span class="label">${msg.label_TextSuggestionBox_1472695170581}</span>
+										#{PraticheRiferimentiAction.autocomplete['riferimentoSede.addr'].setContentType('0')}
+										<h:inputText id="TextSuggestionBox_1472695170581_MAIN" value="#{PraticheRiferimenti.riferimentoSede.addr.cty}" styleClass="autocomplete autoAddress inputText" disabled="true" label="${msg.label_TextSuggestionBox_1472695170581}" />
+										<h:outputLabel for="TextSuggestionBox_1472695170581_CPA" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1472695170581_CPA" value="#{PraticheRiferimenti.riferimentoSede.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.Province}" />
+										<h:outputLabel for="TextSuggestionBox_1472695170581_ZIP" styleClass="textSuggestionSeparator" value="-" />
+										<h:inputText id="TextSuggestionBox_1472695170581_ZIP" value="#{PraticheRiferimenti.riferimentoSede.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" disabled="true" label="${static.ZIP}" />
+										<h:outputLabel for="TextSuggestionBox_1472695170581_CODE" style="display:none;"/>
+										<h:inputText id="TextSuggestionBox_1472695170581_CODE" disabled="true" value="#{PraticheRiferimenti.riferimentoSede.addr.code}" label="${msg.label_TextSuggestionBox_1472695170581}"  style="display: none">
+											<f:converter converterId="CodeValueConverter"/>
+
+										</h:inputText>
+										<h:message for="TextSuggestionBox_1472695170581_CODE" styleClass="errorMessages TextSuggestionBox_1472695170581_CODE_E" />
+										<a4j:jsFunction name="TextSuggestionBox_1472695170581" action="#{PraticheRiferimentiAction.autocomplete['riferimentoSede.addr'].autocomplete()}" data="#{PraticheRiferimentiAction.autocomplete['riferimentoSede.addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+											<a4j:actionparam name="search" assignTo="#{PraticheRiferimentiAction.autocomplete['riferimentoSede.addr'].search}"/>
+											<a4j:actionparam name="ui"/>
+										</a4j:jsFunction>
+									</label>
+									</a4j:outputPanel>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473836560247}</span>
+										<h:inputText id="TextBox_1473836560247" value="#{PraticheRiferimenti.riferimentoSede.addr.cnt}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473836560247}" />
+										<a4j:outputPanel id="TextBox_1473836560247_msg" styleClass="errorContainer" ><h:message for="TextBox_1473836560247" styleClass="errorMessages TextBox_1473836560247_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470945371695}</span>
+										<h:inputText id="TextBox_1470945371695" value="#{PraticheRiferimenti.riferimentoSede.telecom.bad}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470945371695}" />
+										<a4j:outputPanel id="TextBox_1470945371695_msg" styleClass="errorContainer" ><h:message for="TextBox_1470945371695" styleClass="errorMessages TextBox_1470945371695_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1472002608145" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471398337525}</span>
+										<h:inputText id="TextBox_1471398337525" value="#{PraticheRiferimenti.riferimentoSede.addr.str}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1471398337525}" />
+										<a4j:outputPanel id="TextBox_1471398337525_msg" styleClass="errorContainer" ><h:message for="TextBox_1471398337525" styleClass="errorMessages TextBox_1471398337525_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473972969326}</span>
+										<h:inputText id="TextBox_1473972969326" value="#{PraticheRiferimenti.riferimentoSede.addr.adl}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473972969326}" />
+										<a4j:outputPanel id="TextBox_1473972969326_msg" styleClass="errorContainer" ><h:message for="TextBox_1473972969326" styleClass="errorMessages TextBox_1473972969326_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473213028622}</span>
+										<h:inputText id="TextBox_1473213028622" value="#{PraticheRiferimenti.riferimentoSede.telecom.mail}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473213028622}" />
+										<a4j:outputPanel id="TextBox_1473213028622_msg" styleClass="errorContainer" ><h:message for="TextBox_1473213028622" styleClass="errorMessages TextBox_1473213028622_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473704814722}</span>
+										<h:inputText id="TextBox_1473704814722" value="#{PraticheRiferimenti.riferimentoSede.telecom.as}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473704814722}" />
+										<a4j:outputPanel id="TextBox_1473704814722_msg" styleClass="errorContainer" ><h:message for="TextBox_1473704814722" styleClass="errorMessages TextBox_1473704814722_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1470718689283" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1470945325392}</span>
+										<h:inputText id="TextBox_1470945325392" value="#{PraticheRiferimenti.riferimentoSede.addr.bnr}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1470945325392}" />
+										<a4j:outputPanel id="TextBox_1470945325392_msg" styleClass="errorContainer" ><h:message for="TextBox_1470945325392" styleClass="errorMessages TextBox_1470945325392_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1470926836532}</span>
+										<h:selectOneMenu id="ComboBox_1470926836532" value="#{PraticheRiferimenti.riferimentoSede.stato}" disabled="true" styleClass="comboBox" label="${msg.label_ComboBox_1470926836532}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1473337012608}</span>
+										<h:inputText id="TextBox_1473337012608" value="#{PraticheRiferimenti.riferimentoSede.attivita}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1473337012608}" />
+										<a4j:outputPanel id="TextBox_1473337012608_msg" styleClass="errorContainer" ><h:message for="TextBox_1473337012608" styleClass="errorMessages TextBox_1473337012608_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1471254436897" value="#{PraticheRiferimenti.riferimentoSede.sedePrincipale}" style="vertical-align:middle;" styleClass="c-text-bold checkBox" alt="CHECKBOX" disabled="true" label="${msg.CheckBox_1471254436897}" />
+									<h:outputLabel value="${msg.CheckBox_1471254436897}" for="CheckBox_1471254436897" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1471254436897" styleClass="errorMessages CheckBox_1471254436897_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1471254436897" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1470601011688" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Interno' and PraticheRiferimenti.riferimentoInterno ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1473572460087" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1471595197325}</span>
+										<h:outputText value="#{PraticheRiferimenti.riferimentoInterno.name.fam}" id="Label_1471595197325" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1470730289984}</span>
+										<h:outputText value="#{PraticheRiferimenti.riferimentoInterno.name.giv}" id="Label_1470730289984" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1470657259182}</span>
+										<h:outputText value="#{PraticheRiferimenti.riferimentoInterno.fiscalCode}" id="Label_1470657259182" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1473236331798}</span>
+										<h:outputText value="#{PraticheRiferimenti.riferimentoInterno.employeeRole}" id="Label_1473236331798" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472977089222" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Cantiere' and PraticheRiferimenti.riferimentoCantiere ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1473748866909" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1471680306869" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1473523851372}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoCantiere.addr}" id="Label_1473523851372" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1470657407661" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1471478164939}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoCantiere.naturaOpera}" id="Label_1471478164939" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1471062926603" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470420640927}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoCantiere.tipologiaNotifica}" id="Label_1470420640927" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1501598083969" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1501598086804}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoCantiere.localita}" id="Label_1501598086804" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="width:100%;padding-top:15px;padding:0;" id="LayoutRow_1472911523862" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Altro'}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1471783216600" style="width:50%;" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1473603584777}</span>
+										<h:selectOneMenu id="ComboBox_1473603584777" value="#{PraticheRiferimenti.riferimentoEntita}" styleClass="comboBox" title="${msg.alt_ComboBox_1473603584777}" label="${msg.label_ComboBox_1473603584777}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+											<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Entity')}" />
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1472072974444" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1470686715617" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<label style="display:block;" >
+											<span class="widget-label">${msg.label_TextBox_1473481400971}</span>
+											<h:inputText id="TextBox_1473481400971" value="#{PraticheRiferimenti.riferimentoDenominazione}" styleClass="inputText" label="${msg.label_TextBox_1473481400971}" />
+											<a4j:outputPanel id="TextBox_1473481400971_msg" styleClass="errorContainer" ><h:message for="TextBox_1473481400971" styleClass="errorMessages TextBox_1473481400971_E" /></a4j:outputPanel>
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1472818086681" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+										<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1474123353098" >
+										<label >
+											<span class="label">${msg.label_TextArea_1474123353098}</span>
+											<div>
+											<h:inputTextarea id="TextArea_1474123353098_id" value="#{PraticheRiferimenti.riferimentoNote}" title="${msg.alt_TextArea_1474123353098}" label="${msg.label_TextArea_1474123353098}" >
+												<f:validateLength minimum="0" maximum="255"/>
+											</h:inputTextarea>
+											</div>
+										</label>
+										<h:message style="float:left;" for="TextArea_1474123353098_id" styleClass="errorMessages TextArea_1474123353098_E" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1501257978274" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1501257981649" >
+									<label style="display:#{(PraticheRiferimenti.riferimento.code=='Altro') ? 'block' : 'none' };" >
+										<span class="widget-label">${msg.label_TextBox_1501257981649}</span>
+										<h:inputText id="TextBox_1501257981649_id" value="#{PraticheRiferimenti.riferimentoUbicazione}" styleClass="inputText" rendered="#{PraticheRiferimenti.riferimento.code=='Altro'}" label="${msg.label_TextBox_1501257981649}" />
+										<a4j:outputPanel id="TextBox_1501257981649_msg" styleClass="errorContainer" ><h:message for="TextBox_1501257981649_id" styleClass="errorMessages TextBox_1501257981649_E" /></a4j:outputPanel>
+									</label>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1471464140205" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.riferimento.code=='Utente' and PraticheRiferimenti.riferimentoUtente ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1470728043317" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1470690917472" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1472041637217}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.name.fam}" id="Label_1472041637217" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1471812798630}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.birthTime}" id="Label_1471812798630" styleClass="labelContent  base-label" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470290243316}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.fiscalCode}" id="Label_1470290243316" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1473781951646" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1472698360523}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.name.giv}" id="Label_1472698360523" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1472797902583}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.birthPlace.cty}" id="Label_1472797902583" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470148423444}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.deathDate}" id="Label_1470148423444" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1473476115651" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1471194717725}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.genderCode.currentTranslation}" id="Label_1471194717725" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutVertical" >
+										<label >
+											<span class="label">${msg.label_Label_1470618100604}</span>
+											<h:outputText value="#{PraticheRiferimenti.riferimentoUtente.category.currentTranslation}" id="Label_1470618100604" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472734468715" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1472734473818}</span>
+									<h:selectOneMenu id="ComboBox_1472734473818" value="#{Lifestyle.tipologiaDestinatario}" styleClass="comboBox" label="${msg.label_ComboBox_1472734473818}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:recipient or applicant type')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472799697841" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1472974322375}</span>
+									<h:inputText id="TextBox_1472974322375" value="#{Lifestyle.numerosita}" styleClass="inputText" label="${msg.label_TextBox_1472974322375}" />
+									<a4j:outputPanel id="TextBox_1472974322375_msg" styleClass="errorContainer" ><h:message for="TextBox_1472974322375" styleClass="errorMessages TextBox_1472974322375_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_ComboBox_1471086898152}</span>
+									<h:selectOneMenu id="ComboBox_1471086898152" value="#{Lifestyle.settoreDestinatario}" styleClass="comboBox" label="${msg.label_ComboBox_1471086898152}" >
+										<f:selectItem itemLabel="-" itemValue=""/>
+										<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:SettoreLavorativo')}" />
+										<f:converter converterId="CodeValueConverter"/>
+									</h:selectOneMenu>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1471431343292" style="width:100%;padding-bottom: 15px;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1470689412768" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1473980636346" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutHorizontal" >
+								<span value="${msg.Label_1470468764411}" class="labelContent c-text-0080FF c-text-16 c-text-bold, *.label, *.widget-label base-label" >${msg.Label_1470468764411}</span>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<h:selectOneRadio id="RadioGroup_1472831283222" value="#{PraticheRiferimenti.ubicazione}" styleClass="c-text-16 filter radioGroupTable radioGroup" label="${msg.Label_1470468764411}" >
+									<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TargetSource:Ditta,Cantiere,Altro,NonPrevisto')}" />
+
+									<f:converter converterId="CodeValueConverter"/>
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1472071700623,LayoutRow_1453242349021,LayoutRow_1472924817452" event="onclick" ignoreDupResponses="true" />
+								</h:selectOneRadio>
+								</div>
+								<script>setDefaultValue('RadioGroup_1472831283222','#{vocabularies.getCodeValueExtendedId("PHIDIC","TargetSource:NonPrevisto")}')</script>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1472071700623" style="display:inline-block;float:none;vertical-align:top;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1484494732832" >
+								<a4j:commandLink action="#{OperationManager.manageDetail(PraticheRiferimenti, 'Ubicazione')}" status="ajaxStatus" id="Link_1484494732832_id" title="${msg.alt_Link_1484494732832}" rendered="#{OperationManager.hasDetail(PraticheRiferimenti, 'Ubicazione')}" reRender="popup" styleClass="fa fa-info-circle fa-3x link readOnly" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1498660620462" >
+								<a4j:commandLink action="#{OperationManager.manageEdit(PraticheRiferimenti, 'Ubicazione', PraticheRiferimenti.ubicazione.code, null)}" status="ajaxStatus" id="Link_1498660620462_id" title="${msg.alt_Link_1498660620462}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.ubicazione.code,'NonPrevisto','Altro') and OperationManager.hasDetail(PraticheRiferimenti, 'Ubicazione')}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-3x save link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1472352182554" >
+								<a4j:commandLink action="#{OperationManager.manageLink(PraticheRiferimenti, 'Ubicazione', PraticheRiferimenti.ubicazione.code, true, false, null, null, null)}" status="ajaxStatus" id="Link_1472352182554_id" title="${msg.alt_Link_1472352182554}" rendered="#{PraticheRiferimenti.ubicazione != null and PraticheRiferimenti.ubicazione.code ne 'NonPrevisto' and PraticheRiferimenti.ubicazione.code ne 'Altro'}" reRender="phiDesktop" styleClass="fa fa-search fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1501498716187" >
+								<a4j:commandLink action="#{OperationManager.manageUnlink(PraticheRiferimenti, 'Ubicazione', PraticheRiferimenti.ubicazione.code, true, false, null, null, null)}" status="ajaxStatus" id="Link_1501498716187_id" title="${msg.alt_Link_1501498716187}" rendered="#{not function.hasCodeIn(PraticheRiferimenti.ubicazione.code,'NonPrevisto','Altro') and OperationManager.hasDetail(PraticheRiferimenti, 'Ubicazione')}" reRender="phiDesktop" styleClass="fa fa-trash fa-3x link" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1659143492276" >
+								<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and CantiereAction.hasChildren(PraticheRiferimenti.ubicazioneCantiere)}" value="#{function.getTranslation('AlertCantiereChanged')}" id="Label_1659143492276_id" style="display:block;" class="labelContent c-text-14 c-text-bold c-text-red base-label" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1655354106704" >
+								<h:outputText rendered="#{Procpratiche.statusCode.code eq 'active' and not empty PraticheRiferimenti.ubicazioneCantiere and not CantiereAction.hasChildren(PraticheRiferimenti.ubicazioneCantiere)}" value="#{function.getTranslation('InfoCantiereUpdated')}" id="Label_1655354106704_id" style="color:green;display:block;" class="labelContent c-text-14 c-text-bold base-label" />
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1658410012807" >
+								<a4j:commandLink action="#{OperationManager.manageUpdate(PraticheRiferimenti, 'Ubicazione',PraticheRiferimenti.ubicazione.code, PraticheRiferimenti.ubicazioneCantiere.id)}" status="ajaxStatus" id="Link_1658410012807_id" title="${msg.alt_Link_1658410012807}" rendered="#{Procpratiche.statusCode.code eq 'active' and CantiereAction.hasChildren(PraticheRiferimenti.ubicazioneCantiere)}" reRender="popup" styleClass="fa fa-refresh fa-2x linkUnlink link" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1472924817452" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione != null and PraticheRiferimenti.ubicazione.code !='NonPrevisto'}" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1472924817452}</legend>
+							<a4j:outputPanel layout="block" style="width:100%;padding:0;" id="LayoutRow_1472357864505" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione.code=='Ditta' and PraticheRiferimenti.ubicazioneDitta ne null}" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1472963540074}</span>
+									<h:outputText value="#{PraticheRiferimenti.ubicazioneDitta.denominazione}" id="Label_1472963540074" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1472054911076" >
+								<label style="display:#{(PraticheRiferimenti.ubicazione.code=='Ditta' and PraticheRiferimenti.ubicazioneSede ne null) ? 'block' : 'none' };" >
+									<span class="label">${msg.label_Label_1472054911076}</span>
+									<h:outputText rendered="#{PraticheRiferimenti.ubicazione.code=='Ditta' and PraticheRiferimenti.ubicazioneSede ne null}" value="#{PraticheRiferimenti.ubicazioneSede.denominazioneUnitaLocale}" id="Label_1472054911076_id" class="labelContent  base-label" />
+								</label>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1471449657943" >
+								<span value="${msg.Label_1471449657943}" id="Label_1471449657943_id" style="display:#{(PraticheRiferimenti.ubicazione.code=='Ditta' and PraticheRiferimenti.ubicazioneSede ne null and PraticheRiferimenti.ubicazioneSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1471449657943}</span>
+								</a4j:outputPanel>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1472298424025" >
+								<span value="${msg.Label_1472298424025}" id="Label_1472298424025_id" style="display:#{(PraticheRiferimenti.ubicazione.code=='Ditta' and PraticheRiferimenti.ubicazioneSede ne null and not PraticheRiferimenti.ubicazioneSede.sedePrincipale) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1472298424025}</span>
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="width:100%;padding:0;" id="LayoutRow_1471945258240" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione.code=='Utente' and PraticheRiferimenti.ubicazioneUtente ne null}" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1471222457325}</span>
+									<h:outputText value="#{function.concat(PraticheRiferimenti.ubicazioneUtente.name.fam, ' ', PraticheRiferimenti.ubicazioneUtente.name.giv)}" id="Label_1471222457325" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1470118591143" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione.code=='Cantiere' and PraticheRiferimenti.ubicazioneCantiere ne null}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1472103383454" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1472484955633}</span>
+										<h:outputText value="#{PraticheRiferimenti.ubicazioneCantiere.naturaOpera}" id="Label_1472484955633" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1472091356435}</span>
+										<h:outputText value="#{PraticheRiferimenti.ubicazioneCantiere.tipologiaNotifica}" id="Label_1472091356435" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_Label_1501598123298}</span>
+										<h:outputText value="#{PraticheRiferimenti.ubicazioneCantiere.localita}" id="Label_1501598123298" styleClass="labelContent  base-label" />
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="width:100%;padding:0;" id="LayoutRow_1472918293088" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione.code ne 'NonPrevisto'}" >
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1472698507419}</span>
+									<h:inputText id="TextBox_1472698507419" value="#{PraticheRiferimenti.ubicazioneAddr.str}" styleClass="inputText" label="${msg.label_TextBox_1472698507419}" >
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1470689412768" event="onchange" ignoreDupResponses="true" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1472698507419_msg" styleClass="errorContainer" ><h:message for="TextBox_1472698507419" styleClass="errorMessages TextBox_1472698507419_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1473275977453}</span>
+									<h:inputText id="TextBox_1473275977453" value="#{PraticheRiferimenti.ubicazioneAddr.bnr}" styleClass="inputText" label="${msg.label_TextBox_1473275977453}" >
+									<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1470689412768" event="onchange" ignoreDupResponses="true" />
+								</h:inputText>
+									<a4j:outputPanel id="TextBox_1473275977453_msg" styleClass="errorContainer" ><h:message for="TextBox_1473275977453" styleClass="errorMessages TextBox_1473275977453_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1471187832108" >
+								<label >
+									<span class="label">${msg.label_TextSuggestionBox_1471187832108}</span>
+									#{PraticheRiferimentiAction.autocomplete['ubicazioneAddr'].setContentType('0')}
+									#{PraticheRiferimentiAction.autocomplete['ubicazioneAddr'].setCodeSystem('Comuni')}
+									<h:inputText id="TextSuggestionBox_1471187832108_MAIN" value="#{PraticheRiferimenti.ubicazioneAddr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1471187832108}" />
+									<h:outputLabel for="TextSuggestionBox_1471187832108_CPA" styleClass="textSuggestionSeparator" value="-" />
+									<h:inputText id="TextSuggestionBox_1471187832108_CPA" value="#{PraticheRiferimenti.ubicazioneAddr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+									<h:outputLabel for="TextSuggestionBox_1471187832108_ZIP" styleClass="textSuggestionSeparator" value="-" />
+									<h:inputText id="TextSuggestionBox_1471187832108_ZIP" value="#{PraticheRiferimenti.ubicazioneAddr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+									<h:outputLabel for="TextSuggestionBox_1471187832108_CODE" style="display:none;"/>
+									<h:inputText id="TextSuggestionBox_1471187832108_CODE" value="#{PraticheRiferimenti.ubicazioneAddr.code}" label="${msg.label_TextSuggestionBox_1471187832108}"  style="display: none">
+										<f:converter converterId="CodeValueConverter"/>
+
+					<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1470689412768" event="onchange" ignoreDupResponses="true" />
+									</h:inputText>
+									<h:message for="TextSuggestionBox_1471187832108_CODE" styleClass="errorMessages TextSuggestionBox_1471187832108_CODE_E" />
+									<a4j:jsFunction name="TextSuggestionBox_1471187832108" action="#{PraticheRiferimentiAction.autocomplete['ubicazioneAddr'].autocomplete()}" data="#{PraticheRiferimentiAction.autocomplete['ubicazioneAddr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+										<a4j:actionparam name="search" assignTo="#{PraticheRiferimentiAction.autocomplete['ubicazioneAddr'].search}"/>
+										<a4j:actionparam name="ui"/>
+									</a4j:jsFunction>
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutHorizontal" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1503953360271}</span>
+									<h:inputText id="TextBox_1503953360271" value="#{PraticheRiferimenti.ubicazioneLocalita}" styleClass="inputText" label="${msg.label_TextBox_1503953360271}" />
+									<a4j:outputPanel id="TextBox_1503953360271_msg" styleClass="errorContainer" ><h:message for="TextBox_1503953360271" styleClass="errorMessages TextBox_1503953360271_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1501488839732" >
+								<label style="display:#{(PraticheRiferimenti.ubicazione.code=='Altro') ? 'block' : 'none' };" >
+									<span class="widget-label">${msg.label_TextBox_1501488839732}</span>
+									<h:inputText id="TextBox_1501488839732_id" value="#{PraticheRiferimenti.ubicazioneUbicazione}" styleClass="inputText" rendered="#{PraticheRiferimenti.ubicazione.code=='Altro'}" label="${msg.label_TextBox_1501488839732}" />
+									<a4j:outputPanel id="TextBox_1501488839732_msg" styleClass="errorContainer" ><h:message for="TextBox_1501488839732_id" styleClass="errorMessages TextBox_1501488839732_E" /></a4j:outputPanel>
+								</label>
+								</a4j:outputPanel>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1507744218860;reverseGeocode')}" status="ajaxStatus" id="Link_1507744218860" title="${msg.alt_Link_1507744218860}" reRender="popup" styleClass="fa fa-road fa-2x link" />
+								</div>
+
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="padding-top:40px;padding:0;" id="LayoutRow_1471472521874" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{PraticheRiferimenti.ubicazione.code ne 'NonPrevisto'}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1473674150637" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+								<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1473674150637}</legend>
+									<div class="layoutHorizontal" >
+									<a4j:outputPanel layout="block" id="JollyWidget_1511008855753" style="height:100%;width:100%;" >
+										<div class="layoutHorizontal" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1480612536954}</span>
+												<h:inputText id="TextBox_1480612536954" value="#{PraticheRiferimenti.ubicazioneX}" styleClass="inputText" label="${msg.label_TextBox_1480612536954}" >
+												<f:validator validatorId="CoordsLatitudeValidator"/>
+												<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+											</h:inputText>
+												<a4j:outputPanel id="TextBox_1480612536954_msg" styleClass="errorContainer" ><h:message for="TextBox_1480612536954" styleClass="errorMessages TextBox_1480612536954_E" /></a4j:outputPanel>
+											</label>
+										</div>
+										
+										<div class="layoutHorizontal" >
+											<label style="display:block;" >
+												<span class="widget-label">${msg.label_TextBox_1480612537070}</span>
+												<h:inputText id="TextBox_1480612537070" value="#{PraticheRiferimenti.ubicazioneY}" styleClass="inputText" label="${msg.label_TextBox_1480612537070}" >
+													<f:validator validatorId="CoordsLongitudeValidator"/>
+													<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+												</h:inputText>
+												<a4j:outputPanel id="TextBox_1480612537070_msg" styleClass="errorContainer" ><h:message for="TextBox_1480612537070" styleClass="errorMessages TextBox_1480612537070_E" /></a4j:outputPanel>
+											</label>
+										</div>
+									</a4j:outputPanel>
+									</div>
+
+									<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="JollyWidget_1508268710383" >
+									<a4j:outputPanel layout="block" id="JollyWidget_1508268710383_id" style="height:100%;width:100%;" rendered="#{PraticheRiferimenti.ubicazioneX eq null or PraticheRiferimenti.ubicazioneY eq null or PraticheRiferimenti.ubicazioneX eq '' or PraticheRiferimenti.ubicazioneY eq ''}" >
+										<script>
+										function doScript(mnemonic){
+										getCurrentLocation(function(loc){
+											var coords = loc.latitude+"|"+loc.longitude;
+											manageTask(coords, mnemonic);
+										});
+										}
+										</script>
+										<a4j:commandLink onclick="doScript('getDeviceLocation');" status="ajaxStatus" ajaxSingle="false" id="Link_localization1" title="${msg.alt_Link_localization1}"  styleClass="fa fa-map-marker fa-2x"  />
+										<a4j:jsFunction  name="manageTask"  action="#{processManager.manageTask}"   reRender="popup"  limitToList="false" immediate="false" ajaxSingle="false">
+										    <a4j:actionparam name="value" assignTo="#{button.value}"/>
+										    <a4j:actionparam name="mnemonic" assignTo="#{button.mnemonic}"/>
+										</a4j:jsFunction>
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+
+									<div class="layoutHorizontal" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1509432112226;pickLocationFromMap')}" status="ajaxStatus" id="Link_1509432112226" title="${msg.alt_Link_1509432112226}" reRender="popup" styleClass="fa fa-map-o fa-2x link" />
+									</div>
+
+								</fieldset>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1470623070715" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+								<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1470623070715}</legend>
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1471821015962}</span>
+										<h:inputText id="TextBox_1471821015962" value="#{PraticheRiferimenti.ubicazioneAddr.str}" styleClass="inputText" label="${msg.label_TextBox_1471821015962}" />
+										<a4j:outputPanel id="TextBox_1471821015962_msg" styleClass="errorContainer" ><h:message for="TextBox_1471821015962" styleClass="errorMessages TextBox_1471821015962_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1474076138392}</span>
+										<h:inputText id="TextBox_1474076138392" value="#{PraticheRiferimenti.ubicazioneAddr.sta}" styleClass="inputText" label="${msg.label_TextBox_1474076138392}" />
+										<a4j:outputPanel id="TextBox_1474076138392_msg" styleClass="errorContainer" ><h:message for="TextBox_1474076138392" styleClass="errorMessages TextBox_1474076138392_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1472898467026}</span>
+										<h:inputText id="TextBox_1472898467026" value="#{PraticheRiferimenti.ubicazioneAddr.cnt}" styleClass="inputText" label="${msg.label_TextBox_1472898467026}" />
+										<a4j:outputPanel id="TextBox_1472898467026_msg" styleClass="errorContainer" ><h:message for="TextBox_1472898467026" styleClass="errorMessages TextBox_1472898467026_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</fieldset>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</fieldset>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1471198550398" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1471198550398}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1472731767166" style="margin-top:12px;margin-bottom:12px;width: 100%;" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1482236218112" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1482236218112}</legend>
+							<div class="layoutHorizontal" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1481592855862" style="height:100%;width:100%;" >
+								<script type="text/javascript">
+								Tree.buildCheckTreeDictionary(jQuery("#i\\:VPvp_pratica_lifestyle\\:JollyWidget_1481592855862"), 'Legge81Index', 'Index', 'CodeValueLaw', 'translation', '','CodeValueLaw',  '', false, '','#{CodeValueList}','#{CodeValueList}');
+								</script>
+							</a4j:outputPanel>
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1483018934656" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+						<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1483018934656}</legend>
+							<div class="layoutHorizontal" >
+							<h:selectManyCheckbox id="GroupCheckBox_1472731972525" value="#{Lifestyle.tipoAttivita}" layout="pageDirection" styleClass="checkGroupTable groupCheckBox" >
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:activitytypes3')}" />
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectManyCheckbox>
+							</div>
+
+						</fieldset>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1483017578140" style="width: 100%;height: 25.0%;" >
+					<label >
+						<span class="label">${msg.label_TextArea_1483017578140}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1483017578140_id" value="#{Lifestyle.dettagli}" style="height: 60px;" label="${msg.label_TextArea_1483017578140}" >
+							<f:validateLength minimum="0" maximum="4000"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1483017578140_id" styleClass="errorMessages TextArea_1483017578140_E" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" id="LayoutRow_1470504373636" style="width: 100%;height: 25.0%;" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1473047003413;addTPF')}" status="ajaxStatus" id="Link_1473047003413" title="${msg.alt_Link_1473047003413}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1473142861386" style="width: 100%;height: 25.0%;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1473142861386}</legend>
+						<a4j:outputPanel id="DataGrid_1470410168091" layout="block" styleClass="dt layoutTable layoutVertical" >
+							<table id="d1470410168091" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1470410168091} [TipoProdFinitoList]" >
+								<thead class="tableHeader">
+									<tr>
+										<th><a4j:commandLink id="DataGridColumn_1473594692140" value="${msg.DataGridColumn_1473594692140} &#8593;&#8595;" action="#{TipoProdFinitoList.orderBy('tipologia')}" reRender="DataGrid_1470410168091" ajaxSingle="true" disabled="#{empty TipoProdFinitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1470682555731" value="${msg.DataGridColumn_1470682555731} &#8593;&#8595;" action="#{TipoProdFinitoList.orderBy('quantita')}" reRender="DataGrid_1470410168091" ajaxSingle="true" disabled="#{empty TipoProdFinitoList ? true : false}"/></th>
+										<th><a4j:commandLink id="DataGridColumn_1472722861088" value="${msg.DataGridColumn_1472722861088} &#8593;&#8595;" action="#{TipoProdFinitoList.orderBy('note')}" reRender="DataGrid_1470410168091" ajaxSingle="true" disabled="#{empty TipoProdFinitoList ? true : false}"/></th>
+										<th class="sortableColumn">${msg.DataGridColumn_1471112654621} &#8593;&#8595;</th>
+									</tr>
+								</thead>
+								<tbody class="tableBody">
+									<jstl:if test="#{empty TipoProdFinitoList or TipoProdFinitoList.isEmpty()}">
+										<tr class="noresults">
+											<td colspan="4">${error.emtpy_search_for_table}</td>
+										</tr>
+									</jstl:if>
+									<a4j:repeat id="r1470410168091" value="#{TipoProdFinitoList.entities}" var="TipoProdFinito" rowKeyVar="rowIndex" >
+										<tr >
+											<td >
+												<span class="base-label" >#{TipoProdFinito.tipologia}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{TipoProdFinito.quantita}</span>
+											</td>
+
+											<td >
+												<span class="base-label" >#{TipoProdFinito.note}</span>
+											</td>
+
+											<td >
+												<a4j:commandLink action="#{TipoProdFinitoAction.injectAndProceed(TipoProdFinito, 'Link_1473696886426;delTPF')}" status="ajaxStatus" id="Link_1473696886426" title="${msg.alt_Link_1473696886426}" reRender="phiDesktop" styleClass="fa fa-trash fa-3x tableButton" />
+
+											</td>
+
+										</tr>
+									</a4j:repeat>
+								</tbody>
+							</table>
+						</a4j:outputPanel>
+
+					</fieldset>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

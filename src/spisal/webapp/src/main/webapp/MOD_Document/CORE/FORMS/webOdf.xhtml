@@ -1,0 +1,177 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">#{AlfrescoDocument.name}</h1>
+	<div id="webOdf" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutWebOdfMain" style="width:100%;height:100%;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutWebOdfBtnBar" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1478509848771" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1489377095556;BACK')}" status="ajaxStatus" id="Link_1489377095556" title="${msg.alt_Link_1489377095556}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');" oncomplete="gDriveUtils.delete()"/>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a id="Link_1489151030981" onclick="stopPropagation(event);savez()" title="${msg.alt_Link_1489151030981}" class="fa fa-floppy-o fa-3x link" />
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a id="Link_1492084065255" onclick="stopPropagation(event);alfresco.openDocument('#{AlfrescoDocument.nodeRefUrl}')" title="${msg.alt_Link_1492084065255}" class="fa fa-file-pdf-o fa-3x tableButton link" />
+						</div>
+
+						<div class="buttonContainer buttonBackContainer layoutHorizontal" >
+						<a4j:commandLink id="ButtonBack_1478509859520_id" status="ajaxStatus" title="#{static.button_BACK}" immediate="true" rendered="false" styleClass="buttonBack  buttonBase" type="reset" value=" " action="#{processManager.manageTask('ButtonBack_1478509859520_id;BACK')}" reRender="phiDesktop, header, errorMenu" >
+							<i/>
+						</a4j:commandLink>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1478509850693" style="width:80%;text-align:center;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1513095266715" style="height:100%;width:100%;" >
+							<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TxtTmpltEditName}</span>
+								<h:inputText id="TxtTmpltEditName" value="#{AlfrescoDocument.name}" style="width:300px;" styleClass="inputText" label="${msg.label_TxtTmpltEditName}">
+							<!--		<f:validator validatorId="AlfrescoNameValidator"/> -->
+									<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+								</h:inputText>
+								<a4j:outputPanel id="TxtTmpltEditName_msg" styleClass="errorContainer" ><h:message for="TxtTmpltEditName" styleClass="errorMessages TxtTmpltEditName_E" /></a4j:outputPanel>
+							</label>
+							</div>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TxtTmpltEditDesc}</span>
+							<h:inputText id="TxtTmpltEditDesc" value="#{AlfrescoDocument.description}" styleClass="inputText" label="${msg.label_TxtTmpltEditDesc}" />
+							<a4j:outputPanel id="TxtTmpltEditDesc_msg" styleClass="errorContainer" ><h:message for="TxtTmpltEditDesc" styleClass="errorMessages TxtTmpltEditDesc_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CmbBxTmpltEditTyp" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav()) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_CmbBxTmpltEditTyp}</span>
+							<h:selectOneMenu id="CmbBxTmpltEditTyp_id" value="#{AlfrescoDocument.type}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav()}" styleClass="comboBox" label="${msg.label_CmbBxTmpltEditTyp}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:ReportType')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DgAlfrescoTemplate" event="onchange" action="#{AlfrescoDocumentAction.readTemplates()}" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CmbBxUlss" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav()) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_CmbBxUlss}</span>
+							<h:selectOneMenu id="CmbBxUlss_id" value="#{AlfrescoDocument.serviceDeliveryLocation}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav()}" styleClass="comboBox" label="${msg.label_CmbBxUlss}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AlfrescoDocumentAction.getUlss()}" />
+								<f:converter converterId="EntityConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRowUploadBtnBar" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1590071110487" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav()) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1590071110487}</span>
+							<h:selectOneMenu id="ComboBox_1590071110487_id" value="#{AlfrescoDocument.typeArpav}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav()}" styleClass="comboBox" label="${msg.label_ComboBox_1590071110487}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AlfrescoDocumentAction.getMixedVocItems()}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DgAlfrescoTemplate" event="onchange" action="#{AlfrescoDocumentAction.readTemplates()}" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1591057204285" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav()) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1591057204285}</span>
+							<h:selectOneMenu id="ComboBox_1591057204285_id" value="#{AlfrescoDocument.serviceDeliveryLocation}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav()}" styleClass="comboBox" label="${msg.label_ComboBox_1591057204285}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AlfrescoDocumentAction.getArpav()}" />
+								<f:converter converterId="EntityConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRowUploadBtnBar" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<h:selectBooleanCheckbox id="ChkBxMajorVersion" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.ChkBxMajorVersion}" />
+						<h:outputLabel value="${msg.ChkBxMajorVersion}" for="ChkBxMajorVersion" style="vertical-align:middle;margin-left:3px;" />
+						<h:message for="ChkBxMajorVersion" styleClass="errorMessages ChkBxMajorVersion_E" />
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="ChkBxMajorVersion" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1510235046000" style="display:inline-block;float:none;vertical-align:top;" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+							<span class="widget-label">${msg.label_TextBox_1510235046000}</span>
+							<h:inputText id="TextBox_1510235046000_id" value="#{AlfrescoDocument.signaturesReqN}" styleClass="inputText" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" label="${msg.label_TextBox_1510235046000}" />
+							<a4j:outputPanel id="TextBox_1510235046000_msg" styleClass="errorContainer" ><h:message for="TextBox_1510235046000_id" styleClass="errorMessages TextBox_1510235046000_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+						<script>setDefaultValue('TextBox_1510235046000_id','0')</script>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1508764369643" style="height:100%;width:100%;" >
+						<script type="text/javascript" charset="utf-8">
+						(function() {
+						var trigger = setInterval(clickIt, 60000);
+						
+							function clickIt() {
+							
+								// debugger;
+								
+								var link = 	document.getElementById('Link_1489151030981');
+						
+								if (link != null){
+									if (!gDriveUtils.enabled) {
+										if(document.getElementById('editorFrame').contentWindow.odfEditor.isDirty()){ 
+											link.click();
+										}
+									}
+								}else{
+										clearInterval(trigger);
+									}
+							}
+						})();
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" style="width:100%;height:100%;display: flex;flex:2;" >
+				<a4j:outputPanel layout="block" id="WebOdf" style="height:100%;width:100%;" >
+					<iframe id="editorFrame" style="height:99%;width:100%;border:none;"></iframe>
+					<input id="nodeRefz" type="hidden" value="#{AlfrescoDocument.nodeRef}"/>
+					<script type="text/javascript" charset="utf-8">
+						folderInAlfresco =  '#{AlfrescoDocumentAction.temporary.alfrescoPath}';
+						nameInAlfresco =  '#{AlfrescoDocument.name}';
+					
+						if (!gDriveUtils.enabled) {
+							document.getElementById('editorFrame').src = 'common/odfEditor.html?documentId=#{AlfrescoDocument.internalId}';
+						} else {
+							alfresco.read(#{AlfrescoDocument.internalId});
+						}
+					
+						function savez() {
+							if (!gDriveUtils.enabled) {
+								document.getElementById('editorFrame').contentWindow.odfEditor.save().then(function(nodeRef) {
+									document.getElementById('nodeRefz').value = nodeRef;
+									manageSave('Link_1489151030981','SAVE');
+								});
+							} else {
+								gDriveUtils.download();
+							}
+						}
+					</script>
+					<a4j:jsFunction  name="manageSave"  action="#{processManager.manageTask}" limitToList="false" immediate="false" ajaxSingle="false">
+						<a4j:actionparam name="value" assignTo="#{button.value}"/>
+						<a4j:actionparam name="mnemonic" assignTo="#{button.mnemonic}"/>
+					</a4j:jsFunction>
+				</a4j:outputPanel>
+				</div>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

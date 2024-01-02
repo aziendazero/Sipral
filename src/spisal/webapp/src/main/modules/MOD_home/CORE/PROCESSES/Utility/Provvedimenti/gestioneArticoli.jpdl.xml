@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneOggetti">
+
+
+	<start-state name="start-state1">
+		<transition to="Button1?"></transition>
+	</start-state>
+
+
+	<node name="Eject Articolo">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliAction.eject()}"></action>
+			<action name="2" expression="#{ArticoliAction.ejectList()}"></action>
+			<action name="3" expression="#{ArticoliAction.inject(ArticoliAction.newEntity())}"></action>
+		</event>
+		<transition to="Gestione Articolo UI"></transition>
+	</node>
+
+	<decision name="Button1?" expression="#{(button.getMnemonic())}">
+		<transition to="Eject Articolo" name="BtnArtNew"></transition>
+		<transition to="Gestione Articolo UI" name="BtnArtMng"></transition>
+		<transition to="PopUpDel" name="BtnArtDel"></transition>
+	</decision>
+
+	<task-node name="Gestione Articolo UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/articolo_violato')}"></action>
+		</event>
+		<transition to="Button2?"></transition>
+	</task-node>
+
+	<decision name="Button2?" expression="#{(button.getMnemonic())}">
+		<transition to="eject1" name="BtnBack"></transition>
+		<transition to="super-state2/Del Articolo" name="BtnDel"></transition>
+		<transition to="super-state1/Create Articolo" name="BtnArtSave"></transition>
+		<transition to="Albero Articoli" name="BtnArtTree"></transition>
+		<transition to="eject1" name="BtnCancel"></transition>
+		<transition to="Albero Articoli" name="BtnFattispecie"></transition>
+	</decision>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Create Articolo">
+			<event type="node-enter">
+				<action name="1" expression="#{ArticoliAction.create()}"></action>
+				<action name="2" expression="#{ProvvedimentiAction.link('articoli',Articoli)}"></action>
+				<action name="3" expression="#{ProvvedimentiAction.create()}"></action>
+				<action name="4" expression="#{ArticoliAction.initDefaultGroup(Articoli,Provvedimenti)}"></action>
+			</event>
+			<transition to="../eject1"></transition>
+		</node>
+	</super-state>
+
+	<task-node name="PopUpDel">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_Oggetto_alert')}"></action>
+		</event>
+		<transition to="Button2?"></transition>
+	</task-node>
+
+	<super-state name="super-state2">
+		<node name="Del Articolo">
+			<event type="node-enter">
+				<action name="1" expression="#{Provvedimenti.removeArticoli(Articoli)}"></action>
+				<action name="2" expression="#{ArticoliAction.unLink('provvedimento',Provvedimenti)}"></action>
+				<action name="3" expression="#{not empty Articoli.gruppo ? Articoli.gruppo.removeArticoli(Articoli) : ''}"></action>
+				<action name="4" expression="#{Articoli.setGruppo(null)}"></action>
+				<action name="5" expression="#{PersoneArticoliAction.multiDeletePersoneArticoli(Articoli)}"></action>
+				<action name="6" expression="#{ArticoliAction.delete()}"></action>
+			</event>
+			<transition to="../eject1"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="Albero Articoli">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Provvedimenti/filterLaw" binding="late"></sub-process>
+		<transition to="Gestione Articolo UI"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,511 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1466693188277}</h1>
+	<div id="positionEdit" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1466757331558" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1466758456363" styleClass="layoutContainer layoutContainerVertical buttonBarHome" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1467970462398" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPosSPBack;BtnPosSPBack')}" status="ajaxStatus" id="BtnPosSPBack" title="${msg.alt_BtnPosSPBack}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPosSPSave;BtnPosSPSave')}" status="ajaxStatus" id="BtnPosSPSave" title="${msg.alt_BtnPosSPSave}" reRender="popup,phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1467970463002" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnPosSPSelect" style="float:right;" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPosSPSelect;BtnPosSPSelect')}" status="ajaxStatus" id="BtnPosSPSelect_id" title="${msg.alt_BtnPosSPSelect}" immediate="true" rendered="#{SediPersone.internalId eq 0}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x fa-rotate-270 link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" style="float:right;" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnPosSPRefresh;BtnPosSPRefresh')}" status="ajaxStatus" id="BtnPosSPRefresh" title="${msg.alt_BtnPosSPRefresh}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x save link" />
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1466758892270" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1466756980925" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466756980925}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1474447735964" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1468721802345}</span>
+								<h:inputText id="TextBox_1468721802345" value="#{SediPersone.fiscalCode}" style="min-width:100px;height: 21px;" styleClass="inputText" disabled="#{not empty SediPersone.person}" label="${msg.label_TextBox_1468721802345}" >
+								<f:validator validatorId="ItalianNationalIdentificationNumberNoUID"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1468721802345_msg" styleClass="errorContainer" ><h:message for="TextBox_1468721802345" styleClass="errorMessages TextBox_1468721802345_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1468217263143}</span>
+								<h:inputText id="TextBox_1468217263143" value="#{SediPersone.mpi}" style="min-width:100px;height: 19px;" styleClass="inputText" label="${msg.label_TextBox_1468217263143}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1468217263143_msg" styleClass="errorContainer" ><h:message for="TextBox_1468217263143" styleClass="errorMessages TextBox_1468217263143_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1467516374486}</span>
+								<h:inputText id="TextBox_1467516374486" value="#{SediPersone.eni}" style="min-width:100px;height: 19px;" styleClass="inputText" label="${msg.label_TextBox_1467516374486}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1467516374486_msg" styleClass="errorContainer" ><h:message for="TextBox_1467516374486" styleClass="errorMessages TextBox_1467516374486_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1474447736460" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1465964489376}</span>
+								<h:inputText id="TextBox_1465964489376" value="#{SediPersone.cs}" style="min-width:100px;height: 19px;" styleClass="inputText" label="${msg.label_TextBox_1465964489376}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1465964489376_msg" styleClass="errorContainer" ><h:message for="TextBox_1465964489376" styleClass="errorMessages TextBox_1465964489376_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1467056067756}</span>
+								<h:inputText id="TextBox_1467056067756" value="#{SediPersone.stp}" style="min-width:100px;height: 19px;" styleClass="inputText" label="${msg.label_TextBox_1467056067756}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1467056067756_msg" styleClass="errorContainer" ><h:message for="TextBox_1467056067756" styleClass="errorMessages TextBox_1467056067756_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1465552062389}</span>
+								<h:inputText id="TextBox_1465552062389" value="#{SediPersone.teamCode}" style="min-width:100px;height: 19px;" styleClass="inputText" label="${msg.label_TextBox_1465552062389}" >
+								<f:validator validatorId="NumbersOnlyValidator"/>
+								<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1465552062389_msg" styleClass="errorContainer" ><h:message for="TextBox_1465552062389" styleClass="errorMessages TextBox_1465552062389_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1466694502325" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466694502325}</legend>
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1465298822681}</span>
+							<h:selectOneMenu id="ComboBox_1465298822681" value="#{Cariche.carica}" styleClass="comboBox" label="${msg.label_ComboBox_1465298822681}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Cariche')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="MonthCalendar_1464778859156" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="MonthCalendar_1464778859156" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1464778859156}</span>
+							<h:inputText id="MonthCalendar_1464778859156_id" value="#{Cariche.dataInizio}" required="#{not empty Cariche.carica}" class="datepicker  monthCalendar#{not empty Cariche.carica ? ' layoutRequired' : ''}" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1464778859156}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1464778859156_id" styleClass="errorMessages MonthCalendar_1464778859156_E" />
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1465910578494}</span>
+							<h:inputText id="MonthCalendar_1465910578494" value="#{Cariche.dataFine}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1465910578494}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1465910578494" styleClass="errorMessages MonthCalendar_1465910578494_E" />
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1466758226043" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1466758226043}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448102703" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1466250059922" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466250059922}</span>
+							<h:inputText id="TextBox_1466250059922_id" value="#{SediPersone.name.fam}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1466250059922}" />
+							<a4j:outputPanel id="TextBox_1466250059922_msg" styleClass="errorContainer" ><h:message for="TextBox_1466250059922_id" styleClass="errorMessages TextBox_1466250059922_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1468520481174" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1468520481174}</span>
+							<h:inputText id="TextBox_1468520481174_id" value="#{SediPersone.name.giv}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1468520481174}" />
+							<a4j:outputPanel id="TextBox_1468520481174_msg" styleClass="errorContainer" ><h:message for="TextBox_1468520481174_id" styleClass="errorMessages TextBox_1468520481174_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1466908025362}</span>
+							<h:selectOneMenu id="ComboBox_1466908025362" value="#{SediPersone.genderCode}" styleClass="comboBox" style="min-width:50px;" label="${msg.label_ComboBox_1466908025362}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Gender')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1468336501556}</span>
+							<h:selectOneMenu id="ComboBox_1468336501556" value="#{SediPersone.citizen}" styleClass="comboBox" label="${msg.label_ComboBox_1468336501556}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1468207010659}</span>
+							<h:selectOneMenu id="ComboBox_1468207010659" value="#{SediPersone.maritalStatusCode}" styleClass="comboBox" style="min-width:50px;" label="${msg.label_ComboBox_1468207010659}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:MaritalStatus')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448103235" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1465325333318}</span>
+							<h:inputText id="MonthCalendar_1465325333318" value="#{SediPersone.birthTime}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1465325333318}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1465325333318" styleClass="errorMessages MonthCalendar_1465325333318_E" />
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1467077293520}</span>
+							<h:inputText id="MonthCalendar_1467077293520" value="#{SediPersone.deathDate}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1467077293520}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1467077293520" styleClass="errorMessages MonthCalendar_1467077293520_E" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1467009444645" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1467009444645}</span>
+							#{SediPersoneAction.autocomplete['birthPlace'].setContentType('0')}
+							#{SediPersoneAction.autocomplete['birthPlace'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1467009444645_MAIN" value="#{SediPersone.birthPlace.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1467009444645}" />
+							<h:outputLabel for="TextSuggestionBox_1467009444645_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1467009444645_CPA" value="#{SediPersone.birthPlace.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1467009444645_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1467009444645_ZIP" value="#{SediPersone.birthPlace.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1467009444645_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1467009444645_CODE" value="#{SediPersone.birthPlace.code}" label="${msg.label_TextSuggestionBox_1467009444645}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1467009444645_CODE" styleClass="errorMessages TextSuggestionBox_1467009444645_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1467009444645" action="#{SediPersoneAction.autocomplete['birthPlace'].autocomplete()}" data="#{SediPersoneAction.autocomplete['birthPlace'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediPersoneAction.autocomplete['birthPlace'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1465466102053}</span>
+							<h:selectOneMenu id="ComboBox_1465466102053" value="#{SediPersone.countryOfBirth}" styleClass="comboBox" label="${msg.label_ComboBox_1465466102053}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1464988433810}</span>
+							<h:selectOneMenu id="ComboBox_1464988433810" value="#{SediPersone.category}" styleClass="comboBox" label="${msg.label_ComboBox_1464988433810}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1466758779201" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448586633" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1474448586633}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1474448615649" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1468156227714}</span>
+								<h:inputText id="TextBox_1468156227714" value="#{SediPersone.addr.str}" style="height: 20px;width: 178px;" styleClass="inputText" label="${msg.label_TextBox_1468156227714}" />
+								<a4j:outputPanel id="TextBox_1468156227714_msg" styleClass="errorContainer" ><h:message for="TextBox_1468156227714" styleClass="errorMessages TextBox_1468156227714_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1468771135623}</span>
+								<h:inputText id="TextBox_1468771135623" value="#{SediPersone.addr.bnr}" style="min-width:50px;height: 20px;" styleClass="inputText" label="${msg.label_TextBox_1468771135623}" />
+								<a4j:outputPanel id="TextBox_1468771135623_msg" styleClass="errorContainer" ><h:message for="TextBox_1468771135623" styleClass="errorMessages TextBox_1468771135623_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1466750355268" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1466750355268}</span>
+							#{SediPersoneAction.autocomplete['addr'].setContentType('0')}
+							#{SediPersoneAction.autocomplete['addr'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1466750355268_MAIN" value="#{SediPersone.addr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1466750355268}" />
+							<h:outputLabel for="TextSuggestionBox_1466750355268_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1466750355268_CPA" value="#{SediPersone.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1466750355268_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1466750355268_ZIP" value="#{SediPersone.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1466750355268_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1466750355268_CODE" value="#{SediPersone.addr.code}" label="${msg.label_TextSuggestionBox_1466750355268}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1466750355268_CODE" styleClass="errorMessages TextSuggestionBox_1466750355268_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1466750355268" action="#{SediPersoneAction.autocomplete['addr'].autocomplete()}" data="#{SediPersoneAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediPersoneAction.autocomplete['addr'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1466514732463}</span>
+							<h:selectOneMenu id="ComboBox_1466514732463" value="#{SediPersone.countryOfAddr}" styleClass="comboBox" label="${msg.label_ComboBox_1466514732463}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448588129" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1474448588129}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1474448616090" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1465793766625}</span>
+								<h:inputText id="TextBox_1465793766625" value="#{SediPersone.domicileAddr.str}" style="height: 20px;width: 176px;" styleClass="inputText" label="${msg.label_TextBox_1465793766625}" />
+								<a4j:outputPanel id="TextBox_1465793766625_msg" styleClass="errorContainer" ><h:message for="TextBox_1465793766625" styleClass="errorMessages TextBox_1465793766625_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1468556235344}</span>
+								<h:inputText id="TextBox_1468556235344" value="#{SediPersone.domicileAddr.bnr}" style="min-width:50px;height: 20px;" styleClass="inputText" label="${msg.label_TextBox_1468556235344}" />
+								<a4j:outputPanel id="TextBox_1468556235344_msg" styleClass="errorContainer" ><h:message for="TextBox_1468556235344" styleClass="errorMessages TextBox_1468556235344_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1468170301556" >
+						<label >
+							<span class="label">${msg.label_TextSuggestionBox_1468170301556}</span>
+							#{SediPersoneAction.autocomplete['domicileAddr'].setContentType('0')}
+							#{SediPersoneAction.autocomplete['domicileAddr'].setCodeSystem('Comuni')}
+							<h:inputText id="TextSuggestionBox_1468170301556_MAIN" value="#{SediPersone.domicileAddr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1468170301556}" />
+							<h:outputLabel for="TextSuggestionBox_1468170301556_CPA" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1468170301556_CPA" value="#{SediPersone.domicileAddr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+							<h:outputLabel for="TextSuggestionBox_1468170301556_ZIP" styleClass="textSuggestionSeparator" value="-" />
+							<h:inputText id="TextSuggestionBox_1468170301556_ZIP" value="#{SediPersone.domicileAddr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+							<h:outputLabel for="TextSuggestionBox_1468170301556_CODE" style="display:none;"/>
+							<h:inputText id="TextSuggestionBox_1468170301556_CODE" value="#{SediPersone.domicileAddr.code}" label="${msg.label_TextSuggestionBox_1468170301556}"  style="display: none">
+								<f:converter converterId="CodeValueConverter"/>
+
+							</h:inputText>
+							<h:message for="TextSuggestionBox_1468170301556_CODE" styleClass="errorMessages TextSuggestionBox_1468170301556_CODE_E" />
+							<a4j:jsFunction name="TextSuggestionBox_1468170301556" action="#{SediPersoneAction.autocomplete['domicileAddr'].autocomplete()}" data="#{SediPersoneAction.autocomplete['domicileAddr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+								<a4j:actionparam name="search" assignTo="#{SediPersoneAction.autocomplete['domicileAddr'].search}"/>
+								<a4j:actionparam name="ui"/>
+							</a4j:jsFunction>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1467572707887}</span>
+							<h:selectOneMenu id="ComboBox_1467572707887" value="#{SediPersone.countryOfDomicile}" styleClass="comboBox" label="${msg.label_ComboBox_1467572707887}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('Stati:')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutFill_1466758684309" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1466758684309}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448734015" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1468698682239}</span>
+							<h:inputText id="TextBox_1468698682239" value="#{SediPersone.telecom.hp}" style="width: 46px;" styleClass="inputText" label="${msg.label_TextBox_1468698682239}" >
+							<f:validator validatorId="NumbersOnlyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1468698682239_msg" styleClass="errorContainer" ><h:message for="TextBox_1468698682239" styleClass="errorMessages TextBox_1468698682239_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1467530131644" >
+						<label >
+							<span class="label">${msg.label_TextArea_1467530131644}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1467530131644_id" value="#{SediPersone.telecom.h}" label="${msg.label_TextArea_1467530131644}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1467530131644_id" styleClass="errorMessages TextArea_1467530131644_E" />
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465825687457}</span>
+							<h:inputText id="TextBox_1465825687457" value="#{SediPersone.telecom.mail}" styleClass="inputText" label="${msg.label_TextBox_1465825687457}" >
+							<f:validator validatorId="MailAddressValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1465825687457_msg" styleClass="errorContainer" ><h:message for="TextBox_1465825687457" styleClass="errorMessages TextBox_1465825687457_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448734407" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1467852718622}</span>
+							<h:inputText id="TextBox_1467852718622" value="#{SediPersone.telecom.mc}" styleClass="inputText" label="${msg.label_TextBox_1467852718622}" />
+							<a4j:outputPanel id="TextBox_1467852718622_msg" styleClass="errorContainer" ><h:message for="TextBox_1467852718622" styleClass="errorMessages TextBox_1467852718622_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1465913524792" >
+						<label >
+							<span class="label">${msg.label_TextArea_1465913524792}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1465913524792_id" value="#{SediPersone.telecom.bad}" label="${msg.label_TextArea_1465913524792}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1465913524792_id" styleClass="errorMessages TextArea_1465913524792_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1474448758887" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465140087201}</span>
+							<h:inputText id="TextBox_1465140087201" value="#{SediPersone.telecom.ec}" styleClass="inputText" label="${msg.label_TextBox_1465140087201}" />
+							<a4j:outputPanel id="TextBox_1465140087201_msg" styleClass="errorContainer" ><h:message for="TextBox_1465140087201" styleClass="errorMessages TextBox_1465140087201_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1467032488935" >
+						<label >
+							<span class="label">${msg.label_TextArea_1467032488935}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1467032488935_id" value="#{SediPersone.telecom.tmp}" label="${msg.label_TextArea_1467032488935}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1467032488935_id" styleClass="errorMessages TextArea_1467032488935_E" />
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1468358037784}</span>
+							<h:inputText id="TextBox_1468358037784" value="#{SediPersone.telecom.pg}" styleClass="inputText" label="${msg.label_TextBox_1468358037784}" >
+							<f:validator validatorId="MailAddressValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1468358037784_msg" styleClass="errorContainer" ><h:message for="TextBox_1468358037784" styleClass="errorMessages TextBox_1468358037784_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1467779408666}</span>
+							<h:inputText id="TextBox_1467779408666" value="#{SediPersone.telecom.sip}" styleClass="inputText" label="${msg.label_TextBox_1467779408666}" />
+							<a4j:outputPanel id="TextBox_1467779408666_msg" styleClass="errorContainer" ><h:message for="TextBox_1467779408666" styleClass="errorMessages TextBox_1467779408666_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1468193088040" >
+						<label >
+							<span class="label">${msg.label_TextArea_1468193088040}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1468193088040_id" value="#{SediPersone.telecom.wp}" label="${msg.label_TextArea_1468193088040}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1468193088040_id" styleClass="errorMessages TextArea_1468193088040_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+			<a4j:outputPanel layout="block" id="JollyWidget_1467928921477" style="position: absolute;left: 540px;top: -80px;" >
+				<script>
+				jQuery('input[type=text]:visible, textarea:visible').each(function() {
+					jQuery(this).val(jQuery(this).val().toUpperCase());
+				}).on('input',function() {
+				   	jQuery(this).val(jQuery(this).val().toUpperCase());
+				});
+				</script>
+			</a4j:outputPanel>
+
+	</div>
+	<script>focusFirstElement();</script>
+</div>

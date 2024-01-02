@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="alfrescoBrowse">
+
+
+	<start-state name="start-state1">
+		<transition to="task-node1"></transition>
+	</start-state>
+
+
+	<task-node name="task-node1">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Document/CORE/FORMS/alfrescoBrowse')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</task-node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

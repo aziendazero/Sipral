@@ -1,0 +1,76 @@
+<div class="layout horizontal" *ngIf="Patient != null">
+  <div id="LytPtntDet" class="layout vertical">
+    <div class="lbl">
+      <label></label>
+      <span style="font-size:150%; font-weight: bold;">{{Patient.name.fam}} {{Patient.name.sfx}} {{Patient.name.giv}}</span>
+      <span>({{Patient.internalId}})</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_BannerPtntBrthTm' | translate}}</label>
+      <span>{{Patient.birthTime | dateFormat: 'shortDate'}} ({{Banner.patientAge}})</span>
+    </div>
+    <div class="lbl" *ngIf="Patient.birthPlace">
+      <label>{{'label_BannerPtntBrthPlc' | translate}}</label>
+      <span>{{Patient.birthPlace.adl ? Patient.birthPlace.adl : Patient.birthPlace.cty}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_BannerPtntGndr' | translate}}</label>
+      <span>{{gender}}</span>
+    </div>
+    <div class="lbl" *ngIf="Patient.addr">
+      <label>{{'label_BannerPtntAddr' | translate}}</label>
+      <span>{{Patient.addr.str}} {{Patient.addr.stb}} {{Patient.addr.bnr}} {{Patient.addr.zip}} {{Patient.addr.cty ? Patient.addr.cty : Patient.addr.cnt}} {{Patient.addr.cpa}} {{Patient.addr.cty && Patient.addr.cnt ? Patient.addr.cnt : ''}}</span>
+    </div>
+    <div class="lbl" *ngIf="Patient.telecom">
+      <label>{{'label_BannerPtntTel' | translate}}</label>
+      <span>{{Patient.telecom.hp}}  {{Patient.telecom.mc}}</span>
+    </div>
+    <div class="lbl" *ngIf="Patient.telecom && Patient.telecom.mail">
+      <label>{{'label_BannerPtntMail' | translate}}</label>
+      <span>{{Patient.telecom.mail}} </span>
+    </div>
+    <div class="lbl" *ngIf="Patient.fiscalCode">
+      <label>{{'label_BannerFiscalCode' | translate}}</label>
+      <span>{{Patient.fiscalCode}}</span>
+    </div>
+    <div class="lbl" *ngIf="Patient.doctor">
+      <label>Mmg</label>
+      <span>{{Patient.doctor.name?.giv}}</span>
+    </div>
+    <div class="lbl" *ngIf="BannerAdmitter && BannerAdmitter.name">
+      <label>{{'label_BannerDoctor' | translate}}</label>
+      <span>{{BannerAdmitter.name.fam}} {{BannerAdmitter.name.giv}}</span>
+    </div>
+    <div class="lbl" *ngIf="BannerReferrer && BannerReferrer.name">
+      <label>{{'label_BannerNurse' | translate}}</label>
+      <span>{{BannerReferrer.name.fam}} {{BannerReferrer.name.giv}}</span>
+    </div>
+    <div class="lbl" *ngIf="PatientEncounter && PatientEncounter.visitNumber">
+      <label>{{'label_BannerNosologic' | translate}}</label>
+      <span>{{PatientEncounter.visitNumber.extension}}</span>
+    </div>
+    <div class="lbl" *ngIf="PatientEncounter && PatientEncounter.internalId && employeeRoleCode === '1'">
+      <label>{{'label_BannerInternalId' | translate}}</label>
+      <span>{{PatientEncounter.internalId}}</span>
+    </div>
+    <div class="lbl" *ngIf="Banner.DischargeDate">
+      <label>{{'label_BannerDischargeDate' | translate}}</label>
+      <span>{{Banner.DischargeDate | dateFormat: 'shortDate'}}</span>
+    </div>
+    <div class="lbl" *ngIf="Banner.DischargeComplexity">
+      <label>{{'label_BannerDischargeComplexity' | translate}}</label>
+      <span>{{Banner.DischargeComplexity}}</span>
+    </div>
+    <div class="lbl" *ngIf="environment.banner.showPolicy">
+      <label>{{'label_BannerPolicy' | translate}}</label>
+      <span>{{Patient.notePolizza}}</span>
+    </div>
+    <div class="lbl" *ngIf="Banner.RecoveryDays">
+      <label>{{'label_BannerRecoveryDays' | translate}}</label>
+      <span>{{Banner.RecoveryDays}}</span>
+    </div>
+    <div class="lbl" *ngIf="environment.banner.showCVC">
+      <label>{{Banner.cvcToolTip}} </label>
+    </div>
+  </div>
+</div>

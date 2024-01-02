@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="linkSegnalazione">
+
+
+	<start-state name="start-state1">
+		<transition to="eject"></transition>
+	</start-state>
+
+
+	<decision name="Button?" expression="#{(button.getMnemonic())}">
+		<transition to="set temporary richiedente" name="BtnSearchRichiedente"></transition>
+		<transition to="set temporary riferimento" name="BtnSearchRiferimento"></transition>
+		<transition to="setTemporaryUbicazione" name="BtnSearchUbicazione"></transition>
+		<transition to="setRiferimento" name="BtnNotificaCantiere"></transition>
+		<transition to="injectCantiere" name="BtnEditNotificaCantiere"></transition>
+	</decision>
+
+	<decision name="target?" expression="#{ProtocolloAction.temporary['target']}">
+		<transition to="Search Ditta" name="Ditta"></transition>
+		<transition to="Search Interno" name="Interno"></transition>
+		<transition to="Search Utente" name="Utente"></transition>
+		<transition to="Search Cantiere" name="Cantiere"></transition>
+		<transition to="prepare read" name="Medico"></transition>
+	</decision>
+
+	<process-state name="Search Interno">
+		<sub-process name="MOD_Employees/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="temp Interno"></transition>
+	</process-state>
+
+	<process-state name="Search Ditta">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="temp Ditta"></transition>
+	</process-state>
+
+	<process-state name="Search Utente">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="temp Utente"></transition>
+	</process-state>
+
+	<super-state name="super-state1">
+		<node name="Save Segnalazione">
+			<event type="node-enter">
+				<action name="1" expression="#{ProtocolloAction.create()}"></action>
+			</event>
+			<transition to="../clean temporary"></transition>
+		</node>
+	</super-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('searchCantiere',true)}"></action>
+		</event>
+		<transition to="Button?"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="set temporary"></transition>
+	</node>
+
+	<node name="set temporary richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','richiedente')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('target',Protocollo.richiedente.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<node name="set temporary riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','riferimento')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('target',Protocollo.riferimento.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<decision name="base" expression="#{ProtocolloAction.temporary['base']}">
+		<transition to="unlink richiedente" name="richiedente"></transition>
+		<transition to="unlink ubicazione" name="ubicazione"></transition>
+		<transition to="unlink riferimento" name="riferimento"></transition>
+	</decision>
+
+	<node name="setTemporaryUbicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','ubicazione')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('target',Protocollo.ubicazione.code)}"></action>
+		</event>
+		<transition to="compose ToLink"></transition>
+	</node>
+
+	<node name="clean temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.remove('base')}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.remove('target')}"></action>
+			<action name="4" expression="#{ProtocolloAction.temporary.remove('toLink')}"></action>
+			<action name="5" expression="#{ProtocolloAction.temporary.remove('sedeLink')}"></action>
+			<action name="6" expression="#{ProtocolloAction.temporary.remove('linkObj')}"></action>
+			<action name="7" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="8" expression="#{SediAction.eject()}"></action>
+			<action name="9" expression="#{EmployeeAction.eject()}"></action>
+			<action name="10" expression="#{PersonAction.eject()}"></action>
+			<action name="11" expression="#{CantiereAction.eject()}"></action>
+			<action name="12" expression="#{PhysicianAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="Button1" expression="#{(button.getMnemonic())}">
+		<transition to="clean temporary" name="BtnBack"></transition>
+		<transition to="base" name="BtnSave"></transition>
+	</decision>
+
+	<process-state name="Search Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/GestioneCantieri" binding="late"></sub-process>
+		<transition to="temp Cantiere 1"></transition>
+	</process-state>
+
+	<node name="temp Ditta">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',PersoneGiuridiche)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Interno">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',Employee)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Utente">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',Person)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="temp Cantiere 1">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',ProtocolloAction.getCloneOrRevision(Cantiere))}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="compose ToLink">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('toLink',function.concat(ProtocolloAction.temporary['base'],ProtocolloAction.temporary['target']))}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('sedeLink',function.concat(ProtocolloAction.temporary['base'],'Sede'))}"></action>
+		</event>
+		<transition to="isTargetNull?"></transition>
+	</node>
+
+	<node name="unlink ubicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setUbicazioneDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setUbicazioneSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setUbicazioneCantiere(null)}"></action>
+			<action name="4" expression="#{Protocollo.setUbicazioneEntita(null)}"></action>
+			<action name="5" expression="#{Protocollo.setUbicazioneIMO(null)}"></action>
+			<action name="6" expression="#{Protocollo.setUbicazioneTarga(null)}"></action>
+			<action name="7" expression="#{Protocollo.setUbicazioneSpec(null)}"></action>
+			<action name="8" expression="#{Protocollo.setUbicazioneAddr(null)}"></action>
+			<action name="9" expression="#{Protocollo.setUbicazioneY(null)}"></action>
+			<action name="10" expression="#{Protocollo.setUbicazioneX(null)}"></action>
+			<action name="11" expression="#{Protocollo.setUbicazioneLocalita(null)}"></action>
+		</event>
+		<transition to="DettagliBonifiche?"></transition>
+	</node>
+
+	<node name="unlink richiedente">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setRichiedenteDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setRichiedenteSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setRichiedenteUtente(null)}"></action>
+			<action name="4" expression="#{Protocollo.setRichiedenteInterno(null)}"></action>
+			<action name="5" expression="#{Protocollo.setRichiedenteMedico(null)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<node name="unlink riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setRiferimentoDitta(null)}"></action>
+			<action name="2" expression="#{Protocollo.setRiferimentoSede(null)}"></action>
+			<action name="3" expression="#{Protocollo.setRiferimentoCantiere(null)}"></action>
+			<action name="4" expression="#{Protocollo.setRiferimentoUtente(null)}"></action>
+			<action name="5" expression="#{Protocollo.setRiferimentoEntita(null)}"></action>
+			<action name="6" expression="#{Protocollo.setRiferimentoIMO(null)}"></action>
+			<action name="7" expression="#{Protocollo.setRiferimentoTarga(null)}"></action>
+			<action name="8" expression="#{Protocollo.setRiferimentoSpec(null)}"></action>
+			<action name="9" expression="#{Protocollo.setRiferimentoDenominazione(null)}"></action>
+			<action name="10" expression="#{Protocollo.setRiferimentoNote(null)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<node name="link object">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.link(ProtocolloAction.temporary['toLink'],ProtocolloAction.temporary['linkObj'])}"></action>
+			<action name="2" expression="#{not empty ProtocolloAction.temporary['sedeLink'] ? ProtocolloAction.link(ProtocolloAction.temporary['sedeLink'], Sedi) : ''}"></action>
+		</event>
+		<transition to="preset ubicazione?"></transition>
+	</node>
+
+	<node name="set address">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.setUbicazioneAddr(Sedi, Cantiere, PersoneGiuridiche)}"></action>
+			<action name="2" expression="#{DettagliBonificheAction.manageCantiere(Cantiere, Protocollo.ubicazioneAddr)}"></action>
+		</event>
+		<transition to="link object"></transition>
+	</node>
+
+	<process-state name="Search Medico">
+		<sub-process name="MOD_Anagrafiche/CORE/PROCESSES/mediciGestione" binding="late"></sub-process>
+		<transition to="temp Medico"></transition>
+	</process-state>
+
+	<node name="prepare read">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{PhysicianAction.equal.put('code.code','oth')}"></action>
+		</event>
+		<transition to="Search Medico"></transition>
+	</node>
+
+	<node name="temp Medico">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',Physician)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="set temporary cantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','riferimento')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('target',Protocollo.riferimento.code)}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('toLink',function.concat(ProtocolloAction.temporary['base'],ProtocolloAction.temporary['target']))}"></action>
+		</event>
+		<transition to="Manage Cantiere"></transition>
+	</node>
+
+	<node name="setRiferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{Protocollo.setRiferimento(vocabularies.getCodeValue('PHIDIC', 'TargetSource', 'Cantiere', 'C'))}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('notificaCantiere',true)}"></action>
+		</event>
+		<transition to="set temporary cantiere"></transition>
+	</node>
+
+	<process-state name="Manage Cantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/manageCantieri" binding="late"></sub-process>
+		<transition to="temp Cantiere 2"></transition>
+	</process-state>
+
+	<node name="temp Cantiere 2">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('linkObj',ProtocolloAction.getCloneOrRevision(Cantiere))}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('notificaCantiere',false)}"></action>
+		</event>
+		<transition to="Button1"></transition>
+	</node>
+
+	<node name="injectCantiere">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(Protocollo.riferimentoCantiere)}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('editNotifica',true)}"></action>
+		</event>
+		<transition to="setRiferimento"></transition>
+	</node>
+
+	<decision name="preset ubicazione?" expression="#{ProtocolloAction.temporary['base'] eq 'riferimento' and (ProtocolloAction.temporary['target'] eq 'Ditta' or ProtocolloAction.temporary['target'] eq 'Cantiere')}">
+		<transition to="preset ubicazione" name="true"></transition>
+		<transition to="preset riferimento?" name="false"></transition>
+	</decision>
+
+	<node name="preset ubicazione">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','ubicazione')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('toLink',function.concat(ProtocolloAction.temporary['base'],ProtocolloAction.temporary['target']))}"></action>
+			<action name="3" expression="#{Protocollo.setUbicazione(Protocollo.riferimento)}"></action>
+		</event>
+		<transition to="unlink ubicazione"></transition>
+	</node>
+
+	<decision name="DettagliBonifiche?" expression="#{not empty DettagliBonifiche}">
+		<transition to="clean DettagliBonifiche" name="true"></transition>
+		<transition to="set address" name="false"></transition>
+	</decision>
+
+	<node name="clean DettagliBonifiche">
+		<event type="node-enter">
+			<action name="1" expression="#{DettagliBonifiche.setNaturaOpera(null)}"></action>
+			<action name="2" expression="#{DettagliBonifiche.setCommittente(null)}"></action>
+			<action name="3" expression="#{DettagliBonifiche.setAddr(null)}"></action>
+		</event>
+		<transition to="set address"></transition>
+	</node>
+
+	<decision name="isTargetNull?" expression="#{ProtocolloAction.temporary['target']==null}">
+		<transition to="target?" name="false"></transition>
+		<transition to="end-state1" name="true"></transition>
+	</decision>
+
+	<decision name="preset riferimento?" expression="#{Protocollo.uos.area.code eq 'WORKMEDICINE'}">
+		<transition to="super-state1/Save Segnalazione" name="false"></transition>
+		<transition to="preset riferimento" name="true"></transition>
+	</decision>
+
+	<node name="preset riferimento">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('base','riferimento')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('toLink',function.concat(ProtocolloAction.temporary['base'],ProtocolloAction.temporary['target']))}"></action>
+			<action name="3" expression="#{Protocollo.setRiferimento(Protocollo.richiedente)}"></action>
+		</event>
+		<transition to="unlink riferimento"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

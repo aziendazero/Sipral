@@ -1,0 +1,164 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1560593783911}</h1>
+	<div id="dictionaryManagerSearch" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutFill_1557231681146" styleClass="layoutContainer layoutContainerVertical layoutRootHorizontal  layoutRoot" style="height:100%" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1558497167543" style="width: 100.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1558600379450" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1558371832008;BtnBack')}" status="ajaxStatus" id="Link_1558371832008" title="${msg.alt_Link_1558371832008}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1558600092379" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1557187013047" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1557187013047}</span>
+							<h:inputText id="TextBox_1557187013047_id" value="#{CodeValue.displayName}" styleClass="inputText layoutRequired" required="true" disabled="true" label="${msg.label_TextBox_1557187013047}" >
+							<f:validator validatorId="DictionaryConsistencyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1557187013047_msg" styleClass="errorContainer" ><h:message for="TextBox_1557187013047_id" styleClass="errorMessages TextBox_1557187013047_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1560642885467" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1560642885467}</span>
+							<h:inputText id="TextBox_1560642885467_id" value="#{CodeValue.code}" styleClass="inputText#{CodeValue.type eq 'C' or CodeValue.type eq 'S' ? ' layoutRequired' : ''}" required="#{CodeValue.type eq 'C' or CodeValue.type eq 'S'}" disabled="true" label="${msg.label_TextBox_1560642885467}" >
+							<f:validator validatorId="DictionaryConsistencyValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1560642885467_msg" styleClass="errorContainer" ><h:message for="TextBox_1560642885467_id" styleClass="errorMessages TextBox_1560642885467_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1558200102486}</span>
+							<h:inputText id="TextBox_1558200102486" value="#{CodeValue.id}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1558200102486}" />
+							<a4j:outputPanel id="TextBox_1558200102486_msg" styleClass="errorContainer" ><h:message for="TextBox_1558200102486" styleClass="errorMessages TextBox_1558200102486_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1558050008643}</span>
+							<h:inputText id="TextBox_1558050008643" value="#{CodeValue.oid}" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1558050008643}" />
+							<a4j:outputPanel id="TextBox_1558050008643_msg" styleClass="errorContainer" ><h:message for="TextBox_1558050008643" styleClass="errorMessages TextBox_1558050008643_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1558599403808" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1560059295660" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1560059295660}</span>
+							<h:inputText id="MonthCalendar_1560059295660_id" value="#{CodeValue.validFrom}" required="true" disabled="true" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1560059295660}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1560059295660_id" styleClass="errorMessages MonthCalendar_1560059295660_E" />
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1560115858019}</span>
+							<h:inputText id="MonthCalendar_1560115858019" value="#{CodeValue.validTo}" disabled="true" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1560115858019}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							<f:validator validatorId="CodeValueDateValidator"/>
+							<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1560115858019" styleClass="errorMessages MonthCalendar_1560115858019_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1558599143713" styleClass="layoutContainer layoutContainerVertical" >
+ 
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1560041589772" >
+						<label >
+							<span class="label">${msg.label_TextArea_1560041589772}</span>
+							<div>
+							<h:inputTextarea id="TextArea_1560041589772_id" value="#{CodeValue.description}" style="height: 50px;" readonly="true" label="${msg.label_TextArea_1560041589772}" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							</div>
+						</label>
+						<h:message style="float:left;" for="TextArea_1560041589772_id" styleClass="errorMessages TextArea_1560041589772_E" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1556571384673" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandButton action="#{processManager.manageTask('Button_1558052808245;SAVE')}" value="#{msg.Button_1558052808245}" id="Button_1558052808245_id" status="ajaxStatus" styleClass="buttonGeneric buttonSaveGeneric buttonBase" reRender="Button_1558052808245, header, errorMenu" limitToList="true" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1558973009105" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1558973009105}</legend>
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1557089947728" >
+						<label style="display:#{(empty CodeValue.dataType) ? 'block' : 'none' };" >
+							<span class="widget-label">${msg.label_TextBox_1557089947728}</span>
+							<h:inputText id="TextBox_1557089947728_id" value="#{CodeValue.value}" styleClass="inputText" rendered="#{empty CodeValue.dataType}" disabled="true" label="${msg.label_TextBox_1557089947728}" />
+							<a4j:outputPanel id="TextBox_1557089947728_msg" styleClass="errorContainer" ><h:message for="TextBox_1557089947728_id" styleClass="errorMessages TextBox_1557089947728_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel id="DataGrid_1557408356782" layout="block" styleClass="dt layoutTable layoutVertical" style="display:#{(CodeValue.type eq 'A') ? 'block' : 'none' };" >
+						<table id="d1557408356782" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1557408356782} [ChildrenList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1556955460154" value="${msg.DataGridColumn_1556955460154} &#8593;&#8595;" action="#{ChildrenList.orderBy('displayName')}" reRender="DataGrid_1557408356782" ajaxSingle="true" disabled="#{empty ChildrenList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1559058845335" value="${msg.DataGridColumn_1559058845335} &#8593;&#8595;" action="#{ChildrenList.orderBy('location')}" reRender="DataGrid_1557408356782" ajaxSingle="true" disabled="#{empty ChildrenList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1558347704060" value="${msg.DataGridColumn_1558347704060} &#8593;&#8595;" action="#{ChildrenList.orderBy('value')}" reRender="DataGrid_1557408356782" ajaxSingle="true" disabled="#{empty ChildrenList ? true : false}"/></th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty ChildrenList or ChildrenList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="3">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1557408356782" value="#{ChildrenList.entities}" var="Children" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											<h:inputText id="TextBox_1558602789457" value="#{Children.displayName}" disabled="true" />
+											<a4j:outputPanel id="TextBox_1558602789457_msg" styleClass="errorContainer" ><h:message for="TextBox_1558602789457" styleClass="errorMessages TextBox_1558602789457_E" /></a4j:outputPanel>
+
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<a4j:outputPanel layout="block" >
+											<input type="text" id="TextSuggestionBox_1433319350797_MAIN" class="autocomplete" value="#{Children.location}"  />
+											<h:outputLabel for="TextSuggestionBox_1433319350797_CODE" style="display:none;"/>
+											<h:inputText id="TextSuggestionBox_1433319350797_CODE" value="#{Children.location}"  style="display: none">
+											</h:inputText>
+											<h:message for="TextSuggestionBox_1433319350797_CODE" styleClass="errorMessages TextSuggestionBox_1433319350797_CODE_E" />
+											<a4j:jsFunction name="TextSuggestionBox_1433319350797" action="#{ServiceDeliveryLocationAction.read()}" data="#{ServiceDeliveryLocationList.list}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+												<a4j:actionparam name="search" assignTo="#{ServiceDeliveryLocationAction.like['name.giv']}"/>
+												<a4j:actionparam name="ui"/>
+											</a4j:jsFunction>
+											</a4j:outputPanel>
+										</td>
+
+										<td >
+											<h:inputText id="TextBox_1558180861441_id" value="#{Children.value}" rendered="#{empty CodeValue.dataType}" />
+											<a4j:outputPanel id="TextBox_1558180861441_msg" styleClass="errorContainer" ><h:message for="TextBox_1558180861441_id" styleClass="errorMessages TextBox_1558180861441_E" /></a4j:outputPanel>
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

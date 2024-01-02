@@ -1,0 +1,16 @@
+<form #form="ngForm" id="FormPrntRprt">
+  <h1>{{'FormPrntRprt' | translate}}</h1>
+  <div id="LayoutPrntRprt" class="layout vertical">
+    <div id="LayoutPrntRprtStrt" class="layout horizontal">
+      <phi-monthcalendar [(ngModel)]="DrugPrescriberAction.equal['startDate']" name="DrugPrescriberAction.equal['startDate']" id="CalRprtStrt" [widgetLabel]="'label_CalRprtStrt' | translate" [disabled]="reportStartFromEnc"></phi-monthcalendar>
+      <phi-checkbox [(ngModel)]="reportStartFromEnc" name="reportStartFromEnc" id="ChkBxFrmEnc" [widgetLabel]="'label_ChkBxFrmEnc' | translate" (change)="startFromEncChanged()"></phi-checkbox>
+    </div>
+    <div id="LayoutPrntRprtEnd" class="layout horizontal">
+      <phi-monthcalendar [(ngModel)]="DrugPrescriberAction.equal['endDate']" name="DrugPrescriberAction.equal['endDate']" id="CalRprtEnd" [widgetLabel]="'label_CalRprtEnd' | translate" [disabled]="untilToday" todayIsDefaultTime="true"></phi-monthcalendar>
+      <phi-checkbox [(ngModel)]="untilToday" name="untilToday" id="ChkBxToTdy" [widgetLabel]="'label_ChkBxToTdy' | translate" (change)="untilTodayChanged()"></phi-checkbox>
+    </div>
+    <div id="LayoutPrntRprtBtn" class="layout horizontal center">
+      <phi-button (binding)="printReport()" id="BtnPrntRprt">{{'BtnPrntRprt' | translate}}</phi-button>
+    </div>
+  </div>
+</form>

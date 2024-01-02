@@ -1,0 +1,64 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1467387176419}</h1>
+	<div id="dipendentiEventiEdit" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1466652543150" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1468417486325" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1465721666964" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1465721666964;dipendentiEventiSave')}" status="ajaxStatus" id="Link_1465721666964_id" title="${msg.alt_Link_1465721666964}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup,DataGrid_1465886737739" styleClass="fa fa-check fa-3x save link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<label >
+					<span class="label">${msg.label_MonthCalendar_1467102861159}</span>
+					<h:inputText id="MonthCalendar_1467102861159" value="#{EventoAccidentale.dataEvento}" disabled="#{SchedaEspostiAction.temporary['disable']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1467102861159}"  autocomplete="off" >
+					<s:convertDateTime pattern="${format.dateNormal}" />
+					</h:inputText>
+					<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+					<h:message style="float:left;" for="MonthCalendar_1467102861159" styleClass="errorMessages MonthCalendar_1467102861159_E" />
+				</label>
+				</div>
+
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1466489860978" >
+				<label >
+					<span class="label">${msg.label_TextArea_1466489860978}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1466489860978_id" value="#{EventoAccidentale.tipo}" readonly="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextArea_1466489860978}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1466489860978_id" styleClass="errorMessages TextArea_1466489860978_E" />
+				</a4j:outputPanel>
+
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1465812529900" >
+				<label >
+					<span class="label">${msg.label_TextArea_1465812529900}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1465812529900_id" value="#{EventoAccidentale.descrizione}" readonly="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextArea_1465812529900}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1465812529900_id" styleClass="errorMessages TextArea_1465812529900_E" />
+				</a4j:outputPanel>
+
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1468050343185" >
+				<label >
+					<span class="label">${msg.label_TextArea_1468050343185}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1468050343185_id" value="#{EventoAccidentale.provvedimenti}" readonly="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextArea_1468050343185}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1468050343185_id" styleClass="errorMessages TextArea_1468050343185_E" />
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

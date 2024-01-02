@@ -1,0 +1,123 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1451016640312}</h1>
+	<div id="create_Person" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1454191602252" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1451352701022" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1453615802026" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnRBack;BtnRBack')}" status="ajaxStatus" id="BtnRBack" title="${msg.alt_BtnRBack}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnRSave;BtnRSave')}" status="ajaxStatus" id="BtnRSave" title="${msg.alt_BtnRSave}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1462524595634" style="height:100%;width:100%;" >
+						<script>
+						jQuery('input[type=text]:visible, textarea:visible').each(function() {
+							jQuery(this).val(jQuery(this).val().toUpperCase());
+						}).on('input',function() {
+						   	jQuery(this).val(jQuery(this).val().toUpperCase());
+						});
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1452021960644" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1452046477189" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1453763696863" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="ComboBox_1452732165510" value="${msg.Label_1453285303221}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:selectOneMenu id="ComboBox_1452732165510" value="#{Ruoli.code}" styleClass="comboBox" label="${msg.Label_1453285303221}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Role')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1450387333369" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="MonthCalendar_1451685535162" value="${msg.Label_1450232292058}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:inputText id="MonthCalendar_1451685535162" value="#{Ruoli.dataDomandaCessazione}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.Label_1450232292058}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1451685535162" styleClass="errorMessages MonthCalendar_1451685535162_E" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1452366207717" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1451431896093" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="ComboBox_1450495234847" value="${msg.Label_1454107624617}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:selectOneMenu id="ComboBox_1450495234847" value="#{Ruoli.tipo}" styleClass="comboBox" label="${msg.Label_1454107624617}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:TipoRuolo')}" />
+								<f:converter converterId="CodeValueConverter"/>
+							</h:selectOneMenu>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1451950848627" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="MonthCalendar_1450686260294" value="${msg.Label_1451558968304}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:inputText id="MonthCalendar_1450686260294" value="#{Ruoli.dataDeliberaCessazione}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.Label_1451558968304}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1450686260294" styleClass="errorMessages MonthCalendar_1450686260294_E" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1453536076395" style="width:34%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1451334759545" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="TextBox_1452701018438" value="${msg.Label_1452273977369}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:inputText id="TextBox_1452701018438" value="#{Ruoli.causaleCessazione}" styleClass="inputText" label="${msg.Label_1452273977369}" />
+							<a4j:outputPanel id="TextBox_1452701018438_msg" styleClass="errorContainer" ><h:message for="TextBox_1452701018438" styleClass="errorMessages TextBox_1452701018438_E" /></a4j:outputPanel>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1452715053076" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutVertical" >
+							<h:outputLabel for="MonthCalendar_1450872821126" value="${msg.Label_1450772292448}" class="labelContent  base-label" />
+							</div>
+
+							<div class="layoutVertical" >
+							<h:inputText id="MonthCalendar_1450872821126" value="#{Ruoli.dataCessazione}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.Label_1450772292448}"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1450872821126" styleClass="errorMessages MonthCalendar_1450872821126_E" />
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="getDeviceLocationVigilanza">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare location"></transition>
+	</start-state>
+
+
+	<node name="prepare location">
+		<event type="node-enter">
+			<action name="1" expression="#{geolocation.unwrapDeviceLocation(button.value,VigilanzaAction.temporary)}"></action>
+		</event>
+		<transition to="update location popup"></transition>
+	</node>
+
+	<task-node name="update location popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/getDeviceCoordinatesVigilanza')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="end-state1" name="BtnCancel"></transition>
+		<transition to="super-state1/save" name="btnOk"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{Vigilanza.setLatitudine(VigilanzaAction.temporary.get('latitude'))}"></action>
+				<action name="2" expression="#{Vigilanza.setLongitudine(VigilanzaAction.temporary.get('longitude'))}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

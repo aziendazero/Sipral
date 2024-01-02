@@ -1,0 +1,643 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1517354281323}</h1>
+	<div id="indirizzoSpedSearch" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1514999620235" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1515875857652" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1517398581972" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1517390588769;BtnBack')}" status="ajaxStatus" id="Link_1517390588769" title="${msg.alt_Link_1517390588769}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x popup link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1514566363356" style="width:18%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnGestVerAlfrescoDocEdit" >
+						<a4j:commandLink action="#{processManager.manageTask('BtnGestVerAlfrescoDocEdit;BtnGestVerAlfrescoDocEdit')}" status="ajaxStatus" id="BtnGestVerAlfrescoDocEdit_id" title="${msg.alt_BtnGestVerAlfrescoDocEdit}" rendered="#{!empty VerificaImp}" reRender="phiDesktop" styleClass="fa fa-file-text-o fa-3x link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1596034266843" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!Param['p.company.scheda_verifiche_01.valida'].readOnly}" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1596646284007" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1596646284007;BtnValidateMulti')}" status="ajaxStatus" id="Link_1596646284007_id" title="${msg.alt_Link_1596646284007}" rendered="#{VerificaImpAction.isAnyVerifSel(VerificaImpAction.temporary['selectedVers']) and false}" reRender="popup,phiDesktop" styleClass="fa fa-check-square-o fa-3x save link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('LinkValidateVerifMulti;BtnValidateMulti')}" status="ajaxStatus" id="LinkValidateVerifMulti" title="${msg.alt_LinkValidateVerifMulti}" reRender="popup,phiDesktop" styleClass="fa fa-check-square-o fa-3x save link" onmouseover="sendEntityList('VerificaImp',selectedEntities);"/>
+							</div>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1596095508741" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1596039332115" style="height:100%;width:100%;" >
+							<script>
+							updateList(#{VerificaImpAction.temporary['selectedVers']});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1596034812360" style="height:100%;width:100%;" >
+							<style>
+							.nascosto { display: none; }
+							</style>
+							
+							<script>
+							if(isAnyEntitySelected()){
+								jQuery('a[id="i:LinkValidateVerifMulti"]').removeClass('nascosto');
+							}else{
+								jQuery('a[id="i:LinkValidateVerifMulti"]').addClass('nascosto');
+							}
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1657790678590" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{VerificaImpList.size() gt 0 and (Param['p.anagrafiche.verificheSearch.inail'].visible or Param['p.anagrafiche.verificheSearch.tecnico'].visible)}" >
+						<a4j:outputPanel layout="block" style="margin-left:24px;padding:0;float:right;" id="LayoutRow_1670443774284" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty VerificheTecDocument and Param['p.anagrafiche.verificheSearch.tecnico'].visible}" >
+						<div class="middleAlignedContent">
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1671501939256}" class="labelContent c-text-bold base-label" >${msg.Label_1671501939256}</span>
+							</div>
+
+							<div class="layoutVertical" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1671455701231" style="height:100%;width:100%;" >
+										                <s:link action="#{downloadAttachment.download}" target="_self">
+															<i class="estrai-dati link readOnly"></i>
+										                    <f:param name="path" value="#{function.concat('VerificheTecDocument.',-1)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</div>
+
+							<div class="sizePlaceholder"></div>
+						</div>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="margin-left:24px;padding:0;float:right;" id="LayoutRow_1657801964114" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty VerificheDocument and Param['p.anagrafiche.verificheSearch.inail'].visible}" >
+						<div class="middleAlignedContent">
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1658223303969}" class="labelContent c-text-bold base-label" >${msg.Label_1658223303969}</span>
+							</div>
+
+							<div class="layoutVertical" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1659153756570" style="height:100%;width:100%;" >
+										                <s:link action="#{downloadAttachment.download}" target="_self">
+															<i class="estrai-dati link readOnly"></i>
+										                    <f:param name="path" value="#{function.concat('VerificheDocument.',-1)}" />
+										                </s:link>
+							</a4j:outputPanel>
+							</div>
+
+							<div class="sizePlaceholder"></div>
+						</div>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1658223275095" style="float:right;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="middleAlignedContent">
+							<div class="layoutVertical" >
+							<span value="${msg.Label_1658223302801}" class="labelContent c-text-bold base-label" >${msg.Label_1658223302801}</span>
+							</div>
+
+							<div class="layoutVertical" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1658990315474;VerifPrint')}" status="ajaxStatus" id="Link_1658990315474" alt="#{LINK}" style="maring-left:10px;" reRender="phiDesktop" styleClass="estrai-dati link readOnly" />
+							</div>
+
+							<div class="sizePlaceholder"></div>
+						</div>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1516368910257" style="padding-bottom:20px;" styleClass="layoutContainer layoutContainerVertical green layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1516368910257}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1516192404662" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1516192508317}</span>
+							<h:inputText id="MonthCalendar_1516192508317" value="#{VerificaImpAction.greaterEqual['data']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1516192508317}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1516192508317" styleClass="errorMessages MonthCalendar_1516192508317_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1516192514549}</span>
+							<h:inputText id="MonthCalendar_1516192514549" value="#{VerificaImpAction.lessEqual['data']}" class="datepicker filter monthCalendar readOnly" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1516192514549}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1516192514549" styleClass="errorMessages MonthCalendar_1516192514549_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_ComboBox_1516192462158}</span>
+							<h:selectOneMenu id="ComboBox_1516192462158" value="#{VerificaImpAction.temporary['selectedARPAV']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1516192462158}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getArpav()}" />
+							</h:selectOneMenu>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1515324014297" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1516369018838" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1515579803667}</span>
+								<span value="${msg.Label_1515579803667}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1515644783060" value="#{ImpiantoAction.temporary['01']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1515644783060}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1515644783060}" for="CheckBox_1515644783060" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1515644783060" styleClass="errorMessages CheckBox_1515644783060_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515644783060" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1515257589733" value="#{ImpiantoAction.temporary['04']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1515257589733}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1515257589733}" for="CheckBox_1515257589733" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1515257589733" styleClass="errorMessages CheckBox_1515257589733_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515257589733" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1518128982345" value="#{ImpiantoAction.temporary['03']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1518128982345}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1518128982345}" for="CheckBox_1518128982345" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1518128982345" styleClass="errorMessages CheckBox_1518128982345_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1518128982345" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1516852090851" value="#{ImpiantoAction.temporary['05']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1516852090851}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1516852090851}" for="CheckBox_1516852090851" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1516852090851" styleClass="errorMessages CheckBox_1516852090851_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1516852090851" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1515377598837" value="#{ImpiantoAction.temporary['02']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1515377598837}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetAllType()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1515377598837}" for="CheckBox_1515377598837" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1515377598837" styleClass="errorMessages CheckBox_1515377598837_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515377598837" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1514834491122" value="#{ImpiantoAction.temporary['allTypes']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1514834491122}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" action="#{ImpiantoAction.resetTypes()}" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1514834491122}" for="CheckBox_1514834491122" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1514834491122" styleClass="errorMessages CheckBox_1514834491122_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1514834491122" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1533555451409" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ImpiantoAction.temporary['01'] and not ImpiantoAction.temporary['02'] and not ImpiantoAction.temporary['03'] and not ImpiantoAction.temporary['04'] and not ImpiantoAction.temporary['05']}" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1532703297518}</span>
+								<span value="${msg.Label_1532703297518}" class="labelContent  base-label" ></span>
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1534310940875" value="#{VerificaImpAction.temporary['idraulica']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1534310940875}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1534310940875}" for="CheckBox_1534310940875" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1534310940875" styleClass="errorMessages CheckBox_1534310940875_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1534310940875" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1532647025186" value="#{VerificaImpAction.temporary['interna']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1532647025186}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1532647025186}" for="CheckBox_1532647025186" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1532647025186" styleClass="errorMessages CheckBox_1532647025186_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1532647025186" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<div class="layoutHorizontal" >
+							<h:selectBooleanCheckbox id="CheckBox_1534905471605" value="#{VerificaImpAction.temporary['esercizio']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1534905471605}" >
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1515324014297" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:outputLabel value="${msg.CheckBox_1534905471605}" for="CheckBox_1534905471605" style="vertical-align:middle;margin-left:3px;" />
+							<h:message for="CheckBox_1534905471605" styleClass="errorMessages CheckBox_1534905471605_E" />
+							</div>
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1534905471605" style="display:none;" value="hiddenLabel"></h:outputLabel>
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1515966327730" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1517500830630" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1516293227693" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1518174609567}</span>
+										<h:inputText id="TextBox_1518174609567" value="#{VerificaImpAction.temporary['denominazioneSI']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1518174609567}" />
+										<a4j:outputPanel id="TextBox_1518174609567_msg" styleClass="errorContainer" ><h:message for="TextBox_1518174609567" styleClass="errorMessages TextBox_1518174609567_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1516816048665}</span>
+										<h:inputText id="TextBox_1516816048665" value="#{VerificaImpAction.temporary['denominazioneSA']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516816048665}" />
+										<a4j:outputPanel id="TextBox_1516816048665_msg" styleClass="errorContainer" ><h:message for="TextBox_1516816048665" styleClass="errorMessages TextBox_1516816048665_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1516282535513}</span>
+										<h:inputText id="TextBox_1516282535513" value="#{VerificaImpAction.temporary['denominazioneIS']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516282535513}" />
+										<a4j:outputPanel id="TextBox_1516282535513_msg" styleClass="errorContainer" ><h:message for="TextBox_1516282535513" styleClass="errorMessages TextBox_1516282535513_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1516293221973" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1516270355492}</span>
+										<h:inputText id="TextBox_1516270355492" value="#{VerificaImpAction.like['operatore.name.fam']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516270355492}" />
+										<a4j:outputPanel id="TextBox_1516270355492_msg" styleClass="errorContainer" ><h:message for="TextBox_1516270355492" styleClass="errorMessages TextBox_1516270355492_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1516270383851}</span>
+										<h:inputText id="TextBox_1516270383851" value="#{VerificaImpAction.like['operatore.name.giv']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516270383851}" />
+										<a4j:outputPanel id="TextBox_1516270383851_msg" styleClass="errorContainer" ><h:message for="TextBox_1516270383851" styleClass="errorMessages TextBox_1516270383851_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1516269522710}</span>
+										<h:selectOneMenu id="ComboBox_1516269522710" value="#{VerificaImpAction.equal['statusCode']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1516269522710}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+											<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Stato')}" />
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label >
+										<span class="label">${msg.label_ComboBox_1516269529128}</span>
+										<h:selectOneMenu id="ComboBox_1516269529128" value="#{VerificaImpAction.equal['esito']}" styleClass="filter comboBox readOnly" label="${msg.label_ComboBox_1516269529128}" >
+											<f:selectItem itemLabel="-" itemValue=""/>
+											<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Esito')}" />
+											<f:converter converterId="CodeValueConverter"/>
+										</h:selectOneMenu>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1536663559747" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1534037243181}</span>
+										<h:inputText id="TextBox_1534037243181" value="#{VerificaImpAction.temporary['fattura.anno']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1534037243181}" >
+										<f:converter converterId="IntegerConverter"/>
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1534037243181_msg" styleClass="errorContainer" ><h:message for="TextBox_1534037243181" styleClass="errorMessages TextBox_1534037243181_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+									<div class="layoutHorizontal" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1537596641716}</span>
+										<h:inputText id="TextBox_1537596641716" value="#{VerificaImpAction.equal['numeroDoc']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1537596641716}" >
+										<f:converter converterId="IntegerConverter"/>
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1537596641716_msg" styleClass="errorContainer" ><h:message for="TextBox_1537596641716" styleClass="errorMessages TextBox_1537596641716_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1516098820646" style="width:25%;" styleClass="layoutContainer layoutContainerHorizontal" >
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1515174957559}</span>
+									<h:inputText id="TextBox_1515174957559" value="#{VerificaImpAction.like['impSearchCollector.sigla']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1515174957559}" />
+									<a4j:outputPanel id="TextBox_1515174957559_msg" styleClass="errorContainer" ><h:message for="TextBox_1515174957559" styleClass="errorMessages TextBox_1515174957559_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1515223417573}</span>
+									<h:inputText id="TextBox_1515223417573" value="#{VerificaImpAction.like['impSearchCollector.matricola']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1515223417573}" />
+									<a4j:outputPanel id="TextBox_1515223417573_msg" styleClass="errorContainer" ><h:message for="TextBox_1515223417573" styleClass="errorMessages TextBox_1515223417573_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1516859458604}</span>
+									<h:inputText id="TextBox_1516859458604" value="#{VerificaImpAction.like['impSearchCollector.anno']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516859458604}" />
+									<a4j:outputPanel id="TextBox_1516859458604_msg" styleClass="errorContainer" ><h:message for="TextBox_1516859458604" styleClass="errorMessages TextBox_1516859458604_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+								<div class="layoutVertical" >
+								<label style="display:block;" >
+									<span class="widget-label">${msg.label_TextBox_1516264051568}</span>
+									<h:inputText id="TextBox_1516264051568" value="#{VerificaImpAction.like['impSearchCollector.numeroFabbrica']}" styleClass="filter inputText readOnly" label="${msg.label_TextBox_1516264051568}" />
+									<a4j:outputPanel id="TextBox_1516264051568_msg" styleClass="errorContainer" ><h:message for="TextBox_1516264051568" styleClass="errorMessages TextBox_1516264051568_E" /></a4j:outputPanel>
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="width:25%;padding:0;" id="LayoutRow_1514399447228" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not ImpiantoAction.temporary['01'] and not ImpiantoAction.temporary['02'] and not ImpiantoAction.temporary['03'] and not ImpiantoAction.temporary['04'] and ImpiantoAction.temporary['05']}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1517255997870" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1517204825369}</span>
+										<span value="${msg.Label_1517204825369}" class="labelContent  base-label" ></span>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1514271982429" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1515555695221" value="#{ImpiantoAction.temporary['A']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1515555695221}" />
+									<h:outputLabel value="${msg.CheckBox_1515555695221}" for="CheckBox_1515555695221" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1515555695221" styleClass="errorMessages CheckBox_1515555695221_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515555695221" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1514143430192" value="#{ImpiantoAction.temporary['B']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1514143430192}" />
+									<h:outputLabel value="${msg.CheckBox_1514143430192}" for="CheckBox_1514143430192" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1514143430192" styleClass="errorMessages CheckBox_1514143430192_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1514143430192" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1517697368368" value="#{ImpiantoAction.temporary['C']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1517697368368}" />
+									<h:outputLabel value="${msg.CheckBox_1517697368368}" for="CheckBox_1517697368368" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1517697368368" styleClass="errorMessages CheckBox_1517697368368_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1517697368368" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" style="width:25%;padding:0;" id="LayoutRow_1514303673156" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not ImpiantoAction.temporary['01'] and not ImpiantoAction.temporary['02'] and not ImpiantoAction.temporary['03'] and ImpiantoAction.temporary['04'] and not ImpiantoAction.temporary['05']}" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1515826934338" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<label >
+										<span class="label">${msg.label_Label_1514847704691}</span>
+										<span value="${msg.Label_1514847704691}" class="labelContent  base-label" ></span>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1517144362894" styleClass="layoutContainer layoutContainerHorizontal" >
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1516564186840" value="#{ImpiantoAction.temporary['D']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1516564186840}" />
+									<h:outputLabel value="${msg.CheckBox_1516564186840}" for="CheckBox_1516564186840" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1516564186840" styleClass="errorMessages CheckBox_1516564186840_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1516564186840" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1516040093085" value="#{ImpiantoAction.temporary['E']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1516040093085}" />
+									<h:outputLabel value="${msg.CheckBox_1516040093085}" for="CheckBox_1516040093085" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1516040093085" styleClass="errorMessages CheckBox_1516040093085_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1516040093085" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1516009801474" value="#{ImpiantoAction.temporary['F']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1516009801474}" />
+									<h:outputLabel value="${msg.CheckBox_1516009801474}" for="CheckBox_1516009801474" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1516009801474" styleClass="errorMessages CheckBox_1516009801474_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1516009801474" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1517477985128" value="#{ImpiantoAction.temporary['G']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1517477985128}" />
+									<h:outputLabel value="${msg.CheckBox_1517477985128}" for="CheckBox_1517477985128" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1517477985128" styleClass="errorMessages CheckBox_1517477985128_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1517477985128" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1517543839853" value="#{ImpiantoAction.temporary['H']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1517543839853}" />
+									<h:outputLabel value="${msg.CheckBox_1517543839853}" for="CheckBox_1517543839853" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1517543839853" styleClass="errorMessages CheckBox_1517543839853_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1517543839853" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1515823827230" value="#{ImpiantoAction.temporary['I']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1515823827230}" />
+									<h:outputLabel value="${msg.CheckBox_1515823827230}" for="CheckBox_1515823827230" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1515823827230" styleClass="errorMessages CheckBox_1515823827230_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1515823827230" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									<div class="layoutVertical" >
+									<h:selectBooleanCheckbox id="CheckBox_1514548413680" value="#{ImpiantoAction.temporary['L']}" style="vertical-align:middle;" styleClass="filter checkBox readOnly" alt="CHECKBOX" label="${msg.CheckBox_1514548413680}" />
+									<h:outputLabel value="${msg.CheckBox_1514548413680}" for="CheckBox_1514548413680" style="vertical-align:middle;margin-left:3px;" />
+									<h:message for="CheckBox_1514548413680" styleClass="errorMessages CheckBox_1514548413680_E" />
+									</div>
+									<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1514548413680" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1516374179080" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1516374151759;BtnSearch')}" status="ajaxStatus" id="Link_1516374151759" title="${msg.alt_Link_1516374151759}" reRender="phiDesktop" styleClass="fa fa-search fa-3x hotKeyF4 link readOnly" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1517328043513;BtnFilterCancel')}" status="ajaxStatus" id="Link_1517328043513" title="${msg.alt_Link_1517328043513}" reRender="phiDesktop,LayoutRow_1516368910257,DataGrid_1514307768483" styleClass="fa fa-eraser fa-3x link readOnly" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1603281031344" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1603281022320" style="height:100%;width:100%;" >
+						<script type="text/javascript">
+						//console.log(jQuery('td:has(input[type=checkbox])')[0]);
+						
+						function toggleAll(ch){
+						if(ch===true){
+						jQuery('input[type=checkbox][class="selectAll"]:not(:checked)').each(function(){
+						//jQuery(this).trigger('onchange');
+						jQuery(this).click();
+						})
+						}else{
+						jQuery('input[type=checkbox][class="selectAll"]:checked').each(function(){
+						jQuery(this).click();
+						})
+						}
+						
+						}
+						</script>
+					</a4j:outputPanel>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1603280871271" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1603280871271}" onclick="toggleAll(this.checked)">
+					</h:selectBooleanCheckbox>
+					<h:outputLabel value="${msg.CheckBox_1603280871271}" for="CheckBox_1603280871271" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1603280871271" styleClass="errorMessages CheckBox_1603280871271_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1603280871271" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1514307768483" layout="block" styleClass="dt layoutTable layoutVertical" >#{VerificaImpAction.setReadPageSize(20)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1514307768483" value="&#8592;" action="#{VerificaImpList.prev}" reRender="DataGrid_1514307768483" rendered="#{VerificaImpList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1514307768483" value="#{VerificaImpList.pageIndexes}" var="pi1514307768483">
+										<li class="#{(VerificaImpList.currentPage eq pi1514307768483 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1514307768483" value="#{pi1514307768483}" action="#{VerificaImpList.goToPage(pi1514307768483)}" reRender="DataGrid_1514307768483" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1514307768483" value="&#8594;" action="#{VerificaImpList.next}" reRender="DataGrid_1514307768483" rendered="#{VerificaImpList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1514307768483" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1514307768483} [VerificaImpList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1595582760210}</th>
+								<th style="#{(false ? '' : 'display:none;')}">${msg.DataGridColumn_1596095727743}</th>
+								<th>${msg.DataGridColumn_1516392168741}</th>
+								<th><a4j:commandLink id="DataGridColumn_1558099456546" value=" &#8593;&#8595;" action="#{VerificaImpList.orderBy('internalId')}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th>${msg.DataGridColumn_1516127279617}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1537184272672} &#8593;&#8595;</th>
+								<th style="#{(Param['p.anagrafiche.verificheSearch.createdBy'].visible ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1529408399048" value="${msg.DataGridColumn_1529408399048} &#8593;&#8595;" action="#{VerificaImpList.orderBy('createdBy')}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1516617358237" value="${msg.DataGridColumn_1516617358237} &#8593;&#8595;" action="#{VerificaImpList.orderBy('impSearchCollector.sigla')}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1514808566696" value="${msg.DataGridColumn_1514808566696} &#8593;&#8595;" action="#{VerificaImpList.orderBy('data')}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1514458554976" value="${msg.DataGridColumn_1514458554976} &#8593;&#8595;" action="#{VerificaImpList.orderBy(function.getLang('tipo.'))}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1515984060014} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1516023354573" value="${msg.DataGridColumn_1516023354573} &#8593;&#8595;" action="#{VerificaImpList.orderBy('operatore.name')}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1516405411063" value="${msg.DataGridColumn_1516405411063} &#8593;&#8595;" action="#{VerificaImpList.orderBy(function.getLang('esito.'))}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1514525461040" value="${msg.DataGridColumn_1514525461040} &#8593;&#8595;" action="#{VerificaImpList.orderBy(function.getLang('prescrizione.'))}" reRender="DataGrid_1514307768483" ajaxSingle="true" disabled="#{empty VerificaImpList ? true : false}"/></th>
+								<th style="#{(false ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1515423000428} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1517194567928}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty VerificaImpList or VerificaImpList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="16">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1514307768483" value="#{VerificaImpList.entities}" var="VerificaImp" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1514307768483(this.id);" class="#{VerificaImpAction.getEntity().equals(VerificaImp) or VerificaImp.internalId != 0 and VerificaImpAction.entity.internalId.equals(VerificaImp.internalId) ? 'selRow' : ''}" >
+									<td >
+						<h:selectBooleanCheckbox id="CheckBox_1464130784354_id" value="#{VerificaImp.isChecked}" style="vertical-align:middle;" styleClass="selectAll" alt="CHECKBOX" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}" disabled="#{Param['p.company.scheda_verifiche_01.valida'].readOnly}" onclick="manageEntityList(event,this.checked,#{VerificaImp.internalId});">
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="JollyWidget_1596034812360" event="onchange" ignoreDupResponses="true" />
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1464130784354_id" styleClass="errorMessages CheckBox_1464130784354_E" />
+						<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}"  for="CheckBox_1464130784354" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									</td>
+
+									<td style="#{(false ? '' : 'display:none;')} " >
+						<h:selectBooleanCheckbox id="CheckBox_1598011212184_id" value="#{VerificaImp.isSel}" style="vertical-align:middle;" alt="CHECKBOX" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}" disabled="#{Param['p.company.scheda_verifiche_01.valida'].readOnly}" onclick="stopPropagation(event);">
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1598011212184_id" styleClass="errorMessages CheckBox_1598011212184_E" />
+						<h:outputLabel layout="block" styleClass="widgetDiv" rendered="#{VerificaImp.statusCode eq null or VerificaImp.statusCode.code=='new'}"  for="CheckBox_1598011212184" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{VerificaImpAction.injectAndProceed(VerificaImp, 'ispMng2;BtnIspAnag')}" status="ajaxStatus" id="ispMng2" title="${msg.alt_ispMng2}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										#{VerificaImp.internalId}
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{VerificaImpAction.inject(VerificaImp)}" status="ajaxStatus" id="Link_1514815636614_id" title="${msg.alt_Link_1514815636614}" style="color: red;" rendered="#{VerificaImp.statusCode.code=='new'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{VerificaImpAction.inject(VerificaImp)}" status="ajaxStatus" id="Link_1516824674246_id" title="${msg.alt_Link_1516824674246}" style="color: green;" rendered="#{VerificaImp.statusCode.code=='completed'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{VerificaImpAction.inject(VerificaImp)}" status="ajaxStatus" id="Link_1514669300168_id" title="${msg.alt_Link_1514669300168}" style="color: GoldenRod;" rendered="#{VerificaImp.statusCode.code=='verified'}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x readOnly tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{(VerificaImp.tipoInOut==null or VerificaImp.tipoInOut.code=='01')?'ARPAV':VerificaImp.enteVerificatoreExt.currentTranslation}</span>
+									</td>
+
+									<td style="#{(Param['p.anagrafiche.verificheSearch.createdBy'].visible ? '' : 'display:none;')} " >
+										<span class="base-label" >#{VerificaImp.createdBy}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{function.concat(VerificaImp.impSearchCollector.sigla, '/', VerificaImp.impSearchCollector.matricola, '/', VerificaImp.impSearchCollector.anno)}</span>
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{VerificaImp.data}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{VerificaImp.tipo.currentTranslation}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{VerificaImpAction.getTipoProva(VerificaImp)}</span>
+									</td>
+
+									<td >
+										<span style="display:#{(VerificaImp.operatore ne null) ? 'block' : 'none' };" class="base-label" >#{VerificaImp.operatore.name}</span>
+										<span style="display:#{(VerificaImp.operatore eq null) ? 'block' : 'none' };" class="c-text-14 c-text-bold base-label" >${msg.Label_1571406193640}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{VerificaImp.esito.currentTranslation}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{VerificaImp.prescrizione.currentTranslation}</span>
+									</td>
+
+									<td style="#{(false ? '' : 'display:none;')} " >
+										<span class="base-label" ></span>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{VerificaImpAction.injectAndProceed(VerificaImp, 'ispDel2;BtnIspAnag')}" status="ajaxStatus" id="ispDel2_id" title="${msg.alt_ispDel2}" rendered="#{VerificaImp.statusCode.code=='new'}" disabled="#{Param['p.company.create_impianto.eliminaVerifica'].readOnly}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1514307768483" name="ie1514307768483" status="ajaxStatus" action="#{VerificaImpList.injectEject}" data="#{VerificaImpList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1514307768483'))" reRender="BtnGestVerAlfrescoDocEdit" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{VerificaImpList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1677666225244" >
+				<h:outputText rendered="#{VerificaImpList.size() gt 0}" value="#{function.concat('Righe estratte: ', VerificaImpAction.temporary['rowCount'])}" id="Label_1677666225244_id" style="display:block;" class="labelContent  base-label" />
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

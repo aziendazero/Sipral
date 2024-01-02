@@ -1,0 +1,192 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1470322328235}</h1>
+	<div id="manualTag" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1468554249708" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1468832571620" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1469764504857;BtnBack')}" status="ajaxStatus" id="Link_1469764504857" title="${msg.alt_Link_1469764504857}" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1480945968747" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1480945968747;selectThis')}" status="ajaxStatus" id="Link_1480945968747_id" title="${msg.alt_Link_1480945968747}" rendered="#{not empty TagFascicolo}" reRender="phiDesktop" styleClass="fa fa-check fa-3x save link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding: 5px;padding:0;" id="LayoutFill_1472169840232" styleClass="layoutContainer layoutContainerVertical green" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filterFascicoli']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutFill_1472169840232}</legend>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_RadioGroup_1518434982459}</span>
+						<h:selectOneRadio id="RadioGroup_1518434982459" value="#{TagFascicoloAction.temporary['tagType']}" styleClass="radioGroupTable radioGroup" label="${msg.label_RadioGroup_1518434982459}" >
+						<f:selectItems value="#{vocabularies.selectCodeValues('PHIDIC','TagType:distr,gen,reg,ulss')}" />
+
+							<f:converter converterId="CodeValueConverter"/>
+						</h:selectOneRadio>
+					</label>
+					</div>
+
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1469520294543}</span>
+						<h:inputText id="TextBox_1469520294543" value="#{TagFascicoloAction.temporary['fascicolo']}" styleClass="filter inputText" label="${msg.label_TextBox_1469520294543}" />
+						<a4j:outputPanel id="TextBox_1469520294543_msg" styleClass="errorContainer" ><h:message for="TextBox_1469520294543" styleClass="errorMessages TextBox_1469520294543_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1469541209100" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1469798333414}</span>
+							<h:inputText id="MonthCalendar_1469798333414" value="#{TagFascicoloAction.temporary['from']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469798333414}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1469798333414" styleClass="errorMessages MonthCalendar_1469798333414_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1469991754176}</span>
+							<h:inputText id="MonthCalendar_1469991754176" value="#{TagFascicoloAction.temporary['to']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1469991754176}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1469991754176" styleClass="errorMessages MonthCalendar_1469991754176_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1468459787131" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1470086878393" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(TagFascicoloAction.temporary['showUOC']) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1470086878393}</span>
+							<h:selectOneMenu id="ComboBox_1470086878393_id" value="#{TagFascicoloAction.temporary['distretto']}" rendered="#{TagFascicoloAction.temporary['showUOC']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1470086878393}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getUocEntities()}" />
+								<f:converter converterId="EntityConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1471647000443" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1471647000443" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(spisalUserAction.getEnabledUOS().size() gt 1) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1471647000443}</span>
+							<h:selectOneMenu id="ComboBox_1471647000443_id" value="#{TagFascicoloAction.temporary['ldl']}" rendered="#{spisalUserAction.getEnabledUOS().size() gt 1}" styleClass="filter comboBox" label="${msg.label_ComboBox_1471647000443}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{(spisalUserAction.getUocEntities().size() gt 1) ? spisalUserAction.getUosFromSelectedUoc(TagFascicoloAction.temporary['distretto']) : spisalUserAction.getEnabledUOS()}" />
+								<f:converter converterId="EntityConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_CheckBox_1471501961983}</span>
+						<h:selectBooleanCheckbox id="CheckBox_1471501961983" value="#{TagFascicoloAction.temporary['nonAttivi']}" style="filtervertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1471501961983}" />
+						<h:message for="CheckBox_1471501961983" styleClass="errorMessages CheckBox_1471501961983_E" />
+					</label>
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1471501961983" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1471053776283" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1472003344347;Search')}" status="ajaxStatus" id="Link_1472003344347" title="${msg.alt_Link_1472003344347}" reRender="DataGrid_1472169565222,TableConversionWidget_1470614658671" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1470562909828;ClearFiltri')}" status="ajaxStatus" id="Link_1470562909828" title="${msg.alt_Link_1470562909828}" reRender="phiDesktop,LayoutFill_1472169840232,DataGrid_1472169565222" styleClass="fa fa-eraser fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1472169565222" layout="block" styleClass="dt layoutTable layoutVertical" >#{TagFascicoloAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1472169565222" value="&#8592;" action="#{TagFascicoloList.prev}" reRender="DataGrid_1472169565222" rendered="#{TagFascicoloList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1472169565222" value="#{TagFascicoloList.pageIndexes}" var="pi1472169565222">
+										<li class="#{(TagFascicoloList.currentPage eq pi1472169565222 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1472169565222" value="#{pi1472169565222}" action="#{TagFascicoloList.goToPage(pi1472169565222)}" reRender="DataGrid_1472169565222" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1472169565222" value="&#8594;" action="#{TagFascicoloList.next}" reRender="DataGrid_1472169565222" rendered="#{TagFascicoloList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1472169565222" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1472169565222} [TagFascicoloList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1468883629289}</th>
+								<th><a4j:commandLink id="DataGridColumn_1471183218255" value="${msg.DataGridColumn_1471183218255} &#8593;&#8595;" action="#{TagFascicoloList.orderBy('fascicolo')}" reRender="DataGrid_1472169565222" ajaxSingle="true" disabled="#{empty TagFascicoloList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1517574162033" value="${msg.DataGridColumn_1517574162033} &#8593;&#8595;" action="#{TagFascicoloList.orderBy('tagType')}" reRender="DataGrid_1472169565222" ajaxSingle="true" disabled="#{empty TagFascicoloList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1471687060559} &#8593;&#8595;</th>
+								<th>${msg.DataGridColumn_1471993017885}</th>
+								<th>${msg.DataGridColumn_1468449780540}</th>
+								<th><a4j:commandLink id="DataGridColumn_1471922414835" value=" &#8593;&#8595;" action="#{TagFascicoloList.orderBy('procpratiche.size')}" reRender="DataGrid_1472169565222" ajaxSingle="true" disabled="#{empty TagFascicoloList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty TagFascicoloList or TagFascicoloList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="7">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1472169565222" value="#{TagFascicoloList.entities}" var="TagFascicolo" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ie1472169565222(this.id);" class="#{TagFascicoloAction.getEntity().equals(TagFascicolo) or TagFascicolo.internalId != 0 and TagFascicoloAction.entity.internalId.equals(TagFascicolo.internalId) ? 'selRow' : ''}" >
+									<td style="width:5%;" >
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1472072461952_id" title="${msg.alt_Link_1472072461952}" style="color:green;" rendered="#{TagFascicolo.endValidity == null}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1472109707765_id" title="${msg.alt_Link_1472109707765}" style="color:red;" rendered="#{TagFascicolo.endValidity != null}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" onclick="stopPropagation(event);" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{TagFascicolo.fascicolo}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{TagFascicolo.tagType}</span>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1469591111395_id" alt="#{LINK}" rendered="#{TagFascicolo.notes == null}" reRender="phiDesktop" styleClass="fa fa-comment-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1540906156696" >
+											<a4j:commandLink action="#{TagFascicoloAction.inject(TagFascicolo)}" status="ajaxStatus" id="Link_1539470382300_id" alt="#{LINK}" style="color:#ffc90e" rendered="#{TagFascicolo.notes != null}" reRender="phiDesktop" styleClass="fa fa-comment fa-2x tableButton" title="#{TagFascicolo.notes}" onclick="stopPropagation(event);" />
+											
+										</a4j:outputPanel>
+
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TagFascicolo.startValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TagFascicolo.endValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<span class="base-label" >#{TagFascicolo.procpratiche.size}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ie1472169565222" name="ie1472169565222" status="ajaxStatus" action="#{TagFascicoloList.injectEject}" data="#{TagFascicoloList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1472169565222'))" reRender="Link_1480945968747" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{TagFascicoloList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

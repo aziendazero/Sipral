@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneMedici">
+
+
+	<start-state name="start-state1">
+		<transition to="prepare search"></transition>
+	</start-state>
+
+
+	<task-node name="destinatariSearch">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/destinatariNotificheSearch')}"></action>
+		</event>
+		<transition to="next?"></transition>
+	</task-node>
+
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+		<transition to="search" name="BtnSearch"></transition>
+		<transition to="destEdit" name="destDel"></transition>
+		<transition to="destEdit" name="destEdit"></transition>
+		<transition to="destEdit" name="destNew"></transition>
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="clear filters" name="BtnFilterCancel"></transition>
+		<transition to="eject list" name="BtnSave"></transition>
+	</decision>
+
+	<node name="prepare search">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.eject()}"></action>
+			<action name="2" expression="#{DestinatariNotificheAction.ejectList()}"></action>
+			<action name="3" expression="#{DestinatariNotificheAction.cleanRestrictions()}"></action>
+			<action name="4" expression="#{DestinatariNotificheAction.setFullLike(true)}"></action>
+		</event>
+		<transition to="destinatariSearch"></transition>
+	</node>
+
+	<node name="search">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.select.add('type')}"></action>
+			<action name="2" expression="#{DestinatariNotificheAction.select.add('descrizioneSipral')}"></action>
+			<action name="3" expression="#{DestinatariNotificheAction.select.add('descrizione')}"></action>
+			<action name="4" expression="#{DestinatariNotificheAction.select.add('tipoInvio')}"></action>
+			<action name="5" expression="#{DestinatariNotificheAction.select.add('pec')}"></action>
+			<action name="6" expression="#{DestinatariNotificheAction.select.add('fineValidita')}"></action>
+			<action name="7" expression="#{DestinatariNotificheAction.select.add('creationDate')}"></action>
+			<action name="8" expression="#{DestinatariNotificheAction.read()}"></action>
+		</event>
+		<transition to="destinatariSearch"></transition>
+	</node>
+
+	<process-state name="destEdit">
+		<sub-process name="MOD_Admin/CORE/PROCESSES/destinatariEdit?stateless=true" binding="late"></sub-process>
+		<transition to="re-read"></transition>
+	</process-state>
+
+	<node name="eject list">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.ejectList()}"></action>
+			<action name="2" expression="#{DestinatariNotificheAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="clear filters">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{DestinatariNotificheAction.temporary.clear()}"></action>
+			<action name="3" expression="#{DestinatariNotificheAction.eject()}"></action>
+			<action name="4" expression="#{DestinatariNotificheAction.ejectList()}"></action>
+		</event>
+		<transition to="prepare search"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.eject()}"></action>
+		</event>
+		<transition to="eject list"></transition>
+	</node>
+
+	<node name="re-read">
+		<event type="node-enter">
+			<action name="1" expression="#{DestinatariNotificheAction.read()}"></action>
+		</event>
+		<transition to="destinatariSearch"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,248 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1540528869772}</h1>
+	<div id="vp_impianto_01" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1541083664665" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1539591417934" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1541834786416" style="padding-right:20px;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1542081245075;BtnBack')}" status="ajaxStatus" id="Link_1542081245075" title="${msg.alt_Link_1542081245075}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1538550497375" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1538550497375;BtnSave')}" status="ajaxStatus" id="Link_1538550497375_id" title="${msg.alt_Link_1538550497375}" rendered="#{(CessioneImp.sediInstallazione ne null and CessioneImp.sedi ne null and CessioneImp.indirizzoSped ne null) and CessioneImp.internalId le 0}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1541789847371" style="width:650px;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Label_1541470526158" >
+						<h:outputText rendered="#{not ((CessioneImp.sediInstallazione ne null and CessioneImp.sedi ne null and CessioneImp.indirizzoSped ne null) and CessioneImp.internalId le 0)}" escape="false" value="#{msg.Label_1541470526158}" id="Label_1541470526158_id" style="display:block;" class="labelContent c-text-bold c-text-red base-label" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1539994071654" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="MonthCalendar_1538610795771" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1538610795771}</span>
+						<h:inputText id="MonthCalendar_1538610795771_id" value="#{CessioneImp.dataCessione}" required="true" class="datepicker todayIsDefault  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1538610795771}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1538610795771_id" styleClass="errorMessages MonthCalendar_1538610795771_E" />
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1540287667632" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1540288100444}" class="labelContent  base-label" ></span>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1541846023083" styleClass="layoutContainer layoutContainerVertical padding-bottom:20px; layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1541846023083}</legend>
+					<a4j:outputPanel id="DataGrid_1539228888899" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+						<table id="d1539228888899" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1539228888899} [ImpiantoList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th><a4j:commandLink id="DataGridColumn_1541841566393" value="${msg.DataGridColumn_1541841566393} &#8593;&#8595;" action="#{ImpiantoList.orderBy(function.getLang('code.'))}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th style="#{(false ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1540882637374" value="${msg.DataGridColumn_1540882637374} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.sede.denominazioneUnitaLocale')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1540109897929" value="${msg.DataGridColumn_1540109897929} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.denominazione')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1564128564594" value="${msg.DataGridColumn_1564128564594} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sedeInstallazione.addr')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1539357396447" value="${msg.DataGridColumn_1539357396447} &#8593;&#8595;" action="#{ImpiantoList.orderBy('sigla')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1540224389186" value="${msg.DataGridColumn_1540224389186} &#8593;&#8595;" action="#{ImpiantoList.orderBy('matricola')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1541992255882" value="${msg.DataGridColumn_1541992255882} &#8593;&#8595;" action="#{ImpiantoList.orderBy('anno')}" reRender="DataGrid_1539228888899" ajaxSingle="true" disabled="#{empty ImpiantoList ? true : false}"/></th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty ImpiantoList or ImpiantoList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="7">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1539228888899" value="#{ImpiantoList.entities}" var="Impianto" rowKeyVar="rowIndex" >
+									<tr >
+										<td >
+											<span class="base-label" >#{Impianto.code.currentTranslation}</span>
+										</td>
+
+										<td style="#{(false ? '' : 'display:none;')} " >
+											<span class="base-label" >#{Impianto.sedeInstallazione.sede.denominazioneUnitaLocale}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Impianto.sedeInstallazione.denominazione}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Impianto.sedeInstallazione.addr}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Impianto.sigla}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Impianto.matricola}</span>
+										</td>
+
+										<td >
+											<span class="base-label" >#{Impianto.anno}</span>
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1540287684368" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1540288101252}" class="labelContent  base-label" ></span>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1541631705707" style="padding-bottom:15px;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1541825506071" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1541825506071}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1542236696332" styleClass="layoutContainer layoutContainerVertical" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1539416103834" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1539319553822}</span>
+									<h:outputText value="#{CessioneImp.sediInstallazione.denominazione}" id="Label_1539319553822" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1539243624463;MngSI')}" status="ajaxStatus" id="Link_1539243624463" title="${msg.alt_Link_1539243624463}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link readOnly" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1539098214040" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1541520782819}</span>
+									<h:outputText value="#{CessioneImp.sediInstallazione.sede.personaGiuridica.codiceFiscale}" id="Label_1541520782819" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1539171038110}</span>
+									<h:outputText value="#{CessioneImp.sediInstallazione.sede.personaGiuridica.patritaIva}" id="Label_1539171038110" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1542225948581" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1538420404242}</span>
+									<h:outputText value="#{CessioneImp.sediInstallazione.addr}" id="Label_1538420404242" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1539582999614" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1539582999614}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1539430578947" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1540322998754" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1541716128368}</span>
+									<h:outputText value="#{CessioneImp.sedi.denominazioneUnitaLocale}" id="Label_1541716128368" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1542152652440;MngSA')}" status="ajaxStatus" id="Link_1542152652440" title="${msg.alt_Link_1542152652440}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link readOnly" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1541501078838" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1538282174088}</span>
+									<h:outputText value="#{CessioneImp.sedi.addr}" id="Label_1538282174088" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1539092520488}</span>
+									<h:outputText value="#{CessioneImp.sedi.impSpesa}" id="Label_1539092520488" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1541631572070" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1539319338144}</span>
+									<h:outputText value="#{CessioneImp.sedi.telecom.mc}" id="Label_1539319338144" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1542361875135}</span>
+									<h:outputText value="#{CessioneImp.sedi.telecom.mail}" id="Label_1542361875135" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1540234609671" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1540234609671}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1541879597291" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1539819203365" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1540175467763}</span>
+									<h:outputText value="#{CessioneImp.indirizzoSped.denominazione}" id="Label_1540175467763" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+								<div class="layoutHorizontal" >
+								<a4j:commandLink action="#{processManager.manageTask('Link_1538644563265;MngIS')}" status="ajaxStatus" id="Link_1538644563265" title="${msg.alt_Link_1538644563265}" reRender="phiDesktop" styleClass="fa fa-search fa-2x link readOnly" />
+								</div>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" id="LayoutRow_1541372939189" styleClass="layoutContainer layoutContainerVertical" >
+								<div class="layoutHorizontal" >
+								<label >
+									<span class="label">${msg.label_Label_1540463678032}</span>
+									<h:outputText value="#{CessioneImp.indirizzoSped.addr}" id="Label_1540463678032" styleClass="labelContent  base-label" />
+								</label>
+								</div>
+
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1538820236027" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1538820236027}</legend>
+ 
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1539369187528_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1539369187528" >
+					<h:inputTextarea id="TextArea_1539369187528_id" value="#{CessioneImp.note}" >
+						<f:validateLength minimum="0" maximum="4000"/>
+					</h:inputTextarea>
+					<h:message style="float:left;" for="TextArea_1539369187528_id" styleClass="errorMessages TextArea_1539369187528_E" />
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

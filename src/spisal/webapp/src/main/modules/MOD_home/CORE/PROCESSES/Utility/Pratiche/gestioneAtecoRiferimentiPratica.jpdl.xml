@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneAtecoRiferimentiPratica">
+
+
+	<start-state name="start-state1">
+		<transition to="Button?"></transition>
+	</start-state>
+
+
+	<decision name="Button?" expression="#{button.mnemonic}">
+		<transition to="inject Ateco 1" name="compartoAtecoRichiedente"></transition>
+		<transition to="inject Ateco 2" name="compartoAtecoRiferimento"></transition>
+		<transition to="inject Ateco 3" name="compartoAtecoUbicazione"></transition>
+	</decision>
+
+	<node name="inject Ateco 1">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(PraticheRiferimenti.compartoRichiedente)}"></action>
+		</event>
+		<transition to="select ateco 1"></transition>
+	</node>
+
+	<node name="inject Ateco 2">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(PraticheRiferimenti.compartoRiferimento)}"></action>
+		</event>
+		<transition to="select ateco 2"></transition>
+	</node>
+
+	<node name="inject Ateco 3">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(PraticheRiferimenti.compartoUbicazione)}"></action>
+		</event>
+		<transition to="select ateco 3"></transition>
+	</node>
+
+	<process-state name="select ateco 1">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="link 1"></transition>
+	</process-state>
+
+	<process-state name="select ateco 2">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="link 2"></transition>
+	</process-state>
+
+	<process-state name="select ateco 3">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="link 3"></transition>
+	</process-state>
+
+	<node name="link 1">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? PraticheRiferimenti.setCompartoRichiedente(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="link 2">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? PraticheRiferimenti.setCompartoRiferimento(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="link 3">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? PraticheRiferimenti.setCompartoUbicazione(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

@@ -1,0 +1,479 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">#{msg.FormAlfrescoDoc.concat(' ').concat(AlfrescoDocumentAction.temporary.entity2Link)}</h1>
+	<div id="alfrescoDocument" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutAlfrescoDocMain" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1512997997722" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not AlfrescoDocumentAction.temporary['isTemplate'] and AlfrescoDocumentAction.temporary['showSign']}" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1512998004062}" style="font-size: 16px; font-weight:bold;" class="labelContent  base-label" >${msg.Label_1512998004062}</span>
+					</div>
+
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutAlfrescoDocBtnBar" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1478263239481" style="width:30%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1491780519901;BACK')}" status="ajaxStatus" id="Link_1491780519901" title="${msg.alt_Link_1491780519901}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" />
+						</div>
+
+						<div class="buttonContainer buttonBackContainer layoutHorizontal" >
+						<a4j:commandLink id="BtnAlfrescoDocBack_id" status="ajaxStatus" title="#{static.button_BACK}" immediate="true" rendered="false" styleClass="buttonBack  buttonBase readOnly" type="reset" value=" " action="#{processManager.manageTask('BtnAlfrescoDocBack_id;BACK')}" reRender="phiDesktop, header, errorMenu" >
+							<i/>
+						</a4j:commandLink>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="width:40%;padding:0;text-align:center;" id="LayoutRow_1478263241744" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Procpratiche.statusCode.code=='active' or Procpratiche==null or Procpratiche.internalId==0}" >
+						<a4j:outputPanel layout="block" style="padding:0;text-align:center;display:inline-block;float:none;vertical-align:top;" id="LayoutRow_1511965297847" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!spisalUserAction.isArpav()}" >
+							<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAlfDocAdd;ADD')}" id="BtnAlfDocAdd_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+								<i class="fa fa-plus fa-2x"></i>
+								<span>#{msg.BtnAlfDocAdd}</span>
+							</a4j:commandLink>
+
+							</div>
+
+							<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAlfUploadNew;UPLOADNEW')}" id="BtnAlfUploadNew_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup, header, errorMenu" limitToList="true" >
+								<i class="fa fa-upload fa-2x"></i>
+								<span>#{msg.BtnAlfUploadNew}</span>
+							</a4j:commandLink>
+
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnAlfHeader" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAlfHeader;APPLYMODELMULTI')}" id="BtnAlfHeader_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" rendered="#{not empty function.propertyAsList(AlfrescoDocumentList.list,'isSelected') and function.propertyAsList(AlfrescoDocumentList.list,'isSelected').contains(true)}" reRender="popup, header, errorMenu" limitToList="true" >
+								<i class="fa fa-file-text fa-2x"></i>
+								<span>#{msg.BtnAlfHeader}</span>
+							</a4j:commandLink>
+
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Button_1511959358237" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('Button_1511959358237;REFRESH')}" id="Button_1511959358237_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" rendered="#{not AlfrescoDocumentAction.temporary['isTemplate']}" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+								<i class="fa fa-refresh fa-2x"></i>
+								<span>#{msg.Button_1511959358237}</span>
+							</a4j:commandLink>
+
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" style="padding:0;text-align:center;display:inline-block;float:none;vertical-align:top;" id="LayoutRow_1549188086386" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{spisalUserAction.isArpav()}" >
+							<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('Button_1550338765317;ADD')}" id="Button_1550338765317_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+								<i class="fa fa-plus fa-2x"></i>
+								<span>#{msg.Button_1550338765317}</span>
+							</a4j:commandLink>
+
+							</div>
+
+							<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('BtnAlfUploadNewArpav;UPLOADNEW')}" id="BtnAlfUploadNewArpav_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup, header, errorMenu" limitToList="true" >
+								<i class="fa fa-upload fa-2x"></i>
+								<span>#{msg.BtnAlfUploadNewArpav}</span>
+							</a4j:commandLink>
+
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Button_1549680509818" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('Button_1549680509818;APPLYMODELMULTI')}" id="Button_1549680509818_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase readOnly" rendered="#{not empty function.propertyAsList(AlfrescoDocumentList.list,'isSelected') and function.propertyAsList(AlfrescoDocumentList.list,'isSelected').contains(true)}" reRender="popup, header, errorMenu" limitToList="true" >
+								<i class="fa fa-file-text fa-2x"></i>
+								<span>#{msg.Button_1549680509818}</span>
+							</a4j:commandLink>
+
+							</a4j:outputPanel>
+
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Button_1553128777658" style="display:inline-block;float:none;vertical-align:top;" >
+							<a4j:commandLink action="#{processManager.manageTask('Button_1553128777658;REFRESH')}" id="Button_1553128777658_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase readOnly" rendered="#{not AlfrescoDocumentAction.temporary['isTemplate']}" reRender="phiDesktop, header, errorMenu" limitToList="true" >
+								<i class="fa fa-refresh fa-2x"></i>
+								<span>#{msg.Button_1553128777658}</span>
+							</a4j:commandLink>
+
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1485946874859" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{!spisalUserAction.isArpav()}" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="CmbBxAlfTmpltType" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_CmbBxAlfTmpltType}</span>
+							<h:selectOneMenu id="CmbBxAlfTmpltType_id" value="#{AlfrescoDocumentAction.equal['type']}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_CmbBxAlfTmpltType}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:ReportType')}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DgAlfrescoDocument" event="onchange" action="#{AlfrescoDocumentAction.read()}" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1589959122849" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{spisalUserAction.isArpav()}" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1589183848839" >
+						<label style="display:#{(AlfrescoDocumentAction.temporary.isTemplate) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1589183848839}</span>
+							<h:selectOneMenu id="ComboBox_1589183848839_id" value="#{AlfrescoDocumentAction.equal['typeArpav']}" rendered="#{AlfrescoDocumentAction.temporary.isTemplate}" styleClass="comboBox" label="${msg.label_ComboBox_1589183848839}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{AlfrescoDocumentAction.getMixedVocItems()}" />
+								<f:converter converterId="CodeValueConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="DgAlfrescoDocument" event="onchange" action="#{AlfrescoDocumentAction.read()}" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="float: right; margin: 0px 25px 0px 0px;padding:0;position:relative;" id="LayoutRow_1512124215145" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not AlfrescoDocumentAction.temporary['isTemplate'] and AlfrescoDocumentAction.temporary['showSign']}" >
+					<div class="bottomAlignedContent">
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1512124215145}</legend>
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1512124275112}</span>
+							<span value="${msg.Label_1512124275112}" style="color: #000000; font-weight: normal;" class="labelContent fa fa-file-pdf-o fa-2x base-label" ></span>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1512124532347}</span>
+							<span value="${msg.Label_1512124532347}" style="color: #F1C40F;font-weight: normal;" class="labelContent fa fa-file-pdf-o fa-2x base-label" ></span>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1512124589442}</span>
+							<span value="${msg.Label_1512124589442}" style="color: #03A600;font-weight: normal;" class="labelContent fa fa-file-pdf-o fa-2x base-label" ></span>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1512124689785}</span>
+							<span value="${msg.Label_1512124689785}" style="color: #FF0000;font-weight: normal;" class="labelContent fa fa-file-pdf-o fa-2x base-label" ></span>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label >
+							<span class="label">${msg.label_Label_1512124716804}</span>
+							<span value="${msg.Label_1512124716804}" style="color: #A4A4A4;font-weight: normal;" class="labelContent fa fa-file-pdf-o fa-2x base-label" ></span>
+						</label>
+						</div>
+
+					</fieldset>
+						<div class="sizePlaceholder"></div>
+					</div>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1533287380778" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty function.propertyAsList(AlfrescoDocumentList.list,'isSelected') and function.propertyAsList(AlfrescoDocumentList.list,'isSelected').contains(true)}" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1533288600229}</span>
+							<span value="${msg.Label_1533288600229}" class="labelContent  base-label" ></span>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1533287417584" style="height:100%;width:100%;" >
+							<input type="checkbox" name="select-all" id="select-all" />
+							<script>
+							jQuery('#select-all').click(function(event) {   
+							    if(this.checked) {
+							        // Iterate each checkbox
+							        jQuery(':checkbox').each(function() {
+							            this.checked = true;                        
+							        });
+							    } else {
+							        jQuery(':checkbox').each(function() {
+							            this.checked = false;                       
+							        });
+							    }
+							});
+							</script>
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<div class="layoutVertical" >
+				<a4j:outputPanel layout="block" id="JollyWidget_1486637152867" style="height:100%;width:100%;" >
+					<script>
+					function setPrvw(nodeRefUrl, rowIndex) {
+						var img = jQuery('#i\\:rDgAlfrescoDocument\\:' + rowIndex + '\\:ImgPreview');
+						if (nodeRefUrl != '') {
+							img[0].src = alfresco.getThumbnailUrl(nodeRefUrl);
+						} else {
+							img.hide();
+						}
+					}
+					/*
+					function setDwnld(nodeRefUrl, rowIndex) {
+						var lnk = jQuery('#LnkDownload\\:' + rowIndex);
+						if (nodeRefUrl != '') {
+							var previewUrl = alfresco.getDocumentUrl(nodeRefUrl);
+							lnk[0].href = previewUrl;
+						} else {
+							lnk.hide();
+						}
+					}
+					*/
+					function setDwnldGen(dom_id,nodeRefUrl, rowIndex) {
+						var lnk = jQuery('#'+ dom_id +'\\:' + rowIndex);
+						if (nodeRefUrl != '') {
+							var previewUrl = alfresco.getDocumentUrl(nodeRefUrl);
+							lnk[0].href = previewUrl;
+						} else {
+							lnk.hide();
+						}
+					}
+					
+					</script>
+				</a4j:outputPanel>
+				</div>
+
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1511965331151" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not AlfrescoDocumentAction.temporary['isTemplate'] and AlfrescoDocumentAction.temporary['showSign']}" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1511965410555}" class="labelContent  base-label" >${msg.Label_1511965410555}</span>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965450717" value="#{AlfrescoDocumentAction.temporary['showNotSigned']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965450717}" />
+					<h:outputLabel value="${msg.CheckBox_1511965450717}" for="CheckBox_1511965450717" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965450717" styleClass="errorMessages CheckBox_1511965450717_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965450717" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965454813" value="#{AlfrescoDocumentAction.temporary['showPartiallySigned']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965454813}" />
+					<h:outputLabel value="${msg.CheckBox_1511965454813}" for="CheckBox_1511965454813" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965454813" styleClass="errorMessages CheckBox_1511965454813_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965454813" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965457493" value="#{AlfrescoDocumentAction.temporary['showSigned']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965457493}" />
+					<h:outputLabel value="${msg.CheckBox_1511965457493}" for="CheckBox_1511965457493" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965457493" styleClass="errorMessages CheckBox_1511965457493_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965457493" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965461431" value="#{AlfrescoDocumentAction.temporary['showSentToRegister']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965461431}" />
+					<h:outputLabel value="${msg.CheckBox_1511965461431}" for="CheckBox_1511965461431" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965461431" styleClass="errorMessages CheckBox_1511965461431_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965461431" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965463517" value="#{AlfrescoDocumentAction.temporary['showRegistered']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965463517}" />
+					<h:outputLabel value="${msg.CheckBox_1511965463517}" for="CheckBox_1511965463517" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965463517" styleClass="errorMessages CheckBox_1511965463517_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965463517" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<div class="layoutHorizontal" >
+					<h:selectBooleanCheckbox id="CheckBox_1511965474242" value="#{AlfrescoDocumentAction.temporary['showDeactivated']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.CheckBox_1511965474242}" />
+					<h:outputLabel value="${msg.CheckBox_1511965474242}" for="CheckBox_1511965474242" style="vertical-align:middle;margin-left:3px;" />
+					<h:message for="CheckBox_1511965474242" styleClass="errorMessages CheckBox_1511965474242_E" />
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1511965474242" style="display:none;" value="hiddenLabel"></h:outputLabel>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DgAlfrescoDocument" layout="block" styleClass="dt layoutTable layoutVertical" style="display: flex;flex:2;overflow:auto;" >
+					<table id="dDgAlfrescoDocument" cellspacing="0" cellpadding="0" summary="${msg.DgAlfrescoDocument} [AlfrescoDocumentList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th style="#{(!spisalUserAction.isArpav() ? '' : 'display:none;')}">${msg.DgAlfrescoDocEdit}</th>
+								<th style="#{(spisalUserAction.isArpav() ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1583153160407} &#8593;&#8595;</th>
+								<th>${msg.DgCAlfrescoDocPrewiew}</th>
+								<th><a4j:commandLink id="DgAlfrescoDocName" value="${msg.DgAlfrescoDocName} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('name')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1454927269210" value="${msg.DataGridColumn_1454927269210} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('description')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1465906527739" value="#{spisalUserAction.isArpav() ? 'Sede ARPAV' : 'Ulss'} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav() ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1478101462595" value="${msg.DataGridColumn_1478101462595} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('type')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav() ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1590134985100" value="${msg.DataGridColumn_1590134985100} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('typeArpav')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')}"><a4j:commandLink id="DataGridColumn_1510231093789" value="${msg.DataGridColumn_1510231093789} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('documentStatus')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1505197769001" value="${msg.DataGridColumn_1505197769001} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('enversLastChangeBy')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1505197775931" value="${msg.DataGridColumn_1505197775931} &#8593;&#8595;" action="#{AlfrescoDocumentList.orderBy('enversLastChangeDate')}" reRender="DgAlfrescoDocument" ajaxSingle="true" disabled="#{empty AlfrescoDocumentList ? true : false}"/></th>
+								<th style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1510317396947} &#8593;&#8595;</th>
+								<th>${msg.DgCAlfrescoDocUpload}</th>
+								<th>${msg.DgCAlfrescoDocDownload}</th>
+								<th>${msg.DataGridColumn_1455196522283}</th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')}">${msg.DataGridColumn_1485358107870}</th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1503913544751} &#8593;&#8595;</th>
+								<th style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1505199350725} &#8593;&#8595;</th>
+								<th style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')}" class="sortableColumn">${msg.DataGridColumn_1513005636276} &#8593;&#8595;</th>
+								<th style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')}">${msg.DataGridColumn_1502207115776}</th>
+								<th>${msg.DgCAlfrescoDocDelete}</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty AlfrescoDocumentList or AlfrescoDocumentList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="21">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="rDgAlfrescoDocument" value="#{AlfrescoDocumentList.entities}" var="AlfrescoDocument" rowKeyVar="rowIndex" >
+								<tr >
+									<td style="#{(!spisalUserAction.isArpav() ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'BtnWebOdfEdit;EDIT')}" status="ajaxStatus" id="BtnWebOdfEdit_id" title="${msg.alt_BtnWebOdfEdit}" style="padding: 0px 0px 0px 10px;" rendered="#{AlfrescoDocument.mimeType.equals('application/vnd.oasis.opendocument.text') and not AlfrescoDocument.lockedForSignature and AlfrescoDocument.isActive}" reRender="phiDesktop" styleClass="fa fa-pencil fa-3x tableButton" oncomplete="gDriveUtils.accessUploadAndShow(alfresco.getDocumentUrl('#{AlfrescoDocument.nodeRef}'), '#{AlfrescoDocument.name}');"/>
+
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1510328444900;UNLOCK')}" status="ajaxStatus" id="Link_1510328444900_id" title="${msg.alt_Link_1510328444900}" style="padding: 0px 0px 0px 10px;" rendered="#{AlfrescoDocument.lockedForSignature and AlfrescoDocument.fromTemplate and AlfrescoDocument.isActive}" reRender="popup" styleClass="fa fa-lock fa-3x tableButton" />
+
+									</td>
+
+									<td style="#{(spisalUserAction.isArpav() ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1581871217324;EDIT')}" status="ajaxStatus" id="Link_1581871217324_id" title="${msg.alt_Link_1581871217324}" style="padding: 0px 0px 0px 10px;" rendered="#{AlfrescoDocument.mimeType.equals('application/vnd.oasis.opendocument.text') and not AlfrescoDocument.lockedForSignature and AlfrescoDocument.isActive}" reRender="phiDesktop" styleClass="fa fa-pencil fa-3x readOnly tableButton" />
+
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1582071108452;UNLOCK')}" status="ajaxStatus" id="Link_1582071108452_id" title="${msg.alt_Link_1582071108452}" style="padding: 0px 0px 0px 10px;" rendered="#{AlfrescoDocument.lockedForSignature and AlfrescoDocument.fromTemplate and AlfrescoDocument.isActive}" reRender="popup" styleClass="fa fa-lock fa-3x tableButton" />
+
+									</td>
+
+									<td >
+										<a4j:outputPanel layout="block" id="JwAlfrescoDocPreview" >
+											<script>setPrvw('#{AlfrescoDocument.nodeRefUrl}','#{rowIndex}');</script>
+										</a4j:outputPanel>
+
+										<h:graphicImage id="ImgPreview" alt="PICTUREBOX"  />
+									</td>
+
+									<td >
+										<span style="display:#{(AlfrescoDocument.isActive eq true) ? 'block' : 'none' };" class="base-label" >#{AlfrescoDocument.name}</span>
+										<span style="text-decoration: line-through;display:#{(AlfrescoDocument.isActive eq false) ? 'block' : 'none' };" class="base-label" >#{AlfrescoDocument.name}</span>
+									</td>
+
+									<td >
+										#{AlfrescoDocument.description}
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')} " >
+										#{AlfrescoDocument.serviceDeliveryLocation.name.giv}
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate and !spisalUserAction.isArpav() ? '' : 'display:none;')} " >
+										#{AlfrescoDocument.type}
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate and spisalUserAction.isArpav() ? '' : 'display:none;')} " >
+										#{AlfrescoDocument.typeArpav}
+									</td>
+
+									<td style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')} " >
+										#{AlfrescoDocument.documentStatus}
+										<a4j:outputPanel layout="block" id="JollyWidget_1510330147589_id" rendered="#{AlfrescoDocument.signaturesReqN ne null and AlfrescoDocument.signaturesReqN ne 0}" >
+											(#{AlfrescoDocument.signaturesPresent} / #{AlfrescoDocument.signaturesReqN} firme)<br/>
+											#{AlfrescoDocumentAction.getDatiProtocollo(AlfrescoDocument)}
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1511864948898_id" rendered="#{not AlfrescoDocument.fromTemplate and AlfrescoDocument.signaturesPresent ne null and AlfrescoDocument.signaturesPresent gt 0}" >
+											(#{AlfrescoDocument.signaturesPresent} firme)<br/>
+											#{AlfrescoDocumentAction.getDatiProtocollo(AlfrescoDocument)}
+										</a4j:outputPanel>
+
+									</td>
+
+									<td >
+										#{AlfrescoDocument.enversLastChangeBy}
+									</td>
+
+									<td >
+										<h:outputText styleClass="base-label" value="#{AlfrescoDocument.enversLastChangeDate}" >
+											<s:convertDateTime pattern="${format.dateTimeNormal}" />
+										</h:outputText>
+									</td>
+
+									<td style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1510666636283;REGISTER')}" status="ajaxStatus" id="Link_1510666636283_id" title="${msg.alt_Link_1510666636283}" style="background-image: url(SKIN/images/proto.svg); background-repeat: no-repeat;display: inline-table;background-size: 31px;height: 40px; min-width: 31px; color:#01579B;" rendered="#{(AlfrescoDocument.documentStatus.code eq 3 or AlfrescoDocument.documentStatus.code eq 4) and AlfrescoDocument.isActive}" reRender="phiDesktop" styleClass="tableButton" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkUpload;UPLOAD')}" status="ajaxStatus" id="LnkUpload_id" title="${msg.alt_LnkUpload}" rendered="#{not AlfrescoDocument.lockedForSignature and AlfrescoDocument.isActive}" reRender="popup" styleClass="fa fa-upload fa-3x tableButton" />
+
+									</td>
+
+									<td >
+										<a4j:outputPanel layout="block" id="JwAlfrescoDocDownload_id" rendered="#{not AlfrescoDocument.lockedForSignature}" >
+											<a href="#" target="_blank" id="LnkDownload:#{rowIndex}" title="${msg.DgCAlfrescoDocDownload}" class="fa fa-download fa-3x tableButton readOnly" />
+											<script>
+												var url = '#{AlfrescoDocument.nodeRefUrl}' + '/' + '#{AlfrescoDocument.name}';
+												setDwnldGen('LnkDownload', url ,'#{rowIndex}');
+											</script>
+										</a4j:outputPanel>
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1510330540504_id" rendered="#{AlfrescoDocument.lockedForSignature}" >
+											<a href="#" target="_blank" id="LnkDownload:#{rowIndex}" title="${msg.DgCAlfrescoDocDownload}" class="fa fa-download fa-3x tableButton readOnly" />
+											<script>setDwnldGen('LnkDownload', '#{AlfrescoDocument.signedDocumentLatest.nodeRefUrl}','#{rowIndex}');</script>
+										</a4j:outputPanel>
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkDoc2Pdf;LnkDoc2Pdf')}" status="ajaxStatus" id="LnkDoc2Pdf_id" title="${msg.alt_LnkDoc2Pdf}" style="color: black;padding: 0px 0px 0px 10px;" rendered="#{not empty AlfrescoDocument.nodeRefUrl and not AlfrescoDocument.lockedForSignature and AlfrescoDocument.mimeType.equalsIgnoreCase('application/vnd.oasis.opendocument.text')}" reRender="phiDesktop" styleClass="fa fa-file-pdf-o fa-3x tableButton readOnly tableButton" />
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1512651839449_id" rendered="#{AlfrescoDocument.lockedForSignature}" >
+											<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkDoc2PdfSigned;LnkDoc2PdfSigned')}" status="ajaxStatus" id="LnkDoc2PdfSigned_id" title="${msg.alt_LnkDoc2Pdf}"
+											 style="color: #{AlfrescoDocumentAction.getPdfIconColor(AlfrescoDocument)}; padding: 0px 0px 0px 10px;" 
+											reRender="phiDesktop" styleClass="fa fa-file-pdf-o fa-3x tableButton readOnly tableButton" />
+										</a4j:outputPanel>
+
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1513693613846;LnkDoc2PdfUploaded')}" status="ajaxStatus" id="Link_1513693613846_id" title="${msg.alt_Link_1513693613846}" style="color: black;padding: 0px 0px 0px 10px;" rendered="#{not empty AlfrescoDocument.nodeRefUrl and AlfrescoDocument.mimeType.equalsIgnoreCase('application/pdf') and not AlfrescoDocument.lockedForSignature}" reRender="phiDesktop" styleClass="fa fa-file-pdf-o fa-3x tableButton tableButton" />
+
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkApplyModel;APPLYMODEL')}" status="ajaxStatus" id="LnkApplyModel_id" title="${msg.alt_LnkApplyModel}" rendered="#{not empty AlfrescoDocument.nodeRefUrl and not 'HEADERFOOTER'.equals(AlfrescoDocument.type.code) and not 'EUGANEA'.equals(AlfrescoDocument.serviceDeliveryLocation.name.fam)}" reRender="popup" styleClass="fa fa-file-text fa-3x tableButton" />
+
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkFixModel;FIXMODEL')}" status="ajaxStatus" id="LnkFixModel_id" title="${msg.alt_LnkFixModel}" rendered="#{not 'HEADERFOOTER'.equals(AlfrescoDocument.type.code)}" reRender="phiDesktop" styleClass="fa fa-bug fa-3x tableButton" />
+
+									</td>
+
+									<td style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1505199384421;HISTORY')}" status="ajaxStatus" id="Link_1505199384421_id" title="${msg.alt_Link_1505199384421}" style="color: black;padding: 0px 0px 0px 10px;" rendered="#{not AlfrescoDocument.lockedForSignature}" reRender="phiDesktop" styleClass="fa fa-history fa-3x tableButton" />
+
+										<a4j:outputPanel layout="block" id="JollyWidget_1510328987285_id" style="display: inline-table; text-align:center;" rendered="#{AlfrescoDocument.preventDelete}" >
+											<a4j:commandLink style="padding: 0px 0px 0px 10px;" action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_signedRevisions#{rowIndex};PDFLIST')}" status="ajaxStatus" id="Link_signedRevisions_id" reRender="phiDesktop" styleClass="fa fa-file-o fa-3x" title="Storico firme"> </a4j:commandLink>
+										</a4j:outputPanel>
+
+									</td>
+
+									<td style="#{(not AlfrescoDocumentAction.temporary.isTemplate and AlfrescoDocumentAction.temporary['showSign'] ? '' : 'display:none;')} " >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1513005644622;VIEW&#95;DESTINATARI')}" status="ajaxStatus" id="Link_1513005644622" title="${msg.alt_Link_1513005644622}" reRender="phiDesktop" styleClass="fa fa-users fa-3x tableButton" />
+
+									</td>
+
+									<td style="#{(AlfrescoDocumentAction.temporary.isTemplate ? '' : 'display:none;')} " >
+						<h:selectBooleanCheckbox id="CheckBox_1502207125162" value="#{AlfrescoDocument.isSelected}" style="vertical-align:middle;" alt="CHECKBOX" onclick="stopPropagation(event);">
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="LayoutRow_1478263241744" event="onchange" ignoreDupResponses="true" />
+						</h:selectBooleanCheckbox>
+						<h:message for="CheckBox_1502207125162" styleClass="errorMessages CheckBox_1502207125162_E" />
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1502207125162" style="display:none;" value="hiddenLabel"></h:outputLabel>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'LnkAlfrescoDocDelete;DELETE')}" status="ajaxStatus" id="LnkAlfrescoDocDelete_id" title="${msg.alt_LnkAlfrescoDocDelete}" rendered="#{((not empty AlfrescoDocument.nodeRefUrl and AlfrescoDocument.documentStatus.code le 3) or AlfrescoDocument.documentStatus eq null) and (not AlfrescoDocument.preventDelete) and (AlfrescoDocument.isActive)}" reRender="popup" styleClass="fa fa-trash fa-3x tableButton" />
+
+										<a4j:commandLink action="#{AlfrescoDocumentAction.injectAndProceed(AlfrescoDocument, 'Link_1511958145408;DEACTIVATE')}" status="ajaxStatus" id="Link_1511958145408_id" title="${msg.alt_Link_1511958145408}" rendered="#{((not empty AlfrescoDocument.nodeRefUrl and AlfrescoDocument.documentStatus.code le 3) or AlfrescoDocument.documentStatus eq null) and (AlfrescoDocument.preventDelete) and (AlfrescoDocument.isActive)}" reRender="popup" styleClass="fa fa-trash fa-3x tableButton" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

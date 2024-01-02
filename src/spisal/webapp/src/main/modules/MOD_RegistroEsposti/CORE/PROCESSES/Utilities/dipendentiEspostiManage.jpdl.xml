@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="schedaDipendentiManage">
+
+
+<start-state name="start-state1">
+		<transition to="operation?"></transition>
+	</start-state>
+
+
+	<decision name="operation?" expression="#{(button.getMnemonic())}">
+		<transition to="new Esposti" name="dipendentiEspostiNew"></transition>
+		<transition to="inject Person" name="dipendentiEspostiEdit"></transition>
+		<transition to="delete esposto" name="dipendentiEspostiDel"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="new Esposti">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.inject(EspostiAction.newEntity())}"></action>
+		</event>
+		<transition to="new esposto" name=""></transition>
+	</node>
+
+	<task-node name="new esposto">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_RegistroEsposti/CORE/FORMS/dipendentiEspostiEdit')}"></action>
+		</event>
+		<transition to="save?"></transition>
+	</task-node>
+
+	<decision name="save?" expression="#{(button.getMnemonic())}">
+		<transition to="eject" name="BtnCancel"></transition>
+		<transition to="create" name="dipendentiEspostiSave"></transition>
+	</decision>
+
+	<task-node name="edit esposto">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_RegistroEsposti/CORE/FORMS/dipendentiEspostiEdit')}"></action>
+		</event>
+		<transition to="editOp?"></transition>
+	</task-node>
+
+	<decision name="editOp?" expression="#{(button.getMnemonic())}">
+		<transition to="refresh" name="BtnCancel"></transition>
+		<transition to="end-state2" name="dipendentiEspostiSave"></transition>
+	</decision>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiAction.refresh()}"></action>
+			<action name="2" expression="#{EspostiAction.eject()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="inject Person">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Esposti.person)}"></action>
+		</event>
+		<transition to="edit esposto"></transition>
+	</node>
+
+	<node name="delete esposto">
+		<event type="node-enter">
+			<action name="1" expression="#{Esposti.setIsActive(false)}"></action>
+			<action name="2" expression="#{EspostiList.list.remove(Esposti)}"></action>
+			<action name="3" expression="#{ToRemoveEspostiList.list.add(Esposti)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="create">
+		<event type="node-enter">
+			<action name="1" expression="#{EspostiList.list.add(Esposti)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

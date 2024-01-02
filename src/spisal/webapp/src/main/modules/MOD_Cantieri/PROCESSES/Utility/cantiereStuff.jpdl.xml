@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="cantiereStuff">
+
+
+	<start-state name="QUESTO E' UN PROCESSO TRASPARENTE PER LA CONVERSATION">
+		<transition to="set temporary"></transition>
+		<event type="node-leave">
+			<action name="main" expression="#{processManager.saveConversationState()}"></action>
+		</event>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="addPerson1" name="addPerson1"></transition>
+		<transition to="addPerson2" name="addPerson2"></transition>
+		<transition to="addPerson3" name="addPerson3"></transition>
+		<transition to="PersoneCantiere" name="delPerson3"></transition>
+		<transition to="PersoneCantiere" name="delPerson2"></transition>
+		<transition to="PersoneCantiere" name="delPerson1"></transition>
+		<transition to="committenti" name="delCommittente"></transition>
+		<transition to="committenti" name="addCommittente"></transition>
+		<transition to="ditte" name="addDitta"></transition>
+		<transition to="ditte" name="delDitta"></transition>
+		<transition to="types" name="addType"></transition>
+		<transition to="types" name="delType"></transition>
+		<transition to="get location" name="getDeviceLocation"></transition>
+		<transition to="pick location" name="pickLocationFromMap"></transition>
+		<transition to="reverse geocode" name="reverseGeocode"></transition>
+	</decision>
+
+	<node name="addPerson1">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneCantiereAction.inject(PersoneCantiereAction.newEntity())}"></action>
+			<action name="2" expression="#{PersoneCantiereAction.setCodeValue('ruolo','PHIDIC','RuoloInCantiere','RUOLOCANT01')}"></action>
+		</event>
+		<transition to="PersoneCantiere"></transition>
+	</node>
+
+	<node name="addPerson2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneCantiereAction.inject(PersoneCantiereAction.newEntity())}"></action>
+			<action name="2" expression="#{PersoneCantiereAction.setCodeValue('ruolo','PHIDIC','RuoloInCantiere','RUOLOCANT02')}"></action>
+		</event>
+		<transition to="PersoneCantiere"></transition>
+	</node>
+
+	<node name="addPerson3">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneCantiereAction.inject(PersoneCantiereAction.newEntity())}"></action>
+			<action name="2" expression="#{PersoneCantiereAction.setCodeValue('ruolo','PHIDIC','RuoloInCantiere','RUOLOCANT03')}"></action>
+		</event>
+		<transition to="PersoneCantiere"></transition>
+	</node>
+
+	<process-state name="PersoneCantiere">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/personeCantiere" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+	<process-state name="committenti">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/committenti" binding="late"></sub-process>
+		<transition to="ejectCommittente"></transition>
+	</process-state>
+
+	<node name="set temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('parentSearch',ProtocolloAction.temporary['search'])}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+		</event>
+		<transition to="coming from?" name=""></transition>
+	</node>
+
+	<node name="unset temporary">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary['parentSearch'] ? ProtocolloAction.temporary.put('search',ProtocolloAction.temporary['parentSearch']) : ''}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.remove('parentSearch')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="ditte">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/ditte" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+	<process-state name="types">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/types" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+	<node name="ejectCommittente">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.eject()}"></action>
+		</event>
+		<transition to="unset temporary"></transition>
+	</node>
+
+	<process-state name="get location">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/getDeviceLocation" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+	<process-state name="pick location">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/pickLocationFromMap" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+	<process-state name="reverse geocode">
+		<sub-process name="MOD_Cantieri/PROCESSES/Utility/reverseLookup" binding="late"></sub-process>
+		<transition to="unset temporary"></transition>
+	</process-state>
+
+
+	<end-state name="end-state1">
+		<event type="node-enter">
+			<action name="main" expression="#{processManager.restoreConversationState()}"></action>
+		</event>	
+	</end-state>
+
+
+</process-definition>

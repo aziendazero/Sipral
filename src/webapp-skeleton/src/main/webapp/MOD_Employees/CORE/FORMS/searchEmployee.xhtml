@@ -1,0 +1,138 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1401352621874}</h1>
+	<div id="searchEmployee" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_Main" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutFill_BtnBar" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_BtnBarLeft" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="buttonContainer buttonHomeContainer layoutHorizontal" >
+						<a4j:commandLink id="ButtonHome_id" status="ajaxStatus" title="#{static.button_HOME}" immediate="true" reRender="phiDesktop, header, errorMenu" limitToList="true" style="height: 48px;width: 48px;" styleClass="buttonHome  buttonBase" action="#{ViewManager.goHome()}" >
+							<i/>
+						</a4j:commandLink>
+						</div>
+
+						<div class="buttonContainer buttonBackContainer layoutHorizontal" >
+						<a4j:commandLink id="ButtonBack_1401356343029_id" status="ajaxStatus" title="#{static.button_BACK}" immediate="true" style="height: 48px;width: 48px;" styleClass="buttonBack  buttonBase" type="reset" value=" " action="#{processManager.manageTask('ButtonBack_1401356343029_id;BACK')}" reRender="phiDesktop, header, errorMenu" >
+							<i/>
+						</a4j:commandLink>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_BtnBarRight" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<a4j:outputPanel layout="block" styleClass="buttonContainer buttonNextContainer layoutHorizontal" id="ButtonNext" >
+						<a4j:commandLink id="ButtonNext_id" status="ajaxStatus" title="#{static.button_NEXT}" reRender="phiDesktop, header, errorMenu" rendered="#{not empty Employee}" limitToList="true" style="height: 48px;width: 48px;" styleClass="buttonNext  buttonBase" action="#{processManager.manageTask('ButtonNext_id;NEXT')}" >
+							<i/>
+						</a4j:commandLink>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_Search" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_Search}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_SearchLeft" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_username}</span>
+							<h:inputText id="TextBox_username" value="#{EmployeeAction.like['username']}" styleClass="inputText" label="${msg.label_TextBox_username}" />
+							<a4j:outputPanel id="TextBox_username_msg" styleClass="errorContainer" ><h:message for="TextBox_username" styleClass="errorMessages TextBox_username_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_FiscalCode}</span>
+							<h:inputText id="TextBox_FiscalCode" value="#{EmployeeAction.like['fiscalCode']}" styleClass="inputText" label="${msg.label_TextBox_FiscalCode}" />
+							<a4j:outputPanel id="TextBox_FiscalCode_msg" styleClass="errorContainer" ><h:message for="TextBox_FiscalCode" styleClass="errorMessages TextBox_FiscalCode_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_SearchRight" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_Surname}</span>
+							<h:inputText id="TextBox_Surname" value="#{EmployeeAction.like['name.fam']}" styleClass="inputText" label="${msg.label_TextBox_Surname}" />
+							<a4j:outputPanel id="TextBox_Surname_msg" styleClass="errorContainer" ><h:message for="TextBox_Surname" styleClass="errorMessages TextBox_Surname_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_Name}</span>
+							<h:inputText id="TextBox_Name" value="#{EmployeeAction.like['name.giv']}" styleClass="inputText" label="${msg.label_TextBox_Name}" />
+							<a4j:outputPanel id="TextBox_Name_msg" styleClass="errorContainer" ><h:message for="TextBox_Name" styleClass="errorMessages TextBox_Name_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutHorizontal" >
+					<a4j:commandButton action="#{processManager.manageTask('BtnSearchEmployee;READ')}" id="BtnSearchEmployee_id" status="ajaxStatus" alt="BUTTON" style="height: 48px;width: 48px;" styleClass="buttonGeneric buttonBase" reRender="header, errorMenu" limitToList="true" image="images/Group_Doctors_Search.png" >
+						<a4j:support limitToList="true" ajaxSingle="true" reRender="DataGrid_Employees" event="oncomplete" ignoreDupResponses="true" />
+					</a4j:commandButton>
+
+					</div>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_Employees" layout="block" styleClass="dt layoutTable layoutVertical" >#{EmployeeAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prevEmployees" value="&#8592;" action="#{EmployeeList.prev}" reRender="DataGrid_Employees" rendered="#{EmployeeList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="prEmployees" value="#{EmployeeList.pageIndexes}" var="piEmployees">
+										<li class="#{(EmployeeList.currentPage eq piEmployees ? 'active' : '')}">
+											<a4j:commandLink id="goToEmployees" value="#{piEmployees}" action="#{EmployeeList.goToPage(piEmployees)}" reRender="DataGrid_Employees" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="nextEmployees" value="&#8594;" action="#{EmployeeList.next}" reRender="DataGrid_Employees" rendered="#{EmployeeList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="dEmployees" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_Employees} [EmployeeList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th><a4j:commandLink id="DataGridColumn_username" value="${msg.DataGridColumn_username} &#8593;&#8595;" action="#{EmployeeList.orderBy('username')}" reRender="DataGrid_Employees" ajaxSingle="true" disabled="#{empty EmployeeList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_surname" value="${msg.DataGridColumn_surname} &#8593;&#8595;" action="#{EmployeeList.orderBy('name.fam')}" reRender="DataGrid_Employees" ajaxSingle="true" disabled="#{empty EmployeeList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_name" value="${msg.DataGridColumn_name} &#8593;&#8595;" action="#{EmployeeList.orderBy('name.giv')}" reRender="DataGrid_Employees" ajaxSingle="true" disabled="#{empty EmployeeList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_fiscalCode" value="${msg.DataGridColumn_fiscalCode} &#8593;&#8595;" action="#{EmployeeList.orderBy('fiscalCode')}" reRender="DataGrid_Employees" ajaxSingle="true" disabled="#{empty EmployeeList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_role" value="${msg.DataGridColumn_role} &#8593;&#8595;" action="#{EmployeeList.orderBy('employeeRole')}" reRender="DataGrid_Employees" ajaxSingle="true" disabled="#{empty EmployeeList ? true : false}"/></th>
+							</tr>
+						</thead>
+						<tbody class="tableBody selectable">
+							<jstl:if test="#{empty EmployeeList or EmployeeList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="5">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="rEmployees" value="#{EmployeeList.entities}" var="Employee" rowKeyVar="rowIndex" >
+								<tr id="#{rowIndex}" onclick="ieEmployees(this.id);" class="#{EmployeeAction.getEntity().equals(Employee) or Employee.internalId != 0 and EmployeeAction.entity.internalId.equals(Employee.internalId) ? 'selRow' : ''}" >
+									<td >
+										<span class="base-label" >#{Employee.username}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Employee.name.fam}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Employee.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="c-text-bold base-label" >#{Employee.fiscalCode}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{Employee.employeeRole}</span>
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				<a4j:jsFunction id="ieEmployees" name="ieEmployees" status="ajaxStatus" action="#{EmployeeList.injectEject}" data="#{EmployeeList.selectedIndex}" oncomplete="selRow(data, jQuery('#dEmployees'))" reRender="ButtonNext" limitToList="true" ajaxSingle="true">
+					<a4j:actionparam name="rowIndex" assignTo="#{EmployeeList.selectedIndex}"/>
+				</a4j:jsFunction>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="createAppointmentSp">
+
+
+	<start-state name="start-state1">
+		<transition to="agendaView"></transition>
+	</start-state>
+
+
+	<task-node name="agendaView">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_agendaSp/CORE/FORMS/agendaView')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{button.mnemonic}">
+		<transition to="set employee, agenda" name="ADD"></transition>
+		<transition to="visita?" name="SELECT"></transition>
+		<transition to="eject" name="BACK"></transition>
+	</decision>
+
+	<task-node name="define appointment">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_agendaSp/CORE/FORMS/AppointmentSp')}"></action>
+		</event>
+		<transition to="decision2"></transition>
+	</task-node>
+
+	<super-state name="super-state1">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{AppointmentSpAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<decision name="decision2" expression="#{button.mnemonic}">
+		<transition to="super-state1/create" name="OK"></transition>
+		<transition to="agendaView" name="BACK"></transition>
+		<transition to="agendaView" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="set employee, agenda">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSp.setEmployee(!empty Employee ? Employee : userBean.getCurrentEmployee())}"></action>
+			<action name="2" expression="#{AppointmentSp.setAgendaConf(AgendaConf)}"></action>
+		</event>
+		<transition to="define appointment"></transition>
+	</node>
+
+	<node name="inject Atti by Visita">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.inject(AppointmentSp.visitaSp.visitaMdl.get(0).attivita )}"></action>
+			<action name="2" expression="#{ProcpraticheAction.inject(Attivita.procpratiche)}"></action>
+		</event>
+		<transition to="set mnemonic"></transition>
+	</node>
+
+	<decision name="visita?" expression="#{!empty AppointmentSp.visitaSp}">
+		<transition to="inject Atti by Accert" name="false"></transition>
+		<transition to="inject Atti by Visita" name="true"></transition>
+	</decision>
+
+	<node name="inject Atti by Accert">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaAction.inject(AppointmentSp.accertSp.visitaMdl.get(0).attivita )}"></action>
+			<action name="2" expression="#{ProcpraticheAction.inject(Attivita.procpratiche)}"></action>
+		</event>
+		<transition to="set mnemonic"></transition>
+	</node>
+
+	<process-state name="pratiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/gestionePratiche" binding="late"></sub-process>
+		<transition to="eject app"></transition>
+	</process-state>
+
+	<node name="set mnemonic">
+		<event type="node-enter">
+			<action name="1" expression="#{button.setMnemonic('BtnActivityMng1')}"></action>
+			<action name="2" expression="#{button.setValue('BtnAttivitaMng')}"></action>
+		</event>
+		<transition to="pratiche"></transition>
+	</node>
+
+	<node name="eject app">
+		<event type="node-enter">
+			<action name="1" expression="#{AppointmentSpAction.eject()}"></action>
+		</event>
+		<transition to="agendaView"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

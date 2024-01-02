@@ -1,0 +1,121 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1504817897596" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot layoutGroupBoxOuter" >
+			<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1504817897596}</legend>
+				<a4j:outputPanel layout="block" id="LayoutRow_1503503234121" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1505640667905" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1504183888324}</span>
+							<h:inputText id="MonthCalendar_1504183888324" value="#{AccertExt.data}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1504183888324}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1504183888324" styleClass="errorMessages MonthCalendar_1504183888324_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506609567942" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label >
+							<span class="label">${msg.label_Label_1506609582917}</span>
+							<h:outputText value="#{AccertExt.medico.name}" id="Label_1506609582917" styleClass="labelContent  base-label" />
+						</label>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1506609585181" >
+						<a4j:commandLink action="#{OperationManager.manageDetail(AccertExt.medico)}" status="ajaxStatus" id="Link_1506609585181_id" title="${msg.alt_Link_1506609585181}" rendered="#{not empty AccertExt.medico.internalId}" reRender="popup" styleClass="fa fa-info-circle fa-2x link readOnly" />
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1506609587197" >
+						<a4j:commandLink action="#{OperationManager.manageEdit(AccertExt,'Medico',null,null)}" status="ajaxStatus" id="Link_1506609587197_id" title="${msg.alt_Link_1506609587197}" rendered="#{not empty AccertExt.medico.internalId}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x save link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{OperationManager.manageLink(AccertExt, 'Medico', null, null, false, null, null, null)}" status="ajaxStatus" id="Link_1506609590189" title="${msg.alt_Link_1506609590189}" reRender="phiDesktop" styleClass="fa fa-search fa-2x linkUnlinkUnlink link" />
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1506609592557" >
+						<a4j:commandLink action="#{OperationManager.manageUnlink(AccertExt, 'Medico', null, null, false, null, null, null)}" status="ajaxStatus" id="Link_1506609592557_id" title="${msg.alt_Link_1506609592557}" rendered="#{not empty AccertExt.medico.internalId}" reRender="LayoutRow_1506609567942" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1506589817290" style="padding-top: 15px;" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+					<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1506589817290}</legend>
+						<a4j:outputPanel layout="block" id="LayoutRow_1502596156651" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1504789879223}</span>
+								<h:inputText id="TextBox_1504789879223" value="#{Attivita.addr.str}" styleClass="inputText" label="${msg.label_TextBox_1504789879223}" />
+								<a4j:outputPanel id="TextBox_1504789879223_msg" styleClass="errorContainer" ><h:message for="TextBox_1504789879223" styleClass="errorMessages TextBox_1504789879223_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextSuggestionBox_1503159061404" >
+							<label >
+								<span class="label">${msg.label_TextSuggestionBox_1503159061404}</span>
+								#{AttivitaAction.autocomplete['addr'].setContentType('0')}
+								#{AttivitaAction.autocomplete['addr'].setCodeSystem('Comuni')}
+								<h:inputText id="TextSuggestionBox_1503159061404_MAIN" value="#{Attivita.addr.cty}" styleClass="autocomplete autoAddress inputText" label="${msg.label_TextSuggestionBox_1503159061404}" />
+								<h:outputLabel for="TextSuggestionBox_1503159061404_CPA" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1503159061404_CPA" value="#{Attivita.addr.cpa}" style="width: 25px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.Province}" />
+								<h:outputLabel for="TextSuggestionBox_1503159061404_ZIP" styleClass="textSuggestionSeparator" value="-" />
+								<h:inputText id="TextSuggestionBox_1503159061404_ZIP" value="#{Attivita.addr.zip}" style="width: 45px;float:left;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */" label="${static.ZIP}" />
+								<h:outputLabel for="TextSuggestionBox_1503159061404_CODE" style="display:none;"/>
+								<h:inputText id="TextSuggestionBox_1503159061404_CODE" value="#{Attivita.addr.code}" label="${msg.label_TextSuggestionBox_1503159061404}"  style="display: none">
+									<f:converter converterId="CodeValueConverter"/>
+
+								</h:inputText>
+								<h:message for="TextSuggestionBox_1503159061404_CODE" styleClass="errorMessages TextSuggestionBox_1503159061404_CODE_E" />
+								<a4j:jsFunction name="TextSuggestionBox_1503159061404" action="#{AttivitaAction.autocomplete['addr'].autocomplete()}" data="#{AttivitaAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+									<a4j:actionparam name="search" assignTo="#{AttivitaAction.autocomplete['addr'].search}"/>
+									<a4j:actionparam name="ui"/>
+								</a4j:jsFunction>
+							</label>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1504081630356" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1505760909234}</span>
+								<h:inputText id="TextBox_1505760909234" value="#{Attivita.addr.bnr}" styleClass="inputText" label="${msg.label_TextBox_1505760909234}" />
+								<a4j:outputPanel id="TextBox_1505760909234_msg" styleClass="errorContainer" ><h:message for="TextBox_1505760909234" styleClass="errorMessages TextBox_1505760909234_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1503229890260}</span>
+								<h:inputText id="TextBox_1503229890260" value="#{Attivita.addr.cnt}" styleClass="inputText" label="${msg.label_TextBox_1503229890260}" />
+								<a4j:outputPanel id="TextBox_1503229890260_msg" styleClass="errorContainer" ><h:message for="TextBox_1503229890260" styleClass="errorMessages TextBox_1503229890260_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1506508820949" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" rendered="false" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1506113485792}</span>
+								<h:inputText id="TextBox_1506113485792" value="#{Attivita.addr.adl}" styleClass="inputText" label="${msg.label_TextBox_1506113485792}" />
+								<a4j:outputPanel id="TextBox_1506113485792_msg" styleClass="errorContainer" ><h:message for="TextBox_1506113485792" styleClass="errorMessages TextBox_1506113485792_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1504780708084}</span>
+								<h:inputText id="TextBox_1504780708084" value="#{Attivita.addr.sta}" styleClass="inputText" label="${msg.label_TextBox_1504780708084}" />
+								<a4j:outputPanel id="TextBox_1504780708084_msg" styleClass="errorContainer" ><h:message for="TextBox_1504780708084" styleClass="errorMessages TextBox_1504780708084_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</fieldset>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+			</fieldset>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

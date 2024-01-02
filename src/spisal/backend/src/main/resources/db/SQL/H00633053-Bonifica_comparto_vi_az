@@ -1,0 +1,25 @@
+select pgs.* from vigilanza v 
+join procpratiche p on p.vigilanza_id = v.internal_id and p.internal_id = 407520
+join persona_giuridica_sede pgs on pgs.vigilanza_id = v.internal_id
+join sedi s on s.internal_id = pgs.sede_id 
+join attivita_istat ai on ai.sedi_id = s.internal_id 
+where v.comparto is null and ai.is_active = 1 and ai.IMPORTANZA = 'phidic.spisal.company.attivita.imp.P_V0' and v.`type` = 'phidic.spisal.segnalazioni.supervision.types.generic_V0'
+order by pgs.creation_date desc;
+
+update vigilanza v set v.comparto = (
+		select ai.code from persona_giuridica_sede pgs 
+		join sedi s on s.internal_id = pgs.sede_id 
+		join attivita_istat ai on ai.sedi_id = s.internal_id 
+		where pgs.vigilanza_id = v.internal_id and ai.is_active = 1 
+		and ai.IMPORTANZA = 'phidic.spisal.company.attivita.imp.P_V0' limit 1
+		)
+where v.comparto is null and v.`type` = 'phidic.spisal.segnalazioni.supervision.types.generic_V0';
+
+update vigilanza v set v.comparto = (
+		select ai.code from persona_giuridica_sede pgs 
+		join persone_giuridiche pg on pg.internal_id = pgs.persona_giuridica_id  
+		join attivita_istat ai on ai.persone_giuridiche_id = pg.internal_id 
+		where pgs.vigilanza_id = v.internal_id and ai.is_active = 1 
+		and ai.IMPORTANZA = 'phidic.spisal.company.attivita.imp.P_V0' limit 1
+		)
+where v.comparto is null and v.`type` = 'phidic.spisal.segnalazioni.supervision.types.generic_V0';

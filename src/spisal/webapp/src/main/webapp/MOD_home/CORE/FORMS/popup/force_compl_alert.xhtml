@@ -1,0 +1,56 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1544108114723}</h1>
+	<div id="force_compl_alert" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1544108123679" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1544108164879" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<span value="${msg.Label_1544108183104}" style="display:none;" class="labelContent  base-label" >${msg.Label_1544108183104}</span>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1544108165335" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:region>
+					<a4j:status id="LayoutRow_1544108165335Status" onstop="stopAjaxReq()"/>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="MonthCalendar_1677231534180" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1677231534180}</span>
+						<h:inputText id="MonthCalendar_1677231534180_id" value="#{Procpratiche.completedDate}" required="true" class="datepicker todayIsHigherBound monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1677231534180}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						<f:validator validatorId="DateMinorEqualOfToday"/>
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1677231534180_id" styleClass="errorMessages MonthCalendar_1677231534180_E" />
+					</label>
+					</a4j:outputPanel>
+
+					</a4j:region>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1677243920013" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1677245707734" style="height:100%;width:100%;" >
+												<a4j:outputPanel id="errorDateViewer" layout="block">
+													<div id="errorDateErrors">
+														<rich:messages showSummary="false" showDetail="true" level="error" styleClass="c-text-bold c-text-red" />
+													</div>
+												</a4j:outputPanel>
+						
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1544108165751" style="padding-top:15px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1544108223448;BtnCancel')}" value="#{msg.Button_1544108223448}" id="Button_1544108223448_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" rendered="false" reRender="popup, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1544108223959;BtnSave')}" value="#{msg.Button_1544108223959}" id="Button_1544108223959_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

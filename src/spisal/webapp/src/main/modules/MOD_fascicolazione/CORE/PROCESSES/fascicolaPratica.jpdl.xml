@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="fascicolaPratica">
+
+
+	<start-state name="start-state1">
+		<transition to="initialize"></transition>
+	</start-state>
+
+
+	<node name="initialize">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{TagFascicoloAction.isNull.put('endValidity',true)}"></action>
+			<action name="3" expression="#{TagFascicoloAction.select.add('fascicolo')}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<task-node name="tag fascicolo UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_fascicolazione/CORE/FORMS/fascicolaPratica')}"></action>
+		</event>
+		<transition to="decision1"></transition>
+	</task-node>
+
+	<decision name="decision1" expression="#{(button.getMnemonic())}">
+		<transition to="add tag" name="addTag"></transition>
+		<transition to="remove tag" name="removeTag"></transition>
+		<transition to="super-state1/create" name="BtnSave"></transition>
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="ricerca manuale" name="manualSearch"></transition>
+		<transition to="fascicolazione gestione tipi" name="newType"></transition>
+	</decision>
+
+	<node name="add tag">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.refresh()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.link('tagFascicolo',TagFascicolo)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="remove tag">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheTagFascicoloAction.refresh()}"></action>
+			<action name="2" expression="#{ProcpraticheAction.unLink('tagFascicolo',PraticheTagFascicolo)}"></action>
+			<action name="3" expression="#{PraticheTagFascicoloList.list.remove(PraticheTagFascicolo)}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{TagFascicoloAction.eject()}"></action>
+			<action name="2" expression="#{TagFascicoloAction.ejectList()}"></action>
+		</event>
+		<transition to="read"></transition>
+	</node>
+
+	<node name="read">
+		<event type="node-enter">
+			<action name="1" expression="#{PraticheTagFascicoloAction.injectList(Procpratiche.tagFascicolo,'PraticheTagFascicoloList')}"></action>
+		</event>
+		<transition to="tag fascicolo UI"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="create">
+			<event type="node-enter">
+				<action name="1" expression="#{TagFascicoloAction.refreshAndLink(Procpratiche,PraticheTagFascicoloList.list)}"></action>
+				<action name="2" expression="#{ProcpraticheAction.create()}"></action>
+			</event>
+			<transition to="../read"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="ricerca manuale">
+		<sub-process name="MOD_fascicolazione/CORE/PROCESSES/manualFascicoloTag" binding="late"></sub-process>
+		<transition to="eject"></transition>
+	</process-state>
+
+	<process-state name="fascicolazione gestione tipi">
+		<sub-process name="MOD_fascicolazione/CORE/PROCESSES/fascicolazioneGestioneTipi" binding="late"></sub-process>
+		<transition to="new fascicolo to link?"></transition>
+	</process-state>
+
+	<decision name="new fascicolo to link?" expression="#{!empty TagFascicoloAction.temporary['newFascicoloToLink']}">
+		<transition to="eject" name="false"></transition>
+		<transition to="link newFascicoloToLink" name="true"></transition>
+	</decision>
+
+	<node name="link newFascicoloToLink">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.link('tagFascicolo',TagFascicoloAction.temporary['newFascicoloToLink'] )}"></action>
+			<action name="2" expression="#{TagFascicoloAction.temporary.remove('newFascicoloToLink')}"></action>
+		</event>
+		<transition to="eject"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

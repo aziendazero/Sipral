@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="attivitaIstatManage">
+
+
+	<start-state name="start-state1">
+		<transition to="coming from?"></transition>
+	</start-state>
+
+
+	<decision name="coming from?" expression="#{(button.getMnemonic())}">
+		<transition to="delAttivita" name="delAttivita"></transition>
+		<transition to="addAttivita" name="addAttivita"></transition>
+		<transition to="inject code" name="attivita"></transition>
+	</decision>
+
+	<node name="delAttivita">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaIstatList.list.remove(AttivitaIstat)}"></action>
+			<action name="2" expression="#{ToRemoveAttivitaIstatList.list.add(AttivitaIstat)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="addAttivita">
+		<event type="node-enter">
+			<action name="1" expression="#{AttivitaIstatAction.inject(AttivitaIstatAction.newEntity())}"></action>
+			<action name="2" expression="#{AttivitaIstatList.list.add(AttivitaIstat)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<process-state name="ateco">
+		<sub-process name="MOD_RegistroEsposti/CORE/PROCESSES/Utilities/filterAteco" binding="late"></sub-process>
+		<transition to="set ateco"></transition>
+	</process-state>
+
+	<node name="inject code">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueAtecoAction.inject(AttivitaIstat.code)}"></action>
+		</event>
+		<transition to="ateco"></transition>
+	</node>
+
+	<node name="set ateco">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueAteco ? AttivitaIstat.setCode(CodeValueAteco) : ''}"></action>
+			<action name="2" expression="#{CodeValueAtecoAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

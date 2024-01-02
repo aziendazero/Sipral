@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="Storia Sottolista">
+
+
+	<start-state name="start">
+		
+		<transition to="backup sottolista"/>
+	</start-state>	
+		
+		
+
+	<task-node name="show details">
+		<task>
+			<assignment actor-id="#{userBean.username}"/>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/f_control_sublist_edit')}" name="main"/>
+		</event>
+		<transition to="show history"/>		
+	</task-node>
+
+
+	<task-node name="show history">
+		<task>
+			<assignment actor-id="#{userBean.username}"/>
+		</task>
+		<event type="node-enter">
+		
+			<action name="1" expression="#{ControlSubLsAction.eject()}"></action>
+			<action expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/f_sublist_history')}" name="main"/>
+		</event>
+		<transition to="backOrExit"/>		
+	</task-node>
+
+	
+	<node name="read history">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.historyFiltered('description','descrCode','startValidity','endValidity','requisito')}"></action>
+		</event>
+		<transition to="show history"/>
+	</node>
+			
+	
+	 
+	<decision expression="#{(button.getMnemonic())}" name="backOrExit">
+	<transition name="BACK" to="restore sottolista"/>
+	<transition name="NEXT" to="inject requisiti"/>
+	
+	</decision>
+
+	<node name="backup sottolista">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.temporary.put('oldSubList',ControlSubLs)}"></action>
+			<action name="2" expression="#{ControlSubLsAction.temporary.put('isForHistory',true)}"></action>
+			<action name="3" expression="#{RequisitoAction.eject()}"></action>
+			<action name="4" expression="#{RequisitoAction.ejectList()}"></action>
+		</event>
+		<transition to="read history"/>
+	</node>
+
+	<node name="restore sottolista">
+		<event type="node-enter">
+			<action name="1" expression="#{ControlSubLsAction.inject(ControlSubLsAction.temporary['oldSubList'])}"></action>
+			<action name="2" expression="#{ControlSubLsAction.ejectList('ControlSubLsHistoryList')}"></action>
+			<action name="3" expression="#{ControlSubLsAction.temporary.put('isForHistory',false)}"></action>
+			<action name="4" expression="#{RequisitoAction.eject()}"></action>
+			<action name="5" expression="#{RequisitoAction.ejectList()}"></action>
+		</event>
+		<transition to="end"/>
+	</node>
+
+	<node name="inject requisiti">
+		<event type="node-enter">
+			<action name="1" expression="#{RequisitoAction.injectList(ControlSubLs.requisito)}"></action>
+			<action name="2" expression="#{RequisitoList.orderBy('ordering')}"></action>
+			<action name="3" expression="#{RequisitoList.orderBy('ordering')}"></action>
+		</event>
+		<transition to="show details"></transition>
+	</node>
+	 
+	 
+	
+	<end-state name="end">
+	</end-state>
+	
+	
+
+ <action expression="UTILITIES;" name="security"/>
+
+
+</process-definition>

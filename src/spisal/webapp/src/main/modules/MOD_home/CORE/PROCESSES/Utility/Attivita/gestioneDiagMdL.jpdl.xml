@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneDiagMdL">
+
+
+	<start-state name="start-state1">
+		<transition to="ButtonName?"></transition>
+	</start-state>
+
+
+	<decision name="ButtonName?" expression="#{button.value}">
+		<transition to="newEntity" name="NewDiag"></transition>
+		<transition to="Pre-Del Diag" name="DelDiag"></transition>
+		<transition to="Diagnosi MdL" name="MngDiag"></transition>
+	</decision>
+
+	<task-node name="Diagnosi MdL">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_home/CORE/FORMS/diag_mdl')}"></action>
+		</event>
+		<transition to="Button"></transition>
+	</task-node>
+
+	<decision name="Button" expression="#{button.mnemonic}">
+		<transition to="eject" name="BtnBack"></transition>
+		<transition to="injectIcd9" name="icd9Popup"></transition>
+		<transition to="injectInail" name="inailPopup"></transition>
+		<transition to="Save Diag" name="BtnSave"></transition>
+	</decision>
+
+	<node name="newEntity">
+		<description>
+			DiagMdlAction.inject(DiagMdlAction.newEntity())
+		</description>
+		<event type="node-enter">
+			<action name="1" expression="#{DiagMdlAction.inject(DiagMdlAction.newEntity())}"></action>
+		</event>
+		<transition to="Diagnosi MdL"></transition>
+	</node>
+
+	<node name="eject">
+		<event type="node-enter">
+			<action name="1" expression="#{DiagMdlAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="injectIcd9">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValueIcd9Action.inject(DiagMdl.icd9)}"></action>
+		</event>
+		<transition to="filterIcd9"></transition>
+	</node>
+
+	<process-state name="filterIcd9">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Segnalazioni/filterIcd9" binding="late"></sub-process>
+		<transition to="setIcd9"></transition>
+	</process-state>
+
+	<node name="setIcd9">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValueIcd9 ? DiagMdl.setIcd9(CodeValueIcd9) : ''}"></action>
+			<action name="2" expression="#{FattoreRischioAction.manageMalattia(CodeValueIcd9, null, null)}"></action>
+			<action name="3" expression="#{CodeValueIcd9Action.eject()}"></action>
+		</event>
+		<transition to="Diagnosi MdL"></transition>
+	</node>
+
+	<node name="injectInail">
+		<event type="node-enter">
+			<action name="1" expression="#{CodeValuePhiAction.inject(DiagMdl.inail)}"></action>
+			<action name="2" expression="#{CodeValueAction.temporary.put('allowedDomains',FattoreRischioAction.temporary['allowedDomains'])}"></action>
+		</event>
+		<transition to="filterInail"></transition>
+	</node>
+
+	<process-state name="filterInail">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Pratiche/MP/filterMpInail" binding="late"></sub-process>
+		<transition to="setInail"></transition>
+	</process-state>
+
+	<node name="setInail">
+		<event type="node-enter">
+			<action name="1" expression="#{not empty CodeValuePhi ? DiagMdl.setInail(CodeValuePhi) : ''}"></action>
+			<action name="2" expression="#{CodeValuePhiAction.eject()}"></action>
+			<action name="3" expression="#{CodeValueAction.temporary.remove('allowedDomains')}"></action>
+		</event>
+		<transition to="Diagnosi MdL"></transition>
+	</node>
+
+	<node name="Save Diag">
+		<event type="node-enter">
+			<action name="1" expression="#{ConclusioniMdlAction.link('diagMdl',DiagMdl)}"></action>
+			<action name="2" expression="#{not DiagMdlList.getList().contains(DiagMdl)?DiagMdlList.getList().add(DiagMdl):''}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="Pre-Del Diag">
+		<event type="node-enter">
+			<action name="1" expression="#{ConclusioniMdl.removeDiagMdl(DiagMdl)}"></action>
+			<action name="2" expression="#{DiagMdlList.getList().remove(DiagMdl)}"></action>
+		</event>
+		<transition to="super-state1/Del Diag"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Del Diag">
+			<event type="node-enter">
+				<action name="1" expression="#{DiagMdlAction.delete()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

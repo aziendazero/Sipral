@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="PHI_CI.war/processes/MOD_Employees/CORE/Search">
+<description>no description</description>
+		
+	<start-state name="start-state1">
+		
+		<transition to="search employee UI"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="search employee UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_Employees/CORE/FORMS/f_search_employee')}" name="main"></action>
+		</event>
+		<transition to="exit?"></transition>		
+	</task-node>
+
+	
+	<node name="search employee">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.orderBy.put('name.fam','ascending')}"></action>
+			<action name="2" expression="#{EmployeeAction.setReadPageSize(10)}"></action>
+			<action name="3" expression="#{EmployeeAction.read()}"></action>
+		</event>
+		<transition to="search employee UI"></transition>
+	</node>
+			
+	
+	 
+	<decision name="exit?" expression="#{(button.getMnemonic())}">
+	<transition to="inject button" name="select"></transition>
+	<transition to="search employee" name="search"></transition>
+		<transition to="inject button" name="BACK"></transition>
+	
+	</decision>
+
+	<node name="inject button">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.temporary.put('employeeButton',button.getMnemonic())}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+	 
+	 
+	
+	<end-state name="end-state1">
+	</end-state>
+	
+	
+
+ <action name="security" expression=""></action>
+
+</process-definition>
+

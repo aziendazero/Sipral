@@ -1,0 +1,27 @@
+<form #form="ngForm" id="frm-vital-sign-last">
+  <h1>{{'vital-sign-last' | translate}}</h1>
+  <div id="vital-sign-last" class="layout vertical">
+    <div id="dg-vital-sign-last" [phi-datagrid]="VitalSignList">
+      <thead class="tableHeader">
+        <tr>
+          <th>{{'dgc-vs-name' | translate}}</th>
+          <th>{{'dgc-vs-value' | translate}}</th>
+          <th (click)="VitalSignList?.orderBy('date')">{{'dgc-vs-date' | translate}} <i *ngIf="VitalSignList?.sortColumn('date')" [class]="VitalSignList.sortArrow"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let VitalSign of VitalSignList?.entities; let i = index">
+          <td>
+            <span>{{VitalSign.name}}</span>
+          </td>
+          <td>
+            <span>{{VitalSign.value}}</span>
+          </td>
+          <td>
+            <span>{{VitalSign.date | dateFormat: 'short'}}</span>
+          </td>
+      </tr>
+      </tbody>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,194 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1473858209964}</h1>
+	<div id="tipologiaDittaList" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1475996436550" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1473278694838" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1474863881886;newType')}" status="ajaxStatus" id="Link_1474863881886" title="${msg.alt_Link_1474863881886}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{ProtocolloAction.temporary.put('filterFascicoli',!ProtocolloAction.temporary['filterFascicoli'])}" status="ajaxStatus" id="Link_1473497434238" title="${msg.alt_Link_1473497434238}" reRender="LayoutRow_1474120390179" styleClass="fa fa-bars fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TableConversionWidget_1473550507452" >
+					<a4j:htmlCommandLink actionListener="#{excelExport.convertToExcel}" immediate="true" limitToList="true" title="${msg.TableConversionWidget_1473550507452}" target="_blank" rendered="#{TipologiaDittaList.size() gt 0}" styleClass="buttonExport  buttonBase" >
+						<f:param name="dataTable" value="DataGrid_1473244474983_table" />
+						<f:param name="tableHeaders" value="${msg.DataGridColumn_1473312447987}-/-${msg.DataGridColumn_1474112982041}-/-${msg.DataGridColumn_1475988148436}-/-${msg.DataGridColumn_1475871491548}-/-${msg.DataGridColumn_1473878229356}-/-${msg.DataGridColumn_1475349838596}-/-${msg.DataGridColumn_1474750792908}-/-${msg.DataGridColumn_1474105827238}-/-${msg.DataGridColumn_1471711390668}" />
+						<f:param name="tableColumns" value="TipologiaDitta.type-/--/-TipologiaDitta.serviceDeliveryLocation.name.giv-/-TipologiaDitta.uos.area.currentTranslation-/-TipologiaDitta.startValidity-/-TipologiaDitta.endValidity-/-" />
+						<f:param name="listName" value="TipologiaDittaList" />
+					</a4j:htmlCommandLink>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding: 5px;padding:0;" id="LayoutRow_1474120390179" styleClass="layoutContainer layoutContainerVertical green" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{ProtocolloAction.temporary['filterFascicoli']}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1474120390179}</legend>
+					<div class="layoutVertical" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1473468659170}</span>
+						<h:inputText id="TextBox_1473468659170" value="#{TipologiaDittaAction.like['type']}" styleClass="filter inputText" label="${msg.label_TextBox_1473468659170}" />
+						<a4j:outputPanel id="TextBox_1473468659170_msg" styleClass="errorContainer" ><h:message for="TextBox_1473468659170" styleClass="errorMessages TextBox_1473468659170_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1475614726568" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1473196576774}</span>
+							<h:inputText id="MonthCalendar_1473196576774" value="#{TipologiaDittaAction.greaterEqual['startValidity']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1473196576774}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="ge"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1473196576774" styleClass="errorMessages MonthCalendar_1473196576774_E" />
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1472117751755}</span>
+							<h:inputText id="MonthCalendar_1472117751755" value="#{TipologiaDittaAction.lessEqual['endValidity']}" class="datepicker filter monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1472117751755}"  autocomplete="off" >
+							<f:converter converterId="phiConvertDateTime" /><f:param name="datePattern" value="${format.dateNormal}"/><f:param name="filterOperator" value="le"/>							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1472117751755" styleClass="errorMessages MonthCalendar_1472117751755_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutFill_1474171334888" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1471959252671" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(TipologiaDittaAction.temporary['showULSS']) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1471959252671}</span>
+							<h:selectOneMenu id="ComboBox_1471959252671_id" value="#{TipologiaDittaAction.equal['serviceDeliveryLocation']}" rendered="#{TipologiaDittaAction.temporary['showULSS']}" styleClass="filter comboBox" label="${msg.label_ComboBox_1471959252671}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{spisalUserAction.getUlssEntities()}" />
+								<f:converter converterId="EntityConverter"/>
+								<a4j:support limitToList="true" ajaxSingle="true" reRender="ComboBox_1473711536347" event="onchange" ignoreDupResponses="true" />
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="ComboBox_1473711536347" style="width: 50.0%;height: 100%;" >
+						<label style="display:#{(spisalUserAction.getEnabledUOS().size() gt 1) ? 'block' : 'none' };" >
+							<span class="label">${msg.label_ComboBox_1473711536347}</span>
+							<h:selectOneMenu id="ComboBox_1473711536347_id" value="#{TipologiaDittaAction.equal['uos']}" rendered="#{spisalUserAction.getEnabledUOS().size() gt 1}" styleClass="filter comboBox" label="${msg.label_ComboBox_1473711536347}" >
+								<f:selectItem itemLabel="-" itemValue=""/>
+								<f:selectItems value="#{(spisalUserAction.getUlssEntities().size() gt 1) ? spisalUserAction.getUosFromSelectedUoc(TipologiaDittaAction.equal['serviceDeliveryLocation']) : spisalUserAction.getEnabledUOS()}" />
+								<f:converter converterId="EntityConverter"/>
+							</h:selectOneMenu>
+						</label>
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_CheckBox_1473578840458}</span>
+						<h:selectBooleanCheckbox id="CheckBox_1473578840458" value="#{TipologiaDittaAction.temporary.nonattivi}" style="filtervertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" label="${msg.label_CheckBox_1473578840458}" />
+						<h:message for="CheckBox_1473578840458" styleClass="errorMessages CheckBox_1473578840458_E" />
+					</label>
+					</div>
+					<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1473578840458" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1473439901832" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical buttonBar" >
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1471885487551;Search')}" status="ajaxStatus" id="Link_1471885487551" title="${msg.alt_Link_1471885487551}" reRender="DataGrid_1473244474983,TableConversionWidget_1473550507452" styleClass="fa fa-search fa-3x hotKeyF4 link" />
+						</div>
+
+						<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1473371914276;ClearFiltri')}" status="ajaxStatus" id="Link_1473371914276" title="${msg.alt_Link_1473371914276}" reRender="phiDesktop,LayoutRow_1474120390179,DataGrid_1473244474983" styleClass="fa fa-eraser fa-3x link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel id="DataGrid_1473244474983" layout="block" styleClass="dt layoutTable layoutVertical" >#{TipologiaDittaAction.setReadPageSize(10)}
+							<div class="paging">
+								<ul>
+									<li class="bk"><a4j:commandLink id="prev1473244474983" value="&#8592;" action="#{TipologiaDittaList.prev}" reRender="DataGrid_1473244474983" rendered="#{TipologiaDittaList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									<a4j:repeat id="pr1473244474983" value="#{TipologiaDittaList.pageIndexes}" var="pi1473244474983">
+										<li class="#{(TipologiaDittaList.currentPage eq pi1473244474983 ? 'active' : '')}">
+											<a4j:commandLink id="goTo1473244474983" value="#{pi1473244474983}" action="#{TipologiaDittaList.goToPage(pi1473244474983)}" reRender="DataGrid_1473244474983" ajaxSingle="true" status="ajaxStatus" />
+										</li>
+									</a4j:repeat>
+									<li class="fw"><a4j:commandLink id="next1473244474983" value="&#8594;" action="#{TipologiaDittaList.next}" reRender="DataGrid_1473244474983" rendered="#{TipologiaDittaList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+								</ul>
+							</div>
+					<table id="d1473244474983" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1473244474983} [TipologiaDittaList]" >
+						<thead class="tableHeader">
+							<tr>
+								<th>${msg.DataGridColumn_1473312447987}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1474112982041} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1475988148436" value="${msg.DataGridColumn_1475988148436} &#8593;&#8595;" action="#{TipologiaDittaList.orderBy('type')}" reRender="DataGrid_1473244474983" ajaxSingle="true" disabled="#{empty TipologiaDittaList ? true : false}"/></th>
+								<th class="sortableColumn">${msg.DataGridColumn_1475871491548} &#8593;&#8595;</th>
+								<th><a4j:commandLink id="DataGridColumn_1473878229356" value="${msg.DataGridColumn_1473878229356} &#8593;&#8595;" action="#{TipologiaDittaList.orderBy('serviceDeliveryLocation.name.giv')}" reRender="DataGrid_1473244474983" ajaxSingle="true" disabled="#{empty TipologiaDittaList ? true : false}"/></th>
+								<th><a4j:commandLink id="DataGridColumn_1475349838596" value="${msg.DataGridColumn_1475349838596} &#8593;&#8595;" action="#{TipologiaDittaList.orderBy(function.getLang('uos.area.'))}" reRender="DataGrid_1473244474983" ajaxSingle="true" disabled="#{empty TipologiaDittaList ? true : false}"/></th>
+								<th>${msg.DataGridColumn_1474750792908}</th>
+								<th>${msg.DataGridColumn_1474105827238}</th>
+								<th class="sortableColumn">${msg.DataGridColumn_1471711390668} &#8593;&#8595;</th>
+							</tr>
+						</thead>
+						<tbody class="tableBody">
+							<jstl:if test="#{empty TipologiaDittaList or TipologiaDittaList.isEmpty()}">
+								<tr class="noresults">
+									<td colspan="9">${error.emtpy_search_for_table}</td>
+								</tr>
+							</jstl:if>
+							<a4j:repeat id="r1473244474983" value="#{TipologiaDittaList.entities}" var="TipologiaDitta" rowKeyVar="rowIndex" >
+								<tr >
+									<td style="width:5%;" >
+										<a4j:commandLink action="#{TipologiaDittaAction.inject(TipologiaDitta)}" status="ajaxStatus" id="Link_1473055255885_id" title="${msg.alt_Link_1473055255885}" style="color:green;" rendered="#{TipologiaDitta.endValidity == null}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+										<a4j:commandLink action="#{TipologiaDittaAction.inject(TipologiaDitta)}" status="ajaxStatus" id="Link_1473393050132_id" title="${msg.alt_Link_1473393050132}" style="color:red;" rendered="#{TipologiaDitta.endValidity != null}" reRender="phiDesktop" styleClass="fa fa-circle fa-1x tableButton" />
+
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TipologiaDittaAction.injectAndProceed(TipologiaDitta, 'Link_1474216894692;editType')}" status="ajaxStatus" id="Link_1474216894692" title="${msg.alt_Link_1474216894692}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" />
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{TipologiaDitta.type}</span>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TipologiaDittaAction.inject(TipologiaDitta)}" status="ajaxStatus" id="Link_1472852976933_id" alt="#{LINK}" rendered="#{TipologiaDitta.notes == null}" reRender="phiDesktop" styleClass="fa fa-comment-o fa-2x tableButton" />
+
+										<a4j:commandLink action="#{TipologiaDittaAction.inject(TipologiaDitta)}" status="ajaxStatus" id="Link_1473502548737_id" alt="#{LINK}" style="color:#ffc90e" rendered="#{TipologiaDitta.notes != null}" reRender="phiDesktop" styleClass="fa fa-comment fa-2x tableButton" title="#{TipologiaDitta.notes}"/>
+
+									</td>
+
+									<td >
+										<span class="base-label" >#{TipologiaDitta.serviceDeliveryLocation.name.giv}</span>
+									</td>
+
+									<td >
+										<span class="base-label" >#{TipologiaDitta.uos.area.currentTranslation}</span>
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TipologiaDitta.startValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td style="width:10%;" >
+										<h:outputText styleClass="base-label" value="#{TipologiaDitta.endValidity}" >
+											<s:convertDateTime pattern="${format.dateNormal}" />
+										</h:outputText>
+									</td>
+
+									<td >
+										<a4j:commandLink action="#{TipologiaDittaAction.injectAndProceed(TipologiaDitta, 'Link_1474921098645;delType')}" status="ajaxStatus" id="Link_1474921098645_id" title="${msg.alt_Link_1474921098645}" rendered="#{TipologiaDittaAction.isDeletable(TipologiaDitta)}" reRender="popup" styleClass="fa fa-trash fa-2x tableButton" />
+
+									</td>
+
+								</tr>
+							</a4j:repeat>
+						</tbody>
+					</table>
+				</a4j:outputPanel>
+
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

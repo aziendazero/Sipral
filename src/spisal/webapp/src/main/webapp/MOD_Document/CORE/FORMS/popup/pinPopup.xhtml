@@ -1,0 +1,48 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1510582694868}</h1>
+	<div id="pinPopup" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1511711722401" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1511238126414" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1510835178868" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{AlfrescoDocumentAction.temporary['showLoginPassword'] and false}" >
+						<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1510835142332" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1510835142332}</span>
+							<h:inputText id="TextBox_1510835142332_id" value="#{AlfrescoDocumentAction.temporary['username']}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1510835142332}" />
+							<a4j:outputPanel id="TextBox_1510835142332_msg" styleClass="errorContainer" ><h:message for="TextBox_1510835142332_id" styleClass="errorMessages TextBox_1510835142332_E" /></a4j:outputPanel>
+						</label>
+						</a4j:outputPanel>
+
+						<div class="layoutVertical" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1510835156788}</span>
+							<h:inputText id="TextBox_1510835156788" value="#{AlfrescoDocumentAction.temporary['password']}" styleClass="inputText" label="${msg.label_TextBox_1510835156788}" />
+							<a4j:outputPanel id="TextBox_1510835156788_msg" styleClass="errorContainer" ><h:message for="TextBox_1510835156788" styleClass="errorMessages TextBox_1510835156788_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1510582791677" >
+					<label style="display:#{(AlfrescoDocumentAction.temporary['showPin']) ? 'block' : 'none' };" >
+						<span class="widget-label">${msg.label_TextBox_1510582791677}</span>
+						<h:inputText id="TextBox_1510582791677_id" value="#{AlfrescoDocumentAction.temporary['pin']}" styleClass="inputText layoutRequired" required="true" rendered="#{AlfrescoDocumentAction.temporary['showPin']}" label="${msg.label_TextBox_1510582791677}" />
+						<a4j:outputPanel id="TextBox_1510582791677_msg" styleClass="errorContainer" ><h:message for="TextBox_1510582791677_id" styleClass="errorMessages TextBox_1510582791677_E" /></a4j:outputPanel>
+					</label>
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1509729993428" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1511618630476;BtnCancel')}" status="ajaxStatus" id="Link_1511618630476" title="${msg.alt_Link_1511618630476}" immediate="true" reRender="popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1509320516560;BtnOk')}" status="ajaxStatus" id="Link_1509320516560" title="${msg.alt_Link_1509320516560}" reRender="popup" styleClass="fa fa-check fa-3x link" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

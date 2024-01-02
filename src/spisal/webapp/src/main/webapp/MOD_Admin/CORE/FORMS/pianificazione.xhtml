@@ -1,0 +1,382 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1560023825249}</h1>
+	<div id="costo_diretto" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1560005845048" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1561823239275" style="padding-bottom:15px;width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1561386357001" style="width:50%;" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1560811858970;BtnBack')}" status="ajaxStatus" id="Link_1560811858970" title="${msg.alt_Link_1560811858970}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+						</div>
+
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1559954291254" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1559954291254;BtnSave')}" status="ajaxStatus" id="Link_1559954291254_id" title="${msg.alt_Link_1559954291254}" rendered="#{Pianificazione.serviceDeliveryLocation ne null}" reRender="LayoutRow_1560005845048" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</a4j:outputPanel>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1559893527420" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutVertical" >
+					<a4j:outputPanel id="TabbedPane_1559893566155" layout="block" styleClass="tabset tabbedPanel" >
+						<ul class="tabs">
+							<li><a href="#tab-1">${msg.LayoutFillPanelTab_1559893587387}</a></li>
+							<li><a href="#tab-2">${msg.LayoutFillPanelTab_1559893583196}</a></li>
+							<li class="#{ProgettoAssociatoList.size()>0 ? '' : 'hideTab hidden' }" ><a href="#tab-3">${msg.LayoutFillPanelTab_1561543323198}</a></li>
+						</ul>
+						<div class="tab-1 tab-content" id="LayoutFillPanelTab_1559893587387" label="${msg.LayoutFillPanelTab_1559893587387}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1559906923286" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1561529068154" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1559828473597" styleClass="layoutContainer layoutContainerVertical" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1558951069247}</span>
+											<h:outputText value="#{Pianificazione.serviceDeliveryLocation.name.giv}" id="Label_1558951069247" styleClass="labelContent layoutRequired base-label" />
+										</label>
+										</div>
+
+										<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1560960653945" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1560960653945;BtnULSS')}" status="ajaxStatus" id="Link_1560960653945_id" alt="#{LINK}" immediate="true" rendered="#{Pianificazione.serviceDeliveryLocation eq null}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+										</a4j:outputPanel>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1559201841887" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1559201841887}</span>
+										<h:inputText id="TextBox_1559201841887_id" value="#{Pianificazione.nome}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1559201841887}" />
+										<a4j:outputPanel id="TextBox_1559201841887_msg" styleClass="errorContainer" ><h:message for="TextBox_1559201841887_id" styleClass="errorMessages TextBox_1559201841887_E" /></a4j:outputPanel>
+									</label>
+									</a4j:outputPanel>
+
+									<div class="layoutVertical" >
+									<label style="display:block;" >
+										<span class="widget-label">${msg.label_TextBox_1559811152109}</span>
+										<h:inputText id="TextBox_1559811152109" value="#{Pianificazione.anno}" styleClass="inputText" disabled="#{Pianificazione.anno ne null}" label="${msg.label_TextBox_1559811152109}" >
+										<f:validator validatorId="NumbersOnlyValidator"/>
+										<f:validateLength minimum="4" maximum="4" />
+										<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+									</h:inputText>
+										<a4j:outputPanel id="TextBox_1559811152109_msg" styleClass="errorContainer" ><h:message for="TextBox_1559811152109" styleClass="errorMessages TextBox_1559811152109_E" /></a4j:outputPanel>
+									</label>
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1559812314101" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" style="padding-bottom:25px;padding:0;" id="LayoutRow_1559153617974" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Pianificazione.creatoDa ne null}" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1559811302405}</span>
+											<h:outputText value="#{Pianificazione.creatoDa.name}" id="Label_1559811302405" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1559811308613}</span>
+											<h:outputText value="#{Pianificazione.dataCreazione}" id="Label_1559811308613" styleClass="labelContent  base-label" >
+											<s:convertDateTime pattern="${format.dateTimeNormal}" />
+											</h:outputText>
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" style="padding-bottom:15px;padding:0;" id="LayoutRow_1559504605442" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{Pianificazione.modificatoDa ne null}" >
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1559811313749}</span>
+											<h:outputText value="#{Pianificazione.modificatoDa.name}" id="Label_1559811313749" styleClass="labelContent  base-label" />
+										</label>
+										</div>
+
+										<div class="layoutHorizontal" >
+										<label >
+											<span class="label">${msg.label_Label_1559811321309}</span>
+											<h:outputText value="#{Pianificazione.dataUltimaModifica}" id="Label_1559811321309" styleClass="labelContent  base-label" >
+											<s:convertDateTime pattern="${format.dateTimeNormal}" />
+											</h:outputText>
+										</label>
+										</div>
+
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+									<div class="layoutVertical" >
+									<span value="${msg.Label_1561034929455}" style="display:none;" class="labelContent  base-label" >${msg.Label_1561034929455}</span>
+									</div>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+						<div class="tab-2 tab-content hidden" id="LayoutFillPanelTab_1559893583196" label="${msg.LayoutFillPanelTab_1559893583196}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1559814209809" styleClass="layoutContainer layoutContainerVertical" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1560400773735" style="padding-bottom:15px;width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1561379513423" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<a4j:commandLink action="#{processManager.manageTask('progettoAssociatoNew;BtnProgettoAssociato')}" status="ajaxStatus" id="progettoAssociatoNew" title="${msg.alt_progettoAssociatoNew}" reRender="phiDesktop" styleClass="fa fa-plus fa-3x link" />
+										</div>
+
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" style="width:40%;padding:0;" id="LayoutRow_1561379513936" styleClass="layoutContainer layoutContainerHorizontal" >
+									<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not empty ProgettoAssociato}" >
+										<div class="layoutHorizontal" >
+										<a4j:commandLink action="#{processManager.manageTask('prioritaUp;BtnPriorita')}" status="ajaxStatus" id="prioritaUp" title="${msg.alt_prioritaUp}" reRender="phiDesktop" styleClass="fa fa-arrow-circle-o-up fa-3x link" />
+										</div>
+
+										<div class="layoutHorizontal" >
+										<a4j:commandLink action="#{processManager.manageTask('prioritaDown;BtnPriorita')}" status="ajaxStatus" id="prioritaDown" title="${msg.alt_prioritaDown}" reRender="phiDesktop" styleClass="fa fa-arrow-circle-o-down fa-3x link" />
+										</div>
+
+									</a4j:outputPanel>
+									</a4j:outputPanel>
+									<a4j:outputPanel layout="block" id="LayoutRow_1561380790621" style="width:10%;" styleClass="layoutContainer layoutContainerHorizontal" >
+										<div class="layoutHorizontal" >
+										<a4j:commandLink action="#{processManager.manageTask('Link_1561380795813;BtnRefreshProgetti')}" status="ajaxStatus" id="Link_1561380795813" title="${msg.alt_Link_1561380795813}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" />
+										</div>
+
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1559814560782" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel id="DataGrid_1558629286592" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+										<table id="d1558629286592" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1558629286592} [ProgettoAssociatoList]" >
+											<thead class="tableHeader">
+												<tr>
+													<th>${msg.DataGridColumn_1560512266745}</th>
+													<th>${msg.DataGridColumn_1558906320375}</th>
+													<th><a4j:commandLink id="DataGridColumn_1567586910272" value="${msg.DataGridColumn_1567586910272} &#8593;&#8595;" action="#{ProgettoAssociatoList.orderBy('creationDate')}" reRender="DataGrid_1558629286592" ajaxSingle="true" disabled="#{empty ProgettoAssociatoList ? true : false}"/></th>
+													<th>${msg.DataGridColumn_1560344261851}</th>
+													<th>${msg.DataGridColumn_1561118741725}</th>
+													<th>${msg.DataGridColumn_1557892953268}</th>
+													<th>${msg.DataGridColumn_1557973795996}</th>
+													<th>${msg.DataGridColumn_1557763112141}</th>
+													<th>${msg.DataGridColumn_1558005679095}</th>
+													<th>${msg.DataGridColumn_1561255990623}</th>
+												</tr>
+											</thead>
+											<tbody class="tableBody selectable">
+												<jstl:if test="#{empty ProgettoAssociatoList or ProgettoAssociatoList.isEmpty()}">
+													<tr class="noresults">
+														<td colspan="10">${error.emtpy_search_for_table}</td>
+													</tr>
+												</jstl:if>
+												<a4j:repeat id="r1558629286592" value="#{ProgettoAssociatoList.entities}" var="ProgettoAssociato" rowKeyVar="rowIndex" >
+													<tr id="#{rowIndex}" onclick="ie1558629286592(this.id);" class="#{ProgettoAssociatoAction.getEntity().equals(ProgettoAssociato) or ProgettoAssociato.internalId != 0 and ProgettoAssociatoAction.entity.internalId.equals(ProgettoAssociato.internalId) ? 'selRow' : ''}" >
+														<td >
+															<a4j:commandLink action="#{ProgettoAssociatoAction.injectAndProceed(ProgettoAssociato, 'progettoAssociatoMng;BtnProgettoAssociato')}" status="ajaxStatus" id="progettoAssociatoMng" title="${msg.alt_progettoAssociatoMng}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x tableButton" onclick="stopPropagation(event);" />
+
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociato.progetto.nome}</span>
+														</td>
+
+														<td >
+															<h:outputText styleClass="base-label" value="#{ProgettoAssociato.creationDate}" >
+																<s:convertDateTime pattern="${format.dateNormal}" />
+															</h:outputText>
+														</td>
+
+														<td >
+															<h:outputText styleClass="base-label" value="#{ProgettoAssociatoAction.getLineaDiLavoroStr(ProgettoAssociato, true)}" escape="false" >
+															</h:outputText>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.translateStatusCode(ProgettoAssociato)}</span>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociato.priorita}</span>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociato.praticheAttese}</span>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.format(ProgettoAssociatoAction.getTotalePesoMedio(ProgettoAssociato))}</span>
+														</td>
+
+														<td >
+															<span class="c-text-bold base-label" >#{ProgettoAssociatoAction.format(ProgettoAssociatoAction.getCaricoAtteso(ProgettoAssociato))}</span>
+														</td>
+
+														<td >
+															<a4j:commandLink action="#{ProgettoAssociatoAction.injectAndProceed(ProgettoAssociato, 'progettoAssociatoDel;BtnProgettoAssociato')}" status="ajaxStatus" id="progettoAssociatoDel_id" title="${msg.alt_progettoAssociatoDel}" rendered="#{ProgettoAssociato.partecipanti eq null or ProgettoAssociato.partecipanti.size() eq 0}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" onclick="stopPropagation(event);" />
+
+														</td>
+
+													</tr>
+												</a4j:repeat>
+											</tbody>
+										</table>
+									<a4j:jsFunction id="ie1558629286592" name="ie1558629286592" status="ajaxStatus" action="#{ProgettoAssociatoList.injectEject}" data="#{ProgettoAssociatoList.selectedIndex}" oncomplete="selRow(data, jQuery('#d1558629286592'))" reRender="LayoutRow_1561379513936" limitToList="true" ajaxSingle="true">
+										<a4j:actionparam name="rowIndex" assignTo="#{ProgettoAssociatoList.selectedIndex}"/>
+									</a4j:jsFunction>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+						<div class="tab-3 tab-content hidden" id="LayoutFillPanelTab_1561543323198" label="${msg.LayoutFillPanelTab_1561543323198}" >
+						<a4j:outputPanel layout="block" style="position:relative;height:100%;width:100%;" rendered="#{ProgettoAssociatoList.size()>0}" >
+							<a4j:outputPanel layout="block" id="LayoutRow_1561543357437" styleClass="layoutContainer layoutContainerHorizontal" >
+								<a4j:outputPanel layout="block" id="LayoutRow_1561972548091" style="padding-bottom:15px;width:100%;" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel layout="block" id="LayoutRow_1561543370190" styleClass="layoutContainer layoutContainerHorizontal" >
+										<a4j:outputPanel layout="block" id="LayoutRow_1561625339236" styleClass="layoutContainer layoutContainerVertical" >
+											<div class="layoutHorizontal" >
+											<a4j:commandLink action="#{processManager.manageTask('Link_1569115978407;BtnInfoMonitor')}" status="ajaxStatus" id="Link_1569115978407" title="${msg.alt_Link_1569115978407}" reRender="popup" styleClass="fa fa-info-circle fa-2x link" />
+											</div>
+
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_GroupCheckBox_1561547023665}</span>
+												<h:selectManyCheckbox id="GroupCheckBox_1561547023665" value="#{MonitorAction.temporary['selectedProgAssoc']}" layout="pageDirection" styleClass="checkGroupTable groupCheckBox" label="${msg.label_GroupCheckBox_1561547023665}" >
+													<f:selectItems value="#{MonitorAction.getListaProgetti()}" />
+
+												</h:selectManyCheckbox>
+											</label>
+											</div>
+
+										</a4j:outputPanel>
+										<a4j:outputPanel layout="block" id="LayoutRow_1568363438322" styleClass="layoutContainer layoutContainerVertical" >
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_ComboBox_1568363415695}</span>
+												<h:selectOneMenu id="ComboBox_1568363415695" value="#{MonitorAction.temporary['qualifica']}" styleClass="comboBox" label="${msg.label_ComboBox_1568363415695}" >
+													<f:selectItem itemLabel="-" itemValue=""/>
+													<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Nomina')}" />
+													<f:converter converterId="CodeValueConverter"/>
+												</h:selectOneMenu>
+											</label>
+											</div>
+
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_MonthCalendar_1561963478418}</span>
+												<h:inputText id="MonthCalendar_1561963478418" value="#{MonitorAction.temporary['lowerBound']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1561963478418}"  autocomplete="off" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:inputText>
+												<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+												<h:message style="float:left;" for="MonthCalendar_1561963478418" styleClass="errorMessages MonthCalendar_1561963478418_E" />
+											</label>
+											</div>
+
+											<div class="layoutHorizontal" >
+											<label >
+												<span class="label">${msg.label_MonthCalendar_1561963488017}</span>
+												<h:inputText id="MonthCalendar_1561963488017" value="#{MonitorAction.temporary['upperBound']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1561963488017}"  autocomplete="off" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+												</h:inputText>
+												<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+												<h:message style="float:left;" for="MonthCalendar_1561963488017" styleClass="errorMessages MonthCalendar_1561963488017_E" />
+											</label>
+											</div>
+
+										</a4j:outputPanel>
+									</a4j:outputPanel>
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1568369280066" style="padding-bottom:15px;width:100%;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+									<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+									<a4j:commandLink action="#{processManager.manageTask('Link_1559543892484;BtnRefreshMonitor')}" status="ajaxStatus" id="Link_1559543892484" title="${msg.alt_Link_1559543892484}" reRender="phiDesktop" styleClass="fa fa-refresh fa-3x link" />
+									</div>
+
+								</a4j:outputPanel>
+								<a4j:outputPanel layout="block" id="LayoutRow_1561543372917" styleClass="layoutContainer layoutContainerVertical" >
+									<a4j:outputPanel id="DataGrid_1561556881923" layout="block" styleClass="dt layoutTable layoutHorizontal" >
+										<table id="d1561556881923" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1561556881923} [MonitorList]" >
+											<thead class="tableHeader">
+												<tr>
+													<th>${msg.DataGridColumn_1561556888347}</th>
+													<th>${msg.DataGridColumn_1561556889811}</th>
+													<th>${msg.DataGridColumn_1561556891107}</th>
+													<th>${msg.DataGridColumn_1561556892403}</th>
+													<th>${msg.DataGridColumn_1561624478130}</th>
+													<th>${msg.DataGridColumn_1561624478827}</th>
+													<th>${msg.DataGridColumn_1561624479434}</th>
+													<th>${msg.DataGridColumn_1561624480082}</th>
+													<th>${msg.DataGridColumn_1561624480737}</th>
+													<th>${msg.DataGridColumn_1561624481346}</th>
+													<th>${msg.DataGridColumn_1561624481995}</th>
+												</tr>
+											</thead>
+											<tbody class="tableBody">
+												<jstl:if test="#{empty MonitorList or MonitorList.isEmpty()}">
+													<tr class="noresults">
+														<td colspan="11">${error.emtpy_search_for_table}</td>
+													</tr>
+												</jstl:if>
+												<a4j:repeat id="r1561556881923" value="#{MonitorList.entities}" var="Monitor" rowKeyVar="rowIndex" >
+													<tr >
+														<td >
+															<h:outputText style="display:#{(!Monitor.media and !Monitor.totale) ? 'block' : 'none' };" styleClass="base-label" value="#{function.concat('&lt;b&gt;', Monitor.operatore.employee.name, '&lt;/b&gt;', '&lt;br&gt;(', Monitor.operatore.code, ')')}" escape="false" >
+															</h:outputText>
+															<span style="display:#{(Monitor.totale) ? 'block' : 'none' };" class="c-text-0080FF c-text-16 c-text-bold base-label" >${msg.Label_1562055052588}</span>
+															<span style="display:#{(Monitor.media) ? 'block' : 'none' };" class="c-text-0080FF c-text-16 c-text-bold base-label" >${msg.Label_1562055054572}</span>
+														</td>
+
+														<td >
+															<h:outputText styleClass="base-label" value="#{Monitor.infoProgetti}" escape="false" >
+															</h:outputText>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.praticheAttese)}</span>
+														</td>
+
+														<td >
+															<span style="display:#{(!Monitor.media) ? 'block' : 'none' };" class="base-label" >#{ProgettoAssociatoAction.format(Monitor.praticheChiuse)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.praticheChiusePerc)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.caricoAtteso)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.caricoChiuso)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.caricoChiusoPerc)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.praticheAperte)}</span>
+														</td>
+
+														<td >
+															<span class="base-label" >#{ProgettoAssociatoAction.format(Monitor.caricoAperto)}</span>
+														</td>
+
+														<td >
+															<span style="display:#{(!Monitor.media and !Monitor.totale) ? 'block' : 'none' };" class="base-label" >#{ProgettoAssociatoAction.format(Monitor.mediaScostamento)}</span>
+														</td>
+
+													</tr>
+												</a4j:repeat>
+											</tbody>
+										</table>
+									</a4j:outputPanel>
+
+								</a4j:outputPanel>
+							</a4j:outputPanel>
+						</a4j:outputPanel>
+						<div style="clear: both;"></div>
+						</div>
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="presaInCarico">
+
+
+	<start-state name="start-state1">
+		<transition to="New Entity"></transition>
+	</start-state>
+
+
+	<node name="New Entity">
+		<event type="node-enter">
+			<action name="1" expression="#{ObserverAction.inject(ObserverAction.newEntity())}"></action>
+			<action name="2" expression="#{ObserverAction.create()}"></action>
+		</event>
+		<transition to="super-state1/Create Observer"></transition>
+	</node>
+
+	<super-state name="super-state1">
+		<node name="Create Observer">
+			<event type="node-enter">
+				<action name="1" expression="#{ObserverAction.create()}"></action>
+				<action name="2" expression="#{Observer.setIsActive(true)}"></action>
+				<action name="3" expression="#{ObserverAction.link('procpratiche',Procpratiche)}"></action>
+				<action name="4" expression="#{ObserverAction.link('employee',userBean.currentEmployee)}"></action>
+			</event>
+			<transition to="../refresh"></transition>
+		</node>
+	</super-state>
+
+	<node name="refresh">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.refresh()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

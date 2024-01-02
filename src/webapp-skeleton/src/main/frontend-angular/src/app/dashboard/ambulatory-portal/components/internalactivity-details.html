@@ -1,0 +1,46 @@
+<form #form="ngForm" id="frm-intact-details">
+  <div id="lyt-intact-details" class="layout vertical">
+    <div class="lbl">
+      <label>{{'label_applicant' | translate}}</label>
+      <span>{{InternalActivity.applicant}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_cost-center' | translate}}</label>
+      <span>{{InternalActivity.costcenter}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_requesting-physician' | translate}}</label>
+      <span>{{InternalActivity.author}}</span>
+    </div>
+    <div class="lbl" *ngIf="InternalActivity?.visitnumber">
+      <label>{{'label_encounter-number' | translate}}</label>
+      <span>{{InternalActivity.visitnumber}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_anamnestic-diagnostic-suspicion' | translate}}</label>
+      <span>{{InternalActivity.anamnesticsuspicion}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_ongoing-therapy' | translate}}</label>
+      <span>{{InternalActivity.ongoingtherapy}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_clinical-question' | translate}}</label>
+      <span>{{InternalActivity.clinicalquestion}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_activity-type' | translate}}</label>
+      <span>{{InternalActivity.activitytype}}</span>
+    </div>
+    <div class="lbl" *ngIf="InternalActivity?.examtype">
+      <label>{{'label_exam-type' | translate}}</label>
+      <span>{{InternalActivity.examtype}}</span>
+    </div>
+    <div class="lbl">
+      <label>{{'label_fall-risk' | translate}}</label>
+      <span>{{InternalActivity.fallrisk}}</span>
+    </div>
+    <phi-checkbox [(ngModel)]="InternalActivity.bedridden" name="InternalActivity.bedridden" id="at-bed" [widgetLabel]="'label_at-bed' | translate" [disabled]="true"></phi-checkbox>
+    <phi-checkbox [(ngModel)]="InternalActivity.examination" name="InternalActivity.examination" id="examination" [widgetLabel]="'label_examination' | translate" [disabled]="true"></phi-checkbox>
+  </div>
+</form>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="dittePareri">
+
+
+	<start-state name="start-state1">
+		<transition to="setTemp"></transition>
+	</start-state>
+
+
+	<decision name="Button1?" expression="#{button.mnemonic}">
+		<transition to="Search Company" name='DTYPE01'></transition>
+		<transition to="inject obj" name="DelDTYPE01"></transition>
+		<transition to="Search Person" name="NewPR"></transition>
+		<transition to="Search Company" name="DTYPE02"></transition>
+		<transition to="Search Company" name="DTYPE03"></transition>
+		<transition to="inject obj" name="DelDTYPE02"></transition>
+		<transition to="inject obj" name="DelDTYPE03"></transition>
+		<transition to="super-state4/DelPr" name="DelPR"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="NewPGS">
+			<event type="node-enter">
+				<action name="1" expression="#{empty PersonaGiuridicaSede ? PersonaGiuridicaSedeAction.inject(PersonaGiuridicaSedeAction.newEntity()) : ''}"></action>
+				<action name="2" expression="#{PersonaGiuridicaSedeAction.link('personaGiuridica',PersoneGiuridiche)}"></action>
+				<action name="3" expression="#{PersonaGiuridicaSedeAction.link('sede',Sedi)}"></action>
+				<action name="4" expression="#{PersonaGiuridicaSedeAction.link('parereTecnico',ParereTecnico)}"></action>
+				<action name="5" expression="#{PersonaGiuridicaSedeAction.setCodeValue('type', 'PHIDIC', 'DitteType',ParereTecnicoAction.temporary['mnemonic'])}"></action>
+				<action name="6" expression="#{PersonaGiuridicaSedeAction.create()}"></action>
+				<action name="7" expression="#{ParereTecnicoAction.temporary.remove('mnemonic')}"></action>
+				<action name="8" expression="#{PersoneGiuridicheAction.create()}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<process-state name="Search Company">
+		<sub-process name="MOD_Company/CORE/PROCESSES/companies" binding="late"></sub-process>
+		<transition to="remTemp1"></transition>
+	</process-state>
+
+	<decision name="Button2?" expression="#{(button.getMnemonic())}">
+		<transition to="end-state2" name="BtnBack"></transition>
+		<transition to="super-state1/NewPGS" name="BtnSave"></transition>
+	</decision>
+
+	<node name="setTemp">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('search',true)}"></action>
+			<action name="2" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="3" expression="#{SediAction.eject()}"></action>
+			<action name="4" expression="#{ParereTecnicoAction.temporary.put('mnemonic',button.mnemonic)}"></action>
+		</event>
+		<transition to="Button1?"></transition>
+	</node>
+
+	<node name="remTemp1">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+			<action name="2" expression="#{PersonaGiuridicaSedeAction.eject()}"></action>
+			<action name="3" expression="#{PersonaGiuridicaSedeAction.equal.put('type.code',ParereTecnicoAction.temporary['mnemonic'])}"></action>
+			<action name="4" expression="#{PersonaGiuridicaSedeAction.injectFirst(PersonaGiuridicaSedeAction.select())}"></action>
+		</event>
+		<transition to="Button2?"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="DelPGS">
+			<event type="node-enter">
+				<action name="1" expression="#{PersonaGiuridicaSedeAction.equal.put('type.code',ParereTecnicoAction.temporary['mnemonic'].substring(3))}"></action>
+				<action name="2" expression="#{PersonaGiuridicaSedeAction.injectFirst(PersonaGiuridicaSedeAction.select())}"></action>
+				<action name="3" expression="#{PersonaGiuridicaSede.setPersonaGiuridica(null)}"></action>
+				<action name="4" expression="#{PersonaGiuridicaSede.setSede(null)}"></action>
+				<action name="5" expression="#{PersonaGiuridicaSede.setParereTecnico(null)}"></action>
+				<action name="6" expression="#{ParereTecnico.personaGiuridicaSede.remove(PersonaGiuridicaSede)}"></action>
+				<action name="7" expression="#{PersonaGiuridicaSedeAction.delete()}"></action>
+				<action name="8" expression="#{ParereTecnicoAction.create()}"></action>
+				<action name="9" expression="#{PersonaGiuridicaSedeList.list.remove(PersonaGiuridicaSede)}"></action>
+			</event>
+			<transition to="../end-state2"></transition>
+		</node>
+	</super-state>
+
+	<node name="remTemp2">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.remove('search')}"></action>
+		</event>
+		<transition to="Button4?"></transition>
+	</node>
+
+	<process-state name="Search Person">
+		<sub-process name="MOD_person/CORE/PROCESSES/ManageMulti" binding="late"></sub-process>
+		<transition to="remTemp2"></transition>
+	</process-state>
+
+	<decision name="Button4?" expression="#{(button.getMnemonic())}">
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="super-state3/NewPR" name="BtnSave"></transition>
+	</decision>
+
+	<super-state name="super-state3">
+		<node name="NewPR">
+			<event type="node-enter">
+				<action name="1" expression="#{ParereTecnicoAction.link('person',Person)}"></action>
+				<action name="2" expression="#{ParereTecnicoAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<super-state name="super-state4">
+		<node name="DelPr">
+			<event type="node-enter">
+				<action name="1" expression="#{ParereTecnico.setPerson(null)}"></action>
+				<action name="2" expression="#{ParereTecnicoAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject obj">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonaGiuridicaSedeAction.eject()}"></action>
+		</event>
+		<transition to="super-state2/DelPGS"></transition>
+	</node>
+
+
+	<end-state name="end-state2"></end-state>
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

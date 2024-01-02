@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition  xmlns=""  name="ManageMulti">
+<description></description>
+		
+	<start-state name="start-state1">
+		
+		<transition to="eject person list"></transition>
+	</start-state>	
+		
+		
+
+	<task-node name="search person multi UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+		
+		
+			<action expression="#{ViewManager.setViewId('/MOD_person/CORE/FORMS/search_person')}" name="main"></action>
+		</event>
+		<transition to="next?"></transition>		
+	</task-node>
+
+	
+	<node name="search person multi">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{PersonAction.ejectList()}"></action>
+			<action name="3" expression="#{PersonAction.orderBy.put('name.fam','ascending')}"></action>
+			<action name="4" expression="#{PersonAction.setReadPageSize(10)}"></action>
+			<action name="5" expression="#{PersonAction.setTrimFilters(true)}"></action>
+			<action name="6" expression="#{PersonAction.setFullLike(true)}"></action>
+			<action name="7" expression="#{PersonAction.setDistinct(true)}"></action>
+			<action name="8" expression="#{PersonAction.equal.put('isActive',true)}"></action>
+			<action name="9" expression="#{PersonAction.temporary.put('ricercaEffettuata',true)}"></action>
+			<action name="10" expression="#{PersonAction.select.add('name.fam')}"></action>
+			<action name="11" expression="#{PersonAction.select.add('name.giv')}"></action>
+			<action name="12" expression="#{PersonAction.select.add('fiscalCode')}"></action>
+			<action name="13" expression="#{PersonAction.select.add('genderCode')}"></action>
+			<action name="14" expression="#{PersonAction.select.add('birthTime')}"></action>
+			<action name="15" expression="#{PersonAction.select.add('birthPlace.cty')}"></action>
+			<action name="16" expression="#{PersonAction.select.add('addr.bnr')}"></action>
+			<action name="17" expression="#{PersonAction.select.add('addr.str')}"></action>
+			<action name="18" expression="#{PersonAction.select.add('addr.cty')}"></action>
+			<action name="19" expression="#{PersonAction.select.add('alternativeAddr.telecom.hp')}"></action>
+			<action name="20" expression="#{PersonAction.select.add('alternativeAddr.telecom.mc')}"></action>
+			<action name="21" expression="#{PersonAction.select.add('telecom.hp')}"></action>
+			<action name="22" expression="#{PersonAction.select.add('telecom.mc')}"></action>
+			<action name="23" expression="#{PersonAction.select.add('telecom.ec')}"></action>
+			<action name="24" expression="#{PersonAction.select.add('telecom.sip')}"></action>
+			<action name="25" expression="#{PersonAction.filterMisc()}"></action>
+			<action name="26" expression="#{PersonAction.read()}"></action>
+		</event>
+		<transition to="search person multi UI"></transition>
+	</node>
+			
+	
+	
+	<node name="New">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{PersonAction.inject(PersonAction.newEntity())}"></action>
+		</event>
+		<transition to="save update"></transition>
+	</node>
+			
+	
+	 
+	<decision name="next?" expression="#{(button.getMnemonic())}">
+	<transition to="New" name="New"></transition>
+	<transition to="search person multi" name="Search"></transition>
+		<transition to="end-state1" name="BtnBack"></transition>
+		<transition to="end-state1" name="BtnSave"></transition>
+		<transition to="save update" name="Update"></transition>
+		<transition to="search aur" name="personSearchAUR"></transition>
+		<transition to="clean" name="cleanForm"></transition>
+		<transition to="add temporaries" name="searchPratiche"></transition>
+		<transition to="add temporaries prov" name="searchProvvedimenti"></transition>
+	
+	</decision>
+	 
+	 
+	
+	<process-state name="save update">
+		<sub-process name="MOD_person/CORE/PROCESSES/Utilities/SaveUpdateMulti?stateless=true" binding="late"></sub-process>
+		<transition to="search person multi"></transition>
+	</process-state>
+
+	<process-state name="search aur">
+		<sub-process name="MOD_person/CORE/PROCESSES/AurPersonSearch" binding="late"></sub-process>
+		<transition to="save?"></transition>
+	</process-state>
+
+	<node name="clean">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{PersonAction.like.remove('name.fam')}"></action>
+			<action name="3" expression="#{PersonAction.like.remove('name.giv')}"></action>
+			<action name="4" expression="#{PersonAction.like.remove('fiscalCode')}"></action>
+			<action name="5" expression="#{PersonAction.like.remove('mpi')}"></action>
+			<action name="6" expression="#{PersonAction.like.remove('stp')}"></action>
+			<action name="7" expression="#{PersonAction.like.remove('eni')}"></action>
+			<action name="8" expression="#{PersonAction.like.remove('teamCode')}"></action>
+			<action name="9" expression="#{PersonAction.like.remove('cs')}"></action>
+			<action name="10" expression="#{PersonAction.equal.remove('birthTime')}"></action>
+			<action name="11" expression="#{PersonAction.equal.remove('birthPlace.cpa')}"></action>
+			<action name="12" expression="#{PersonAction.equal.remove('birthPlace.zip')}"></action>
+			<action name="13" expression="#{PersonAction.equal.remove('birthPlace.cty')}"></action>
+			<action name="14" expression="#{PersonAction.equal.remove('birthPlace.code')}"></action>
+			<action name="15" expression="#{PersonAction.equal.remove('countryOfBirth')}"></action>
+			<action name="16" expression="#{PersonAction.temporary.put('ricercaEffettuata',false)}"></action>
+			<action name="17" expression="#{PersonAction.temporary.remove('conPratiche')}"></action>
+			<action name="18" expression="#{PersonAction.temporary.remove('conProvvedimenti')}"></action>
+			<action name="19" expression="#{PersonAction.ejectList()}"></action>
+		</event>
+		<transition to="search person multi UI"></transition>
+	</node>
+
+	<node name="eject person list">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+			<action name="2" expression="#{PersonAction.ejectList()}"></action>
+			<action name="3" expression="#{PersonAction.cleanRestrictions()}"></action>
+		</event>
+		<transition to="search person multi UI"></transition>
+	</node>
+
+	<decision name="save?" expression="#{(button.getMnemonic())}">
+		<transition to="end-state1" name="BtnSave"></transition>
+		<transition to="eject person list" name="BtnBack"></transition>
+	</decision>
+
+	<node name="add temporaries">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('personManagement',true)}"></action>
+			<action name="3" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.in.put('internalId', PersonAction.listPratiche(Person))}"></action>
+			<action name="5" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="elenca pratiche"></transition>
+	</node>
+
+	<node name="add temporaries prov">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.cleanRestrictions()}"></action>
+			<action name="2" expression="#{ProtocolloAction.temporary.put('personManagement',true)}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('read4provvedimenti',true)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="5" expression="#{ProvvedimentiAction.temporary.put('personaProvvedimento',Person)}"></action>
+			<action name="6" expression="#{PersoneGiuridicheAction.eject()}"></action>
+		</event>
+		<transition to="elenca pratiche"></transition>
+	</node>
+
+	<node name="remove temporaries">
+		<event type="node-enter">
+			<action name="1" expression="#{ProtocolloAction.temporary.put('personManagement',false)}"></action>
+			<action name="2" expression="#{ProcpraticheAction.temporary.put('showBoth',false)}"></action>
+			<action name="3" expression="#{ProtocolloAction.temporary.put('read4provvedimenti',false)}"></action>
+			<action name="4" expression="#{ProcpraticheAction.cleanFilterProvvedimento()}"></action>
+		</event>
+		<transition to="search person multi UI"></transition>
+	</node>
+
+	<process-state name="elenca pratiche">
+		<sub-process name="MOD_home/CORE/PROCESSES/procpratiche" binding="late"></sub-process>
+		<transition to="remove temporaries"></transition>
+	</process-state>
+	
+	
+	
+
+
+	
+
+
+	 <end-state name="end-state1"></end-state>
+
+
+	<action name="security" expression="admin;direttore;"></action> 
+
+
+</process-definition>
+

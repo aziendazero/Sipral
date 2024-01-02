@@ -1,0 +1,248 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1480703866859}</h1>
+	<div id="associa_uoc" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1480037680998" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1488461752365" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnCancel;BtnCancel')}" status="ajaxStatus" id="BtnCancel" title="${msg.alt_BtnCancel}" style="color: 0080FF;" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply-all fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}');"/>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1483393255233" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<label style="display:block;" >
+						<span class="widget-label">${msg.label_TextBox_1483473170452}</span>
+						<h:inputText id="TextBox_1483473170452" styleClass="inputText" label="${msg.label_TextBox_1483473170452}" />
+						<a4j:outputPanel id="TextBox_1483473170452_msg" styleClass="errorContainer" ><h:message for="TextBox_1483473170452" styleClass="errorMessages TextBox_1483473170452_E" /></a4j:outputPanel>
+					</label>
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1482187250601" onclick="stopPropagation(event);jQuery('#i\\:JollyWidget_1479994546554').jstree(true).search(jQuery('#i\\:TextBox_1483473170452').val());" title="${msg.alt_Link_1482187250601}" class="fa fa-search fa-3x hotKeyF4 link" />
+					</div>
+
+					<div class="layoutHorizontal" >
+					<a id="Link_1483709152520" onclick="stopPropagation(event);jQuery('#i\\:JollyWidget_1479994546554').jstree('clear_search');" title="${msg.alt_Link_1483709152520}" class="fa fa-eraser fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="BtnImprOk" >
+					<a4j:commandLink action="#{processManager.manageTask('BtnImprOk;BtnImprOk')}" status="ajaxStatus" id="BtnImprOk_id" title="${msg.alt_BtnImprOk}" style="float:right;" rendered="#{not empty CodeValueLaw and CodeValueLaw.getType().equals('S')}" reRender="phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1480446324620" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" id="LayoutRow_1480230509483" styleClass="layoutContainer layoutContainerHorizontal" >
+						<div class="layoutHorizontal" >
+						<a4j:outputPanel layout="block" id="JollyWidget_1479994546554" style="height:100%;width:100%;" >
+							<script type="text/javascript">
+							var popupWidth = 0.8;
+							var popupHeight = 0.8;
+							Tree.initTreeDictionary(jQuery("#i\\:JollyWidget_1479994546554"), 'Legge81Index', null, 'CodeValueLaw', 'translation', 'injectbyId','CodeValueLaw', false, '','#{CodeValueAction.getCodeAndParents(CodeValueLaw)}','#{CodeValueLaw.id}');
+							</script>
+							<a4j:jsFunction  name="injectbyId"  action="#{CodeValueLawAction.injectbyId}"   reRender="BtnImprOk"  limitToList="false"   immediate="true" ajaxSingle="true"> 
+								<a4j:actionparam name="id" assignTo="#{CodeValueLawAction.id}"/>
+							</a4j:jsFunction>	
+						</a4j:outputPanel>
+						</div>
+
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1482189006465" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1482189006465}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1482406386588" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1483027337372" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1483771703459}</span>
+								<h:inputText id="MonthCalendar_1483771703459" value="#{Miglioramenti.dataEmissione}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1483771703459}" onchange="somethingChanged=true;updateCantieriDates(this,'#'+getIdPrefix(this)+'TextBox_1480664860373','#'+getIdPrefix(this)+'MonthCalendar_1479814686090',this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1483771703459" styleClass="errorMessages MonthCalendar_1483771703459_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1482198152167}</span>
+								<h:inputText id="MonthCalendar_1482198152167" value="#{Miglioramenti.dataVerifica}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1482198152167}" onchange="dateCompare('#'+getIdPrefix(this)+'MonthCalendar_1483771703459',this)" onclick="somethingChanged=true"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1482198152167" styleClass="errorMessages MonthCalendar_1482198152167_E" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1483888956642" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1480664860373}</span>
+								<h:inputText id="TextBox_1480664860373" value="#{Miglioramenti.giorni}" style="min-width:100px;width:100px;margin-right:50px;" styleClass="inputText" label="${msg.label_TextBox_1480664860373}" onkeyup="updateCantieriDates('#'+getIdPrefix(this)+'MonthCalendar_1483771703459',this,'#'+getIdPrefix(this)+'MonthCalendar_1479814686090',this)">
+								<f:converter converterId="IntegerConverter"/>
+							</h:inputText>
+								<a4j:outputPanel id="TextBox_1480664860373_msg" styleClass="errorContainer" ><h:message for="TextBox_1480664860373" styleClass="errorMessages TextBox_1480664860373_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_ComboBox_1482230982921}</span>
+								<h:selectOneMenu id="ComboBox_1482230982921" value="#{Miglioramenti.esito}" styleClass="comboBox" label="${msg.label_ComboBox_1482230982921}" >
+									<f:selectItem itemLabel="-" itemValue=""/>
+									<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:Result')}" />
+									<f:converter converterId="CodeValueConverter"/>
+								</h:selectOneMenu>
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1481058932785" style="width:33%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutVertical" >
+							<label >
+								<span class="label">${msg.label_MonthCalendar_1479814686090}</span>
+								<h:inputText id="MonthCalendar_1479814686090" value="#{Miglioramenti.dataScadenza}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1479814686090}" onchange="somethingChanged=true;updateCantieriDates('#'+getIdPrefix(this)+'MonthCalendar_1483771703459','#'+getIdPrefix(this)+'TextBox_1480664860373',this,this)"  autocomplete="off" >
+								<s:convertDateTime pattern="${format.dateNormal}" />
+								</h:inputText>
+								<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+								<h:message style="float:left;" for="MonthCalendar_1479814686090" styleClass="errorMessages MonthCalendar_1479814686090_E" />
+							</label>
+							</div>
+
+							<div class="layoutVertical" >
+							<a4j:outputPanel layout="block" id="JollyWidget_1480317389417" style="height:100%;width:100%;" >
+								<script type="text/javascript"><![CDATA[
+								function updateCantieriDates(lowerElement, middleElement, higherElement, changingElement) {
+									dateCompare(lowerElement,higherElement);
+										
+									var lowerWidget = jQuery(lowerElement);
+									if (lowerWidget.length > 0 && lowerWidget.is('div')) {
+										lowerWidget = lowerWidget.children('input:first');
+									}
+									
+									var middleWidget = jQuery(middleElement);
+									if (middleWidget.length > 0 && middleWidget.is('div')) {
+										middleWidget = middleWidget.children('input:first');
+									}
+									
+									var higherWidget = jQuery(higherElement);
+									if (higherWidget.length > 0 && higherWidget.is('div')) {
+										higherWidget = higherWidget.children('input:first');
+									}
+									
+									var jLowerWidget = jQuery(lowerWidget);
+									var lowerValue = jLowerWidget.datepicker('getDate');
+									
+									var jHigherWidget = jQuery(higherWidget);
+									var higherValue = jHigherWidget.datepicker('getDate');
+								
+									var middleValue = middleWidget.val();
+								
+									switch(changingElement){
+										case lowerElement:
+											if(higherValue){
+												middleValue = getWorkingDays(lowerValue,higherValue);
+												middleWidget.val(middleValue);
+											}else if(middleValue) {
+												higherValue = addWorkingDays(lowerValue,middleValue);
+												jHigherWidget.datepicker('setDate', higherValue);
+											}
+										
+											break;
+										case middleElement:
+											if(lowerValue){
+												higherValue = addWorkingDays(lowerValue,middleValue);
+												jHigherWidget.datepicker('setDate', higherValue);
+											}
+										
+											break;
+										case higherElement:
+											if(lowerValue){
+												middleValue = getWorkingDays(lowerValue,higherValue);
+												middleWidget.val(middleValue);
+											}
+										
+											break;
+									}
+								}
+								
+								function addWorkingDays(start, days){
+									if(start && days){
+										var currWeekDay=0;
+										var currMonthDay=0;
+										var currMonth=0;
+										var currYear=0;
+								
+										var stop = new Date(start.getTime());
+										
+										while(days>0){
+											stop.setTime(stop.getTime()+1000*60*60*24);
+											
+											currWeekDay=stop.getDay();
+											currMonthDay=stop.getDate();
+											currMonth=stop.getMonth();
+											if(stop.getFullYear()!=currYear){
+												currYear=stop.getFullYear();
+								
+											}
+								
+								
+											days--;
+										}
+										
+										return stop;
+									}
+								}
+								
+								function getWorkingDays(start, high){
+									if(start && high){
+										var stop = new Date(high.getTime());
+										var currWeekDay=0;
+										var currMonthDay=0;
+										var currMonth=0;
+										var currYear=0;
+										var days = 0;
+										
+										while(stop-start>0){
+											stop.setTime(stop.getTime()-1000*60*60*24);
+											
+											currWeekDay=stop.getDay();
+											currMonthDay=stop.getDate();
+											currMonth=stop.getMonth();
+											if(stop.getFullYear()!=currYear){
+												currYear=stop.getFullYear();
+												
+											}
+								
+											days++;
+										}
+										
+										return days;
+									}
+								}
+								
+								]]></script>
+							</a4j:outputPanel>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+ 
+					<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1481349775055" >
+					<label >
+						<span class="label">${msg.label_TextArea_1481349775055}</span>
+						<div>
+						<h:inputTextarea id="TextArea_1481349775055_id" value="#{Miglioramenti.note}" label="${msg.label_TextArea_1481349775055}" >
+							<f:validateLength minimum="0" maximum="255"/>
+						</h:inputTextarea>
+						</div>
+					</label>
+					<h:message style="float:left;" for="TextArea_1481349775055_id" styleClass="errorMessages TextArea_1481349775055_E" />
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

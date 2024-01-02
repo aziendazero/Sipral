@@ -1,0 +1,126 @@
+<div id="dashboard" class="hidden-print" xmlns:jstl="http://java.sun.com/jstl/core" >
+	<style>
+	#dashboard {
+	    display: flex;
+	    flex-direction: column;
+	    height:100%;
+	}
+	#dashboard .row {
+	    display: flex;
+	    justify-content: space-around;
+	    align-items: center;
+	    height: 100%;
+	    width: 100%;
+	}
+	#dashboard .row a {
+	    text-align: center;
+	    font-size: 2em;
+	    position:relative;
+	}
+	#dashboard .first-row a i:first-child {
+	    width: 160px;
+            height: 160px;
+	    display: inline-block;
+	}
+	#dashboard .second-row a i:first-child {
+	    font-size: 5em;
+	    background-color: #0288D1;
+	    border-radius: 50%;
+	    padding: 30px;
+            background-size: 50%;
+	    width: 120px;
+	    height: 120px;
+	}
+	/*#dashboard .row a i:not(:first-child) {
+	    position: absolute;
+	    left: 22px;
+	    width: 100%;
+	    bottom: 86px;
+	}*/
+	#dashboard .row a i:before {
+	    color: #00467e;
+	}
+	#dashboard .row a span {
+    	    display: block;
+	}
+	#dashboard .second-row > a:nth-child(4) > i {
+    	  -webkit-text-stroke: 2px #0288D1;
+	}
+	</style>
+	<jstl:if test="#{!spisalUserAction.isArpav()}">
+		<div class="row first-row">		
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/segnalazioni')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/segnalazioni');" >
+					<!--i class="fa fa-envelope-o"/-->
+					<i class="comunicazioni"/>
+					<span>${msg.alt_Link_1465477391475}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/segnalazioniInScadenza')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/segnalazioniInScadenza');">
+					<!--i class="fa fa-envelope-o"/>
+					<i class="fa fa-clock-o fa-stack-1x"/-->
+					<i class="comunicazioni-in-scadenza"/>
+					<span>${msg.alt_Link_1465477391333}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/procpratiche')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/procpratiche');">
+					<!--i class="fa fa-folder-open-o"/-->
+					<i class="pratiche"/>
+					<span>${msg.alt_Link_1465477397634}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/procpraticheInScadenza')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/procpraticheInScadenza');">
+					<!-- i class="fa fa-folder-open-o"/>
+					<i class="fa fa-clock-o fa-stack-1x"/-->
+					<i class="pratiche-in-scadenza"/>
+					<span>${msg.alt_Link_1465477397444}</span>
+				</a>
+			</jstl:if>
+		</div>
+	</jstl:if>
+	<jstl:if test="#{spisalUserAction.isArpav()}">
+		<div class="row second-row">
+			<jstl:if test="#{treeBean.isEnabled('MOD_Anagrafiche/CORE/PROCESSES/PersoneGiuridiche')}">
+				<a href="#" onclick="startProcess('MOD_Anagrafiche/CORE/PROCESSES/PersoneGiuridiche');" >
+					<i class="fa ditte"/>
+					<span>${msg.alt_Link_1465477397668}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_Anagrafiche/CORE/PROCESSES/anagraficaImpianti')}">
+				<a href="#" onclick="startProcess('MOD_Anagrafiche/CORE/PROCESSES/anagraficaImpianti');" >
+					<i class="fa engine"/>
+					<span>${msg.alt_Link_1465477397669}</span>
+				</a>
+			</jstl:if>
+		</div>
+		<div class="row second-row">
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/verifiche')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/verifiche');">
+					<i class="fa fa-check-square-o"/>
+					<span>${msg.alt_Link_1465477397666}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/addebitiVari')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/addebitiVari');">
+					<i class="fa fa-files-o"/>
+					<span>${msg.alt_Link_1465477396969}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/verificheInScadenza')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/verificheInScadenza');">
+					<i class="fa fa-clock-o"/>
+					<span>${msg.alt_Link_1465477397699}</span>
+				</a>
+			</jstl:if>
+			<jstl:if test="#{treeBean.isEnabled('MOD_home/CORE/PROCESSES/Fatture')}">
+				<a href="#" onclick="startProcess('MOD_home/CORE/PROCESSES/Fatture');">
+					<i class="fa fa-file-pdf-o"/>
+					<span>${msg.alt_Link_1696969696969}</span>
+				</a>
+			</jstl:if>
+		</div>
+	</jstl:if>
+</div>

@@ -1,0 +1,37 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1488649850279" style="overflow:auto;" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" styleClass="layoutVertical" id="TextBox_1488978283133" >
+				<label style="display:block;" >
+					<span class="widget-label">${msg.label_TextBox_1488978283133}</span>
+					<h:inputText id="TextBox_1488978283133_id" value="#{Document.fileName}" styleClass="inputText layoutRequired" required="true" label="${msg.label_TextBox_1488978283133}" />
+					<a4j:outputPanel id="TextBox_1488978283133_msg" styleClass="errorContainer" ><h:message for="TextBox_1488978283133_id" styleClass="errorMessages TextBox_1488978283133_E" /></a4j:outputPanel>
+				</label>
+				</a4j:outputPanel>
+
+ 
+				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1488676769741" >
+				<label >
+					<span class="label">${msg.label_TextArea_1488676769741}</span>
+					<div>
+					<h:inputTextarea id="TextArea_1488676769741_id" value="#{Document.title}" label="${msg.label_TextArea_1488676769741}" >
+						<f:validateLength minimum="0" maximum="255"/>
+					</h:inputTextarea>
+					</div>
+				</label>
+				<h:message style="float:left;" for="TextArea_1488676769741_id" styleClass="errorMessages TextArea_1488676769741_E" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" id="LayoutRow_1485273159533" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Button_1486874743260" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1486874743260;Button&#95;1486874743260')}" value="#{msg.Button_1486874743260}" id="Button_1486874743260_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" rendered="#{empty AlfrescoDocumentTemplate}" reRender="popup,DgAlfrescoDocument, header, errorMenu" limitToList="true" />
+					</a4j:outputPanel>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1488646282229;Button&#95;1488646282229')}" value="#{msg.Button_1488646282229}" id="Button_1488646282229_id" status="ajaxStatus" styleClass="buttonGeneric buttonBase" immediate="true" reRender="popup, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

@@ -1,0 +1,32 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1465856557800}</h1>
+	<div id="procpratiche" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1466052936947" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1467995565618" styleClass="layoutContainer layoutContainerVertical" >
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1666786961881" >
+					<span value="${msg.Label_1666786961881}" id="Label_1666786961881_id" style="display:#{(Provvedimenti.type.code=='ex14' and Articoli.code.notaContravventore eq 'lav') ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1666786961881}</span>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Label_1687442493849" >
+					<span value="${msg.Label_1687442493849}" id="Label_1687442493849_id" style="display:#{(not empty QuestTabella) ? 'block' : 'none' };" class="labelContent  base-label" >${msg.Label_1687442493849}</span>
+					</a4j:outputPanel>
+
+					<div class="layoutVertical" >
+					<span value="${msg.Label_1465142309854}" class="labelContent  base-label" >${msg.Label_1465142309854}</span>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466144189304" style="padding-top:15px;text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1464750882127;BtnCancel')}" value="#{msg.Button_1464750882127}" id="Button_1464750882127_id" status="ajaxStatus" style="height: 30px;width: 70px;" styleClass="buttonGeneric buttonBase" immediate="true" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandButton action="#{processManager.manageTask('Button_1468238833801;BtnDel')}" value="#{msg.Button_1468238833801}" id="Button_1468238833801_id" status="ajaxStatus" style="height: 30px;width: 70px;" styleClass="buttonGeneric buttonBase" reRender="popup,phiDesktop, header, errorMenu" limitToList="true" />
+					</div>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

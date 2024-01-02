@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="changeVerifDate">
+
+	<task-node name="popUpData">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/popupChangeDataVerifica')}"></action>
+		</event>
+		<transition to="popup button?"></transition>
+	</task-node>
+
+	<decision name="popup button?" expression="#{button.mnemonic}">
+		<transition to="update dates" name="BtnSave"></transition>
+		<transition to="restore prev date" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="backup date">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.temporary.put('verifDate',VerificaImp.data)}"></action>
+		</event>
+		<transition to="popUpData"></transition>
+	</node>
+
+	<node name="restore prev date">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImp.setData(VerificaImpAction.temporary.get('verifDate'))}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="update dates">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.cleanDates()}"></action>
+		</event>
+		<transition to="verif in the future?"></transition>
+	</node>
+
+	<node name="update in the past">
+		<event type="node-enter">
+			<action name="1" expression="#{ImpCopyAction.manageCopy(CessioneImp.sediInstallazioneFrom)}"></action>
+			<action name="2" expression="#{ImpCopyAction.manageCopy(CessioneImp.sediFrom, null)}"></action>
+			<action name="3" expression="#{ImpCopyAction.manageCopy(CessioneImp.indirizzoSpedFrom)}"></action>
+		</event>
+		<transition to="recallStatoImpianto"></transition>
+	</node>
+
+	<decision name="verif in the future?" expression="#{(VerificaImp.data).after(VerificaImpAction.temporary.get('verifDate'))}">
+		<transition to="search cessione future" name="true"></transition>
+		<transition to="verif in the past?" name="false"></transition>
+	</decision>
+
+	<node name="update in the future">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.inject(ImpCopyAction.getPreviousCessione(Impianto, VerificaImp.data))}"></action>
+			<action name="2" expression="#{ImpCopyAction.manageCopy(CessioneImp.sediInstallazione)}"></action>
+			<action name="3" expression="#{ImpCopyAction.manageCopy(CessioneImp.sedi, null)}"></action>
+			<action name="4" expression="#{ImpCopyAction.manageCopy(CessioneImp.indirizzoSped)}"></action>
+		</event>
+		<transition to="recallStatoImpianto"></transition>
+	</node>
+
+	<decision name="verif in the past?" expression="#{(VerificaImp.data).before(VerificaImpAction.temporary.get('verifDate'))}">
+		<transition to="recallStatoImpianto" name="false"></transition>
+		<transition to="search cessione past" name="true"></transition>
+	</decision>
+
+	<node name="recallStatoImpianto">
+		<event type="node-enter">
+			<action name="1" expression="#{VerificaImpAction.recallStatoImpianto(VerificaImp, Impianto)}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="search cessione past">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.eject()}"></action>
+			<action name="2" expression="#{CessioneImpAction.inject(ImpCopyAction.getNearestCessione(Impianto, VerificaImp.data))}"></action>
+		</event>
+		<transition to="is cessione past?"></transition>
+	</node>
+
+	<decision name="is cessione past?" expression="#{not empty CessioneImp}">
+		<transition to="update in the past" name="true"></transition>
+		<transition to="recallStatoImpianto" name="false"></transition>
+	</decision>
+
+	<node name="search cessione future">
+		<event type="node-enter">
+			<action name="1" expression="#{CessioneImpAction.eject()}"></action>
+			<action name="2" expression="#{CessioneImpAction.inject(ImpCopyAction.getPreviousCessione(Impianto, VerificaImp.data))}"></action>
+		</event>
+		<transition to="is cessione future?"></transition>
+	</node>
+
+	<decision name="is cessione future?" expression="#{not empty CessioneImp}">
+		<transition to="update in the future" name="true"></transition>
+		<transition to="recallStatoImpianto" name="false"></transition>
+	</decision>
+
+
+	<start-state name="start-state1">
+		<transition to="backup date"></transition>
+	</start-state>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

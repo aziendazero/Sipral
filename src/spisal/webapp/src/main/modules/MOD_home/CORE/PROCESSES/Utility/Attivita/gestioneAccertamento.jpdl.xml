@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="gestioneAttivitaMdL">
+
+
+	<start-state name="start-state1">
+		<transition to="Button?"></transition>
+	</start-state>
+
+
+	<decision name="isAccertamento?" expression="#{Attivita.code.code=='accertamento'}">
+		<transition to="end-state2" name="false"></transition>
+		<transition to="inject Entities" name="true"></transition>
+	</decision>
+
+	<node name="inject Entities">
+		<event type="node-enter">
+			<action name="1" expression="#{AccertaMdlAction.equal.put('attivita.internalId',Attivita.internalId)}"></action>
+			<action name="2" expression="#{AccertaMdlAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{AccertaMdlAction.read()}"></action>
+			<action name="4" expression="#{AccertaMdlAction.injectFirst()}"></action>
+			<action name="5" expression="#{AccertExtAction.inject(AccertaMdl.accertExt)}"></action>
+			<action name="6" expression="#{AccertSpAction.inject(AccertaMdl.accertSp)}"></action>
+			<action name="7" expression="#{PrestMdlAction.injectList(AccertaMdl.prestMdl)}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<node name="init Entities">
+		<event type="node-enter">
+			<action name="1" expression="#{AccertaMdlAction.inject(AccertaMdlAction.newEntity())}"></action>
+			<action name="2" expression="#{AccertaMdlAction.setCodeValue('code','PHIDIC','AccSubType','01')}"></action>
+			<action name="3" expression="#{AttivitaAction.link('accertaMdl',AccertaMdl)}"></action>
+			<action name="4" expression="#{AccertExtAction.inject(AccertExtAction.newEntity())}"></action>
+			<action name="5" expression="#{AccertSpAction.inject(AccertSpAction.newEntity())}"></action>
+			<action name="6" expression="#{AccertSpAction.setCodeValue('riferimento','PHIDIC','TargetSource','Interno')}"></action>
+			<action name="7" expression="#{AccertSpAction.link('riferimentoInterno',userBean.getCurrentEmployee())}"></action>
+			<action name="8" expression="#{AccertaMdlAction.link('accertExt',AccertExt)}"></action>
+			<action name="9" expression="#{AccertaMdlAction.link('accertSp',AccertSp)}"></action>
+			<action name="10" expression="#{AccertaMdlAction.initList()}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<decision name="Button?" expression="#{button.mnemonic}">
+		<transition to="init Entities" name="BtnAttivitaNew"></transition>
+		<transition to="isAccertamento?" name="BtnAttivitaMng"></transition>
+		<transition to="isAccertamento2?" name="BtnSave"></transition>
+		<transition to="Prestazioni Mdl" name="BtnPrest"></transition>
+	</decision>
+
+	<decision name="isAccertamento2?" expression="#{Attivita.code ne null and Attivita.code.code=='accertamento'}">
+		<description>
+			Attivita.code.code=='visitaMedica' and VisitaMdl.code.code=='02' and (Attivita.luogo eq null)
+		</description>
+		<transition to="end-state2" name="false"></transition>
+		<transition to="setLuogoVisita" name="true"></transition>
+	</decision>
+
+	<node name="setLuogoVisita">
+		<event type="node-enter">
+			<action name="1" expression="#{AccertaMdl.code.code=='01'?AttivitaAction.setCodeValue('luogo','PHIDIC','TargetSource','Altro'):''}"></action>
+			<action name="2" expression="#{AttivitaAction.setLuogoMdl(AccertaMdl.code.code)}"></action>
+		</event>
+		<transition to="end-state2"></transition>
+	</node>
+
+	<process-state name="Prestazioni Mdl">
+		<sub-process name="MOD_home/CORE/PROCESSES/Utility/Attivita/gestionePrestMdL" binding="late"></sub-process>
+		<transition to="end-state2"></transition>
+	</process-state>
+
+
+	<end-state name="end-state2"></end-state>
+
+
+</process-definition>

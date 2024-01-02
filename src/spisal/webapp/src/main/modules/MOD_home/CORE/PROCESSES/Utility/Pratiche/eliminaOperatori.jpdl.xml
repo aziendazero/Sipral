@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="eliminaOperatori">
+
+
+	<start-state name="start-state1">
+		<transition to="Button1?"></transition>
+	</start-state>
+
+
+	<decision name="Button1?" expression="#{(button.getMnemonic())}">
+		<transition to="temp OP" name="BtnDelOP"></transition>
+		<transition to="temp RDP" name="BtnDelRDP"></transition>
+		<transition to="temp RDI" name="BtnDelRDI"></transition>
+		<transition to="temp RFP" name="BtnDelRFP"></transition>
+		<transition to="tmp UPG" name="BtnDelUPG"></transition>
+		<transition to="temp OPATT" name="BtnDelOPAttivita"></transition>
+		<transition to="temp OPATT" name="BtnEliminaOperatore"></transition>
+	</decision>
+
+	<node name="temp OP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'OP')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<node name="temp RDP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'RDP')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<node name="temp RDI">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'RDI')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<node name="temp RFP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'RFP')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<task-node name="PopUpDel">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/Del_OP_alert')}"></action>
+		</event>
+		<transition to="Button2?"></transition>
+	</task-node>
+
+	<decision name="Button2?" expression="#{(button.getMnemonic())}">
+		<transition to="Temp?" name="BtnSave"></transition>
+		<transition to="remove temp" name="BtnCancel"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="Save">
+			<event type="node-enter">
+				<action name="1" expression="#{ProcpraticheAction.create()}"></action>
+			</event>
+			<transition to="../end-state1"></transition>
+		</node>
+	</super-state>
+
+	<node name="remove temp">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.remove('del')}"></action>
+		</event>
+		<transition to="super-state1/Save"></transition>
+	</node>
+
+	<decision name="Temp?" expression="#{ProcpraticheAction.temporary['del']}">
+		<transition to="Del OP" name="OP"></transition>
+		<transition to="Del RDP" name="RDP"></transition>
+		<transition to="Del RDI" name="RDI"></transition>
+		<transition to="Del RFP" name="RFP"></transition>
+		<transition to="Del UPG" name="UPG"></transition>
+		<transition to="remove temp2" name="OPATT"></transition>
+	</decision>
+
+	<node name="Del RFP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.unLink('rfp',Procpratiche.rfp)}"></action>
+		</event>
+		<transition to="remove temp"></transition>
+	</node>
+
+	<node name="Del RDP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.unLink('rdp',Procpratiche.rdp)}"></action>
+		</event>
+		<transition to="remove temp"></transition>
+	</node>
+
+	<node name="Del RDI">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.unLink('rdi',Procpratiche.rdi)}"></action>
+		</event>
+		<transition to="remove temp"></transition>
+	</node>
+
+	<node name="Del OP">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.removeOperatore(Operatore)}"></action>
+			<action name="2" expression="#{Procpratiche.getUpg().remove(Operatore)}"></action>
+			<action name="3" expression="#{Procpratiche.rdp.internalId eq Operatore.employee.internalId ? ProcpraticheAction.unLink('rdp',Procpratiche.rdp) : ''}"></action>
+			<action name="4" expression="#{Procpratiche.rdi.internalId eq Operatore.employee.internalId ? ProcpraticheAction.unLink('rdi',Procpratiche.rdi) : ''}"></action>
+			<action name="5" expression="#{Procpratiche.rfp.internalId eq Operatore.employee.internalId ? ProcpraticheAction.unLink('rfp',Procpratiche.rfp) : ''}"></action>
+		</event>
+		<transition to="remove temp"></transition>
+	</node>
+
+	<node name="tmp UPG">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'UPG')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<node name="Del UPG">
+		<event type="node-enter">
+			<action name="1" expression="#{Procpratiche.getUpg().remove(Operatore)}"></action>
+		</event>
+		<transition to="remove temp"></transition>
+	</node>
+
+	<node name="temp OPATT">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.put('del', 'OPATT')}"></action>
+		</event>
+		<transition to="PopUpDel"></transition>
+	</node>
+
+	<node name="remove temp2">
+		<event type="node-enter">
+			<action name="1" expression="#{ProcpraticheAction.temporary.remove('del')}"></action>
+		</event>
+		<transition to="super-state2/Save Partecipante"></transition>
+	</node>
+
+	<super-state name="super-state2">
+		<node name="Save Partecipante">
+			<event type="node-enter">
+				<action name="1" expression="#{Partecipanti.setIsActive(false)}"></action>
+				<action name="2" expression="#{PartecipantiAction.create()}"></action>
+			</event>
+			<transition to="../Eject Partecipante"></transition>
+		</node>
+	</super-state>
+
+	<node name="Eject Partecipante">
+		<event type="node-enter">
+			<action name="1" expression="#{PartecipantiAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

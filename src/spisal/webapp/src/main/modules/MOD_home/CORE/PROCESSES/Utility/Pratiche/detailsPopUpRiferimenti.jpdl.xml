@@ -1,0 +1,254 @@
+<process-definition  xmlns=""  name="companyDetails">
+
+
+	<start-state name="start-state1">
+		<transition to="Button1?"></transition>
+	</start-state>
+
+
+	<decision name="Button1?" expression="#{(button.getMnemonic())}">
+		<transition to="CvRif1?" name="BtnRichiedenteInfo"></transition>
+		<transition to="CvRif2?" name="BtnRiferimentoInfo"></transition>
+		<transition to="CvRif3?" name="BtnUbicazioneInfo"></transition>
+		<transition to="CvRif4" name="BtnLuogoInfo"></transition>
+	</decision>
+
+	<node name="inject1">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(PraticheRiferimenti.richiedenteDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(PraticheRiferimenti.richiedenteSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<task-node name="Company Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Company/CORE/FORMS/company_details')}"></action>
+		</event>
+		<transition to="eject1"></transition>
+	</task-node>
+
+	<node name="eject1">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.eject()}"></action>
+			<action name="2" expression="#{SediAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<decision name="CvRif1?" expression="#{PraticheRiferimenti.richiedente.code}">
+		<transition to="inject1" name="Ditta"></transition>
+		<transition to="node1" name="Medico"></transition>
+		<transition to="inject4" name="Utente"></transition>
+		<transition to="inject6" name="Interno"></transition>
+	</decision>
+
+	<node name="inject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(PraticheRiferimenti.riferimentoDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(PraticheRiferimenti.riferimentoSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<decision name="CvRif2?" expression="#{PraticheRiferimenti.riferimento.code}">
+		<transition to="inject2" name="Ditta"></transition>
+		<transition to="inject7" name="Interno"></transition>
+		<transition to="inject5" name="Utente"></transition>
+		<transition to="inject11" name="Cantiere"></transition>
+	</decision>
+
+	<node name="inject4">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(PraticheRiferimenti.richiedenteUtente)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<task-node name="Person Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_person/CORE/FORMS/popup/show_person')}"></action>
+		</event>
+		<transition to="eject2"></transition>
+	</task-node>
+
+	<node name="eject2">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject5">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(PraticheRiferimenti.riferimentoUtente)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<node name="inject6">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(PraticheRiferimenti.richiedenteInterno)}"></action>
+		</event>
+		<transition to="Employee Details"></transition>
+	</node>
+
+	<node name="inject7">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.inject(PraticheRiferimenti.riferimentoInterno)}"></action>
+		</event>
+		<transition to="Employee Details"></transition>
+	</node>
+
+	<task-node name="Employee Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Employees/CORE/FORMS/employee_details')}"></action>
+		</event>
+		<transition to="eject3"></transition>
+	</task-node>
+
+	<node name="eject3">
+		<event type="node-enter">
+			<action name="1" expression="#{EmployeeAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject12">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.equal.put('isActive', true)}"></action>
+			<action name="2" expression="#{CommittenteAction.equal.put('cantiere', Cantiere)}"></action>
+			<action name="3" expression="#{CommittenteAction.read()}"></action>
+			<action name="4" expression="#{PersoneCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="5" expression="#{PersoneCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="6" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT01')}"></action>
+			<action name="7" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere1List')}"></action>
+			<action name="8" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT02')}"></action>
+			<action name="9" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere2List')}"></action>
+			<action name="10" expression="#{PersoneCantiereAction.equal.put('ruolo.code','RUOLOCANT03')}"></action>
+			<action name="11" expression="#{PersoneCantiereAction.injectList(PersoneCantiereAction.select(),'PersoneCantiere3List')}"></action>
+			<action name="12" expression="#{DitteCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="13" expression="#{DitteCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="14" expression="#{DitteCantiereAction.read()}"></action>
+			<action name="15" expression="#{TagCantiereAction.equal.put('isActive',true)}"></action>
+			<action name="16" expression="#{TagCantiereAction.equal.put('cantiere',Cantiere)}"></action>
+			<action name="17" expression="#{TagCantiereAction.read()}"></action>
+		</event>
+		<transition to="Cantiere Details"></transition>
+	</node>
+
+	<task-node name="Cantiere Details">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Cantieri/FORMS/show_cantiere')}"></action>
+		</event>
+		<transition to="eject4"></transition>
+	</task-node>
+
+	<node name="eject4">
+		<event type="node-enter">
+			<action name="1" expression="#{CommittenteAction.ejectList('CommittenteList')}"></action>
+			<action name="2" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere1List')}"></action>
+			<action name="3" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere2List')}"></action>
+			<action name="4" expression="#{PersoneCantiereAction.ejectList('PersoneCantiere3List')}"></action>
+			<action name="5" expression="#{DitteCantiereAction.ejectList('DitteCantiereList')}"></action>
+			<action name="6" expression="#{TagCantiereAction.ejectList('TagCantiereList')}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject11">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(PraticheRiferimenti.riferimentoCantiere)}"></action>
+		</event>
+		<transition to="inject12"></transition>
+	</node>
+
+	<node name="node1">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.inject(PraticheRiferimenti.richiedenteMedico)}"></action>
+		</event>
+		<transition to="MedicoDetails"></transition>
+	</node>
+
+	<task-node name="MedicoDetails">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Anagrafiche/CORE/FORMS/medicoDetail')}"></action>
+		</event>
+		<transition to="node2"></transition>
+	</task-node>
+
+	<node name="node2">
+		<event type="node-enter">
+			<action name="1" expression="#{PhysicianAction.eject()}"></action>
+		</event>
+		<transition to="end-state1"></transition>
+	</node>
+
+	<node name="inject13">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(PraticheRiferimenti.ubicazioneDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(PraticheRiferimenti.ubicazioneSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+	<node name="inject14">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(PraticheRiferimenti.ubicazioneCantiere)}"></action>
+		</event>
+		<transition to="inject12"></transition>
+	</node>
+
+	<decision name="CvRif3?" expression="#{PraticheRiferimenti.ubicazione.code}">
+		<transition to="inject13" name="Ditta"></transition>
+		<transition to="inject14" name="Cantiere"></transition>
+	</decision>
+
+	<decision name="CvRif4" expression="#{Attivita.luogo.code}">
+		<transition to="inject15" name="Utente"></transition>
+		<transition to="inject16" name="Ditta"></transition>
+		<transition to="inject17" name="Cantiere"></transition>
+	</decision>
+
+	<node name="inject15">
+		<event type="node-enter">
+			<action name="1" expression="#{PersonAction.inject(Attivita.luogoUtente)}"></action>
+		</event>
+		<transition to="Person Details"></transition>
+	</node>
+
+	<node name="inject17">
+		<event type="node-enter">
+			<action name="1" expression="#{CantiereAction.inject(Attivita.luogoCantiere )}"></action>
+		</event>
+		<transition to="inject12"></transition>
+	</node>
+
+	<node name="inject16">
+		<event type="node-enter">
+			<action name="1" expression="#{PersoneGiuridicheAction.inject(Attivita.luogoDitta)}"></action>
+			<action name="2" expression="#{SediAction.inject(Attivita.luogoSede)}"></action>
+		</event>
+		<transition to="Company Details"></transition>
+	</node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

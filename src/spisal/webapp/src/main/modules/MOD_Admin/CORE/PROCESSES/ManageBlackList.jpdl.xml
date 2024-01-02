@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="ManageBlackList">
+
+
+	<start-state name="start-state1">
+		<transition to="read blacklisting violations"></transition>
+	</start-state>
+
+
+	<task-node name="manage blacklist UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setViewId('/MOD_Admin/CORE/FORMS/blackList')}"></action>
+		</event>
+		<transition to="button1"></transition>
+	</task-node>
+
+	<node name="read blacklisting violations">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliBLAction.equal.remove('code')}"></action>
+			<action name="2" expression="#{ArticoliBLAction.equal.put('isActive',true)}"></action>
+			<action name="3" expression="#{ArticoliBLAction.read()}"></action>
+		</event>
+		<transition to="manage blacklist UI"></transition>
+	</node>
+
+	<decision name="button1" expression="#{button.mnemonic}">
+		<transition to="inject codesystem" name="btnAddArt"></transition>
+		<transition to="super-state1/save" name="btnSave"></transition>
+		<transition to="end-state1" name="HOME"></transition>
+		<transition to="delete confirm UI" name="btnDeleteArt"></transition>
+	</decision>
+
+	<super-state name="super-state1">
+		<node name="save">
+			<event type="node-enter">
+				<action name="1" expression="#{(ArticoliBL!=null) ? ArticoliBLAction.create() : ''}"></action>
+				<action name="2" expression="#{(ArticoliBL.isActive==false) ? ArticoliBLAction.eject() : ''}"></action>
+			</event>
+			<transition to="../read blacklisting violations"></transition>
+		</node>
+	</super-state>
+
+	<node name="inject codesystem">
+		<event type="node-enter">
+			<action name="1" expression="#{ CodeValueLawAction.eject()}"></action>
+			<action name="2" expression="#{CodeSystemAction.injectCs(CodeSystemAction.getCodeSystem('Legge81').id)}"></action>
+			<action name="3" expression="#{ArticoliBLAction.inject(ArticoliBLAction.newEntity())}"></action>
+			<action name="4" expression="#{ArticoliBL.setMaxIter(1)}"></action>
+		</event>
+		<transition to="legge 81 popup"></transition>
+	</node>
+
+	<task-node name="legge 81 popup">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_home/CORE/FORMS/popup/leggiPEM_popup')}"></action>
+		</event>
+		<transition to="button2"></transition>
+	</task-node>
+
+	<super-state name="super-state2">
+		<node name="add article">
+			<event type="node-enter">
+				<action name="1" expression="#{ArticoliBL.setCode(CodeValueLaw)}"></action>
+				<action name="2" expression="#{ArticoliBLAction.create()}"></action>
+			</event>
+			<transition to="../read blacklisting violations"></transition>
+		</node>
+	</super-state>
+
+	<decision name="button2" expression="#{button.mnemonic}">
+		<transition to="manage blacklist UI" name="BtnCancel"></transition>
+		<transition to="search for duplicates" name="BtnOk"></transition>
+	</decision>
+
+	<node name="delete">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliBL.setIsActive(false)}"></action>
+		</event>
+		<transition to="super-state1/save" name=""></transition>
+	</node>
+
+	<task-node name="delete confirm UI">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Admin/CORE/FORMS/confirmDeleteBlackList')}"></action>
+		</event>
+		<transition to="confirm?"></transition>
+	</task-node>
+
+	<decision name="confirm?" expression="#{button.mnemonic}">
+		<transition to="delete" name="BtnSave"></transition>
+		<transition to="manage blacklist UI" name="BtnCancel"></transition>
+	</decision>
+
+	<node name="search for duplicates">
+		<event type="node-enter">
+			<action name="1" expression="#{ArticoliBLAction.equal.put('isActive',true)}"></action>
+			<action name="2" expression="#{ArticoliBLAction.equal.put('code',CodeValueLaw)}"></action>
+			<action name="3" expression="#{ArticoliBLAction.read()}"></action>
+		</event>
+		<transition to="new is duplicate?"></transition>
+	</node>
+
+	<decision name="new is duplicate?" expression="#{ArticoliBLList.size()&gt;0}">
+		<description>
+			ArticoliBLList.size()&gt;0
+		</description>
+		<transition to="super-state2/add article" name="false"></transition>
+		<transition to="task-node1" name="true"></transition>
+	</decision>
+
+	<decision name="popup button?">
+		<transition to="read blacklisting violations" name="BtnCancel"></transition>
+	</decision>
+
+	<task-node name="task-node1">
+		<task>
+			<assignment actor-id="#{userBean.username}"></assignment>
+		</task>
+		<event type="node-enter">
+			<action name="main" expression="#{ViewManager.setPopupViewId('/MOD_Admin/CORE/FORMS/blackListDuplicatePopup')}"></action>
+		</event>
+		<transition to="popup button?"></transition>
+	</task-node>
+
+
+	<end-state name="end-state1"></end-state>
+
+
+</process-definition>

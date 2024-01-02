@@ -1,0 +1,128 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<div class="widgetDiv" style="left: 10px;top: 10px;" >
+			<a4j:commandLink action="#{processManager.manageTask('saveUOS;saveUOS')}" status="ajaxStatus" id="saveUOS" title="${msg.alt_saveUOS}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save" />
+			</div>
+
+			<a4j:outputPanel id="GroupBox_1451073350613" style="position: absolute;left: 10px;top: 60px;" layout="block" >
+			<fieldset style="height: 337px;width: 531px;" class="groupBox" >
+				<legend class="groupBoxLegend" >${msg.GroupBox_1451073350613}</legend>
+
+				<h:outputLabel for="IDBox_1451471233863" value="${msg.Label_1450701389389}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 25px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 218px;top: 25px;" >
+				<h:inputText id="IDBox_1451471233863" value="#{ServiceDeliveryLocation.id['HBS'].extension}" alt="IDBOX" style="height: 21px;width: 253px;" />
+				</div>
+
+				<h:outputLabel for="TextBox_1451134745718" value="${msg.Label_1448989483384}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 55px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 218px;top: 55px;" >
+				<h:inputText id="TextBox_1451134745718" value="#{ServiceDeliveryLocation.name.giv}" style="height: 21px;width: 253px;" label="${msg.Label_1448989483384}" />
+				<a4j:outputPanel id="TextBox_1451134745718_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1451134745718" styleClass="errorMessages TextBox_1451134745718_E" /></a4j:outputPanel>
+				</div>
+
+				<div class="widgetDiv" style="left: 218px;top: 84px;" >
+				<h:inputText id="TextBox_1451776316979" value="#{ServiceDeliveryLocation.name.fam}" style="height: 21px;width: 253px;" label="${msg.Label_1448989483384}" />
+				<a4j:outputPanel id="TextBox_1451776316979_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1451776316979" styleClass="errorMessages TextBox_1451776316979_E" /></a4j:outputPanel>
+				</div>
+
+				<span value="${msg.Label_1450041040292}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 85px;" class="base-label" >${msg.Label_1450041040292}</span>
+
+				<h:outputLabel for="ComboBox_1450084889809" value="${msg.Label_1447567451914}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 115px;" class="base-label" />
+
+				<div class="widgetDiv" style="left: 218px;top: 115px;" >
+				<h:selectOneMenu id="ComboBox_1450084889809" value="#{ServiceDeliveryLocation.area}" style="height: 21px;width: 253px;" label="${msg.Label_1447567451914}" >
+					<f:selectItem itemLabel="-" itemValue=""/>
+					<f:selectItems value="#{vocabularies.getIdValues('PHIDIC:WorkingLine')}" />
+					<f:converter converterId="CodeValueConverter"/>
+				</h:selectOneMenu>
+				</div>
+
+				<div class="widgetDiv" style="left: 218px;top: 144px;" >
+				<h:inputText id="TextBox_1450515627125" value="#{ServiceDeliveryLocation.addr.str}" style="height: 21px;width: 253px;" label="${msg.Label_1447567451914}" />
+				<a4j:outputPanel id="TextBox_1450515627125_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1450515627125" styleClass="errorMessages TextBox_1450515627125_E" /></a4j:outputPanel>
+				</div>
+
+				<span value="${msg.Label_1448093614618}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 145px;" class="base-label" >${msg.Label_1448093614618}</span>
+
+				<h:outputLabel for="TextSuggestionBox_1449749482526_MAIN" value="${msg.Label_1449385820081}" style="height: 21px;width: 192px;position: absolute;left: 15px;top: 175px;" class="base-label" />
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextSuggestionBox_1449749482526" style="left: 218px;top: 175px;" >
+					<a4j:outputPanel layout="block" >
+					#{ServiceDeliveryLocationAction.autocomplete['addr'].setContentType('0')}
+					#{ServiceDeliveryLocationAction.autocomplete['addr'].setCodeSystem('Comuni')}
+					<h:inputText id="TextSuggestionBox_1449749482526_MAIN" value="#{ServiceDeliveryLocation.addr.cty}" styleClass="autocomplete autoAddress" style="height: 21px;width: 173px;" label="${msg.Label_1449385820081}" />
+					<h:outputLabel for="TextSuggestionBox_1449749482526_CPA" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1449749482526_CPA" value="#{ServiceDeliveryLocation.addr.cpa}" style="height: 21px;width: 25px;" label="${static.Province}" />
+					<h:outputLabel for="TextSuggestionBox_1449749482526_ZIP" styleClass="textSuggestionSeparator" value="-" />
+					<h:inputText id="TextSuggestionBox_1449749482526_ZIP" value="#{ServiceDeliveryLocation.addr.zip}" style="height: 21px;width: 45px;" label="${static.ZIP}" />
+					<h:outputLabel for="TextSuggestionBox_1449749482526_CODE" style="display:none;"/>
+					<h:inputText id="TextSuggestionBox_1449749482526_CODE" value="#{ServiceDeliveryLocation.addr.code}" label="${msg.Label_1449385820081}"  style="display: none">
+						<f:converter converterId="CodeValueConverter"/>
+
+					</h:inputText>
+					<h:message style="position:absolute;top:21px;" for="TextSuggestionBox_1449749482526_CODE" styleClass="errorMessages TextSuggestionBox_1449749482526_CODE_E" />
+					<a4j:jsFunction name="TextSuggestionBox_1449749482526" action="#{ServiceDeliveryLocationAction.autocomplete['addr'].autocomplete()}" data="#{ServiceDeliveryLocationAction.autocomplete['addr'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+						<a4j:actionparam name="search" assignTo="#{ServiceDeliveryLocationAction.autocomplete['addr'].search}"/>
+						<a4j:actionparam name="ui"/>
+					</a4j:jsFunction>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1452230312824" style="left: 15px;top: 205px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.area.code!='SUPERVISION'}" for="TextBox_1452082882473_id" value="${msg.Label_1452230312824}" id="Label_1452230312824_id" style="display:#{(ServiceDeliveryLocation.area.code!='SUPERVISION') ? 'block' : 'none' };height: 21px;width: 192px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1452082882473" style="left: 218px;top: 205px;" >
+				<h:inputText id="TextBox_1452082882473_id" value="#{OperatoreAction.getRDP(ServiceDeliveryLocation)}" style="height: 21px;width: 253px;" rendered="#{ServiceDeliveryLocation.area.code!='SUPERVISION'}" disabled="true" label="${msg.Label_1452230312824}" />
+				<a4j:outputPanel id="TextBox_1452082882473_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1452082882473_id" styleClass="errorMessages TextBox_1452082882473_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="AddRDP" style="left: 482px;top: 205px;" >
+				<a4j:commandLink action="#{processManager.manageTask('AddRDP;AddRDP')}" status="ajaxStatus" id="AddRDP_id" title="${msg.alt_AddRDP}" style="height: 21px;width: 21px;" rendered="#{ServiceDeliveryLocation.area.code!='SUPERVISION'}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1499869040237" style="left: 15px;top: 235px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" for="TextBox_1499869131156_id" value="${msg.Label_1499869040237}" id="Label_1499869040237_id" style="display:#{(ServiceDeliveryLocation.area.code=='SUPERVISION') ? 'block' : 'none' };height: 21px;width: 192px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1499869131156" style="left: 218px;top: 235px;" >
+				<h:inputText id="TextBox_1499869131156_id" value="#{OperatoreAction.getRDPSupervision(ServiceDeliveryLocation,vocabularies.getCodeValue('PHIDIC', 'Types', 'Asbestos', 'C'))}" style="height: 21px;width: 253px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" disabled="true" label="${msg.Label_1499869040237}" />
+				<a4j:outputPanel id="TextBox_1499869131156_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1499869131156_id" styleClass="errorMessages TextBox_1499869131156_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="AddRDP_amianto" style="left: 482px;top: 235px;" >
+				<a4j:commandLink action="#{processManager.manageTask('AddRDP_amianto;AddRDP&#95;amianto')}" status="ajaxStatus" id="AddRDP_amianto_id" title="${msg.alt_AddRDP_amianto}" style="height: 21px;width: 21px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1499869095804" style="left: 15px;top: 265px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" for="TextBox_1499869160131_id" value="${msg.Label_1499869095804}" id="Label_1499869095804_id" style="display:#{(ServiceDeliveryLocation.area.code=='SUPERVISION') ? 'block' : 'none' };height: 21px;width: 192px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1499869160131" style="left: 218px;top: 265px;" >
+				<h:inputText id="TextBox_1499869160131_id" value="#{OperatoreAction.getRDPSupervision(ServiceDeliveryLocation,vocabularies.getCodeValue('PHIDIC', 'Types', 'Yard', 'C'))}" style="height: 21px;width: 253px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" disabled="true" label="${msg.Label_1499869095804}" />
+				<a4j:outputPanel id="TextBox_1499869160131_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1499869160131_id" styleClass="errorMessages TextBox_1499869160131_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="AddRDP_cantiere" style="left: 482px;top: 265px;" >
+				<a4j:commandLink action="#{processManager.manageTask('AddRDP_cantiere;AddRDP&#95;cantiere')}" status="ajaxStatus" id="AddRDP_cantiere_id" title="${msg.alt_AddRDP_cantiere}" style="height: 21px;width: 21px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="Label_1499871947968" style="left: 15px;top: 295px;" >
+				<h:outputLabel rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" for="TextBox_1499872071716_id" value="${msg.Label_1499871947968}" id="Label_1499871947968_id" style="display:#{(ServiceDeliveryLocation.area.code=='SUPERVISION') ? 'block' : 'none' };height: 21px;width: 192px;" class="base-label" />
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="TextBox_1499872071716" style="left: 218px;top: 295px;" >
+				<h:inputText id="TextBox_1499872071716_id" value="#{OperatoreAction.getRDPSupervision(ServiceDeliveryLocation,vocabularies.getCodeValue('PHIDIC', 'Types', 'Generic', 'C'))}" style="height: 21px;width: 253px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" disabled="true" label="${msg.Label_1499871947968}" />
+				<a4j:outputPanel id="TextBox_1499872071716_msg" styleClass="errorContainer" ><h:message style="position:absolute;top:21px;left:0px;" for="TextBox_1499872071716_id" styleClass="errorMessages TextBox_1499872071716_E" /></a4j:outputPanel>
+				</a4j:outputPanel>
+
+				<a4j:outputPanel layout="block" styleClass="widgetDiv" id="AddRDP_aziende" style="left: 482px;top: 295px;" >
+				<a4j:commandLink action="#{processManager.manageTask('AddRDP_aziende;AddRDP&#95;aziende')}" status="ajaxStatus" id="AddRDP_aziende_id" title="${msg.alt_AddRDP_aziende}" style="height: 21px;width: 21px;" rendered="#{ServiceDeliveryLocation.area.code=='SUPERVISION'}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink" />
+				</a4j:outputPanel>
+
+			</fieldset>
+			</a4j:outputPanel>
+
+
+	<script>focusFirstElement();</script>
+</div>

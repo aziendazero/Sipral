@@ -1,0 +1,271 @@
+<form #form="ngForm" id="Form_1490949145820">
+  <div id="LayoutAdt" class="layout vertical fullHeight">
+    <div id="LayoutAdtBtnBar" class="layout horizontal fill">
+      <div id="LayoutAdtBtnBarLeft" class="layout horizontal">
+        <phi-button (binding)="refresh()" id="ButtonAdtRefresh" styleClass="fa fa-refresh fa-2x" tooltip="{{'alt_ButtonAdtRefresh' | translate}}"></phi-button>
+        <phi-button (binding)="toggleSearch()" id="ButtonAdtSearch" styleClass="fa fa-search fa-2x" tooltip="{{'alt_ButtonAdtSearch' | translate}}"></phi-button>
+        <phi-button (binding)="toggleDetails()" id="ButtonAdtHistory" styleClass="fa fa-info fa-2x" tooltip="{{'alt_ButtonAdtHistory' | translate}}"></phi-button>
+        <phi-buttonpdf (binding)="printWorkList()" id="ButtonAdtReport" [renderedEl]="environment.adt.report!=undefined"></phi-buttonpdf>
+      </div>
+      <div id="LayoutAdtBtnBarRight" class="layout horizontal end">
+        <phi-button (binding)="printReport()" id="ButtonAdtPrint" styleClass="fa fa-print fa-2x" tooltip="{{'alt_ButtonAdtPrint' | translate}}" [renderedEl]="environment.adt.bracialetReport && hasVisitNumber()"></phi-button>
+        <phi-button (binding)="searchPatientByBarcode()" id="ButtonAdtBarcode" styleClass="fa fa-barcode fa-2x" tooltip="{{'alt_ButtonAdtBarcode' | translate}}" [renderedEl]="environment.adt.searchByBarcode"></phi-button>
+      </div>
+    </div>
+    <div id="LayoutAdtSearch" class="layout vertical" *ngIf="searchVisible">
+      <div id="LayoutAdtSearchFilters" class="layout horizontal space-around">
+        <div id="LayoutAdtSearch1" class="layout vertical" *ngIf="environment.adt.showAdtWard">
+              <phi-groupcheckbox [(ngModel)]="AdtAction.equal['wards']" name="AdtAction.equal['wards']" id="GroupCheckBoxWards" [widgetLabel]="'label_GroupCheckBoxWards' | translate" [listElementsExpression]="enabledSdlocs" converter="Integer Converter" layout="vertical"></phi-groupcheckbox>
+            <label>{{'LytAdtWard' | translate}}</label>
+            <div id="LytAdtWard" class="layout horizontal fieldset" >
+              <phi-checkbox [(ngModel)]="AdtAction.equal['assigned']" name="AdtAction.equal['assigned']" id="ChkBxAdtAssigned">{{'ChkBxAdtAssigned' | translate}}</phi-checkbox>
+              <phi-checkbox [(ngModel)]="AdtAction.equal['temporary']" name="AdtAction.equal['temporary']" id="ChkBxAdtTemporary">{{'ChkBxAdtTemporary' | translate}}</phi-checkbox>
+            </div>
+          <phi-groupcheckbox [(ngModel)]="AdtAction.equal['encounterTypes']" name="AdtAction.equal['encounterTypes']" id="GroupCheckBoxEncountertypes" [widgetLabel]="'label_GroupCheckBoxEncountertypes' | translate" [listElementsExpression]="encounterTypes" [renderedEl]="environment.adt.showAdtWard" (change)="encounterTypesChange($event)"></phi-groupcheckbox>
+        </div>
+        <div id="LayoutAdtSearchKlinik2" class="layout vertical" *ngIf="environment.adt.status">
+          <phi-groupcheckbox [(ngModel)]="AdtAction.equal['statusCode.id']" name="AdtAction.equal['statusCode.id']" id="GrpAdtStatus" [widgetLabel]="'label_GrpAdtStatus' | translate" [listElementsExpression]="" converter="Code Value Converter" [domain]="environment.adt.status" layout="vertical"></phi-groupcheckbox>
+        </div>
+        <div id="LayoutAdtSearch2" class="layout vertical" *ngIf="environment.adt.showAdtPatient">
+          <phi-textbox [(ngModel)]="AdtAction.equal['patientSurname']" name="AdtAction.equal['patientSurname']" id="TextBoxPatientSurname" [widgetLabel]="'label_TextBoxPatientSurname' | translate" (keyup.enter)="clickApplyFilter($event)"></phi-textbox>
+          <phi-textbox [(ngModel)]="AdtAction.equal['patientName']" name="AdtAction.equal['patientName']" id="TextBoxPatientName" [widgetLabel]="'label_TextBoxPatientName' | translate" (keyup.enter)="clickApplyFilter($event)"></phi-textbox>
+          <div id="LayoutRow_1492600547969" class="layout horizontal">
+            <phi-textbox [(ngModel)]="AdtAction.equal['encounterYear']" name="AdtAction.equal['encounterYear']" id="TextBoxEncounterYear" [widgetLabel]="'label_TextBoxEncounterYear' | translate" converter="Integer Converter"></phi-textbox>
+            <phi-textbox [(ngModel)]="AdtAction.equal['nosologic']" name="AdtAction.equal['nosologic']" id="TextBoxNosologic" [widgetLabel]="'label_TextBoxNosologic' | translate"></phi-textbox>
+          </div>
+        </div>
+        <div id="LayoutAdtSearch3" class="layout vertical" *ngIf="environment.adt.showAdtFilter">
+          <phi-textbox [(ngModel)]="AdtAction.equal['nurse']" name="AdtAction.equal['nurse']" id="TextBoxReferenceNurse" [widgetLabel]="'label_TextBoxReferenceNurse' | translate"></phi-textbox>
+          <phi-textbox [(ngModel)]="AdtAction.equal['physician']" name="AdtAction.equal['physician']" id="TextBoxReferencePhysician" [widgetLabel]="'label_TextBoxReferencePhysician' | translate"></phi-textbox>
+          <phi-checkbox [(ngModel)]="AdtAction.equal['showheld']" name="AdtAction.equal['showheld']" id="CheckBoxHeld" [widgetLabel]="'label_CheckBoxHeld' | translate"></phi-checkbox>
+          <phi-checkbox [(ngModel)]="AdtAction.equal['isActiveFilter']" name="AdtAction.equal['isActiveFilter']" id="CheckBoxActive" [widgetLabel]="'label_CheckBoxActive' | translate"></phi-checkbox>
+        </div>
+        <div id="LayoutAdtSearch4" class="layout vertical" *ngIf="environment.adt.showAdtWard">
+          <phi-textbox id="TextBoxBedGroup" [widgetLabel]="'label_TextBoxBedGroup' | translate" [disabled]="true"></phi-textbox>
+          <phi-textbox [(ngModel)]="AdtAction.equal['room']" name="AdtAction.like['room']" id="TextBoxRoom" [widgetLabel]="'label_TextBoxRoom' | translate"></phi-textbox>
+          <phi-textbox [(ngModel)]="AdtAction.equal['bed']" name="AdtAction.equal['bed']" id="TextBoxBed" [widgetLabel]="'label_TextBoxBed' | translate"></phi-textbox>
+        </div>
+        <div id="LayoutAdtSearchKlinik3" class="layout vertical" *ngIf="environment.adt.showAdtData">
+          <phi-groupcheckbox [(ngModel)]="AdtAction.equal['reasonCode.code']" name="AdtAction.equal['reasonCode.code']" id="GrpAdtReason" [widgetLabel]="'label_GrpAdtReason' | translate" domain="PHIDIC:MOTIVORICOVERODH" layout="vertical"></phi-groupcheckbox>
+        </div>
+        <div id="LayoutAdtSearchKlinik4" class="layout vertical" *ngIf="environment.adt.showAdtData">
+          <phi-radiogroup [(ngModel)]="AdtAction.equal['reimbursementType']" name="AdtAction.equal['reimbursementType']" id="GrpAdtReimbursement" [widgetLabel]="'label_GrpAdtReimbursement' | translate" [listElementsExpression]="reimbursement" layout="vertical"></phi-radiogroup>
+        </div>
+        <div id="LayoutAdtSearchKlinik5" class="layout vertical" *ngIf="environment.adt.showAdtData">
+          <div class="layout horizontal">
+            <phi-monthcalendar [(ngModel)]="AdtAction.equal['startDate']" name="AdtAction.equal['startDate']" id="CalAdtFrom" [widgetLabel]="'label_CalAdtFrom' | translate"></phi-monthcalendar>
+            <phi-monthcalendar [(ngModel)]="AdtAction.equal['endDate']" name="AdtAction.equal['endDate']" id="CalAdtTo" [widgetLabel]="'label_CalAdtTo' | translate"></phi-monthcalendar>
+          </div>
+          <div class="layout horizontal">
+            <phi-monthcalendar [(ngModel)]="AdtAction.equal['assignment']" name="AdtAction.equal['assignment']" id="CalEncFrom" [widgetLabel]="'label_CalEncFrom' | translate"></phi-monthcalendar>
+            <phi-monthcalendar [(ngModel)]="AdtAction.equal['dismissionDate']" name="AdtAction.equal['dismissionDate']" id="CalEncTo" [widgetLabel]="'label_CalAdtTo' | translate"></phi-monthcalendar>
+          </div>
+          <phi-checkbox [(ngModel)]="AdtAction.equal['stillActive']" name="AdtAction.equal['stillActive']" id="ChkAdtPrevious">{{'ChkAdtPrevious' | translate}}</phi-checkbox>
+        </div>
+      </div>
+      <div id="LayoutAdtSearchBtns" class="layout horizontal center">
+        <phi-buttonsearch (binding)="refresh()" id="BtnAdtApplyFilter" tooltip="{{'BtnAdtApplyFilter' | translate}}"></phi-buttonsearch>
+        <phi-buttoncancel (binding)="resetFilters()" id="BtnAdtResetFilter" tooltip="{{'BtnAdtResetFilter' | translate}}"></phi-buttoncancel>
+      </div>
+    </div>
+    <div id="LayoutAdtResults" class="layout horizontal fillHeight {{peListVisible}}">
+      <div id="DgAdt" [phi-datagrid]="PatientEncounterList" class="scrollX fullWidth" #LayoutAdtResults >
+        <thead class="tableHeader">
+          <tr>
+            <th *ngIf="environment.adt.table.note">{{'DcAdtNote' | translate}}</th>
+            <th *ngIf="environment.adt.table.anesthesistCheck  && isMedicalChosen()">{{'DcAdtAnestCheck' | translate}}</th>
+            <th>{{'DcAdtType' | translate}}</th>
+            <th class="DcAdtPatient" (click)="PatientEncounterList?.orderBy('patient.name')">{{'DcAdtPatient' | translate}} <i *ngIf="PatientEncounterList?.sortColumn('patient.name')" [class]="PatientEncounterList.sortArrow"></i></th>
+            <th *ngIf="environment.adt.table.appointmentDate" (click)="PatientEncounterList.orderBy('appointment.defaultdate')">{{'DcAdtAppDate' | translate}} <i *ngIf="PatientEncounterList?.sortColumn('appointment.defaultdate')" [class]="PatientEncounterList.sortArrow"></i></th>
+            <th class="DcAdtDate" (click)="PatientEncounterList?.orderBy('availabilitytime')">{{'DcAdtDate' | translate}} <i *ngIf="PatientEncounterList?.sortColumn('availabilitytime')" [class]="PatientEncounterList.sortArrow"></i></th>
+            <th *ngIf="environment.adt.table.referrer" class="DcAdtReferrer">{{'DcAdtReferrer' | translate}}</th>
+            <th class="DcAdtDep">{{'DcAdtDep' | translate}}</th>
+            <th *ngIf="environment.adt.table.tempWard" class="DcAdtDepDeg" (click)="PatientEncounterList?.orderBy('support.name')">{{'DcAdtDepDeg' | translate}} <i *ngIf="PatientEncounterList?.sortColumn('support.name')" [class]="PatientEncounterList.sortArrow"></i></th>
+            <th *ngIf="Param['p.dashboard.adt.showieterapie']?.value" >{{'DcAlarmIETherapy' | translate}}</th>
+            <th *ngIf="environment.adt.table.clinicalDiary">{{'DcAdtClnclDiry' | translate}}</th>
+            <th *ngIf="isDoctorOrDirector() && Param['p.dashboard.adt.medhistcol']?.value">{{'DcAdtClinHist' | translate}}</th>
+            <th *ngIf="environment.adt.table.discharge">{{'DcAdtDischarge' | translate}}</th>
+            <th *ngIf="environment.adt.table.nurseCheck && (isNurseOrCoordinator() || isObstetrician())">{{'DcAdtNurseCheck' | translate}}</th>
+            <th *ngIf="environment.adt.table.pain && isNurseOrCoordinator()">{{'DcAdtPain' | translate}}</th>
+            <th *ngIf="environment.adt.table.injuryRisk && isNurseOrCoordinator()">{{'DcAdtInjuryRisk' | translate}}</th>
+            <th *ngIf="environment.adt.table.fallRisk && isNurseOrCoordinator()">{{'DcAdtFallRisk' | translate}}</th>
+            <th *ngIf="environment.adt.table.morse && isNurseOrCoordinator()">{{'DcAdtFallRisk' | translate}}</th>
+            <th *ngIf="environment.adt.table.invoiceClosed">{{'DcAdtInvoiceClosed' | translate}}</th>
+            <th *ngIf="environment.adt.table.sdoClosed">{{'DcAdtSdoClosed' | translate}}</th>
+          </tr>
+        </thead>
+        <tbody class="selectable">
+          <tr *ngFor="let PatientEncounter of PatientEncounterList?.entities; let i = index" (click)="ie(PatientEncounter,'PatientEncounter')" [class.selRow]="selected(PatientEncounter, 'PatientEncounter')">
+            <td *ngIf="environment.adt.table.note" (click)="editNote(PatientEncounter, $event)" class="truncate-text">
+              {{PatientEncounter.note}}
+            </td>
+            <td *ngIf="environment.adt.table.anesthesistCheck  && isMedicalChosen()" (click)="startProcess(PatientEncounter, 'MOD_ADT/customer_VCO/PROCESSES/Encounter/Encounter_Surgical_Intervention', $event)">
+              <span  [class]="'fa fa-circle ' + checkingStatusSurgical(PatientEncounter)"></span>
+            </td>
+            <td>
+              <span>{{encounterCodeFormatter(PatientEncounter)}}</span>
+              <span *ngIf="!environment.adt.showWaitingProcIcon" class="encounter fa fa-circle {{PatientEncounter.statuscode}}" [class.bigIcons]="environment.adt.table.bigIcons" title="{{getStatus(PatientEncounter)}}"></span>
+              <span *ngIf="environment.adt.showWaitingProcIcon" class="encounter fa fa-circle {{PatientEncounter.waitingproc>0?'waitingproc':PatientEncounter.statuscode}}" [class.bigIcons]="environment.adt.table.bigIcons" title="{{getStatus(PatientEncounter)}}"></span>
+            </td>
+            <td>
+              <span class="bold">{{PatientEncounter.patient.name}}</span>
+              <span>{{PatientEncounter.patient.birthtime | dateFormat: 'shortDate'}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.appointmentDate">
+              <span>{{PatientEncounter.appointment.defaultdate | dateFormat: 'short'}}</span>
+            </td>
+            <td>
+              <span>{{PatientEncounter.availabilitytime | dateFormat: 'short'}}</span>
+              <span class="bold">{{encounterInfoFormatter(PatientEncounter)}}</span>
+              <span *ngIf="environment.adt.table.chart"><phi-link (binding)="injectAndPrintReport(PatientEncounter, $event)" id="LnkAdtChart" styleClass="fa fa-heartbeat" tooltip="{{'alt_LnkAdtChart' | translate}}"></phi-link>
+              </span>
+            </td>
+            <td *ngIf="environment.adt.table.referrer">
+              <span>{{PatientEncounter.referrer?.name.fam}}</span>
+              <span class="smaller">{{PatientEncounter.specialitycode?.description}}</span>
+            </td>
+            <td>
+              <span>{{PatientEncounter.location?.name}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.tempWard">
+              <span>{{PatientEncounter.support?.name}}</span>
+              <span>{{(PatientEncounter.locationroom ? PatientEncounter.locationroom : '') + (PatientEncounter.locationroom && PatientEncounter.locationbed ? '.' : '') + (PatientEncounter.locationbed ? PatientEncounter.locationbed : '')}}</span>
+            </td>
+            <td *ngIf="Param['p.dashboard.adt.showieterapie']?.value">
+                <span *ngIf="PatientEncounter.allarmi !== null && PatientEncounter.allarmi !== undefined" >
+                    <span *ngIf="isDoctorOrDirector()" style="display:inline-block;" [class]="'fa fa-circle ' + therapyAllarmiIcon(PatientEncounter.allarmi?.AllarmeClinico)" (click)="viewAlarmDetails(PatientEncounter, $event,'C')" title="Allarme clinico"></span>
+                    <span *ngIf="isNurseOrCoordinator() || isObstetrician()"   style="display:inline-block;"  [class]="'fa fa-circle ' + therapyAllarmiIcon(PatientEncounter.allarmi?.AllarmeInfermieristico)" (click)="viewAlarmDetails(PatientEncounter, $event,'N')" title="Allarme infermieristico"></span>
+                    <span *ngIf="isAdmin()" style="display:inline-block;" [class]="'fa fa-circle ' + therapyAllarmiIcon(PatientEncounter.allarmi?.AllarmeAssistenziale)" (click)="viewAlarmDetails(PatientEncounter, $event,'A')" title="Allarme assistenziale"></span>
+                </span>
+            </td>
+            <td *ngIf="environment.adt.table.clinicalDiary" (click)="startProcess(PatientEncounter, Param['p.dashboard.adt.procs.medicaldiary'].value, $event)">
+              <span *ngIf="PatientEncounter.clinicaldiaryavailabilitytime" class="fa fa-circle active"></span>
+              <span *ngIf="PatientEncounter.clinicaldiaryavailabilitytime">{{PatientEncounter.clinicaldiaryavailabilitytime | dateFormat: 'short'}}</span>
+            </td>
+            <td *ngIf="isDoctorOrDirector() && Param['p.dashboard.adt.medhistcol']?.value">
+              <a (click)="startProcess(PatientEncounter, 'MOD_Inpatient/CORE/PROCESSES/Inpatient_Data', $event)" [class]="medHistoryClass(PatientEncounter)" [title]="medHistoryTooltip(PatientEncounter) | translate"></a>
+            </td>
+            <td *ngIf="environment.adt.table.discharge" class="{{Param['p.dashboard.adt.brass.background']?.value ? getNoBrassColor(PatientEncounter) : ''}}">
+              <span  *ngIf="environment.adt.table.dischargeletter">
+                <span style="display:inline-block;" [class]="dischargeLetterClass(PatientEncounter)" ></span>
+              <span style="display:inline-block;" [class]="hospiceDataClass(PatientEncounter)" ></span>
+            </span>
+              <span>{{PatientEncounter.dischargedate | dateFormat: 'short'}}</span>
+              <span>{{PatientEncounter.complexity}}</span>
+              <span *ngIf="isBrassScore(PatientEncounter)" [class]="'fa fa-circle ' + getBrassIcon(PatientEncounter)" style="display:inline;"></span><span style="display:inline;" *ngIf="isNurseReportConfirmed(PatientEncounter)">-R</span>
+              <span *ngIf="isBrassScore(PatientEncounter)">BRASS {{PatientEncounter.brassscore}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.nurseCheck && (isNurseOrCoordinator() || isObstetrician())" (click)="startProcess(PatientEncounter, Param['p.dashboard.adt.procs.checking'].value, $event)">
+              <span [class]="'fa fa-circle ' + checkingStatusIcon(PatientEncounter)"></span>
+              <span *ngIf="PatientEncounter.checkingavailabilitytime">{{PatientEncounter.checkingavailabilitytime | dateFormat: 'short'}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.pain && isNurseOrCoordinator()" (click)="startProcess(PatientEncounter, 'MOD_Nursing_Record/CORE/PROCESSES/AssessmentsManagement', $event)">
+              <span *ngIf="isPainValue(PatientEncounter)" [class]="'fa fa-circle ' + (PatientEncounter.painvalue >= 3 ? 'red' : 'green')"></span>
+              <span *ngIf="isPainValue(PatientEncounter)">{{PatientEncounter.painvalue}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.injuryRisk && isNurseOrCoordinator()" (click)="startProcess(PatientEncounter, 'MOD_Nursing_Record/CORE/PROCESSES/AssessmentsManagement', $event)">
+              <span *ngIf="bradenOrNortonVisibility(PatientEncounter)" [class]="'fa fa-circle ' + bradenOrNortonIcon(PatientEncounter)"></span>
+              <span *ngIf="bradenOrNortonVisibility(PatientEncounter)">{{bradenOrNortonInfo(PatientEncounter)}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.fallRisk && isNurseOrCoordinator()" (click)="startProcess(PatientEncounter, 'MOD_Nursing_Record/CORE/PROCESSES/AssessmentsManagement', $event)">
+              <span *ngIf="PatientEncounter.fallrisk" class="fa fa-circle red"></span>
+            </td>
+            <td *ngIf="environment.adt.table.morse && isNurseOrCoordinator()" (click)="startProcess(PatientEncounter, 'MOD_Nursing_Record/CORE/PROCESSES/AssessmentsManagement', $event)">
+              <span *ngIf="isMorseScore(PatientEncounter)" [class]="'fa fa-circle ' + getMorseIcon(PatientEncounter)" style="display:inline;"></span>
+              <span *ngIf="isMorseScore(PatientEncounter)">{{PatientEncounter.morsescore}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.invoiceClosed">
+              <span *ngIf="PatientEncounter.invoicingclosed" class="fa fa-circle green" style="display:inline;"></span>
+              <span *ngIf="PatientEncounter.invoicingcloseddate">{{PatientEncounter.invoicingcloseddate | dateFormat: 'short'}}</span>
+              <span *ngIf="PatientEncounter.invoicingclosedby">{{PatientEncounter.invoicingclosedby}}</span>
+            </td>
+            <td *ngIf="environment.adt.table.sdoClosed">
+              <span *ngIf="PatientEncounter.sdoclosed" class="fa fa-circle green" style="display:inline;"></span>
+              <span *ngIf="PatientEncounter.sdocloseddate">{{PatientEncounter.sdocloseddate | dateFormat: 'short'}}</span>
+              <span *ngIf="PatientEncounter.sdoclosedby">{{PatientEncounter.sdoclosedby}}</span>
+            </td>
+        </tr>
+        <tr *ngIf="PatientEncounterList == null || PatientEncounterList?.entities.length == 0" class="noresults">
+          <td colspan="20">{{'ADT_Filter_Warning' | translate}}</td>
+        </tr>
+        </tbody>
+      </div>
+      <div id="LayoutAdtResultsHstry" class="layout vertical scrollX max-width-half-spaced" *ngIf="detailsVisible">
+        <div id="DgAdtTransferHistory" phi-datagrid label="Transfer history" class="halfHeight" *ngIf="environment.adt.transfers">
+          <thead class="tableHeader">
+            <tr>
+              <th>{{'DcAdtTrnsfrDate' | translate}}</th>
+              <th>{{'DcAdtTrnsfrOut' | translate}}</th>
+              <th>{{'DcAdtTrnsfrIn' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Transfer of TransferList?.entities; let i = index">
+              <td>
+                <span>{{Transfer.effectiveDate | dateFormat: 'short'}}</span>
+              </td>
+              <td>
+                <span>{{Transfer.SDLocFrom.name.giv}}</span>
+              </td>
+              <td>
+                <span>{{Transfer.SDLocTo.name.giv}}</span>
+              </td>
+          </tr>
+          </tbody>
+        </div>
+        <div id="DgAdtProcedures" phi-datagrid *ngIf="environment.adt.procedures">
+          <thead class="tableHeader">
+            <tr>
+              <th>{{'DcAdtProceduresState' | translate}}</th>
+              <th>{{'DcAdtProceduresCode' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Procedures of PatientEncounterAdditional?.procedures; let i = index">
+              <td>
+                <span class="fa procedure bigIcons {{Procedures.statuscode}}"></span>
+              </td>
+              <td>
+                <span>{{Procedures.procedurecode + ' ' + Procedures.description}}</span>
+              </td>
+          </tr>
+          </tbody>
+        </div>
+        <div id="DgAdtHistory" phi-datagrid label="History" class="halfHeight">
+          <thead class="tableHeader">
+            <tr>
+              <th>{{'DcAdtHstryType' | translate}}</th>
+              <th>{{'DcAdtHstryDate' | translate}}</th>
+              <th>{{'DcAdtHstryWard' | translate}}</th>
+              <th>{{'DcAdtHstryDschrgDt' | translate}}</th>
+              <th>{{'DcAdtHstryDschrgWrd' | translate}}</th>
+              <th>{{'DcAdtHstryNote' | translate}}</th>
+            </tr>
+          </thead>
+          <tbody class="selectable">
+            <tr *ngFor="let Encounter of EncounterHistoryList?.entities; let i = index" (click)="ie(Encounter, 'Encounter')" [class.selRow]="selected(Encounter, 'Encounter')">
+              <td>
+                <span>{{Encounter.code}}</span>
+              </td>
+              <td>
+                <span>{{Encounter.availabilitytime | dateFormat: 'short'}}</span>
+              </td>
+              <td>
+                <span>{{Encounter.scheduledname}}</span>
+              </td>
+              <td>
+                <span>{{Encounter.dismissiondate | dateFormat: 'short'}}</span>
+              </td>
+              <td>
+                <span>{{Encounter.assignedname}}</span>
+              </td>
+              <td>
+                <span>{{Encounter.note}}</span>
+              </td>
+          </tr>
+          </tbody>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,50 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+			<a4j:outputPanel layout="block" id="LayoutRow_1507643915347" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1508571116099" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:outputPanel layout="block" id="JollyWidget_1507456171685" style="height:100%;width:100%;" >
+						<style>
+							#map {
+						    height: 480px;
+						    width: 640px;
+							}
+							#current{
+						    font-size: 16px;
+							}
+						</style>
+						<script src='https://maps.googleapis.com/maps/api/js?key=#{geolocation.googleMapsApiKeyFromUrl()}'></script>
+						
+						<div id="map"></div>
+						<div id="current"/>
+						<script>
+						doUserPickMap("#{Sedi.addr.str}","#{Sedi.addr.bnr}","#{Sedi.addr.cty}","#{Sedi.latitudine}","#{Sedi.longitudine}");
+						    </script>
+						
+						<a4j:jsFunction  name="setTemporary" limitToList="false" immediate="false" ajaxSingle="false">
+							<a4j:actionparam name="latitude" assignTo="#{SediAction.temporary['latitude']}"/>
+							<a4j:actionparam name="longitude" assignTo="#{SediAction.temporary['longitude']}"/>
+						</a4j:jsFunction>
+						
+						<!-- Riattivazione eventi su tutti i pulsanti-->
+						<script>
+							jQuery("a").removeClass('unclickable');
+						</script>
+						
+					</a4j:outputPanel>
+					</div>
+
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1508809178174" style="text-align:center;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1507473088485;BtnCancel')}" status="ajaxStatus" id="Link_1507473088485" title="${msg.alt_Link_1507473088485}" reRender="phiDesktop,popup" styleClass="fa fa-close fa-3x link" />
+					</div>
+
+					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1507595740879" style="display:inline-block;float:none;vertical-align:top;" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1507595740879;btnOk')}" status="ajaxStatus" id="Link_1507595740879_id" title="${msg.alt_Link_1507595740879}" rendered="#{Sedi.latitudine eq null or Sedi.longitudine eq null or Sedi.latitudine eq '' or Sedi.longitudine eq ''}" reRender="popup,phiDesktop" styleClass="fa fa-check fa-3x link" />
+					</a4j:outputPanel>
+
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+
+	<script>focusFirstElement();</script>
+</div>

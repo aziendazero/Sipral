@@ -1,0 +1,601 @@
+<div xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.org/rich" xmlns:a4j="http://richfaces.org/a4j" xmlns:jstl="http://java.sun.com/jstl/core" style="height:100%;width:100%;">
+	<h1 id="formTitle">${msg.Form_1467112588524}</h1>
+	<div id="espostiBioEdit" style="position:relative;" >
+			<a4j:outputPanel layout="block" id="LayoutRow_1467478543581" styleClass="layoutContainer layoutContainerVertical layoutRootVertical  layoutRoot" >
+				<a4j:outputPanel layout="block" id="LayoutRow_1469237869208" style="width:33%;" styleClass="layoutContainer layoutContainerVertical" >
+					<div class="layoutHorizontal" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1464983447212;BtnBack')}" status="ajaxStatus" id="Link_1464983447212" title="${msg.alt_Link_1464983447212}" immediate="true" reRender="phiDesktop" styleClass="fa fa-reply fa-3x link readOnly" onmousedown="openSomethingChangedPopup(this.id, '#{static.dialog_title_warning}', '#{static.dialog_message_save_and_go_out}', '#{static.dialog_button_exit_wo_saving}', '#{static.dialog_annulla}', '#{static.dialog_button_save_exit}');"/>
+					</div>
+
+					<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1496077679187" styleClass="layoutContainer layoutContainerHorizontal" >
+					<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{not SchedaEspostiAction.temporary['disable']}" >
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468246434950;BtnSave')}" status="ajaxStatus" id="Link_1468246434950" title="${msg.alt_Link_1468246434950}" reRender="phiDesktop" styleClass="fa fa-floppy-o fa-3x save savePopupButton link" />
+						</div>
+
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466545729717" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466545729717}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="MonthCalendar_1465197475368" >
+					<label >
+						<span class="label">${msg.label_MonthCalendar_1465197475368}</span>
+						<h:inputText id="MonthCalendar_1465197475368_id" value="#{SchedaEsposti.dataCompilazione}" required="true" disabled="#{SchedaEspostiAction.temporary['disable']}" class="datepicker  monthCalendar layoutRequired" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1465197475368}"  autocomplete="off" >
+						<s:convertDateTime pattern="${format.dateNormal}" />
+						<f:validator validatorId="SchedaEspostiDateValidator"/>
+						<a4j:support event="onchange" ajaxSingle="true" ignoreDupResponses="true" />
+						</h:inputText>
+						<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+						<h:message style="float:left;" for="MonthCalendar_1465197475368_id" styleClass="errorMessages MonthCalendar_1465197475368_E" />
+					</label>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1467384904668" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1467384908157" style="width: 50.0%;height: 100%;" styleClass="layoutContainer layoutContainerHorizontal" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1466811703110}</span>
+								<h:outputText value="#{empty Sedi ? PersoneGiuridiche.denominazione : Sedi.denominazioneUnitaLocale}" id="Label_1466811703110" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1465738837391;editAzienda')}" status="ajaxStatus" id="Link_1465738837391" title="${msg.alt_Link_1465738837391}" immediate="true" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x link" />
+							</div>
+
+						</a4j:outputPanel>
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_MonthCalendar_1467384929189}</span>
+							<h:inputText id="MonthCalendar_1467384929189" value="#{SchedaEspostiAction.temporary['dataTermine']}" disabled="#{SchedaEspostiAction.temporary['disable']}" class="datepicker  monthCalendar" style="vertical-align:middle;" label="${msg.label_MonthCalendar_1467384929189}"  autocomplete="off" >
+							<s:convertDateTime pattern="${format.dateNormal}" />
+							</h:inputText>
+							<i class="ui-datepicker-trigger" onclick="showDateTimePicker(this);"  />
+							<h:message style="float:left;" for="MonthCalendar_1467384929189" styleClass="errorMessages MonthCalendar_1467384929189_E" />
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<div class="layoutVertical" >
+					<label >
+						<span class="label">${msg.label_Label_1469051590492}</span>
+						<span value="${msg.Label_1469051590492}" class="labelContent  base-label" ></span>
+					</label>
+					</div>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1469022053124" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1468693759797}</span>
+							<h:inputText id="TextBox_1468693759797" value="#{SchedaEsposti.contact1}" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1468693759797}" />
+							<a4j:outputPanel id="TextBox_1468693759797_msg" styleClass="errorContainer" ><h:message for="TextBox_1468693759797" styleClass="errorMessages TextBox_1468693759797_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465591617895}</span>
+							<h:inputText id="TextBox_1465591617895" value="#{SchedaEsposti.contact2}" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1465591617895}" />
+							<a4j:outputPanel id="TextBox_1465591617895_msg" styleClass="errorContainer" ><h:message for="TextBox_1465591617895" styleClass="errorMessages TextBox_1465591617895_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1465356204022" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1465356204022}</legend>
+					<a4j:outputPanel layout="block" id="TextArea_1468765737040" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1477232495265" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label style="display:block;" >
+								<span class="widget-label">${msg.label_TextBox_1476339795914}</span>
+								<h:inputText id="TextBox_1476339795914" value="#{SchedaEsposti.lavUnica.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" label="${msg.label_TextBox_1476339795914}" />
+								<a4j:outputPanel id="TextBox_1476339795914_msg" styleClass="errorContainer" ><h:message for="TextBox_1476339795914" styleClass="errorMessages TextBox_1476339795914_E" /></a4j:outputPanel>
+							</label>
+							</div>
+
+							<a4j:outputPanel layout="block" id="LayoutRow_1476335815055" style="width:49%;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+								<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1477588106076_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+								<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1477588106076" >
+								<h:inputTextarea id="TextArea_1477588106076_id" value="#{SchedaEsposti.lavUnica.currentTranslation}" style="height: 55px;" readonly="true" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								<h:message style="float:left;" for="TextArea_1477588106076_id" styleClass="errorMessages TextArea_1477588106076_E" />
+								</a4j:outputPanel>
+
+							</a4j:outputPanel>
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1466763434459" >
+							<a4j:commandLink action="#{processManager.manageTask('Link_1466763434459;schedaAteco')}" status="ajaxStatus" id="Link_1466763434459_id" alt="#{LINK}" immediate="true" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+							</a4j:outputPanel>
+
+							<div class="layoutHorizontal" >
+							<a4j:commandLink action="#{SchedaEsposti.setLavUnica(null)}" status="ajaxStatus" id="Link_1471706372599" title="${msg.alt_Link_1471706372599}" reRender="LayoutRow_1468823080142" styleClass="fa fa-trash fa-2x linkUnlink link" />
+							</div>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1480071423763" styleClass="layoutContainer layoutContainerVertical" >
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1477803114231}</span>
+								<h:outputText value="#{CompartoAtecoAction.getComparto(SchedaEsposti.lavUnica)}" id="Label_1477803114231" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+							<div class="layoutHorizontal" >
+							<label >
+								<span class="label">${msg.label_Label_1476728741738}</span>
+								<h:outputText value="#{CompartoAtecoAction.getSpecificazione(SchedaEsposti.lavUnica)}" id="Label_1476728741738" styleClass="labelContent  base-label" />
+							</label>
+							</div>
+
+						</a4j:outputPanel>
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468540710627" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" id="LayoutRow_1468218469005" style="max-width:500px;" styleClass="layoutContainer layoutContainerHorizontal" >
+ 
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal inputArea" id="TextArea_1464998786867" >
+							<label >
+								<span class="label">${msg.label_TextArea_1464998786867}</span>
+								<div>
+								<h:inputTextarea id="TextArea_1464998786867_id" value="#{SchedaEsposti.inail.langIt}" readonly="true" label="${msg.label_TextArea_1464998786867}" >
+									<f:validateLength minimum="0" maximum="255"/>
+								</h:inputTextarea>
+								</div>
+							</label>
+							<h:message style="float:left;" for="TextArea_1464998786867_id" styleClass="errorMessages TextArea_1464998786867_E" />
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" id="LayoutRow_1474029147032" styleClass="layoutContainer layoutContainerHorizontal" >
+							<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextBox_1474028899670" >
+							<h:inputText id="TextBox_1474028899670_id" value="#{SchedaEsposti.inail}" style="display:none;" styleClass="inputText layoutRequired" required="true" label="Voce tariffa INAIL">
+								<f:converter converterId="CodeValueConverter"/>
+							</h:inputText>
+							<a4j:outputPanel id="TextBox_1474028899670_msg" styleClass="errorContainer" ><h:message for="TextBox_1474028899670_id" styleClass="errorMessages TextBox_1474028899670_E" /></a4j:outputPanel>
+							</a4j:outputPanel>
+
+						</a4j:outputPanel>
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1468550161826" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1468550161826;schedaInail')}" status="ajaxStatus" id="Link_1468550161826_id" alt="#{LINK}" immediate="true" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" >
+						<a4j:commandLink action="#{SchedaEsposti.setInail(null)}" status="ajaxStatus" id="Link_1472083571432" title="${msg.alt_Link_1472083571432}" reRender="LayoutRow_1468540710627" styleClass="fa fa-trash fa-2x linkUnlink link" />
+						</div>
+
+					</a4j:outputPanel>
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="LayoutRow_1466431808159" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1466431808159}</legend>
+					<a4j:outputPanel layout="block" id="LayoutFill_1467112661793" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1467100827899" style="width: 50.0%;height: 100%;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1467100827899;addSubstance1')}" status="ajaxStatus" id="Link_1467100827899_id" title="${msg.alt_Link_1467100827899}" rendered="#{not SchedaEspostiAction.temporary['disable'] and SchedaEspostiAction.temporary['gruppo3']}" reRender="DataGrid_1468917277907" styleClass="fa fa-plus fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1467112667626}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1467112667626" value="#{SchedaEspostiAction.temporary['gruppo3']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="#{not empty Sostanze1List and not Sostanze1List.isEmpty()}" label="${msg.label_CheckBox_1467112667626}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1467100827899" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1467112667626" styleClass="errorMessages CheckBox_1467112667626_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1467112667626" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel id="DataGrid_1468917277907" layout="block" styleClass="dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1468917277907" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1468917277907} [Sostanze1List]" >
+							<thead class="tableHeader">
+								<tr>
+									<th>${msg.DataGridColumn_1467944857803}</th>
+									<th style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')}">${msg.DataGridColumn_1465760830581}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty Sostanze1List or Sostanze1List.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="2">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1468917277907" value="#{Sostanze1List.entities}" var="Sostanze1" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:85%;" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1468015727139" >
+																	<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1462796095831" >
+																	<label>
+																		#{SostanzeAction.autocomplete['bio1'].setContentType('4')}
+																		#{SostanzeAction.autocomplete['bio1'].setCodeSystem('PHIDIC')}
+																		#{SostanzeAction.autocomplete['bio1'].setDomain('Gruppo3')}
+																		#{SostanzeAction.autocomplete['bio1'].setShowCode(true)}
+																		#{SostanzeAction.autocomplete['bio1'].setFullLike(true)}
+																		<input type="text" id="TextSuggestionBox_1462796095831_MAIN" class="autocomplete#{SchedaEspostiAction.temporary['disable'] ? ' inputDisabled' : ''} showCode inputText" placeholder="#{static.suggestion_box_placeholder}" value="#{Sostanze1.bio.code}"  />
+																		<h:outputLabel for="TextSuggestionBox_1462796095831_CODE" style="display:none;"/>
+																		<h:inputText id="TextSuggestionBox_1462796095831_CODE" value="#{Sostanze1.bio}" label="${msg.label_TextSuggestionBox_1462796095831}"  style="display: none">
+																			<f:converter converterId="CodeValueConverter"/>
+												
+																		<a4j:support limitToList="true" ajaxSingle="true" reRender="TextArea_1463730778400,TextSuggestionBox_1462796095831" event="onchange" ignoreDupResponses="true" />
+																		</h:inputText>
+																		<h:message for="TextSuggestionBox_1462796095831_CODE" styleClass="errorMessages TextSuggestionBox_1462796095831_CODE_E" />
+																		<a4j:jsFunction name="TextSuggestionBox_1462796095831" action="#{SostanzeAction.autocomplete['bio1'].autocomplete()}" data="#{SostanzeAction.autocomplete['bio1'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+																			<a4j:actionparam name="search" assignTo="#{SostanzeAction.autocomplete['bio1'].search}"/>
+																			<a4j:actionparam name="ui"/>
+																		</a4j:jsFunction>
+																	</label>
+																	</a4j:outputPanel>
+												
+												 
+																	<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1463730778400_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+																	<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1463730778400" >
+																	<h:inputTextarea id="TextArea_1463730778400_id" value="#{Sostanze1.bio.langIt}" readonly="true" >
+																		<f:validateLength minimum="0" maximum="255"/>
+																	</h:inputTextarea>
+																	<h:message style="float:left;" for="TextArea_1463730778400_id" styleClass="errorMessages TextArea_1463730778400_E" />
+																	</a4j:outputPanel>
+											</a4j:outputPanel>
+
+										</td>
+
+										<td style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')} width:15%;" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1467116210892" >
+													<a4j:commandLink action="#{SostanzeAction.injectAndProceed(Sostanze1, 'Link_1467659270357;delSubstance1')}" status="ajaxStatus" id="Link_1467659270357" title="${msg.alt_Link_1467659270357}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+												
+											</a4j:outputPanel>
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+					<a4j:outputPanel layout="block" id="LayoutFill_1468302192239" styleClass="layoutContainer layoutContainerVertical" >
+						<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1466655360763" style="width: 50.0%;height: 100%;" >
+						<a4j:commandLink action="#{processManager.manageTask('Link_1466655360763;addSubstance2')}" status="ajaxStatus" id="Link_1466655360763_id" title="${msg.alt_Link_1466655360763}" rendered="#{not SchedaEspostiAction.temporary['disable'] and SchedaEspostiAction.temporary['gruppo4']}" reRender="DataGrid_1466559507026" styleClass="fa fa-plus fa-2x linkUnlink link" />
+						</a4j:outputPanel>
+
+						<div class="layoutHorizontal" style="width: 50.0%;height: 100%;" >
+						<label >
+							<span class="label">${msg.label_CheckBox_1468435685269}</span>
+							<h:selectBooleanCheckbox id="CheckBox_1468435685269" value="#{SchedaEspostiAction.temporary['gruppo4']}" style="vertical-align:middle;" styleClass="checkBox" alt="CHECKBOX" disabled="#{not empty Sostanze2List and not Sostanze2List.isEmpty()}" label="${msg.label_CheckBox_1468435685269}" >
+							<a4j:support limitToList="true" ajaxSingle="true" reRender="Link_1466655360763" event="onclick" ignoreDupResponses="true" />
+							</h:selectBooleanCheckbox>
+							<h:message for="CheckBox_1468435685269" styleClass="errorMessages CheckBox_1468435685269_E" />
+						</label>
+						</div>
+						<h:outputLabel layout="block" styleClass="widgetDiv"  for="CheckBox_1468435685269" style="display:none;" value="hiddenLabel"></h:outputLabel>
+					</a4j:outputPanel>
+					<a4j:outputPanel id="DataGrid_1466559507026" layout="block" styleClass="dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1466559507026" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1466559507026} [Sostanze2List]" >
+							<thead class="tableHeader">
+								<tr>
+									<th>${msg.DataGridColumn_1467875859514}</th>
+									<th style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')}">${msg.DataGridColumn_1466022273417}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty Sostanze2List or Sostanze2List.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="2">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1466559507026" value="#{Sostanze2List.entities}" var="Sostanze2" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:85%;" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1466161153312" >
+																	<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="TextSuggestionBox_1462796095832" >
+																	<label>
+																		#{SostanzeAction.autocomplete['bio2'].setContentType('4')}
+																		#{SostanzeAction.autocomplete['bio2'].setCodeSystem('PHIDIC')}
+																		#{SostanzeAction.autocomplete['bio2'].setDomain('Gruppo4')}
+																		#{SostanzeAction.autocomplete['bio2'].setShowCode(true)}
+																		#{SostanzeAction.autocomplete['bio2'].setFullLike(true)}
+																		<input type="text" id="TextSuggestionBox_1462796095832_MAIN" class="autocomplete#{SchedaEspostiAction.temporary['disable'] ? ' inputDisabled' : ''} showCode inputText" placeholder="#{static.suggestion_box_placeholder}" value="#{Sostanze2.bio.code}"  />
+																		<h:outputLabel for="TextSuggestionBox_1462796095832_CODE" style="display:none;"/>
+																		<h:inputText id="TextSuggestionBox_1462796095832_CODE" value="#{Sostanze2.bio}" label="${msg.label_TextSuggestionBox_1462796095832}"  style="display: none">
+																			<f:converter converterId="CodeValueConverter"/>
+												
+																		<a4j:support limitToList="true" ajaxSingle="true" reRender="TextArea_1463730778400,TextSuggestionBox_1462796095832" event="onchange" ignoreDupResponses="true" />
+																		</h:inputText>
+																		<h:message for="TextSuggestionBox_1462796095832_CODE" styleClass="errorMessages TextSuggestionBox_1462796095832_CODE_E" />
+																		<a4j:jsFunction name="TextSuggestionBox_1462796095832" action="#{SostanzeAction.autocomplete['bio2'].autocomplete()}" data="#{SostanzeAction.autocomplete['bio2'].results}" oncomplete="request.options.parameters.ui(data);" ajaxSingle="true" limitToList="true" >
+																			<a4j:actionparam name="search" assignTo="#{SostanzeAction.autocomplete['bio2'].search}"/>
+																			<a4j:actionparam name="ui"/>
+																		</a4j:jsFunction>
+																	</label>
+																	</a4j:outputPanel>
+												
+												 
+																	<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1463730778400_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+																	<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1463730778400" >
+																	<h:inputTextarea id="TextArea_1463730778400_id" value="#{Sostanze2.bio.langIt}" readonly="true" >
+																		<f:validateLength minimum="0" maximum="255"/>
+																	</h:inputTextarea>
+																	<h:message style="float:left;" for="TextArea_1463730778400_id" styleClass="errorMessages TextArea_1463730778400_E" />
+																	</a4j:outputPanel>
+											</a4j:outputPanel>
+
+										</td>
+
+										<td style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')} width:15%;" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1467116212189" >
+													<a4j:commandLink action="#{SostanzeAction.injectAndProceed(Sostanze2, 'Link_1469003826165;delSubstance2')}" status="ajaxStatus" id="Link_1469003826165" title="${msg.alt_Link_1469003826165}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+											</a4j:outputPanel>
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" id="lavCorrelateBio" styleClass="layoutContainer layoutContainerVertical layoutGroupBoxOuter" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.lavCorrelateBio}</legend>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1468121567330" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1468121567330;addLavorazione')}" status="ajaxStatus" id="Link_1468121567330_id" title="${msg.alt_Link_1468121567330}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="DataGrid_1465932697293" styleClass="fa fa-plus fa-2x linkUnlink link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1465932697293" layout="block" styleClass="dt layoutTable layoutVertical" style="max-height:400px;overflow:auto;" >
+						<table id="d1465932697293" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1465932697293} [LavorazioniCorrelateList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th>${msg.DataGridColumn_1468770633289}</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1478166692501} &#8593;&#8595;</th>
+									<th class="sortableColumn">${msg.DataGridColumn_1478166693750} &#8593;&#8595;</th>
+									<th>${msg.DataGridColumn_1465789061784}</th>
+									<th style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')}">${msg.DataGridColumn_1467948431502}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty LavorazioniCorrelateList or LavorazioniCorrelateList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="5">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1465932697293" value="#{LavorazioniCorrelateList.entities}" var="LavorazioniCorrelate" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:35%;" >
+											<a4j:outputPanel layout="block" id="JollyWidget_1478169313763" >
+																				<a4j:outputPanel layout="block" id="LayoutRow_1478096540252" styleClass="layoutContainer layoutContainerVertical" >
+																					<div class="layoutHorizontal" >
+																					<h:inputText id="TextBox_1478291313434" value="#{LavorazioniCorrelate.lavUnica.code}" style="width:60px;min-width:60px;" styleClass="inputText" disabled="true" />
+																					<a4j:outputPanel id="TextBox_1478291313434_msg" ><h:message for="TextBox_1478291313434" styleClass="errorMessages TextBox_1478291313434_E" /></a4j:outputPanel>
+																					</div>
+												
+																					<a4j:outputPanel layout="block" styleClass="layoutHorizontal" id="Link_1467794392522" >
+																					<a4j:commandLink action="#{LavorazioniCorrelateAction.injectAndProceed(LavorazioniCorrelate, 'Link_1467794392522;lavAteco')}" status="ajaxStatus" id="Link_1467794392522_id" alt="#{LINK}" immediate="true" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink link" />
+																					</a4j:outputPanel>
+												
+																					<div class="layoutHorizontal" >
+																					<a4j:commandLink action="#{LavorazioniCorrelate.setLavUnica(null)}" status="ajaxStatus" id="Link_1473441367513" title="${msg.alt_Link_1473441367513}" reRender="DataGrid_1465932697293" styleClass="fa fa-trash fa-2x linkUnlink link" />
+																					</div>
+												
+																				</a4j:outputPanel>
+												
+																				<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1479660528416_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+																				<a4j:outputPanel layout="block" styleClass="layoutVertical inputArea" id="TextArea_1479660528416" >
+																				<h:inputTextarea id="TextArea_1479660528416_id" value="#{LavorazioniCorrelate.lavUnica.currentTranslation}" style="height: 55px;" readonly="true" >
+																					<f:validateLength minimum="0" maximum="255"/>
+																				</h:inputTextarea>
+																				<h:message style="float:left;" for="TextArea_1479660528416_id" styleClass="errorMessages TextArea_1479660528416_E" />
+																				</a4j:outputPanel>
+											</a4j:outputPanel>
+
+										</td>
+
+										<td style="width:12%;" >
+											#{CompartoAtecoAction.getComparto(LavorazioniCorrelate.lavUnica)}
+										</td>
+
+										<td style="width:12%;" >
+											#{CompartoAtecoAction.getSpecificazione(LavorazioniCorrelate.lavUnica)}
+										</td>
+
+										<td style="width:35%;" >
+											<a4j:commandLink action="#{LavorazioniCorrelate.setInail(null)}" status="ajaxStatus" id="Link_1471491346075" title="${msg.alt_Link_1471491346075}" reRender="DataGrid_1465932697293" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+											<a4j:commandLink action="#{LavorazioniCorrelateAction.injectAndProceed(LavorazioniCorrelate, 'Link_1468712698681;lavInail')}" status="ajaxStatus" id="Link_1468712698681_id" alt="#{LINK}" immediate="true" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="popup" styleClass="fa fa-pencil-square-o fa-2x linkUnlink tableButton" />
+
+ 
+							<h:outputLabel layout="block" styleClass="widgetDiv"  for="TextArea_1467995525934_id" style="display:none;" value="hiddenLabel"></h:outputLabel>
+							<h:inputTextarea id="TextArea_1467995525934_id" value="#{LavorazioniCorrelate.inail.langIt}" style="width:60%;float:left;" readonly="true" >
+								<f:validateLength minimum="0" maximum="255"/>
+							</h:inputTextarea>
+							<h:message for="TextArea_1467995525934_id" styleClass="errorMessages TextArea_1467995525934_E" />
+
+										</td>
+
+										<td style="#{(not SchedaEspostiAction.temporary['disable'] ? '' : 'display:none;')} width:6%;" >
+											<a4j:commandLink action="#{LavorazioniCorrelateAction.injectAndProceed(LavorazioniCorrelate, 'Link_1465916066141;delLavorazione')}" status="ajaxStatus" id="Link_1465916066141" title="${msg.alt_Link_1465916066141}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				<a4j:outputPanel layout="block" style="padding:0;" id="LayoutRow_1467348660955" styleClass="layoutContainer layoutContainerVertical" >
+				<a4j:outputPanel layout="block" style="width:100%;height:100%" rendered="#{SchedaEsposti.internalId gt 0}" >
+				<fieldset class="layoutGroupBox" ><legend class="groupBoxLegend" >${msg.LayoutRow_1467348660955}</legend>
+					<a4j:outputPanel layout="block" id="LayoutRow_1467255377599" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466010531004}</span>
+							<h:inputText id="TextBox_1466010531004" value="#{SchedaEsposti.totUomini}" style="min-width:100px;width:100px;margin-right:50px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1466010531004}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1466010531004_msg" styleClass="errorContainer" ><h:message for="TextBox_1466010531004" styleClass="errorMessages TextBox_1466010531004_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1467665489487}</span>
+							<h:inputText id="TextBox_1467665489487" value="#{SchedaEsposti.espUomini}" style="min-width:100px;width:100px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1467665489487}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1467665489487_msg" styleClass="errorContainer" ><h:message for="TextBox_1467665489487" styleClass="errorMessages TextBox_1467665489487_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1468147954386" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466075709553}</span>
+							<h:inputText id="TextBox_1466075709553" value="#{SchedaEsposti.totDonne}" style="min-width:100px;width:100px;margin-right:50px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1466075709553}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1466075709553_msg" styleClass="errorContainer" ><h:message for="TextBox_1466075709553" styleClass="errorMessages TextBox_1466075709553_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466031208793}</span>
+							<h:inputText id="TextBox_1466031208793" value="#{SchedaEsposti.espDonne}" style="min-width:100px;width:100px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1466031208793}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1466031208793_msg" styleClass="errorContainer" ><h:message for="TextBox_1466031208793" styleClass="errorMessages TextBox_1466031208793_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" id="LayoutRow_1465910034465" styleClass="layoutContainer layoutContainerVertical" >
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1466522931528}</span>
+							<h:inputText id="TextBox_1466522931528" value="#{SchedaEsposti.totProd}" style="min-width:100px;width:100px;margin-right:50px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1466522931528}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1466522931528_msg" styleClass="errorContainer" ><h:message for="TextBox_1466522931528" styleClass="errorMessages TextBox_1466522931528_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+						<div class="layoutHorizontal" >
+						<label style="display:block;" >
+							<span class="widget-label">${msg.label_TextBox_1465305673735}</span>
+							<h:inputText id="TextBox_1465305673735" value="#{SchedaEsposti.totAmm}" style="min-width:100px;width:100px;" styleClass="inputText" disabled="#{SchedaEspostiAction.temporary['disable']}" label="${msg.label_TextBox_1465305673735}" >
+							<f:converter converterId="IntegerConverter"/>
+						</h:inputText>
+							<a4j:outputPanel id="TextBox_1465305673735_msg" styleClass="errorContainer" ><h:message for="TextBox_1465305673735" styleClass="errorMessages TextBox_1465305673735_E" /></a4j:outputPanel>
+						</label>
+						</div>
+
+					</a4j:outputPanel>
+					<a4j:outputPanel layout="block" styleClass="layoutVertical" id="Link_1465237113696" >
+					<a4j:commandLink action="#{processManager.manageTask('Link_1465237113696;dipendentiNew')}" status="ajaxStatus" id="Link_1465237113696_id" title="${msg.alt_Link_1465237113696}" rendered="#{not SchedaEspostiAction.temporary['disable']}" reRender="phiDesktop" styleClass="fa fa-plus fa-2x link" />
+					</a4j:outputPanel>
+
+					<a4j:outputPanel id="DataGrid_1468267751865" layout="block" styleClass="dt layoutTable layoutVertical" >#{EspostiAction.setReadPageSize(10)}
+								<div class="paging">
+									<ul>
+										<li class="bk"><a4j:commandLink id="prev1468267751865" value="&#8592;" action="#{EspostiList.prev}" reRender="DataGrid_1468267751865" rendered="#{EspostiList.hasPrev()}" ajaxSingle="true" status="ajaxStatus" /></li>
+										<a4j:repeat id="pr1468267751865" value="#{EspostiList.pageIndexes}" var="pi1468267751865">
+											<li class="#{(EspostiList.currentPage eq pi1468267751865 ? 'active' : '')}">
+												<a4j:commandLink id="goTo1468267751865" value="#{pi1468267751865}" action="#{EspostiList.goToPage(pi1468267751865)}" reRender="DataGrid_1468267751865" ajaxSingle="true" status="ajaxStatus" />
+											</li>
+										</a4j:repeat>
+										<li class="fw"><a4j:commandLink id="next1468267751865" value="&#8594;" action="#{EspostiList.next}" reRender="DataGrid_1468267751865" rendered="#{EspostiList.hasNext()}" ajaxSingle="true" status="ajaxStatus" /></li>
+									</ul>
+								</div>
+						<table id="d1468267751865" cellspacing="0" cellpadding="0" summary="${msg.DataGrid_1468267751865} [EspostiList]" >
+							<thead class="tableHeader">
+								<tr>
+									<th>${msg.DataGridColumn_1465569472963}</th>
+									<th>${msg.DataGridColumn_1466897216778}</th>
+									<th>${msg.DataGridColumn_1466370486819}</th>
+									<th>${msg.DataGridColumn_1466447329278}</th>
+									<th>${msg.DataGridColumn_1465121912144}</th>
+									<th>${msg.DataGridColumn_1467347328968}</th>
+									<th>${msg.DataGridColumn_1466529852687}</th>
+									<th>${msg.DataGridColumn_1468080016875}</th>
+									<th><a4j:commandLink id="DataGridColumn_1467026875309" value="${msg.DataGridColumn_1467026875309} &#8593;&#8595;" action="#{EspostiList.orderBy('startDate')}" reRender="DataGrid_1468267751865" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th><a4j:commandLink id="DataGridColumn_1466955961035" value="${msg.DataGridColumn_1466955961035} &#8593;&#8595;" action="#{EspostiList.orderBy('endDate')}" reRender="DataGrid_1468267751865" ajaxSingle="true" disabled="#{empty EspostiList ? true : false}"/></th>
+									<th>${msg.DataGridColumn_1469238774824}</th>
+								</tr>
+							</thead>
+							<tbody class="tableBody">
+								<jstl:if test="#{empty EspostiList or EspostiList.isEmpty()}">
+									<tr class="noresults">
+										<td colspan="11">${error.emtpy_search_for_table}</td>
+									</tr>
+								</jstl:if>
+								<a4j:repeat id="r1468267751865" value="#{EspostiList.entities}" var="Esposti" rowKeyVar="rowIndex" >
+									<tr >
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{EspostiAction.injectAndProceed(Esposti, 'Link_1465154633409;dipendentiEdit')}" status="ajaxStatus" id="Link_1465154633409" alt="#{LINK}" reRender="phiDesktop" styleClass="fa fa-pencil-square-o fa-2x linkUnlink tableButton" />
+
+										</td>
+
+										<td style="width:8%;" >
+											#{Esposti.person.name.fam}
+										</td>
+
+										<td style="width:8%;" >
+											#{Esposti.person.name.giv}
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{Esposti.person.birthTime}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:9%;" >
+											#{Esposti.person.fiscalCode}
+										</td>
+
+										<td style="width:10%;" >
+											#{Esposti.schedaEsposti.personeGiuridiche.denominazione}
+										</td>
+
+										<td style="width:15%;" >
+											#{Esposti.bio}
+										</td>
+
+										<td style="width:16%;" >
+											#{Esposti.mansione}
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{Esposti.startDate}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:8%;" >
+											<h:outputText styleClass="base-label" value="#{Esposti.endDate}" >
+												<s:convertDateTime pattern="${format.dateNormal}" />
+											</h:outputText>
+										</td>
+
+										<td style="width:5%;" >
+											<a4j:commandLink action="#{EspostiAction.injectAndProceed(Esposti, 'Link_1466306302754;dipendentiEspostiDel')}" status="ajaxStatus" id="Link_1466306302754" title="${msg.alt_Link_1466306302754}" reRender="phiDesktop" styleClass="fa fa-trash fa-2x linkUnlink tableButton" />
+
+										</td>
+
+									</tr>
+								</a4j:repeat>
+							</tbody>
+						</table>
+					</a4j:outputPanel>
+
+				</fieldset>
+				</a4j:outputPanel>
+				</a4j:outputPanel>
+			</a4j:outputPanel>
+	</div>
+	<script>focusFirstElement();</script>
+</div>

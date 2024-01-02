@@ -1,0 +1,495 @@
+<html>
+	<head>
+		<title>Analizzatore di conversation</title>
+		<script src="../common/js/jquery.min.js"></script>
+		<script src="js/jquery.json-viewer.js"></script>
+		<link type="text/css" rel="stylesheet" media="screen,projection" href="css/jquery.json-viewer.css" />
+	</head>
+	<body> 
+		<style>
+			
+			html,body {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				font-family:'Anonymous Pro',sans-serif;
+			}
+
+			:after, :before {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			* {
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			#loader {
+				z-index:1000;
+				background-color: #fff;
+				position: fixed;
+				top:0;
+				left:0;
+				width: 100%;
+				height: 100%;
+				display: none;
+				cursor:progress;
+			}
+
+			#loaderInner {
+				margin:auto;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				color:#999;
+				font-size: 30px;
+				text-align: center;
+				cursor:progress;
+			}
+
+			#noMessage {
+				z-index:-1;
+				margin:auto;
+				position: fixed;
+				top:0;
+				left:0;
+				width: 100%;
+				height: 100%;
+			}
+
+			#noMessageInner {
+				margin:auto;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				color:#999;
+				font-size: 30px;
+				text-align: center;
+			}
+
+			div.tab {
+				width:85%;
+				margin: 20px auto 40px auto;
+			}
+
+			table.tab {
+				width:85%;
+				margin: 20px auto 40px auto;
+				border-collapse: collapse;
+				table-layout:fixed;
+
+				-webkit-transition: all .2s;
+				-moz-transition: all .2s;
+				-ms-transition: all .2s;
+				-o-transition: all .2s;
+				transition: all .2s;
+			}
+
+			table.tab td {
+				padding:2px;
+				text-overflow: ellipsis;
+				width: 200px;
+				white-space: nowrap;
+				overflow: hidden;
+			} 
+
+			table.tab td.mini {
+				width: 10px;
+			}
+
+			table.tab tr:nth-child(odd) {
+			    background-color: #eee;
+			}
+
+
+			h1 {
+				background-color: black;
+				color:white;
+			}
+
+			h1, h2 {
+				text-align: center;
+			}
+
+			table.tab td:hover {
+				overflow: visible;
+				white-space: normal;
+			}
+
+			table.tab tr:hover {
+			/*	color: #fff;
+				background-color: #333 !important;*/
+				background-color: #ff0 !important;
+				cursor:pointer;
+			}
+
+			table.tab tr.active {
+				/*background-color: #ff9;*/
+				background-color: #bbb;
+			}
+
+			table.tab tr.active td {
+				overflow: visible;
+				white-space: normal;
+			}
+
+			table.tab thead td {
+				font-weight: bold;
+			    border-bottom: 1px solid #C1C1C1;
+			    background-color: white;
+			}
+
+			table tr {
+			    -webkit-transition: all 0.5s ease
+			    -moz-transition: all 0.5s ease;
+			    -o-transition: all 0.5s ease;
+			    transition: all 0.5s ease;
+			}
+
+			#mainContainer {
+				/*padding-top: 20px;*/
+				width: 100%;
+				background-color: #fff;
+			}
+
+			@keyframes pulseAnimation {
+				0%   { opacity: 0.2; }
+				50%  { opacity: 1; }
+				100% { opacity: 0.2; }
+			}
+
+			#loaderInner {
+  				-webkit-animation: pulseAnimation 2s infinite; /* Safari 4+ */
+  				-moz-animation:    pulseAnimation 2s infinite; /* Fx 5+ */
+  				-o-animation:      pulseAnimation 2s infinite; /* Opera 12+ */
+  				animation:         pulseAnimation 2s infinite; /* IE 10+, Fx 29+ */
+			}
+
+			.centered {
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			button {
+				font-family: 'Anonymous Pro',sans-serif;
+				border: solid 1px #999;
+				color: #eee;
+				border-radius: 2px;
+				-moz-border-radius: 2px;
+				background-color: #333;
+				padding: 6px;
+				font-size: 15px;
+				cursor: hand;
+			}
+
+			button:hover {
+				background-color: #666;
+				color: white;
+			}
+
+			input {
+				font-family: 'Anonymous Pro',sans-serif;
+				border: solid 1px #999;
+				border-radius: 2px;
+				-moz-border-radius: 2px;
+				padding: 6px;
+				font-size: 15px;
+			}
+
+			.graph {
+				width: 85%;
+				height: 600px;
+				margin: 20px auto 0px auto;
+			}
+
+			.notInTop10 {
+				display: none;
+			}
+
+		</style>
+
+		<div id="noMessage"><div id="noMessageInner">Nessuna conversation trovata</div></div>
+
+		<div id="loader">
+			<div id="loaderInner">Caricamento <span id="counter"></span></div>
+		</div>
+
+		<div id="mainContainer">
+			<h1>Conversation Viewer</h1>
+			<h2>Conversation attive <button onclick="showLoader('conversations',retrieveConversations)">aggiorna</button></h2>
+			<table class="tab">
+				<thead>
+					<td style="width:10px;">id</td>
+					<td style="width:50px;">started</td>
+					<td style="width:50px;">last used</td>
+					<td>process</td>
+				</thead>
+				<tbody id="conversationsTable">
+				</tbody>
+			</table>
+			
+			<div id="objectContainer">
+				<h2>Conversation (id: <span id="cid-1"></span>) <button onclick="refreshConversation()">Aggiorna</button></h2>
+				<table class="tab">
+					<thead>
+						<td>chiave</td>
+						<td>valore</td>
+						<td style="width: 78px;text-align:center"><button onclick="cleanSearchResults()">Rimuovi tutto</button></td>
+					</thead>
+					<tbody id="resultTable">
+						
+					</tbody>
+				</table>
+				<div class="centered">
+					<input id="search-filter" type="text" style="width: calc(85% - 100px);"/> <button onclick="addKey()" placeholder="chiave" style="width: 100px;">Aggiungi</button> 
+				</div>
+
+				<h2>Oggetti nella conversation</h2>
+				<div id="objectTable" class="tab"></div>
+				<h2>Actions nella conversation</h2>
+				<div id="actionTable" class="tab"></div>
+
+			</div>
+		</div>
+
+		<script> 
+
+		$(function(){
+			$("#mainContainer").hide();
+			retrieveConversations();
+		})
+
+		function retrieveConversations() {
+			showLoader();
+			$.ajax({
+				url: "../resource/rest/conversations/list",
+			    type: 'GET',
+			    success: function(data){
+			    	$("#objectContainer").hide();
+			    	$("#conversationsTable").html("");
+			    	if (data) {
+			    		for(i=0;i<data.length;i++) {
+			    			$("#conversationsTable").append('<tr id="cid-' + data[i].id + '" onclick="retrieveConversation(' + data[i].id + ')"><td>' + data[i].id + '</td><td>'+ formatDate(data[i].startDatetime) + '</td><td>'+ formatDate(data[i].lastDatetime) + '</td><td>' + data[i].description+'</td></tr>');
+			    		}
+			    	}
+					$("#noMessage").hide();
+					$("#mainContainer").show();
+					hideLoader();
+				},
+			    error: function(data) {
+			        alert('Qualcosa non ha funzionato, sei sicuro di aver effettuato il login?');
+			        $("#noMessage").show();
+					$("#mainContainer").hide();
+					hideLoader();
+			    }
+			});
+		}
+
+		var conversationResults;
+		var selectedConversation;
+
+		function retrieveConversation(cid) {
+			if (!cid) {
+				return;
+			}
+			$("#conversationsTable>tr").each(function() {
+				$(this).removeClass('active');
+			});
+			$('#cid-'+cid).addClass('active');
+
+			showLoader();
+			selectedConversation = cid;
+			$.ajax({
+				url: "../resource/rest/conversations/?cid=" + cid,
+			    type: 'GET',
+			    success: function(data){
+			    	conversationResults = data;
+
+			    	$('#cid-1').text(cid);
+
+			    	$('#objectTable').jsonViewer(data.objects, {collapsed: true});
+			    	$('#actionTable').jsonViewer(data.actions, {collapsed: true});
+			    	
+					$("#mainContainer").show();
+					$("#objectContainer").show();
+					searchRefresh();
+					hideLoader();
+				},
+			    error: function(data) {
+			        alert('Qualcosa non ha funzionato, sei sicuro di aver effettuato il login?');
+			        hideLoader();
+			    }
+			});
+		}
+
+		function refreshConversation() {
+			retrieveConversation(selectedConversation);
+		}
+
+		var searching = [];
+
+		function addKey() {
+			var key = $('#search-filter').val(); //es. GenericCarcinomaAction.temporary.type
+			if (!key) {
+				return;
+			}
+
+			$('#search-filter').val('');
+			if (searching.indexOf(key) == -1) {
+	 			searching.push(key);
+			}
+			search(key);
+ 		}
+
+		function search(key) {
+			//search object and actions
+			var result = undefined;
+
+			var objects = inspect(conversationResults.objects,key.split("."));
+			if (objects) {
+				result = objects;
+			}
+			var actions = inspect(conversationResults.actions,key.split("."));
+			if (actions) {
+				result = actions;
+			}
+			if (objects && actions) {
+				result = [oggetti, actions];	
+			}
+
+			//create the div with the result in jsonViewer
+			result = $('<div></div>').jsonViewer(result, {collapsed: true});
+			
+			//create the new table row
+			var newrow = $('<tr id="key-' + key.split(".").join("-") + '" onclick="select(\'' + key + '\')"><td>'+key+'</td><td></td><td style="text-align:center"><button onclick="removeKey(\''+key+'\')">Rimuovi</button></td></tr>');
+			
+			//add the jsonViewer in the second cell
+			newrow.children().first().next().append(result);
+
+			//check if the row already exists
+			var row = $('#key-'+key.split(".").join("-"))
+			if (row.length) { //replace the existing row
+				row.replaceWith(newrow);
+			} else { //append to the end of the table
+				$('#resultTable').append(newrow);
+			}
+
+			//select the row
+			select(key);
+		}
+
+		function select(key) {
+			$("#resultTable>tr").each(function() {
+				$(this).removeClass('active');
+			});
+			if (key) {
+				$('#key-'+key.split(".").join("-")).addClass('active');	
+			}			
+		}
+
+		function inspect(object, property) {
+			object = object[property[0]];
+			if (property.length > 1) {
+				property.splice(0,1);
+				if (object) {
+					return inspect(object, property)
+				} else {
+					return undefined;
+				}
+			} else {
+				return object;
+			}
+		}
+
+		function searchRefresh() {
+			//refresh seraching keys
+			for (i=0;i<searching.length;i++) {
+				search(searching[i]);
+			}
+			select();
+		}
+
+		function cleanSearchResults() {
+			searching = [];
+			$('#resultTable').html('');
+			$('#search-filter').val('');
+		}
+
+		function removeKey(key) {
+			var index = searching.indexOf(key);
+			if (index > -1) {
+    			searching.splice(index, 1);
+			}
+			$('#key-'+key.split(".").join("-")).remove();
+		}
+
+		function showLoader(message, functiontocall) {
+			if (!message) {
+				message = "";
+			}
+			nextfunction = functiontocall;
+			$('#counter').html(message);
+			$('body').css('overflow-y','hidden');
+			$('#loader').fadeIn(150,
+				function() {
+					if (nextfunction) {
+						nextfunction();
+						nextfunction = null;
+						activateTable();
+						hideLoader();
+					}		
+				}
+			);		
+		}
+
+		function hideLoader() {
+			$('#loader').fadeOut(500);
+			$('body').css('overflow-y','visible');
+		}
+
+		function activateTable(){
+			$('.tab').each(
+				function () {
+					$(this).find('tr').each(
+						function () {
+							$(this).unbind("click");
+							$(this).click(
+								function () {
+									$(this).toggleClass("active");
+								}
+							);	
+						}
+					);
+
+					$(this).find('.showMore').each(
+						function () {
+							$(this).unbind("click");
+							$(this).click(
+								function () {
+									$(this).parent().find('.notInTop10').show();
+									$(this).hide();
+								}
+							);	
+						}
+					);
+				}
+			);
+		}
+
+		function formatDate(date) {
+			date = new Date(date);
+			return pad(date.getMonth() + 1) + '/' + pad(date.getDate()) + '/' +  date.getFullYear() + ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds()) ;	
+		}
+
+		function pad(num) {
+			if (num < 10) {
+				return '0' + num;
+			}
+			return num;
+		}
+		</script> 
+	</body>
+</html>
