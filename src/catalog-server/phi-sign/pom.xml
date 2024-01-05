@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.insielmercato.phi</groupId>
+		<artifactId>phi-parent</artifactId>
+		<version>2.7-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>phi-sign</artifactId>
+	<version>2.7-SNAPSHOT</version>
+	<name>PHI - Sign</name>
+	<description>Sign Phi-Technology engine</description>
+
+	<dependencies>
+
+		<dependency>
+	      <groupId>it.insielmercato.firmadigitale</groupId>
+	      <artifactId>firmadigitalepkbox</artifactId>
+	      <version>2.5.4</version>
+			<exclusions>
+			    <exclusion>
+			        <groupId>commons-io</groupId>
+			        <artifactId>commons-io</artifactId>
+			    </exclusion>
+			    <exclusion>
+			        <groupId>commons-logging</groupId>
+			        <artifactId>commons-logging</artifactId>
+			    </exclusion>
+			</exclusions>
+	    </dependency>
+	    
+        <dependency>
+	      <groupId>it.insielmercato.firmadigitale</groupId>
+	      <artifactId>firmadigitale-verifica</artifactId><!-- replaced firmadigitalepknet because of: com.intesi.pknet.PKNetException: PkNet cannot be executed in an Application Server-->
+	      <version>2.5.5</version>
+	    </dependency>
+	    
+	    <dependency>
+	      <groupId>it.insielmercato.firmadigitale</groupId>
+	      <artifactId>firmadigitaleinfocert</artifactId>
+	      <version>2.5.4</version>
+   			<exclusions>
+			    <exclusion>
+			        <groupId>commons-io</groupId>
+			        <artifactId>commons-io</artifactId>
+			    </exclusion>
+			</exclusions>
+	    </dependency>
+	    
+	    <!-- provided dependencies -->
+	    
+	    <dependency>
+            <groupId>it.insielmercato.phi</groupId>
+            <artifactId>phi-core</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>it.insielmercato.phi</groupId>
+            <artifactId>medical-backend</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <scope>provided</scope>
+        </dependency>
+	    
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+        </dependency>
+        
+        <dependency>
+           <groupId>org.hibernate</groupId>
+           <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        
+		<dependency>
+			<groupId>org.jboss</groupId>
+			<artifactId>jboss-vfs</artifactId>
+			<version>2.2.3.GA</version>
+			<scope>provided</scope>
+		</dependency>
+      </dependencies>
+      
+	<build>
+	    <plugins>
+	    	<!-- Not use in maven projects.
+	    		Create dependency folder to use in non mavenizad CS
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-dependency-plugin</artifactId>
+	        <version>2.10</version>
+	        <executions>
+	          <execution>
+				<id>copy-lib</id>
+				<phase>package</phase>
+				<goals>
+					<goal>copy-dependencies</goal>
+				</goals>
+				<configuration>
+					<outputDirectory>${project.build.directory}/lib</outputDirectory>
+					<includeScope>runtime</includeScope>
+				</configuration>
+			</execution>
+			<execution>
+				<id>copy-applet</id>
+				<phase>prepare-package</phase>
+				<goals>
+					<goal>copy</goal>
+				</goals>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>it.pksuite</groupId>
+							<artifactId>pknet</artifactId>
+							<version>1.9.35.35</version>
+							<outputDirectory>${project.build.directory}/applet</outputDirectory>
+						</artifactItem>
+						<artifactItem>
+							<groupId>it.pksuite</groupId>
+							<artifactId>pknet-itext</artifactId>
+							<version>1.9.35.35</version>
+							<outputDirectory>${project.build.directory}/applet</outputDirectory>
+						</artifactItem>
+						<artifactItem>
+							<groupId>it.pksuite</groupId>
+							<artifactId>pknet-applet</artifactId>
+							<version>1.9.35.35</version>
+							<outputDirectory>${project.build.directory}/applet</outputDirectory>
+						</artifactItem>
+					</artifactItems>
+				</configuration>
+			</execution>
+	        </executions>
+	      </plugin> -->
+	    </plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>seam.properties</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+  <scm>
+    <connection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-sign</connection>
+    <developerConnection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-sign</developerConnection>
+    <url>https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-sign</url>
+  </scm>
+</project>

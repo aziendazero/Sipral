@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>it.insielmercato.phi</groupId>
+        <artifactId>phi-parent</artifactId>
+        <version>2.7-SNAPSHOT</version>
+	    <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>phi-core</artifactId>
+    <version>2.7-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>PHI - Core</name>
+    <description>The core functionality of Phi-Technology</description>
+
+    <properties>
+        <skipTests>true</skipTests>
+    </properties>
+
+    <scm>
+        <connection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-core</connection>
+        <developerConnection>scm:svn:https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-core</developerConnection>
+        <url>https://phi-svn.insielmercato.it/svn/PHI_RE_CORE/PHI-TECH/RE/catalog-server/trunk/phi-core</url>
+    </scm>
+
+     <repositories>
+        <!-- 
+        <repository>
+            <id>snapshots</id>
+            <name>Insiel Mercato Snapshots Repository</name>
+            <url>http://archiva.insielmercato.it:8080/archiva/repository/snapshots</url>
+            <releases><enabled>false</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>-->
+        <repository>
+            <id>internal</id>
+            <name>Insiel Mercato Internal Repository</name>
+            <url>http://archiva.insielmercato.it:8080/archiva/repository/internal</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>false</enabled></snapshots>
+        </repository>
+        
+        <repository> <!-- for JODConverter Core Library -->
+	         <id>Jahia</id>
+	         <name>Jahia repository</name>
+	         <url>http://maven.jahia.org/maven2/</url>
+             <releases><enabled>true</enabled></releases>
+             <snapshots><enabled>false</enabled></snapshots>
+		</repository>
+	</repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ejb</groupId>
+            <artifactId>ejb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.safehaus.jug</groupId> <!--used by UUIDTokenGenerator-->
+            <artifactId>jug</artifactId>
+	        <classifier>lgpl</classifier>
+        </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>el-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>it.insielmercato.phi</groupId>
+            <artifactId>jboss-el-phi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.envers</groupId>
+            <artifactId>jboss-envers</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam</artifactId>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>it.insielmercato.phi.report</groupId>
+            <artifactId>jboss-seam-pdf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>jboss-seam-ui</artifactId>
+        </dependency>
+        <!-- dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+		<dependency>
+            <groupId>org.drools</groupId>
+			<artifactId>drools-compiler</artifactId>
+		</dependency-->
+        <dependency>
+            <groupId>org.jbpm.jbpm3</groupId>
+            <artifactId>jbpm-jpdl</artifactId>
+        </dependency>
+        <!--dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency-->
+        <dependency>
+            <groupId>quartz</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-transaction</artifactId> <!--Used by HibernateWorkaroundHH2763, old jar of jboss 4 FIXME-->
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <!--dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate3</artifactId>
+        </dependency-->
+        <!-- HATEAOS
+        <dependency>
+		    <groupId>com.strategicgains</groupId>
+		    <artifactId>HyperExpress-HAL</artifactId>
+		    <version>2.6</version>
+		</dependency> -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>jaxrs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.6.12</version>
+        </dependency>
+        <dependency>
+    		<groupId>org.apache.poi</groupId>
+    		<artifactId>poi</artifactId>
+    		<version>3.16</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.poi</groupId>
+    		<artifactId>poi-ooxml</artifactId>
+    		<version>3.16</version>
+    		<exclusions>
+				<exclusion>
+			    	<groupId>stax</groupId>
+			       	<artifactId>stax-api</artifactId>
+			 	</exclusion>
+			</exclusions>
+		</dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-jmx</artifactId>
+        </dependency>
+        <dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		    <version>1.2.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency> <!-- Uses VirtualFile instead of File to work in packed ear -->
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-vfs</artifactId>
+        </dependency>
+        
+        <!-- ODT TEMPLATING -->
+	 	<dependency>
+		    <groupId>net.sf.jodreports</groupId>
+		    <artifactId>jodreports</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.artofsolving.jodconverter</groupId>
+			<artifactId>jodconverter-core</artifactId>
+		</dependency>
+        
+
+        <!--TEST DEPENDECIES-->
+        <!--Used by EntityManagerUtilities-->
+        <!--dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency> fixme add dependency based on profile
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>test</scope>
+        </dependency-->
+        <!--END Used by EntityManagerUtilities-->
+
+
+        <dependency>
+            <groupId>net.sf.extcos</groupId>
+            <artifactId>extcos</artifactId>
+            <version>0.4b</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.tmatesoft.svnkit</groupId>
+            <artifactId>svnkit</artifactId>
+            <version>1.8.7</version><!--original was 1.7.8-->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <!--configuration>
+                    <classifier>${database.type}</classifier>
+                </configuration-->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal> <!--install also test jar-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <classifier>${database.type}</classifier>
+                </configuration>
+            </plugin-->
+
+            <!--Test generate ddl -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId><artifactId>hibernate3-maven-plugin</artifactId><version>3.0</version>
+                <configuration>
+                    <hibernatetool>
+                        <classpath>
+                            <path location="${project.build.directory}/classes" />
+                            <path location="${project.basedir}/../../../spisal/backend/target/classes/" />
+                            <path location="${project.basedir}/src/test/resources/" />
+                        </classpath>
+                        <jpaconfiguration persistenceunit="mySql" />
+                        <hbm2ddl export="false" create="false" update="true" format="false" outputfilename="schemaDiff.sql" console="true" />
+                    </hibernatetool>
+                </configuration>
+                <!--executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>hbm2ddl</goal>
+                        </goals>
+                    </execution>
+                </executions-->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.hibernate</groupId><artifactId>hibernate-core</artifactId><version>3.3.2.GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.hibernate</groupId><artifactId>hibernate-entitymanager</artifactId><version>3.4.0.GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.hibernate</groupId><artifactId>hibernate-annotations</artifactId><version>3.4.0.GA</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>log4j</groupId><artifactId>log4j</artifactId><version>1.2.17</version>
+                    </dependency>
+
+                    <!--<dependency>fixme add dependency based on profile
+                        <groupId>mysql</groupId><artifactId>mysql-connector-java</artifactId><version>5.1.36</version>
+                    </dependency>-->
+                </dependencies>
+            </plugin>
+            <!--END Test generate ddl -->
+
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>META-INF/ejb-jar.xml</include>
+                    <include>META-INF/mime.types</include>
+                    <include>bundle/**/*.*</include>
+                    <include>seam.properties</include>
+                    <include>jbpm.cfg.xml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <!--profile>
+            <id>oracle</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/oracle</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+        </profile-->
+
+        <!--profile>
+            <id>sonar</id>
+            <properties>
+                <sonar.jdbc.url>jdbc:postgresql://storedb01/sonar</sonar.jdbc.url>
+                <sonar.jdbc.driver>org.postgresql.Driver</sonar.jdbc.driver>
+                <sonar.jdbc.username>sonar</sonar.jdbc.username>
+                <sonar.jdbc.password>sonar</sonar.jdbc.password>
+                SERVER ON A REMOTE HOST
+                <sonar.host.url>http://sonar.parsek.net/</sonar.host.url>
+            </properties>
+        </profile-->
+
+    </profiles>
+</project>

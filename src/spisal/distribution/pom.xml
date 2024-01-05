@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>it.insielmercato.phi.solution</groupId>
+		<artifactId>spisal</artifactId>
+		<version>2.5-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>spisal-distribution</artifactId>
+	<packaging>ear</packaging>
+	<name>distribution</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam</artifactId>
+			<type>ejb</type>
+		</dependency>
+
+        <!--dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency-->
+        <!--dependency>
+            <groupId>quartz</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency-->
+
+		<!-- Application modules -->
+		<dependency>
+			<groupId>it.insielmercato.phi</groupId>
+			<artifactId>phi-core</artifactId>
+			<version>2.7-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
+        <!--dependency>
+            <groupId>it.insielmercato.phi</groupId>
+            <artifactId>medical-backend</artifactId>
+            <version>${version.phi}</version>
+            <type>ejb</type>
+        </dependency-->
+		<dependency>
+			<groupId>it.insielmercato.phi.solution</groupId>
+			<artifactId>spisal-webapp</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>it.insielmercato.phi.solution</groupId>
+			<artifactId>spisal-backend</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.richfaces.ui</groupId>
+			<artifactId>richfaces-ui</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.richfaces.framework</groupId>
+			<artifactId>richfaces-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.richfaces.framework</groupId>
+			<artifactId>richfaces-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.facelets</groupId>
+			<artifactId>jsf-facelets</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam</groupId>
+			<artifactId>jboss-seam-resteasy</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>xebialab</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xebialabs.xldeploy</groupId>
+						<artifactId>xldeploy-maven-plugin</artifactId>
+						<version>6.0.1</version>
+						
+						<extensions>true</extensions> <!-- tells maven the plugin contains extensions -->
+						
+						<executions>
+					        <execution>
+					            <id>xl-deploy-package</id>
+					            <phase>package</phase>
+					            <goals>
+					                <goal>generate-deployment-package</goal>
+					            </goals>
+					        </execution>
+							<execution>
+								<id>xl-deploy-import</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>import</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<applicationName>SIPRAL</applicationName>
+							<deploymentPackageProperties>
+			                	<orchestrator>parallel-by-container</orchestrator>
+			                </deploymentPackageProperties>
+							<mainArtifactName>CATALOG_SERVER</mainArtifactName>
+							<deletePreviouslyDeployedDar>true</deletePreviouslyDeployedDar>
+							<timestampedVersion>true</timestampedVersion>
+							<environmentId>Environments/Customers/AZIENDA ZERO/TEST/WIP SIPRAL VE</environmentId>
+							<deployables>
+								<jbossas.Ear name="CATALOG_SERVER" artifactId="spisal-distribution" artifactType="ear">
+									<preScannedPlaceholders>true</preScannedPlaceholders>
+									<placeholders>
+										<value>CAS_SERVER_LOGIN_URL</value>
+										<value>CAS_SERVICE</value>
+										<value>CAS_SERVER_URL_PREFIX</value>
+										<value>CAS_SERVER_NAME</value>
+										<value>DB_SCHEMA</value>
+										<value>DB_AUTO</value>
+									</placeholders>
+								</jbossas.Ear>
+							</deployables>
+
+							<serverAddress>prdxebia01.gpi.it</serverAddress>
+							<secured>true</secured>
+							<port>443</port>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>nocas</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xebialabs.xldeploy</groupId>
+						<artifactId>xldeploy-maven-plugin</artifactId>
+						<version>6.0.0</version>
+						
+						<extensions>true</extensions> <!-- tells maven the plugin contains extensions -->
+						<configuration>			
+							<applicationName>SIPRAL-NOCAS</applicationName>
+							<mainArtifactName>CATALOG_SERVER</mainArtifactName>
+							<deletePreviouslyDeployedDar>true</deletePreviouslyDeployedDar>
+							<timestampedVersion>true</timestampedVersion>
+							<environmentId>Environments/Customers/AZIENDA ZERO/TEST/WIP SIPRAL UD</environmentId>
+							<deployables>
+								<jbossas.Ear name="CATALOG_SERVER" artifactId="spisal-distribution" artifactType="ear">
+									<preScannedPlaceholders>true</preScannedPlaceholders>
+									<placeholders>
+										<value>DB_SCHEMA</value>
+										<value>DB_AUTO</value>
+									</placeholders>
+								</jbossas.Ear>
+							</deployables>
+
+							<serverAddress>prdxebia01.gpi.it</serverAddress>
+							<secured>true</secured>
+							<port>443</port>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>CATALOG_SERVER</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<configuration>
+					<displayName>PHI</displayName>
+					<fileNameMapping>no-version-for-ejb</fileNameMapping>
+					<!--resourcesDir>src/main/resources</resourcesDir -->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<version>5</version>
+					<earSourceDirectory>../backend/src/main/resources</earSourceDirectory>
+					<earSourceIncludes>META-INF/persistence.xml</earSourceIncludes>
+					<!--earSourceIncludes>META-INF/persistence.xml,PHI-ds.xml</earSourceIncludes -->
+					<filtering>true</filtering>
+					<modules>
+						<webModule>
+							<groupId>it.insielmercato.phi.solution</groupId>
+							<artifactId>spisal-webapp</artifactId>
+							<contextRoot>/${phi.solution.name}</contextRoot>
+							<bundleFileName>${phi.solution.name}.war</bundleFileName>
+							<unpack>true</unpack>
+						</webModule>
+					</modules>
+
+					<jboss>
+						<version>5</version>
+						<loader-repository>it.insielmercato.phi:loader=${phi.solution.name}</loader-repository>
+					</jboss>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jboss-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<executions>
+					<execution>
+						<id>jboss-deploy</id>
+						<goals>
+							<goal>hard-deploy</goal>
+						</goals>
+						<phase>install</phase>
+					</execution>
+					<execution>
+						<id>jboss-undeploy</id>
+						<goals>
+							<goal>hard-undeploy</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<hostName>${jboss-hostname}</hostName>
+					<port>${jboss-port}</port>
+					<jbossHome>${jboss-home}</jbossHome>
+					<serverName>${jboss-configuration}</serverName>
+					<serverId>jboss.default</serverId>
+					<fileNames>
+						<fileName>${basedir}/target/${project.build.finalName}.ear</fileName>
+						<!--fileName>${basedir}/../backend/src/main/resources/PHI-ds.xml</fileName -->
+					</fileNames>
+					<unpack>${unpack}</unpack>
+				</configuration>
+			</plugin>
+
+			<!-- deploy datasource, not part of lifecycle -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>deploy-ds</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>${jboss-home}/server/${jboss-configuration}/deploy</outputDirectory>
+					<resources>
+						<resource>
+							<directory>../backend/src/main/resources</directory>
+							<filtering>true</filtering>
+							<includes>
+								<include>PHI-ds.xml</include>
+							</includes>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+</project>
